@@ -1,0 +1,168 @@
+
+.tooltip {
+	color: red;
+	font-size: 80%;
+}
+.buttonContentPane {
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: center;
+	margin: 0;
+	padding:0;
+	height: 1.5em;
+}
+
+/*Spring */
+#header {
+	padding: 5;
+	margin: 5;
+	position: absolute;
+	background-image: url(icons/logo.png);
+	background-repeat: no-repeat;
+	background-color: #9ABF5E;
+	background-position: center left;
+	width: 100%;
+	border: 1px solid #9ABF5E;
+}
+
+.tundra .dijitContentPane {
+	background-color: #DDDDC9;
+	border-color: #DDDDC9;
+        margin: 0;
+        padding:0;
+	border-spacing: 0;
+	white-space:nowrap;
+}
+
+.tundra .dijitTooltipContainer {	
+	border: 1px solid #696B43;
+	padding: 0.45em;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+
+.tundra .dijitBorderContainer {
+	background-color: #fcfcfc;
+	padding: 0;
+}
+
+.tundra .dojoxGridRow {
+	background-color: #DDDDC9;
+	border-color: #DDDDC9;
+}
+
+.tundra .dojoxGridRowOdd {
+	background-color: beige;
+}
+
+.tundra .dojoxGridHeader .dojoxGridCell {
+	border-color: #9ABF5E;
+	background: #9ABF5E;
+}
+
+.tundra .dojoxGridRowbarOver { 
+	background: #EC6E24;
+}
+
+.tundra .dojoxGridRowbarSelected {
+	background:#7C4D01;
+}
+
+.tundra .dojoxGridRowOver .dojoxGridCell {
+	background-color: #696B43; 
+}
+
+.tundra .dojoxGridRowSelected {
+	background-color: #DFC08E !important;
+}
+.tundra .dojoxGridRowSelected .dojoxGridCell {
+	background-color:#DFC08E;
+}
+
+.tundra .dijitDialog {
+	background: #fff;
+	border: 1px solid #696B43;
+	padding: 0;
+	-webkit-box-shadow: 0 5px 10px #adadad;
+}
+
+.tundra .dijitDialogPaneContent {
+	margin: 0;
+	padding:0;
+	border:0;
+	white-space:nowrap;
+}
+
+.cl_toolbar .dijitToolbar {
+	background: #5B6D13;
+	color:white;
+}
+
+.cl_proj {
+	width: 53em;
+	height: 30em;
+	margin: 0;
+	padding:0;
+	white-space:nowrap;
+	overflow: hidden;
+}
+
+.cl_proj .dijitDialogTitleBar {
+	background: #5B6D13;
+	color:white;
+}
+
+.staticHeader {
+	border:  1px Solid ThreeDShadow !important;
+	background: ButtonFace !important;
+	font: Icon !important;
+	text-align: center !important;
+} 
+
+
+#bt_firstFile,
+#bt_secondFile,
+#bt_cellsFile,
+#bt_genesetsFile,
+#bt_customColorFile {
+	background:#6D7741;
+	border-radius: 5px 5px 5px 5px;
+	width:30px;
+	padding:0;
+	margin:0;
+	white-space:nowrap;
+}
+#bt_firstFile:hover,
+#bt_secondFile:hover,
+#bt_cellsFile:hover,
+#bt_genesetsFile:hover,
+#bt_customColorFile:hover {
+        background: -moz-linear-gradient(right,#AEC641,#6D7741);
+	border-radius: 5px 5px 5px 5px;
+	width:30px;
+	padding:0;
+	margin:0;
+	white-space:nowrap;
+}
+
+
+.roundedButton .dijitButtonNode {
+	background: transparent;
+	background-color: transparent;
+	padding:0;
+	margin:0;
+	border:none;
+	white-space:nowrap;
+}
+.roundedButton .dijitButtonNode:hover {
+	background: transparent;
+	background-color: transparent;
+}
+
+span.cl_block_left {
+	display: inline-block;
+	text-align:left;
+	float:left;
+	padding:0 3 0 5;
+}
+

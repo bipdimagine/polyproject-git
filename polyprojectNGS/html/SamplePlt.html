@@ -1,0 +1,274 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="icon" type="image/png"
+	href="icons/application_view_tile.png">
+<title>Sample Sheet</title>
+<style type="text/css">
+body,html {
+	font-family: helvetica, arial, sans-serif;
+	font-size: 90%;
+	width: 100%;
+	height: 100%;
+	margin: 0;padding: 0;border:0;
+	overflow: hidden;
+}
+</style>
+<style type="text/css">
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/resources/Grid.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojo/resources/dojo.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/resources/tundraGrid.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dijit/themes/tundra/tundra.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/enhanced/resources/tundraEnhancedGrid.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/enhanced/resources/EnhancedGrid.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/resources/nihiloGrid.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/layout/resources/ExpandoPane.css";
+@import "button.css";
+@import "generalPlt.css";
+</style>
+<script type="text/javascript"
+	src="//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojo/dojo.js"
+	djConfig="parseOnLoad: true">
+</script>
+
+<script type="text/javascript" src="include.js"
+	djConfig="parseOnLoad: true"></script>
+<script type="text/javascript" src="SamplePlt.js"
+	djConfig="parseOnLoad: true"></script>
+
+<script type="text/javascript" src="uploadFile.js"
+	djConfig="parseOnLoad: true"></script>
+
+
+</head>
+<body class="tundra">
+<div dojoType="dijit.layout.BorderContainer" autoHeight="true"
+		style="width: 100%; height: 100%;margin: 0; padding: 0;border:0">
+		<div id="header" dojoType="dijit.layout.ContentPane" region="top">
+			<table ALIGN="center" style='color: grey;'>
+				<tr>
+					<td align="center" style='font-size: 3em;'><B>...Genomique Plateform
+					</B>
+					</td>
+					<td align="center" style='font-size: 1.5em;'><B>
+					Sample Sheet</B>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="left"
+		style="width:42%; height: 50%; margin: 0; padding: 0;" align="center">
+			<div dojoType="dijit.form.Form" id="desForm" jsId="desForm">
+				<div dojoType="dijit.Tooltip" connectId="CLD" position="below">
+					<label class="tooltip">
+						<i>Patient List with no Header (tab or space)<ul>
+							<li> 7 columns</li>
+							<li> Patient:&nbsp;&nbsp;&nbsp;SampleId</li>
+							<li> BarCodeID1:&nbsp;&nbsp;&nbsp;I7_Index_Id<ul>
+								<li>ex: A09</ul></li>
+							<li> BarCode1:&nbsp;&nbsp;&nbsp;Index1</li>
+							<li> BarCodeID2:&nbsp;&nbsp;&nbsp;I5_Index_Id<ul>
+								<li>ex: D09</ul></li>
+							<li> BarCode2:&nbsp;&nbsp;&nbsp;Index2</li>
+							<li> Project:&nbsp;&nbsp;&nbsp;ProjectCode</li>
+							<li> List Lanes comma separated<br><ul>
+								<li>Max Number of Lanes: 8</li>
+								<li>For one Lane: [1-8]</li>
+							</ul></li>
+						</ul>
+						</i>
+					</label>
+				</div>
+
+				<div dojoType="dijit.Tooltip" connectId="CLN" position="below">
+					<label class="tooltip">
+						<i>Patient Flowcell List with no Header (tab or space)<ul>
+							<li> 5 columns</li>
+							<li> Patient:&nbsp;&nbsp;&nbsp;SampleId</li>
+							<li> BarCode:&nbsp;&nbsp;&nbsp;Index</li>
+							<li> Description:&nbsp;&nbsp;&nbsp;OwnerProject</li>
+							<li> Project:&nbsp;&nbsp;&nbsp;ProjectCode</li>
+							<li> List Lanes comma separated<br><ul>
+								<li>Max Number of Lanes: 8</li>
+								<li>For one Lane: [1-8]</li>
+							</ul></li>
+						</ul>
+						</i>
+					</label>
+				</div>
+				<div dojoType="dijit.Tooltip" connectId="CLR" position="below">
+					<label class="tooltip">
+						<i>Patient Flowcell List with no Header (tab or space)<ul>
+							<li> 6 columns</li>
+							<li> Patient:&nbsp;&nbsp;&nbsp;SampleId</li>
+							<li> BarCodeID:&nbsp;&nbsp;&nbsp;I7_Index_Id<ul>
+								<li>ex: A09</ul></li>
+							<li> BarCode:&nbsp;&nbsp;&nbsp;Index</li>
+							<li> Description:&nbsp;&nbsp;&nbsp;OwnerProject</li>
+							<li> Project:&nbsp;&nbsp;&nbsp;ProjectCode</li>
+							<li> List Lanes comma separated<br><ul>
+								<li>Max Number of Lanes: 8</li>
+								<li>For one Lane: [1-8]</li>
+							</ul></li>
+						</ul>
+						</i>
+					</label>
+				</div>
+			<!-- Sheet Type -->
+				<table style="border: 0.1em solid #9f9f9f;">
+				<div dojoType="dijit.form.Form" id="sampleForm" jsId="sampleForm">
+
+					<input type="radio" dojoType="dijit.form.RadioButton" checked
+					name="sheet_input" id="pat_dual" value="Dual" onChange="chgTypeD"> 
+					<label for="pat_dual">Dual Sample Sheet</label>
+
+					<input type="radio" dojoType="dijit.form.RadioButton"
+					name="sheet_input" id="pat_file" value="Rapid" onChange="chgTypeR"> 
+					<label for="pat_file">Rapid Sample Sheet</label>
+
+					<input type="radio" dojoType="dijit.form.RadioButton"
+					name="sheet_input" id="pat_col" value="Normal" onChange="chgTypeN"> 
+					<label for="pat_col">Normal Sample Sheet&nbsp;&nbsp;</label>
+				</div>
+				</table>
+			<!-- Name -->
+				<table style="width: 27em; border: 0.1em solid #9f9f9f;">
+				<tr style="line-height: 1;margin:0;padding: 0;">
+				<!--<td ><label for="Rname"><b>Flowcell Id</b>-->
+				<td ><label for="Rname"><b><span id="LibFlowcell"></b>
+								
+				</label>
+				</td>
+				<td><input type="text" id="Rname" name="Rname"
+						dojoType="dijit.form.ValidationTextBox"
+						required="true"
+						regExp="^[a-zA-Z0-9-_/]+$">
+				</td>
+				</tr>
+				</table>
+				<BR>
+				<table style="border: 0.1em solid #9f9f9f;">
+				<tr>
+				<label id="Rpatient_labelD" for="Rpatient"> <b>Dual Patient Flowcell List (no Header)</b><i style="font-size:70%">&nbsp;&nbsp;(Copy/Past from your Excel File)</i><br>Patient&nbsp;&nbsp;&nbsp;BarCodeID1&nbsp;&nbsp;&nbsp;BarCode1&nbsp;&nbsp;&nbsp;BarCodeID2&nbsp;&nbsp;&nbsp;BarCode2 &nbsp;&nbsp;&nbsp;Project&nbsp;&nbsp;&nbsp;1,2,3,4&nbsp;<br><small><i>(Lane list: Each Lane:[1-8],Max number of Lanes:8)</i></small>
+<img id="CLD" src="icons/information.png"></label>
+
+				<label id="Rpatient_labelR" for="Rpatient" style="display: none;"> <b>Rapid Patient Flowcell List (no Header)</b><i style="font-size:70%">&nbsp;&nbsp;(Copy/Past from your Excel File)</i><br>Patient&nbsp;&nbsp;&nbsp;BarCodeID&nbsp;&nbsp;&nbsp;BarCode&nbsp;&nbsp;&nbsp;Description &nbsp;&nbsp;&nbsp;Project&nbsp;&nbsp;&nbsp;1,2,3,4&nbsp;<br><small><i>(Lane list: Each Lane:[1-8],Max number of Lanes:8)</i></small>
+<img id="CLR" src="icons/information.png"></label>
+
+				<label id="Rpatient_labelN" for="Rpatient" style="display: none;"><b>Patient Flowcell List (no Header)</b><i style="font-size:70%">&nbsp;&nbsp;(Copy/Past from your Excel File)</i><br>Patient&nbsp;&nbsp;&nbsp;BarCode&nbsp;&nbsp;&nbsp;Description &nbsp;&nbsp;&nbsp;Project&nbsp;&nbsp;&nbsp;1,2,3,4&nbsp;<br><small><i>(Lane list: Each Lane:[1-8],Max number of Lanes:8)</i></small>
+<img id="CLN" src="icons/information.png"></label>
+				</tr>
+				<td><textarea id="Rpatient" name="Rpatient"
+					dojoType="dijit.form.SimpleTextarea" rows="28" cols="60"
+					style="width: auto;" value=""></textarea>
+				</td>
+				</table>
+			</div>			
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="left" style="display: none;"
+		style="width:58%; height: 100%; margin: 0; padding: 0;" align="center">
+			<table style="border: 0.1em solid #9f9f9f;">
+				<tr>
+				<label for="CpatientD"> <H2><b>Dual SampleSheet Result</b></H2></label>
+				</tr>
+				<td><textarea id="CpatientD" name="CpatientD"
+					dojoType="dijit.form.SimpleTextarea" rows="34" cols="90"
+					style="width: auto;" value="" disabled></textarea>
+				</td>
+			</table>
+
+			<!--<div id="gridtmpR" style="width: 350px; height: 30px;" type="hidden">
+			</div>		
+			<div id="gridtmp" style="width: 350px; height: 30px;" type="hidden">
+			</div>-->				
+		</div>
+
+		<div dojoType="dijit.layout.ContentPane" region="right"
+		style="width:58%; height: 100%; margin: 0; padding: 0;" align="center">
+			<table style="border: 0.1em solid #9f9f9f;">
+				<tr>
+				<label for="Cpatient"> <H2><b>CSV SampleSheet Result</b></H2></label>
+				</tr>
+				<td><textarea id="Cpatient" name="Cpatient"
+					dojoType="dijit.form.SimpleTextarea" rows="34" cols="90"
+					style="width: auto;" value="" disabled></textarea>
+				</td>
+			</table>
+
+			<div id="gridtmpR" style="width: 350px; height: 30px;" type="hidden">
+			</div>		
+			<div id="gridtmp" style="width: 350px; height: 30px;" type="hidden">
+			</div>				
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="center" style="display: none;">
+			<table style="border: 0.1em solid #9f9f9f;">
+				<tr>
+				<label for="CpatientR"> <H2><b>CSV RSampleSheet Result</b></H2></label>
+				</tr>
+				<td><textarea id="CpatientR" name="CpatientR" 
+					dojoType="dijit.form.SimpleTextarea" rows="30" cols="90"></textarea>
+				</td>
+			</table>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="bottom"
+				style="color:white;margin: 0; padding: 0">
+			<div dojoType="dijit.Toolbar">
+				<table style="color: white;margin: 0; padding: 0">
+				<TD width=100><B></B>
+				</TD>
+				<TD>					
+					<div dojoType="dijit.form.Button" onClick="newSampleSheet();"
+						showLabel="true" type="submit" value="Submit"
+						iconClass="validIcon">Submit
+					</div>
+					<div dojoType="dijit.form.Button" showLabel="true"
+					onClick="clearForm();"
+					iconClass="clearIcon">Clear
+					</div>
+				</TD>
+				<TD width=600><B></B>
+				</TD>
+				<TD>					
+					<div dojoType="dijit.form.Button" onClick="downloadSampleSheet();"
+						showLabel="true" type="submit" value="Submit"
+						iconClass="downloadIcon">Download
+					</div>
+				</TD>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!-- Standby -->
+	<!-- ############################################################################################## -->
+	<div id="myStandby" jsId="myStandby" dojoType="dijit.Dialog" execute="">
+		<div id="winStandby"
+		style="width: 20em; height: 4em; background-color: yellow; border-style: solid; border-width: 0.2em;">
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!-- Errors -->
+	<!-- ############################################################################################## -->
+	<div id="myError" jsId="myError" dojoType="dijit.Dialog"
+		title="<span class='spError'>Error</span>" execute="">
+		<div id="textError" jsId="textError" dojoType="dijit.TooltipDialog">
+		</div>
+		<button type="button" dojoType="dijit.form.Button"
+			onclick="myError.hide()" iconClass="closeIcon"
+			style="margin-top: 1em">Close</button>
+	</div>
+	<!-- ############################################################################################## -->
+	<!-- Validation Message -->
+	<!-- ############################################################################################## -->
+	<div id="myMessage" jsId="myMessage" dojoType="dijit.Dialog"
+		title="<span class='spMessage'>Validation Message</span>" execute="">
+		<div id="textMessage" jsId="textMessage"
+			dojoType="dijit.TooltipDialog"></div>
+		<button type="button" dojoType="dijit.form.Button"
+			onclick="myMessage.hide();" iconClass="closeIcon"
+			style="margin-top: 1em">Close</button>
+	</div>
+</body>
+</html>
+

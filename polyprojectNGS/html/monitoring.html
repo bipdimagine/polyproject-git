@@ -1,0 +1,23 @@
+<body class="tundra">
+
+<div dojoType="dijit/layout/AccordionContainer" id="AccMonit" class="patcov" style="height:100%">
+	<div dojoType="dijit/layout/ContentPane" id="Monit_1" onShow="runMonitoring();" selected="true">
+
+		<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true">
+			<div dojoType="dijit.layout.ContentPane" region="top">
+				<div dojoType="dijit.Toolbar">
+					<div id="idbuttonLaunch" style="color:white;"
+						dojoType="dijit.form.Button" type="button"  iconClass="reloadIcon"
+						onClick='runMonitoring();'
+						showLabel="true">Reload
+					</div>
+				</div>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="center" style="height: 97%;margin: 0; padding: 0;white-space:nowrap;border: none;">
+				<div id="idMonitoringDiv" style="width:100%;height:100%;margin:0;" ></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>

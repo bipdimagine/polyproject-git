@@ -1,0 +1,179 @@
+#header {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	position: absolute;
+	background: url(icons/logo.png),url(icons/bipd4.png),
+	-moz-linear-gradient(left,#7F94B6, #CDDDE4);
+	background-image: url(icons/logo.png),url(icons/bipd4.png),
+	-webkit-gradient(left,#7F94B6, #CDDDE4);
+	background-image: url(icons/logo.png),url(icons/bipd4.png),
+	-webkit-linear-gradient(left,#7F94B6, #CDDDE4);
+	background-image: url(icons/logo.png),url(icons/bipd4.png),
+	-ms-linear-gradient(left,#7F94B6, #CDDDE4);
+	background-image: url(icons/logo.png),url(icons/bipd4.png),
+	linear-gradient(left,#7F94B6, #CDDDE4);
+
+	background-repeat: no-repeat,no-repeat;
+	background-position: center left,99.6% 5%;
+	background-size: auto, 6%;
+	width: 100%;
+	border: 1px solid #7F94B6;
+}
+
+.oleft  {float:left;width:20%;height:100%;}
+.oright {float:left;width:20%;height:100%;}
+
+.cellule {float:left;}
+#plateformGridDiv .dojoxGridScrollbox { overflow-x: hidden; }
+#gmacGridDiv .dojoxGridScrollbox { overflow-x: hidden; }
+#largerunGridDiv .dojoxGridScrollbox { overflow-x: hidden; }
+
+.standbyUnderlayNode { display: none; opacity: 0; z-index: 9999; 
+	position: absolute; cursor:wait; 
+}
+.standbyImageNode { opacity: 0; display: none; z-index: -10000; 
+	position: absolute; top: 0px; left: 0px; cursor:wait; 
+}
+#myStandby .dijitDialogCloseIcon {
+    	display:none;
+}
+#myStandby .dijitDialogTitleBar {
+    	display:none;
+}
+.covrunGridDiv td.dojoxGridRowSelected   {
+	background-color: #f9e8a4 !important;
+	color: grey !important;
+}
+.patcov .dijitAccordionTitle  {
+	background: #6895de !important;
+}
+.patcov .dijitAccordionTitleHover  {
+	background: #e3f2ee !important;
+}
+.patcov .dijitAccordionTitleSelected {
+	background: #3B5998 !important;
+	color: white;
+}
+.filtcov .dijitAccordionTitleSelected {
+	background: #2D495D !important;
+	color: white;
+}
+
+.tundra .dijitAccordionArrow {
+    background:url("icons/spriteArrows.png") no-repeat -14px top;
+    width:7px;
+    height:8px;
+    margin-top:-1px;
+}
+
+.tundra .dijitAccordionTitleSelected .dijitAccordionArrow {
+    background:url("icons/spriteArrows.png") no-repeat -28px top;
+    margin-top:-1px;
+}
+
+#plateformGridDiv .dojoxGrid {
+	border:2px solid #7EABCD;
+}
+#gmacGridDiv .dojoxGrid {
+	border:2px solid #7EABCD;
+}
+#largeRunGridDiv .dojoxGrid {
+	border:2px solid #7EABCD;
+}
+.tundra .dojoxGridRow {
+	background-color: #cddde4;
+}
+#gridcovDiv .dojoxGridRowSelected {
+	background-color: #f9e8a4 !important;
+}
+#gridstatDiv .dojoxGridRowSelected {
+	background-color: #f9e8a4 !important;
+}
+.tundra .dojoxGridScrollbox {
+	background-color: #d9d9d9;
+}
+.tundra .dijitTabChecked {
+	background-color: orange;
+}
+.tundra .dijitTabListWrapper {
+	background-color: grey;
+}
+.tundra .dijitTabContainerTop-tabs {
+	background-color: grey;
+}
+.tundra .dijitContentPane {
+	background-color: #d9d9d9;
+}
+.tundra .dijitBorderContainer-dijitContentPane {
+	background-color: grey;
+}
+.tundra .dijitBorderContainerPane {
+	background-color: grey;
+}
+ul#display-inline-block-chart,
+ul#display-inline-block-chart li {
+	/* Setting a common base */
+	margin: 0;
+	padding: 0;
+}
+ul#display-inline-block-chart li {
+	display: inline-block;
+	width: 49%;
+	min-height: 50%;
+}
+ul#display-inline-block-chartCP,
+ul#display-inline-block-chartCP li {
+	/* Setting a common base */
+	margin: 0;
+	padding: 0;
+}
+ 
+ul#display-inline-block-chartCP li {
+	display: inline-block;
+	width: 25%;
+	min-height: 25%;
+}
+	
+.vButton {
+	color:white;
+    	-moz-transform:rotate(-90deg); /* MOZ */
+    	-ms-transform:rotate(-90deg); /* IE 9 */
+    	-webkit-transform:rotate(-90deg); /* Safari and Chrome */
+	transform:rotate(-90deg);
+	display: block;
+	position: absolute;
+	right: -25px;
+	top:+24px;
+	padding:0;
+	border:0;
+}
+.sButton {
+	color:white;
+    	-moz-transform:rotate(-90deg); /* MOZ */
+    	-ms-transform:rotate(-90deg); /* IE 9 */
+    	-webkit-transform:rotate(-90deg); /* Safari and Chrome */
+	transform:rotate(-90deg);
+	display: block;
+	position: absolute;
+	right: -22px;
+	top:+85px;
+	padding:0;
+	border:0;
+}
+.tooltip {
+	color: red;
+	font-size: 80%;
+}
+
+.tundra .dijitSplitterH,
+.tundra .dijitGutterH {
+	background:#fcfcfc;
+	border:0;
+	height:0;
+}
+.tundra .dijitBorderContainer {
+	background-color: #fcfcfc;
+	padding: 0;
+}
+

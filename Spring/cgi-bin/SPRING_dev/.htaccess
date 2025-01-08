@@ -1,0 +1,10 @@
+AuthUserFile "/software/distrib/SPRING_dev/SPRING_dev/.htpasswd
+
+AuthName "Accès protégé"
+
+AuthType Basic
+
+Require valid-user
+
+
+

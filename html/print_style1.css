@@ -1,0 +1,16 @@
+/* Printed grid may have a title, which is included in an <h1> tag*/
+h1{
+	text-align: center;
+	font-size:90%;
+}
+table{
+	color: black;
+}
+.grid_header{
+	background-color: green;
+	font-size:45%;
+	font-weight: bold;
+}
+.grid_row{
+	font-size:45%;
+}

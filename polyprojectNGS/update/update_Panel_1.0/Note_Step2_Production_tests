@@ -1,0 +1,8 @@
+#####################################################################################
+cd /software/polyweb/poly-src/polyprojectNGS/update/update_Panel_1.0/tests
+
+# Program Control for running all editing programs of polyproject
+./controlData.pl -prog=all
+# tests create new Datas for final step of creating a new run with no committing option and parameters in: infile_ForCreateRun
+./test_NocommitDB_stepsForCreateRun.pl -in=infile_ForCreateRun
+

@@ -1,0 +1,124 @@
+<html>
+<!--  viewDiseaseProj.html -->
+<head>
+<style type="text/css">
+body,html {
+	font-family: helvetica, arial, sans-serif;
+	font-size: 90%;
+}
+</style>
+<style type="text/css">
+@import
+	"http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/grid/resources/tundraGrid.css"
+	;
+
+@import
+	"http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css"
+	;
+
+@import
+	"http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/grid/resources/Grid.css"
+	;
+
+@import
+	"http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/resources/dojo.css"
+	;
+
+@import
+	"http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/enhanced/resources/tundraEnhancedGrid.css"
+	;
+
+@import
+	"http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css"
+	;
+
+@import
+	"http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/layout/resources/ExpandoPane.css"
+	;
+
+@import "button.css";
+
+html,body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+.dojoxGrid table {
+	margin: 0;
+}
+
+.content {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+#gridDDiv {
+	height: 400px;
+}
+
+.tundra #gridDDiv .dojoxGridRowOdd {
+	background: #F0F0F0;
+}
+
+.tundra #gridDDiv.dojoxGrid-header {
+	background: red;
+}
+
+.Central {
+	border: 1px solid #7EABCD
+}
+
+.diseaseWin {
+	width: 45em;
+	height: 30em;
+	margin: 0 auto;
+}
+
+.projDis {
+	width: 60em;
+	height: 65em;
+	margin: 0 auto;
+}
+</style>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js"
+	djConfig="parseOnLoad: true">
+        </script>
+<script type="text/javascript" src="include.js"
+	djConfig="parseOnLoad: true"></script>
+<script type="text/javascript" src="viewDiseaseProj.js"
+	djConfig="parseOnLoad: true"></script>
+
+</head>
+<body class="tundra">
+
+	<div dojoType="dijit.layout.BorderContainer" id="borderContainerDis">
+		<div dojoType="dijit.layout.ContentPane" region="top"
+			style="border: 1px solid #7EABCD; height: 3em">
+			<span id="titre" class="titre"></span>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="left"
+			style="width: 50%">
+			<span id="titre" class="titre"></span> <B>Project's Disease</B>
+			<P>
+			<table dojoType="dojox.grid.DataGrid" jsId="gridP" id="gridP"
+				elasticView="2" clientSort="true"
+				style="width: 100%; height: 93%; margin: 2" rowSelector="2em">
+				<thead>
+					<tr>
+						<th width="3em" field="Row">Row</th>
+						<th width="5em" field="diseaseAbb">Abbrev</th>
+						<th width="65em" field="diseaseName">Diseases</th>
+					</tr>
+				</thead>
+			</table>
+
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="bottom"
+			style="border: 1px solid #7EABCD; height: 4em">
+			<center>dsdssd</center>
+		</div>
+	</div>
+	</div>

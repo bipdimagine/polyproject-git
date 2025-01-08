@@ -1,0 +1,176 @@
+.tundra .logdiag.dijitDialog {
+	position: absolute;
+	padding:10;
+	margin:0;
+	border:none;
+	background: transparent;
+	background-color: transparent;
+	width:320px;
+	height:95px;
+	border-radius: 20px;
+ 	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+}
+
+.logdiag .dijitDialogPaneContent {
+	border:none;
+/*	background: -moz-linear-gradient(#510303,brown);*/
+	background: -moz-linear-gradient(#510303,#9abf5e);
+	border-radius: 20px;
+ 	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	-webkit-box-shadow: rgba(0,0,0,0.8) 0px 0 10px;
+	-moz-box-shadow: rgba(0,0,0,0.8) 0 0 10px;
+	box-shadow: rgba(0,0,0,0.8) 0 0 10px;
+	border-collapse: collapse;
+	padding:-5;
+	margin:0;
+}
+
+.logdiag .dijitDialogUnderlay {
+	background: yellow;
+}
+
+.logdiag .dijitDialogTitleBar{ 
+	display:none;
+}
+
+.username, 
+.password {
+ 	font-family: 'Ubuntu', 'Lato', sans-serif;
+	color:white;
+	font-weight: 800;
+	font-size: 18px;
+	text-shadow: 3px 3px 5px black;
+	text-align:left;
+	width:20px;
+	height:40px;
+	
+}
+
+.dj_user .dijitPlaceHolder,
+.dj_passwd .dijitPlaceHolder {
+	color: white;
+}
+
+.tundra .dj_user.dijitTextBox input,
+.tundra .dj_passwd.dijitTextBox input {
+	color:white;
+}
+
+.tundra .dj_user.dijitTextBox,
+.tundra .dj_passwd.dijitTextBox {
+	border-radius: 5px;
+	background: -moz-linear-gradient(right,#510303,#5B6D13);
+	border-color:#5B6D13;
+	height: 20px;
+	width:130px;
+	margin-left:55px;
+	padding-top: 5px;
+	padding-left: 5px;
+}
+.tundra .dj_user.dijitTextBox {
+	border-radius: 5px 20px 5px 5px;
+}
+
+.tundra .dj_user.dijitTextBox:hover ,
+.tundra .dj_passwd.dijitTextBox:hover {
+	background: -moz-linear-gradient(right,#510303,#5B6D13,rgba(0,255,0,0));
+	
+}
+
+.tundra .dj_user.dijitTextBoxFocused,
+.tundra .dj_passwd.dijitTextBoxFocused {
+	border-color: #EC6E24;
+}
+
+#btlog {
+	background: transparent;
+	background-color:transparent;
+	padding:0;
+	margin:0;
+	border:none;
+}
+
+.btlog .dijitButtonNode {
+	color:white;
+	background: -moz-linear-gradient(#EC6E24, #696B43);
+/*	background: -moz-linear-gradient(red, #696B43);*/
+	font-family: 'Ubuntu', 'Lato', sans-serif;
+	font-weight: 700;
+ 	font-size:15px;
+	padding-top: 5px;
+	border-radius: 20px 3px 20px 3px;
+	box-shadow: rgba(0,0,0,0.8) 0 0 10px;
+	width:130px;
+	height:25px;
+	border: none;
+	align:right;
+	text-align:center;
+	text-shadow: -1px 0 black, 0 1px black,1px 0 black, 0 -1px black;
+}
+
+.btlog .dijitButtonNode:hover {
+	background: -moz-linear-gradient(#696B43,#EC6E24);
+	color:grey;
+}
+
+.cl_log_span {
+	display: inline-block;
+	font-weight: 700;
+	float:right;
+	background: transparent;
+	background-color: transparent;
+	color:grey;
+	vertical-align: top;
+	text-align:right;
+	white-space:nowrap;
+	margin-top:-20px;
+	padding:0;
+//	width:15%;
+}
+
+.cl_btlog_block_right {
+	display: inline-block;
+	text-align:right;
+	float:right;
+//	border:1px solid red;
+}
+
+.cl_btlog_block_left {
+	display: inline-block;
+	text-align:right;
+	float:left;
+//	border:1px solid red;
+}
+
+.cl_log_td .dijitButtonNode,
+.cl_btlog_block_left .dijitButtonNode,
+.cl_btlog_block_right .dijitButtonNode,
+.cl_log_span .dijitButtonNode {
+	background: transparent;
+	background-color: transparent;
+	padding:0;
+	margin:0;
+	border:none;
+}
+
+.cl_log_td {
+	display: inline-block;
+	font-weight: 700;
+	float:right;
+	color:grey;
+	vertical-align: center;
+	text-align:right;white-space:nowrap;
+	margin-top:-2px;
+	width:100%;
+	padding:0;
+}
+ 
+// A faire : usersname:hover et .tundra .dj_user.dijitTextBox avec + ou ~???
+/*
+.tundra .dj_user.dijitTextBox ~ .usersname:hover,
+.usersname:hover ~ .tundra .dj_user.dijitTextBox {
+	background:red;
+}
+*/

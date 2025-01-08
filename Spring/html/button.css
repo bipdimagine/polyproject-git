@@ -1,0 +1,425 @@
+.plusIcon2 {
+	background-image: url(icons/arrow_turn_left.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.backIcon {
+	background-image: url(icons/arrow_turn_left.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.plusIcon {
+	background-image: url(icons/plus.gif);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.delIcon {
+	background-image: url(icons/delete.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.removeIcon {
+	background-image: url(icons/square-green-remove-icon.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+
+.refreshIcon {
+	background-image: url(icons/table_refresh.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.deleteIcon {
+	background-image: url(icons/cross.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.save2Icon {
+	background-image: url(icons/table_save.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.printIcon {
+	background-image: url(icons/printer.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.excelIcon {
+	background-image: url(icons/Excel-icon-16.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.brlmmIcon {
+	background-image: url(icons/application_view_tile.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.closeIcon {
+	background-image: url(icons/cross.png);
+	background-repeat: no-repeat;
+	float:right;
+	height: 16px;
+	width: 16px;
+	border:none;
+	white-space:nowrap;
+}
+
+.clearIcon {
+	background-image: url(icons/16x16_edit-clear.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.downloadIcon {
+	background-image: url(icons/Download-icon.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.uploadIcon {
+	float:left;
+	background: url(icons/document_small_upload.png) no-repeat;
+	height: 16px;
+	width: 16px;
+	white-space: nowrap;
+}
+
+.validIcon {
+	background-image: url(icons/accept-icon-16.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.plusFolderIcon {
+	background-image: url(icons/folder_add.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+	white-space: nowrap;
+}
+
+.newIcon {
+	background-image: url(icons/new.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+	white-space: nowrap;
+}
+
+.progressIcon {
+	background-image: url(icons/radProgressBar_20x10.jpg);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 20px;
+}
+
+.plusUserIcon {
+	background-image: url(icons/user_add.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+.UserIcon {
+	background-image:url(icons/user.png);
+	background-repeat:no-repeat;
+	height:16px;
+	width:16px;
+}
+
+.plusPatientIcon {
+	background-image: url(icons/18x18_patient_add.png);
+	background-repeat: no-repeat;
+	height: 18px;
+	width: 18px;
+}
+
+.runIcon {
+	background-image: url(icons/clicknrun.png);
+	background-repeat: no-repeat;
+	height: 18px;
+	width: 18px;
+}
+
+.run_addIcon {
+	background-image: url(icons/process-add-icon.png);
+	background-repeat: no-repeat;
+	height: 18px;
+	width: 18px;
+}
+
+.findIcon {
+	background-image: url(icons/zoom.png);
+	background-repeat: no-repeat;
+	height: 18px;
+	width: 18px;
+}
+
+.loginIcon {
+	background-image:url(icons/kgpg.png);
+	background-repeat:no-repeat;
+	height:16px;
+	width:16px;
+}
+
+.logoutIcon {
+	background-image:url(icons/Lock-Unlock-icon.png);
+	background-repeat:no-repeat;
+	height:16px;
+	width:16px;
+}
+
+.span_input {
+	position: relative;
+	background-image: url(icons/zoom.png);
+	background-position: 0px 18px;
+	background-repeat: no-repeat;
+	padding: 15px 18px;
+	float: right;
+	top: -14px;
+	right: -4px;
+}
+
+.pluslessIcon {
+	background-image: url(icons/PlusLess.jpg);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.changeIcon {
+	background-image: url(icons/dbarrows.jpg);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.plusDiseaseIcon {
+	background-image: url(icons/pill_add.png);
+	background-repeat: no-repeat;
+	height: 18px;
+	width: 18px;
+}
+
+.warn2Icon {
+	background-image: url(icons/warning.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.viewProject {
+	background-image: url(icons/report_magnify.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.oldLogin {
+	background-image: url(icons/application_home.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.testIcon {
+	background-image: url(icons/lightning.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.pedigreeIcon {
+	background-image: url(icons/chart_organisation.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.saveIcon {
+	background-image: url(icons/disk.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.htmlIcon {
+	background-image: url(icons/html.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.graphIcon {
+	background-image: url(icons/graph.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+.linkProject {
+	background-image: url(icons/link_add.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.renameIcon {
+	background-image: url(icons/textfield-rename-icon.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.resetIcon {
+	background-image: url(icons/arrow_redo.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.infoIcon {
+	background-image: url(icons/information.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+.barcodeIcon {
+	background-image: url(icons/bar_code.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+
+
+.expandIcon {
+	background-image:url(icons/arrow_state_blue_expanded.png);
+	background-repeat:no-repeat;
+	height:16px;
+	width:16px;
+}
+
+.collapseIcon {
+	background-image:url(icons/arrow_state_blue_collapsed.png);
+	background-repeat:no-repeat;
+	height:16px;
+	width:16px;
+}
+
+.nextIcon {
+	background-image: url(icons/next.png);
+	background-repeat: no-repeat;
+	height: 16px;
+	width: 16px;
+}
+ 
+.spError {
+	padding: 1px 1px 1px 25px;;
+	white-space: nowrap;
+	font-size: 14px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #000000;
+	font-weight: bold;
+	text-align: center;
+	background: url(icons/exclamation.png) no-repeat center left;
+}
+
+.spWarning {
+	padding: 1px 1px 1px 25px;;
+	white-space: nowrap;
+	font-size: 14px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #000000;
+	font-weight: bold;
+	text-align: center;
+	background: url(icons/error.png) no-repeat center left;
+}
+
+.warnIcon {
+	padding: 1px 1px 1px 16px;;
+	white-space: nowrap;
+	font-size: 14px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #000000;
+	text-align: center;
+	background: url(icons/warning.png) no-repeat center left;
+}
+
+.multipleIcon {
+	padding: 1px 1px 1px 16px;;
+	white-space: nowrap;
+	font-size: 14px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #000000;
+	font-weight: bold;
+	text-align: center;
+	background: url(icons/text-list-bullets-icon.png) no-repeat
+		center left;
+}
+
+.spMessage {
+	padding: 1px 1px 1px 25px;
+	white-space: nowrap;
+	font-size: 14px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #000000;
+	font-weight: bold;
+	text-align: center;
+	background: url(icons/information.png) no-repeat center left;
+}
+
+.titre {
+	padding: 1px 1px 1px 25px;
+	margin-left: 100px;
+	margin-bottom: 16px;
+	white-space: nowrap;
+	font-size: 13px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #000000;
+	font-weight: bold;
+	text-align: center;
+	background: url(icons/report_edit.png) no-repeat center left;
+}
+
+.titre2 {
+	padding: 1px 1px 1px 25px;
+	margin-left: 10px;
+	margin-right: 100px;
+	margin-bottom: 16px;
+	white-space: nowrap;
+	font-size: 21px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #0F1DA2;
+	font-weight: bold;
+	text-align: center;
+}
+
+.buttonMenu {
+	border: 1px solid #006;
+	text-align: center;
+	margin-left: -1px;
+}

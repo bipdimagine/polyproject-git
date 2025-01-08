@@ -1,0 +1,288 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="icon" type="image/png" href="icons/clicknrun.png">
+        <title>polyRun</title>
+		<!-- chargement des feuilles de styles necessaires a l'affichage -->
+         <style type="text/css">
+            body, html { font-family:helvetica,arial,sans-serif; font-size:90%; position:static;overflow:hidden}
+        </style>
+        <style type="text/css">
+		@import "//ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojox/grid/resources/Grid.css";
+		@import "//ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojo/resources/dojo.css";
+ 		@import "//ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojox/grid/resources/tundraGrid.css";
+		@import "//ajax.googleapis.com/ajax/libs/dojo/1.9.3/dijit/themes/tundra/tundra.css";
+		@import "//ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojox/grid/enhanced/resources/tundraEnhancedGrid.css";
+		@import "//ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojox/grid/enhanced/resources/EnhancedGrid.css";
+		@import "//ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+		@import "//ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojox/grid/resources/nihiloGrid.css";
+		@import "//ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojox/layout/resources/ExpandoPane.css";
+		@import "button.css";
+		@import "general.css";
+	</style>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojo/dojo.js"
+    		data-dojo-config="parseOnLoad: true">
+	</script>
+	<script type="text/javascript" src="include.js" data-dojo-config="parseOnLoad: true"></script>
+	<script type="text/javascript" src="polyRundev.js" data-dojo-config="parseOnLoad: true"></script>
+
+</head>
+<body class="tundra">
+<div data-dojo-type="dijit.layout.BorderContainer" style="width: 100%; height: 100%; margin:0;padding:0,border:0"
+data-dojo-props="gutters:true, liveSplitters:true">
+	<div id="header" dojoType="dijit.layout.ContentPane" region="top" style="margin:0;padding:0;height:4.3em;">
+		<table ALIGN="center" style='color:#6E6D6A;margin-top:+10px;' width="100%"><tr>
+		<td width="34%" align="right"></td>
+		<td width="14%" align="left" style='font-size:3em;'><B>...PolyRun</B></td>
+		<td width="2%" align="left" style='font-size:2em;'><B>NGS</B></td>
+		<td align="left" style='width:11.9%;font-size: 1.5em;'><B>Sequencing Run</B></td>
+		<td width="auto" align="right"></td>
+		<td align="center" valign="bottom" 
+		style='width:6.8%;color: white;font-size: 0.8em;line-height:1;'>
+			<B>Bioinformatics<br>Paris Descartes</B>
+		</td>
+		</tr></table>			
+	</div>
+
+
+      	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="splitter:true,region:'left'"
+	style="width:35%;overflow-y: hidden;">
+		<!-- tableau avec des div -->	
+		<div align="left" style="margin:0;padding:0;">
+			<div style="background-color:#8b8ecb;border:1px solid #7EABCD"><B>Filters</B>
+				<!-- Machine Radio Button -->
+				<div dojoType="dijit/layout/AccordionContainer" style="height:34%" class="filtcov">
+  					<div dojoType="dijit/layout/ContentPane" 
+					title="<B>Machine and Plateform</B>" selected="true">
+						<!-- Machine Radio Button -->
+						<div dojoType="dijit.form.Form" id="macForm" jsId="macForm">
+							<span id="macRadio"></span>
+							<!-- tableau avec des div -->
+							<div style='width : 100%;height:70%;margin:0;padding:0;'>
+								<div class="cellule" id="gmacGridDiv" 
+								style='width: 26%;height:100%;'></div>
+								<div class="cellule" id="plateformGridDiv" 
+								style='width: 26%;height:100%;'></div>
+								<div class="cellule" id="largerunGridDiv" 
+								style='width: 48%;height:100%;'></div>
+							</div>
+						</div>
+					</div>
+					<div dojoType="dijit/layout/ContentPane" title="<B>Project</B>">
+						<div dojoType="dijit.layout.BorderContainer">
+							<div dojoType="dijit.layout.ContentPane" region="left"
+		style="overflow: hidden;width: 4%; margin: 0; padding: 0;border:0;">
+								<div  dojoType="dijit.Toolbar">
+									<div dojoType="dijit.form.Button"
+									style='background-color:#D9B80B;'
+									iconClass="validIcon" class="vButton"
+									showLabel="true"
+									onClick="runFilterProject();">
+									Submit
+									</div>
+									<div dojoType="dijit.form.Button"
+									style='background-color:#D9B80B;'
+									iconClass="clearIcon" class="sButton"
+									showLabel="true"
+									onClick="clearProjectSelection();">
+									Clear
+									</div>
+								</div>	
+							</div>
+							<div dojoType="dijit.layout.ContentPane" region="right"
+							style="width: 96%; margin: 0; padding: 0;">
+								<div id="projGridDiv" 
+								style="width: 100%;height:100%"></div>
+							</div>
+						</div>
+					</div>
+ 					<div dojoType="dijit/layout/ContentPane" title="<B>Run</B>">
+						<div dojoType="dijit.layout.BorderContainer">
+							<div dojoType="dijit.layout.ContentPane" region="left"
+			style="overflow: hidden;width: 4%; margin: 0; padding: 0;border:0;">
+								<div  dojoType="dijit.Toolbar">
+									<div dojoType="dijit.form.Button"
+									iconClass="validIcon" class="vButton"
+									style='background-color:#D9B80B;'
+									showLabel="true" 
+									onClick="runFilterRun();">
+									Submit
+									</div>
+									<div dojoType="dijit.form.Button"
+									style='background-color:#D9B80B;'
+									iconClass="clearIcon" class="sButton"
+									showLabel="true"
+									onClick="clearRunSelection();">
+									Clear
+									</div>
+								</div>	
+							</div>
+							<div dojoType="dijit.layout.ContentPane" region="right"
+							style="width: 96%; margin: 0; padding: 0;">
+								<div id="runGridDiv" 
+								style="width: 100%;height:100%"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div style="background-color:#8b8ecb;border:1px solid #7EABCD">
+			<B>Run Selection for Patient Coverages</B>
+				<div  dojoType="dijit.Toolbar">
+					<div dojoType="dijit.Tooltip" connectId="TPCprint"position="below">
+						<label class="tooltip">
+							<b>Preview/Save All :</b>
+							right click on the Grid<br>
+							<b>Preview/Save Selected :</b>
+							Select rows then right click on one 
+							selected Grid row
+						</label>
+					</div>
+					<div dojoType="dijit.form.Button" iconClass="validIcon" 
+						style='background-color:#D9B80B;color:white;'
+						showLabel="true" onClick="selectRun();">
+						Submit 
+					</div>
+					<span align="center" style="font-size:9;line-height:0">
+						<I>Result view on tab "Patient Coverage"</I>
+					</span>
+					<span width=5 
+						style="margin:0;padding:0;border:0;vertical-align: bottom;">
+						<img id="TPCprint" src="icons/table_save.png">
+					</span>
+				</div>	
+				<div id="covrunGridDiv"  class="covrunGridDiv" style="width:100%;height:59%;">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div dojoType="dijit/layout/TabContainer" tabStrip="true" data-dojo-props="splitter:true,region:'center'"
+	class="tabcov" style="width:65%;" id="TabCoverage">
+		<div dojoType="dijit/layout/ContentPane" id="TabRunCov" title="<B>Run Coverage</B>">
+			<div dojoType="dijit/layout/AccordionContainer" id="AccCoverage" class="patcov" style="height:100%">
+  				<div dojoType="dijit/layout/ContentPane" id="AccRunMeanCov" 
+				title="<B>Mean Coverage</B>"
+				selected="true" onMouseEnter="treatCov('99');">
+					<div id="chart99" style="width:100%;height:80%;margin:0;" ></div>
+					<div id="legend99"></div>
+				</div>
+ 				<div dojoType="dijit/layout/ContentPane" title="<B>Mean Cov5</B>"
+				onMouseEnter="treatCov('5');">
+					<div id="chart5" style="width:100%;height:80%;margin:0;"></div>
+					<div id="legend5"></div>
+				</div>
+  				<div dojoType="dijit/layout/ContentPane"  title="<B>Mean Cov15</B>" 
+				onMouseEnter="treatCov('15');">
+					<div id="chart15" style="width:100%;height:80%;margin:0;"></div>
+					<div id="legend15"></div>
+				</div>
+  				<div dojoType="dijit/layout/ContentPane"  title="<B>Mean Cov30</B>" 
+				onMouseEnter="treatCov('30');">
+					<div id="chart30" style="width:100%;height:80%;margin:0;"></div>
+					<div id="legend30"></div>
+				</div>
+			</div>
+		</div>
+		<div dojoType="dijit/layout/ContentPane" id="TabPatCov" title="<B>Patient Coverage</B>">
+ 			<div dojoType="dijit/layout/AccordionContainer"  class="patcov" style="height:100%">
+		  		<div dojoType="dijit/layout/ContentPane" selected="true" 
+				title="<B>Patient Coverages from Selected Run</B>">
+   					<div data-dojo-type="dijit/layout/ContentPane" 
+					data-dojo-props="region:'top'">
+						<div  dojoType="dijit.Toolbar">
+							<div dojoType="dijit.form.Button" iconClass="expandIcon"
+							showLabel="true" onClick="expandCovSelected();">
+							Expand Selected
+							</div>
+							<div dojoType="dijit.form.Button" iconClass="collapseIcon"
+							showLabel="true" onClick="collapseCovSelected();">
+							Collapse selected
+							</div>
+							&nbsp;&nbsp;&nbsp;&nbsp;<img src="icons/ledblue.png" align="top">
+&nbsp;<span style="font-size:9;line-height:0"><I>Column Stats with Icon: Pre-calculated statistics detailed on Tab 'Patient Statistics'</I></span>
+						</div>	
+					</div>
+					<div id="gridcovDiv" style="width:100%;height: 95%"></div>
+				</div>
+			</div>
+		</div>
+		<div dojoType="dijit/layout/ContentPane" title="<B>Patient Statistics</B>">
+			<div dojoType="dijit/layout/AccordionContainer"  class="patcov" style="height:100%">
+		  		<div dojoType="dijit/layout/ContentPane" selected="true" 
+				title="<B>Pre-Calculated Patient Statistics from Selected Run</B>">
+   					<div data-dojo-type="dijit/layout/ContentPane" 
+					data-dojo-props="region:'top'">
+						<div dojoType="dijit.Tooltip" connectId="Tprint"position="below">
+							<label class="tooltip">
+							<b>Preview/Save All :</b>
+							right click on the Grid<br>
+							<b>Preview/Save Selected :</b>
+							Select rows then right click on one 
+							selected Grid row
+							</label>
+						</div>
+						<div  dojoType="dijit.Toolbar">
+							<div dojoType="dijit.form.Button" iconClass="validIcon" 
+							style='background-color:#D9B80B;color:white;'
+							showLabel="true" onClick="selectPatStat();">
+							Submit 
+							</div>
+							<span align="center" style="font-size:9;line-height:0">
+							<I>Result view on tab "Patient Graphics" &nbsp;&nbsp; Result view on tab "Patient Comparison" : Select up to 5 patients</I>
+
+							<span VALIGN="TOP" width=5>
+								<img id="Tprint" src="icons/table_save.png">
+							</span>
+						</div>	
+
+					</div>
+					<div id="gridstatDiv" style="width:100%;height: 95%"></div>
+				</div>
+			</div>
+		</div>
+		<div dojoType="dijit/layout/ContentPane"  id="TabPatGraph" title="<B>Patient Graphics</B>">
+			<div dojoType="dijit/layout/AccordionContainer"  class="patcov" style="height:100%">
+		  		<div dojoType="dijit/layout/ContentPane" selected="true" id="listGraph"
+				title="<B>%Target vs Fold and Fold Normalized from Selected Patient</B>">
+					<!--<ul id="display-inline-block-chart"> </ul>			
+font-size: 60%;
+-->
+				</div>
+			</div>
+		</div>
+		<div dojoType="dijit/layout/ContentPane"  title="<B>Patient Comparison</B>">
+			<div dojoType="dijit/layout/AccordionContainer"  class="patcov" style="height:100%">
+		  		<div dojoType="dijit/layout/ContentPane" id="listCMP"
+				title="<B>%Patient Grapics comparison (pairwise)</B>">
+					<!--<ul id="display-inline-block-chart"> </ul>-->
+					<!--<div id="patComp" style="width:100%;height:80%;margin:0;"></div>-->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Standby -->
+<!-- ############################################################################################## -->
+
+<div id="myStandby" jsId="myStandby" dojoType="dijit.Dialog" execute="">
+	<div id="winStandby" 
+	style="width: 20em; height: 4em;background-color: yellow; border-style: solid; border-width:0.2em;">
+	</div>
+</div>
+
+<!-- ############################################################################################## -->
+<!-- Errors -->
+<!-- ############################################################################################## -->
+<div id="myError" jsId="myError" dojoType="dijit.Dialog" title="<span class='spError'>Error</span>"  execute="" >
+ 	<div id="textError" jsId="textError" dojoType="dijit.TooltipDialog">
+ 	</div>
+ 	<button type="button" dojoType="dijit.form.Button" onclick="myError.hide()" 
+	iconClass="closeIcon" style="margin-top:1em">
+		Close
+	</button>	
+</div>
+
+
+</body>
+</html>
+

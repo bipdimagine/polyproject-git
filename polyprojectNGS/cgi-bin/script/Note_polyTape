@@ -1,0 +1,262 @@
+#-patient=6932,DEN175,AGS818_ANGWwil
+#############################################################
+#ssh root@10.200.27.94
+#ltfs /tape -o devname=/dev/nst0 -o uid=1013 -o gid=501
+#############################################################
+#ssh root@10.200.27.94 find /tape
+#umount /tape
+
+Vor contenu K7 dans /data-xfs/dev/plaza/polyprojectNGS/cgi-bin/script
+#ssh root@10.200.27.80 find /tape > RESULT/List_Sans_Nom
+
+
+#Montage par:
+#/bip-d/soft/bin/format_tape.sh 
+ 
+#/bip-d/perl/polyprojectNGS/cgi-bin/script
+#/data-xfs/dev/plaza/polyprojectNGS/cgi-bin/script
+#./duplicatePolytape.pl
+
+###########################################
+        MAJ SUR polyTape
+###########################################
+#/bip-d/perl/polyprojectNGS/cgi-bin/script/manageTape.pl
+
+
+/data-xfs/dev/plaza/polyprojectNGS/cgi-bin/script/manageTape.pl -opt=listTape
+/data-xfs/dev/plaza/polyprojectNGS/cgi-bin/script/manageTape.pl -opt=listContent
+
+/data-xfs/dev/plaza/polyprojectNGS/cgi-bin/script/manageTape.pl -opt=newTapeId
+/data-xfs/dev/plaza/polyprojectNGS/cgi-bin/script/manageTape.pl -opt=newContent -tapenum=40
+
+#############################################
+          BACKUP SEQUENCES SUR BANDE  
+#############################################
+A la main sur machine 94:
+
+/usr/bin/perl.old /bip-d/perl/GenBo/script/backup/backup_tape.pl
+
+backup.bipd@gmail.com
+NO SPACE LEFT: /data-isilon/data/sequences/ILLUMINA/ILLUMINAX5/CNG/runWG_Rozet
+COPY ERROR /data-isilon/data/sequences/ILLUMINA/NEXTSEQ500/COCHIN/runMyoDuc
+
+#######
+formatter une bande:
+mkltfs -f --device=/dev/nst0 -n "SEQ"
+##########################################
+
+#Old./manageTape.pl -opt=newTape -tapenum=1 -taperef=C7976A -type=HP -des="6.25TB LTO-6 Ultrium RW"
+./manageTape.pl -opt=newTape -tapenum=1 -taperef=1 -type=HP -des="C7976A 6.25TB MP RW"
+
+./manageTape.pl -opt=newContent -tapenum=1 -pltrun=run63_2
+./manageTape.pl -opt=newContent -tapenum=1 -pltrun=run64_2   #run64_2 pas dans la base (Plus maintenant)
+./manageTape.pl -opt=newContent -tapenum=1 -pltrun=run65_2   #run65_2 pas dans la base (Plus maintenant)
+./manageTape.pl -opt=newContent -tapenum=1 -pltrun=run66_2
+./manageTape.pl -opt=newContent -tapenum=1 -pltrun=run67_2
+./manageTape.pl -opt=newContent -tapenum=1 -pltrun=run68_2
+
+#old./manageTape.pl -opt=newTape -tapenum=2 -taperef=C7976B -type=HP -des="6.25TB LTO-6 Ultrium RW"
+./manageTape.pl -opt=newTape -tapenum=2 -taperef=2 -type=HP -des="C7976B 6.25TB Bafe RW"
+
+./manageTape.pl -opt=newContent -tapenum=2 -pltrun=run121
+./manageTape.pl -opt=newContent -tapenum=2 -pltrun=run122
+./manageTape.pl -opt=newContent -tapenum=2 -pltrun=run123
+./manageTape.pl -opt=newContent -tapenum=2 -pltrun=run124
+./manageTape.pl -opt=newContent -tapenum=2 -pltrun=run125
+
+#./manageTape.pl -opt=newContent -tapenum=2 -pltrun=run120
+#./manageTape.pl -opt=delContent -tapenum=2 -pltrun=run120
+
+
+./manageTape.pl -opt=listTape
+
+./manageTape.pl -opt=listContent -tapenum=2 -pltrun=run122
+
+./manageTape.pl -opt=listContent -patient=NCR2788,NCR3290,CerID16_M,LOD_Sol|more
+--------------------------
+LIFETECH/SOLID5500/LIFE_US
+ssh root@10.200.27.80 find /tape > RESULT/List_Life_US_SOLID_5500
+./manageTape.pl -opt=newTape -tapenum=3 -taperef=3 -type=HP -des="C7976A 6.25TB MP RW"
+./manageTape.pl -opt=newContent -tapenum=3 -pltrun=POOL_1
+
+
+
+ssh root@10.200.27.80 find /tape > RESULT/List_Imagine_SOLID_5500
+
+
+
+ssh root@10.200.27.80 find /tape > RESULT/List_COCHIN_CEGAT_IMAGINE
+
+ssh root@10.200.27.80 find /tape > RESULT/List_Sans_Nom
+
+ssh root@10.200.27.80 find /tape -type f> RESULT/List_run60
+
+
+--------------------------------------------------------------------------
+Help
+ssh root@10.200.27.80 find /tape -type f> RESULT/List_run61-78
+
+
+
+
+
+
+------------------------------------
+./manageTape.pl -opt=listTape
+
+
+
+[plaza@darwin script]$ ./manageTape.pl -opt=newTapeId
+New Tape number : 4
+
+./manageTape.pl -opt=newContent -tapenum=4
+
+################################################################
+Sur Root Watson:
+ssh plaza@10.200.27.102
+ su -
+Mot de passe : 
+[root@watson ~]# cd /home.watson/polyweb-docker_jm/command/
+./poly-shell.sh
+[polyweb@6512212d207f cgi-bin]$ id
+uid=9999(polyweb) gid=9999(polyweb) groups=9999(polyweb)
+[polyweb@6512212d207f ~]$ cd /poly-disk/poly-src/polyprojectNGS/cgi-bin
+
+voir error Log:
+dans darwin 
+/data-xfs/dev/plaza/poly-disk/log/httpd
+
+
+
+
+base de donnée:10.200.27.102
+polyweb mypolyweb
+
+user polyweb polypass
+
+POLY_DISK_ROOT="/data-xfs/dev/plaza/poly-disk"
+
+ERROR LOG
+Sur watson sous root:
+docker ps
+CONTAINER ID  IMAGE         COMMAND   CREATED    STATUS     PORTS                    NAMES
+d27cf016e879  394a9d372d54  /usr/sbin/httpd -DF   9 weeks ago  Up 9 weeks  0.0.0.0:8001->80/tcp polywww_jm            
+
+docker exec -it d27cf016e879 bash => entrer dans le container
+[root@d27cf016e879 /]# tail -f /var/log/httpd/error_log  
+
+ polyweb-core.cfg
+
+_______________________________________________________________
+Ajout de polyusers
+
+
+Ajout à la suite :
+
+DOCKER_OPTION_MOUNT=" $POLY_DNS  $DOCKER_OPTION_MOUNT -v $POLY_DISK_ROOT:/poly-disk -v $POLY_DISK_PUBLIC_DATA:/poly-disk/public-data  -v $POLY_DISK_TMP
+:/poly-disk/tmp   -v $POLY_DISK_SRC:/poly-disk/poly-src -v $POLY_DISK_NGS:/poly-disk/poly-data  -v $POLY_DISK_ROOT/poly-src:/poly-src/poly-src -v /data
+-xfs/dev/plaza/polyprojectNGS/:/poly-disk/poly-src/polyprojectNGS"
+
+DOCKER_OPTION_MOUNT=" $POLY_DNS  $DOCKER_OPTION_MOUNT -v $POLY_DISK_ROOT:/poly-disk -v $POLY_DISK_PUBLIC_DATA:/poly-disk/public-data  -v $POLY_DISK_TMP
+:/poly-disk/tmp   -v $POLY_DISK_SRC:/poly-disk/poly-src -v $POLY_DISK_NGS:/poly-disk/poly-data  -v $POLY_DISK_ROOT/poly-src:/poly-src/poly-src -v /data
+-xfs/dev/plaza/polyprojectNGS/:/poly-disk/poly-src/polyprojectNGS -v /data-xfs/dev/plaza/polyusers/:/poly-disk/poly-src/polyusers"
+
+
+[root@watson conf]# docker ps -a
+cd start_service/
+docker rm -f d27cf016e879
+_./run_polyweb_www.sh 
+_________________________________________________________________________
+
+
+et la methode en question est dans GBuffer
+
+my $dir = $buffer->config()->{public_data}->{$version};
+
+$dir . "/capture/" . $self->type . "/" .$self->primers_filename;
+
+
+ ./manageData.pl option=gpatient Runsel=733
+
+
+_________________________________________________________________________
+
+/home.watson/polyweb-docker_jm/start_service
+sous root:
+# docker ps -a
+__________________________________
+Au cas au pas de mysql
+/home.watson/polyweb-docker/start_service
+run_polyweb_mysql.sh 
+
+Puis Dans 
+/home.watson/polyweb-docker_jm/start_service
+[root@watson start_service]# docker ps -a
+[root@watson start_service]# docker rm -f a4cde33e86db
+a4cde33e86db
+[root@watson start_service]# ./run_polyweb_www.sh 
+ Run web server for polyweb
+------------------------------------------------------------------
+Tu peux jeter un coup d'oeil sur ce script :
+genbo/script/database/create_validation_database.sh .
+
+dans le fichier validation.mysql tu as la structure de la base de donnée .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Montage disque Externe (/dev/sdc1) dans MachineTape
+mount /dev/sdc1 /mnt/
+ls /mnt
+
+#################################################
+Recherche Tape avec
+/data-xfs/dev/plaza/polyprojectNGS/cgi-bin/script/manageTape.pl -opt=listContent -h
+/data-xfs/dev/plaza/polyprojectNGS/cgi-bin/script/manageTape.pl -opt=listContent -pltrun=run110
+	Tape num ==> 7
+/data-xfs/dev/plaza/polyprojectNGS/cgi-bin/script/manageTape.pl -opt=listContent -pltrun=run110 -tapenum=7
+/data-xfs/dev/plaza/polyprojectNGS/cgi-bin/script/manageTape.pl -opt=listContent -pltrun=run110 -tapenum=7 -patient=ESCA
+
+##########
+Montage disque Externe (/dev/sdc1) sur MachineTape
+mount /dev/sdc1 /mnt/
+ls /mnt
+
+##########
+MachineTape ==> Retirer Tape presente et mettre Tape 7 et Montage Disque
+ssh root@10.200.27.94
+ltfs /tape -o devname=/dev/nst0 -o uid=1013 -o gid=501
+cp /tape/....
+cp fichiers /mnt/...
+
+##########
+umount /tape
+umont /mnt
+Retirer Tape 7 et remettre ancienne Tape
+#################################################
+#/bip-d/soft/bin   Formattage
+#format_tape-v2.sh:#                    mkltfs --device=/dev/st0 -n "HISEQ";
+g

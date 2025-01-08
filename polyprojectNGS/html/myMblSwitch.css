@@ -1,0 +1,273 @@
+.mblSwitch {
+    display: inline-block;
+    height: 20px;
+    line-height: 21px;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    text-align: left;
+}
+.mblListItem .mblSwitch {
+  position: absolute;
+  right: 12px;
+  top: 16px;
+}
+.mblSwitchInner {
+  position: absolute;
+  top: 0;
+  height: 27px;
+}
+.mblSwitchAnimation .mblSwitchInner {
+  -webkit-transition-property: left;
+  transition-property: left;
+  -webkit-transition-duration: 0.1s;
+  transition-duration: 0.1s;
+}
+.mblSwitchOn .mblSwitchInner {
+  left: 0;
+}
+.mblSwitchBg {
+    border-color: #759dc0;
+    border-width: 1px;
+    box-sizing: border-box;
+    font-family: Helvetica;
+    font-size: 8px;
+    font-weight: bold;
+    line-height: 21px;
+    position: absolute;
+    top: 0;
+    border-image: none;
+    border-style: solid;
+	border-style: inset;
+    width: 80px;
+}
+.mblSwitchBgLeft {
+  left: 0;
+  color: white;
+  background-color: #3f84eb;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#088eef), to(#0851ad), color-stop(0.5, #0869c6));
+  background-image: linear-gradient(to bottom, #48B04B 0%, #48B04B 50%, #48B04B 100%);
+}
+.mblSwitchBgRight {
+  color: #FFFFFF;
+/*  background-color: #EB6864;
+  background-image: -moz-linear-gradient(center top , #EB6864 0%, #EB6864 50%, #EB6864 100%);
+
+*/
+  background-color: red;
+  background-image: -moz-linear-gradient(center top , red 0%, red 50%, red 100%);
+}
+.mblSwitchKnob {
+  position: absolute;
+  top: 0;
+  height: 27px;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#999999), color-stop(0.5, #bbbbbb));
+  background-image: linear-gradient(to bottom, #fafafa 0%, #bbbbbb 50%, #999999 100%);
+  font-size: 1px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: rgba(156, 172, 192, 0.5) 1px outset;
+}
+.mblSwitchText {
+    height: 20px;
+    line-height: 22px;
+    padding: 0;
+    position: relative;
+    text-align: center;
+    top: 0;
+    width: 53px;
+}
+.mblSwitchTextLeft {
+  left: 0;
+}
+.mblSwitchTextRight {
+  left: 40px;
+}
+.mblSwSquareShape {
+  width: 94px;
+}
+.mblSwSquareShape.mblSwitchOff .mblSwitchInner {
+  left: -53px;
+}
+.mblSwSquareShape .mblSwitchBg {
+  border-radius: 6px;
+}
+.mblSwSquareShape .mblSwitchBgRight {
+  left: 53px;
+}
+.mblSwSquareShape .mblSwitchKnob {
+  left: 53px;
+  width: 27px;
+  border-radius: 6px;
+}
+.mblSwSquareShape .mblSwitchText {
+  width: 53px;
+}
+.mblSwSquareShape .mblSwitchTextRight {
+  left: 27px;
+}
+.mblSwRoundShape1 {
+  width: 77px;
+}
+.mblSwRoundShape1.mblSwitchOff .mblSwitchInner {
+  left: -50px;
+}
+.mblSwRoundShape1 .mblSwitchBg {
+  width: 77px;
+  border-radius: 14px;
+}
+.mblSwRoundShape1 .mblSwitchBgRight {
+  left: 50px;
+}
+.mblSwRoundShape1 .mblSwitchKnob {
+  left: 50px;
+  width: 27px;
+  border-radius: 13px;
+}
+.mblSwRoundShape1 .mblSwitchText {
+  width: 50px;
+}
+.mblSwRoundShape1 .mblSwitchTextRight {
+  left: 26px;
+}
+.mblSwRoundShape2 {
+  width: 94px;
+}
+.mblSwRoundShape2.mblSwitchOff .mblSwitchInner {
+  left: -51px;
+}
+.mblSwRoundShape2 .mblSwitchBg {
+  border-radius: 14px;
+}
+.mblSwRoundShape2 .mblSwitchBgRight {
+  left: 51px;
+}
+.mblSwRoundShape2 .mblSwitchKnob {
+  left: 51px;
+  width: 43px;
+  border-radius: 13px;
+}
+.mblSwRoundShape2 .mblSwitchText {
+  width: 51px;
+}
+.mblSwRoundShape2 .mblSwitchTextRight {
+  left: 42px;
+}
+.mblSwArcShape1 {
+  width: 77px;
+}
+.mblSwArcShape1.mblSwitchOff .mblSwitchInner {
+  left: -50px;
+}
+.mblSwArcShape1 .mblSwitchBg {
+  width: 77px;
+  border-radius: 5px/14px;
+}
+.mblSwArcShape1 .mblSwitchBgRight {
+  left: 50px;
+}
+.mblSwArcShape1 .mblSwitchKnob {
+  left: 50px;
+  width: 27px;
+  border-radius: 5px/13px;
+}
+.mblSwArcShape1 .mblSwitchText {
+  width: 50px;
+}
+.mblSwArcShape1 .mblSwitchTextRight {
+  left: 26px;
+}
+.mblSwArcShape2 {
+  width: 94px;
+}
+.mblSwArcShape2.mblSwitchOff .mblSwitchInner {
+  left: -51px;
+}
+.mblSwArcShape2 .mblSwitchBg {
+  border-radius: 5px/14px;
+}
+.mblSwArcShape2 .mblSwitchBgRight {
+  left: 51px;
+}
+.mblSwArcShape2 .mblSwitchKnob {
+  left: 51px;
+  width: 43px;
+  border-radius: 5px/13px;
+}
+.mblSwArcShape2 .mblSwitchText {
+  width: 51px;
+}
+.mblSwArcShape2 .mblSwitchTextRight {
+  left: 42px;
+}
+.mblSwDefaultShape {
+  width: 80px;
+}
+.mblSwDefaultShape.mblSwitchOff .mblSwitchInner {
+  left: -53px;
+}
+.mblSwDefaultShape .mblSwitchBg {
+  border-radius: 6px;
+}
+.mblSwDefaultShape .mblSwitchBgRight {
+  left: 53px;
+}
+.mblSwDefaultShape .mblSwitchKnob {
+  border-radius: 2px;
+  left: 53px;
+  width: 27px;
+}
+.mblSwDefaultShape .mblSwitchText {
+  width: 53px;
+}
+.mblSwDefaultShape .mblSwitchTextRight {
+  left: 25px;
+}
+.mblRadioButton {
+  position: relative;
+  margin: -0.5em 3px 0.3em 4px;
+  width: 1em;
+  height: 1em;
+  border-style: outset;
+  border-width: 1px;
+  border-radius: 0.5em;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f7fbf7), to(#cecfd6), color-stop(0.5, #ced3ce));
+  background-image: linear-gradient(to bottom, #f7fbf7 0%, #ced3ce 50%, #cecfd6 100%);
+  font: inherit;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  -webkit-transform: translateY(0.45em);
+  transform: translateY(0.45em);
+  border-color: #9cacc0;
+}
+.mblRadioButtonChecked,
+.mblRadioButton:checked {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f7fbf7), to(#cecfd6), color-stop(0.5, #ced3ce));
+  background-image: linear-gradient(to bottom, #f7fbf7 0%, #ced3ce 50%, #cecfd6 100%);
+}
+.mblRadioButtonChecked::after,
+.mblRadioButton:checked::after {
+  position: absolute;
+  content: "";
+  width: 0.3em;
+  height: 0.6em;
+  top: 0;
+  left: 0.25em;
+  border-width: 0.15em;
+  border-style: none solid solid none;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  border-color: #0851ad;
+}
+.mblRadioButtonChecked.mblRadioButtonSelected,
+.mblRadioButton:checked.mblRadioButtonSelected {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#088eef), to(#0851ad), color-stop(0.5, #0869c6));
+  background-image: linear-gradient(to bottom, #088eef 0%, #0869c6 50%, #0851ad 100%);
+}
+.mblRadioButtonChecked.mblRadioButtonSelected::after,
+.mblRadioButton:checked.mblRadioButtonSelected::after {
+  border-color: white;
+}

@@ -1,0 +1,200 @@
+
+
+A partir de
+/software/distrib/SPRING_dev/SPRING_dev/
+
+python ./prepare_data_matrix.py -im
+/data-isilon/FRED_ALL/FRED/PROJECT/SINGLE_CELL/SPRING_DATA/E14Dayer/ExprData2.mtx
+-ig
+/data-isilon/FRED_ALL/FRED/PROJECT/SINGLE_CELL/SPRING_DATA/E14Dayer/Genelist2.tsv
+-o
+/data-isilon/FRED_ALL/FRED/PROJECT/SINGLE_CELL/SPRING_DATA/datasets/E14Dayer
+-g E14Dayer
+
+Il y a 4 options
+
+-im pour le chemin vers la Input Matrice (IM donc)
+-ig pour le chemin vers la Input GeneList (IG donc)
+-o pour le chemin vers ou mettre les données :
+
+/data-isilon/FRED_ALL/FRED/PROJECT/SINGLE_CELL/SPRING_DATA/datasets/"NOM
+DU SAMPLE"
+
+-g "NOM DU SAMPLE"
+
+
+python ./prepare_data_matrix.py -im /poly-disk/poly-data/spring/inFILES/aaa/ExprData.mtx -ig /poly-disk/poly-data/spring/inFILES/aaa/Genelist.csv -o /poly-disk/poly-data/spring/outFILES/aaa -g aaa
+
+
+./run_pythonScript.pl source=/poly-disk/poly-src/Spring/cgi-bin/SPRING_dev dirIn=/poly-disk/poly-data/spring/inFILES/ dirOut=/poly-disk/poly-data/spring/outFILES/ name=fff matrix=ExprData2.mtx genes=Genelist2.csv
+
+./run_pythonScript.pl source=/poly-disk/poly-src/Spring/cgi-bin/SPRING_dev dirIn=/poly-disk/poly-data/spring/inFILES/ dirOut=/poly-disk/poly-data/spring/outFILES/ name=fff matrix=ExprData2.mtx genes=Genelist2.csv
+
+
+
+http://10.200.27.108:8000/springViewer_1_6_dev.html?dataspring/hhh/hhh
+
+
+
+Données mon Docker: http://10.200.27.102:8001/Spring/Spring.html
+/data-xfs/dev/plaza/poly-disk/poly-data/spring/inFILES
+/data-xfs/dev/plaza/poly-disk/poly-data/spring/outFILES
+
+Changer les droits sur Darwin:
+ssh plaza@10.200.27.103 puis root
+touch Cellgrouping.csv.cg
+chown apache *.cg
+chgrp 9999 *.cg
+chmod a+rw *.cg
+
+touch geneset.gmt.gs
+chown apache *.gs
+chgrp 9999 *.gs
+chmod a+rw *.gs
+
+
+
+######
+Docker JM Spring
+
+###############################
+############  Docker JM
+###############################
+Sur Root Watson:
+ssh plaza@10.200.27.102 
+#passwd=plaza
+# Initialisation :kill + start
+#su - polyweb
+/home.watson/polyweb-docker_jm/start_service
+[root@watson start_service]# docker ps -a |grep jm
+[root@watson start_service]# docker rm -f a4cde33e86db
+
+sur watson plaza
+cd /home.watson/polyweb-docker/start_service
+./run_polyweb_mysql.sh
+puis 
+cd /home.watson/polyweb-docker_jm/start_service
+./run_polyweb_www.sh
+cd /home.watson/polyweb-docker_jm/command/
+./poly-shell.sh 
+
+cd /poly-disk/poly-src/Spring/cgi-bin
+
+
+
+login fcauseret / 369cau
+//./user_app.pl pwd=369cau login=fcauseret
+//./upload_file.pl opt=listProjectnew param_user=fcauseret
+
+
+refreshGrid(projGrid,projStore);
+/data-isilon/FRED_ALL/FRED/PROJECT/SINGLE_CELL/SPRING_DATA/PSBWT_PSBKO
+my $mycommand="/usr/bin/python $source/prepare_data_matrix2.py -im $dmatrix -ig $dgenes -gr fichier1 -o $outdir -g $name>&/dev/null";
+
+si fichier1 existe -gr fichier1
+
+///
+Salut Frederic,
+J'ai effectué des changements sur l'utilitaire de téléchargement des fichiers Springs 
+(http://10.200.27.102:8001/Spring/index.html).
+1. Accés aux projets utilisateurs par login/mot de passe des utilisateurs polyweb ( pour toi fcauseret/369cau).
+2. Ajout d'un fichier optionnel au format csv ou tsv: Cells Grouping File.
+3. Bouton Submit pour lancer l'initialisation de l'environnement Spring ( durée de traitement: quelques minutes) après avoir téléchargé les fichiers Springs (Matrice,Gènes et éventuellement groupes cellulaires).
+  
+Dans ton espace authentifié sont déposés les 3 projets que tu avais généré.
+Peux-tu effectuer quelques tests ?
+
+Bien Cordialement,
+
+Jean-Marc
+
+Bonjour,
+Je vous est ouvert un compte sur le site provisoire Spring Utility (http://10.200.27.102:8001/Spring/index.html) vous permettant de télécharger vos fichiers de 
+données .
+Login: ssobrino
+MP: 499sob
+
+L'interface permet de créer votre projet en téléchargeant les fichiers Matrices et Gènes, optionnellement Groupes Cellulaires.
+Une fois les fichiers déposés, le bouton Submit génèrent en plusieurs minutes les fichiers environnement à Spring.
+Une fois terminé, le bouton Sprint View vous permet de visualiser vos résultats sous Spring
+
+Bien Cordialement,
+
+
+Jean-Marc PLAZA
+
+PS: Juste à préciser que nous n'avons aucune connaissance sur le fonctionnement de Spring
+
+
+### bipd_users: Restaurer backup en ligne polyusers dans polyusers Docker JM ########
+#1 Sauvegarde backup Docker_JM
+cd /data-xfs/dev/plaza/poly-disk/tmp/polyusers
+mysqldump -u polyweb -pmypolyweb -h 10.200.27.102  bipd_users> bipd_users.sql.JM."$(date +%Y%m%d)"
+#2 Sauvegarde backup en Ligne
+mysqldump -u polyweb -pmypolyweb -h 10.200.27.108  bipd_users> bipd_users.sql.EnLigne."$(date +%Y%m%d)"
+cp bipd_users.sql.EnLigne.20191010 bipd_users.sql.1
+#3 Restaurer BD en ligne dans DB docker JM
+mysql -u polyweb -pmypolyweb -h 10.200.27.102 bipd_users < bipd_users.sql.1
+
+Gene sets 
+
+Changer le format:
+1)Dans Infile ==> <FICHIER d'ENTREE>.gmt
+awk '{for(i=3; i<NF; i++){printf("%s\t%s\n",$i,$1)}}' <FICHIER d'ENTREE>
+  >  <FICHIER TEMPORAIRE>
+2)Dans Infile Transpose_<FICHIER d'ENTREE>.gmt
+
+3)A lancer apres le run_pythonScrip.pl car il on a besoin du sous_projet du projet generé (nom projet et sous-projet identique
+
+python2.7
+4)/software/distrib/SPRING_dev/SPRING_dev/cgi-bin/apply_gene_set_retrospective.py
+<PROJET> <sous-projet> Infile/transpose_<FICHIER TEMPORAIRE>.gmt
+
+####
+voir /data-isilon/FRED_ALL/FRED/PROJECT/SINGLE_CELL/SPRING_DATA/datasets/ fichier .gmt
+my $mycommand="/usr/bin/python $source/prepare_data_matrix2.py -im $dmatrix -ig $dgenes -o $outdir -g $name";
+my $mycommand="/usr/bin/python $source/apply_gene_set_retrospective.py -im $dmatrix -ig $dgenes -o $outdir -g $name";
+
+my $gensets = $cgi->param("genesets");# input name Gene Set file
+my $dir_in = $cgi->param("dirIn");#/poly-disk/poly-data/spring/inFILES/plaza
+my $dir_out = $cgi->param("dirOut");#/poly-disk/poly-data/spring/outFILES/plaza
+my $name = $cgi->param("name");# input out ???
+
+my $outdir = $dir_out."/".$name."/";
+my $indir = $dir_in."/".$name."/";
+
+my $project=$outdir;
+my $sub_project=$oudir.$name;
+my $gmt_file=$indir.$genesets;
+
+my $mycommand="/usr/bin/python $source/apply_gene_set_retrospective.py $project $sub_project $gmt_file";
+
+###########
+
+awk '{for(i=3; i<NF; i++){printf("%s\t%s\n",$i,$1)}}' <FICHIER d'ENTREE>
+  >  <FICHIER TEMPORAIRE>
+my $res = `ps -tpts/14 | grep pro4 | grep -v | awk'{print $1}'`;
+
+awk '{for(i=3; i<NF; i++){printf("%s\t%s\n",$i,$1)}}'<cgd_geneset.csv|more
+
+
+############################
+PB:
+/data-xfs/dev/plaza/Spring/cgi-bin/SPRING_dev
+prepare_data_matrix2.py:sys.path.append('/poly-disk/poly-src/Spring/cgi-bin/SPRING_dev/data_prep')
+
+/software/distrib/SPRING_dev/SPRING_dev:
+prepare_data_matrix.py:sys.path.append('/software/distrib/SPRING_dev/SPRING_dev/data_prep')
+......
+
+Spring.js ?? faire include.js selon http://10.200.27.102:8001...
+
+var dir_progspring="/poly-disk/poly-src/Spring/cgi-bin/SPRING_dev";
+var url_runPython = url_path + "/run_pythonScript2.pl"+"?source="+ dir_progspring+ "&dirIn=" + dirIn + "&dirOut=" + dirOut + "&name=" + o_out + "&matrix=" + o_matrix + "&genes=" + o_genes ;
+
+upload_file.pl
+my $rootdir = "/poly-disk/poly-data/";
+my $publicIndir = $rootdir."spring/inFILES/";
+my $publicOutdir = $rootdir."spring/outFILES/";
+
+

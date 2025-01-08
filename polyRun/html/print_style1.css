@@ -1,0 +1,37 @@
+/* Printed grid may have a title, which is included in an <h1> tag*/
+h1 {
+	text-align: center;
+	font-size: 100%;
+}
+
+table {
+	border-collapse: collapse;
+	border: 1px solid #999;
+}
+
+table TD {
+	border-right: 1px solid black;
+	border-bottom: 1px solid #999;
+	padding:5px;
+}
+
+table TH {
+	border-right: 1px solid black;
+	padding:5px;
+}
+
+.grid_header {
+	background-color: grey;
+	font-size: 45%;
+	font-weight: bold;
+	align-content: center;
+	border: 1px solid black;
+}
+
+.grid_row {
+	font-size: 45%;
+}
+
+.grid_even_row {
+	background-color: #DDDDC9;
+}

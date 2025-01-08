@@ -1,0 +1,786 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="icon" type="image/png" href="icons/user.png">
+        <title>polyUsers</title>
+         <style type="text/css">
+	body,html {
+		font-family: helvetica, arial, sans-serif;
+		font-size: 90%;
+		width: 100%;
+		height: 100%;
+		margin: 0;padding: 0;border:0;
+		overflow: hidden;
+	}
+        </style>
+        <style type="text/css">
+	@import "//ajax.googleapis.com/ajax/libs/dojo/1.12.1/dojox/grid/resources/Grid.css";
+	@import "//ajax.googleapis.com/ajax/libs/dojo/1.12.1/dojo/resources/dojo.css";
+ 	@import "//ajax.googleapis.com/ajax/libs/dojo/1.12.1/dojox/grid/resources/tundraGrid.css";
+	@import "//ajax.googleapis.com/ajax/libs/dojo/1.12.1/dijit/themes/tundra/tundra.css";
+	@import "//ajax.googleapis.com/ajax/libs/dojo/1.12.1/dojox/grid/enhanced/resources/tundraEnhancedGrid.css";
+	@import "//ajax.googleapis.com/ajax/libs/dojo/1.12.1/dojox/grid/enhanced/resources/EnhancedGrid.css";
+	@import "//ajax.googleapis.com/ajax/libs/dojo/1.12.1/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+	@import "//ajax.googleapis.com/ajax/libs/dojo/1.12.1/dojox/grid/resources/nihiloGrid.css";
+	@import "//ajax.googleapis.com/ajax/libs/dojo/1.12.1/dojox/layout/resources/ExpandoPane.css";
+	@import "button.css";
+	@import "general.css";
+	@import "ulogin.css";
+	</style>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/dojo/1.12.1/dojo/dojo.js"
+    		data-dojo-config="parseOnLoad: true">
+	</script>
+<!--	<script type="text/javascript"
+		src="//ajax.googleapis.com/ajax/libs/dojo/1.9.5/dojo/dojo.js"
+		djConfig="parseOnLoad: true">
+	</script>-->
+	<script type="text/javascript" src="include.js" djConfig="parseOnLoad: true"></script>
+	<script type="text/javascript" src="polyUsers.js" data-dojo-config="parseOnLoad: true"></script>
+	<script type="text/javascript" src="vp.js" djConfig="parseOnLoad: true"></script>
+</head>
+<body class="tundra">
+<!-- Grid Users -->
+<div data-dojo-type="dijit/layout/BorderContainer"  data-dojo-props="design: 'headline'"
+style="width: 100%; height: 100%; margin:0;padding:0;white-space:nowrap;border:none">
+	<div id="header" dojoType="dijit.layout.ContentPane" region="top">
+		<table ALIGN="center" style='color: grey;' width="100%">
+			<tr>
+			<td align="right" width="60%" style='font-size: 4em;'><B>...PolyUsers</B>
+			</td>
+			<td width="auto" align="right">
+			</td>
+			<td align="center" valign="bottom" 
+			style='width:6.8%;color: white;font-size: 0.8em;line-height:1;padding-bottom: 0px;'>
+					<B>Bioinformatics<br>Paris Descartes</B>
+			</td>
+			</tr>
+		</table>
+	</div>
+	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="region: 'center'" 
+	style="margin:0;padding:0;white-space:nowrap;border: none;">
+    		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'" 
+		style="margin:0;padding:0;white-space:nowrap;border: none;">
+ 			<div dojoType="dijit.form.Form" id="searchUserForm" jsId="searchUserForm">
+				<div dojoType="dijit.Tooltip" connectId="Userprint" position="below">
+				<label class="tooltip">
+					<b>Preview/Save All :</b>
+					Right click on the Grid<br>
+					<b>Preview/Save Selected :</b>
+					Select rows then right click on one Grid row selected
+				</label>
+				</div>
+				<div dojoType="dijit.Toolbar" id="toolbar_filter">
+					<table style="margin: 0; padding: 0;width:100%;">
+					<tr>
+					<td valign="top" align="left" style="width: 2em;">
+					<div dojoType="dijit.form.Button" id="bt_cleargriduser"
+					onClick="gridUser.selection.clear();" showLabel="false" 
+					iconClass="clearIcon" style="border:0;color:white;margin: 0;padding:0;">
+					</div>
+					</td>
+					<TD valign="top" align="left" style="width:1em;">
+						<img src="icons/zoom.png">
+					</TD>
+					<td valign="top" align="left" 
+					style="width: 30em;border:none;margin: 0; padding: 0">
+					<input type="text" id="FilterUserBox"
+				data-dojo-props="placeHolder:'Last Name, First Name, Group, Lab Code, Site, Institute'"
+					dojoType="dijit.form.ValidationTextBox"
+					name="FilterUserBox" style="width: 30em;">
+					</td>
+					<td valign="top" align="left" style="width: 1.5em;">
+					<div dojoType="dijit.form.Button" onClick="resetSearch();" showLabel="true"
+						iconClass="dijitIconUndo"
+style="border-radius: 10px;background: -moz-linear-gradient(#1181C6,#203442); border: 0; color: white;margin: 0; padding: 0;width: 1.5em;">						
+					</div>
+					</td>
+					<TD valign="top" align="right" style="width:2em;">
+						<img id="Userprint" src="icons/table_save.png">
+					</TD>
+
+					<TD valign="top" align="right" style="width:20em;">
+					</TD>
+
+					<td valign="top" align="left" style="color:white;">
+					<div dojoType="dijit.form.Button"  id="refreshUserDB" onClick='refreshUserList();' iconClass="refreshIcon"
+					showLabel="true">Refresh
+					</div>
+					</TD>
+					<td valign="top" align="left" style="color:white;">
+					<div dojoType="dijit.form.Button" id="buttonAddUserDB" type="button"
+					iconClass="plusUserIcon" showLabel="true">New User
+					</div>
+					</TD>
+					</TD>
+					<td valign="top" align="left" style="color:white;">
+					<div dojoType="dijit.form.Button" id="buttonGroupDB" type="button"
+					onClick='AddRemUserGroup()'
+					iconClass="UserGroupIcon" showLabel="true">Group
+					</div>
+					</TD>
+					<td valign="top" align="left" style="color:white;">
+					<div dojoType="dijit.form.Button" iconClass="renameIcon" id="saveUserDB"
+					onClick='upUser();' showLabel="true">Save
+					</div>
+					</TD>
+					<td valign="top" align="left" style="color:white;">
+					<div dojoType="dijit.form.Button" onClick='editUser();' iconClass="viewProject"
+					showLabel="true" id="editUserDB">Edit User
+					</div>
+					</TD>
+					<TD valign="top" align="left" style="width:auto;">
+					</TD>
+
+
+					<td id='btlog_0' class='cl_log_td' align="right">
+					</td>
+					</TR>
+					</table>
+				</div>
+				<div dojoType="dijit.Tooltip" connectId="bt_cleargriduser" position="above">
+					<label class="tooltip">
+						<b>Clear selection<b>
+					</label>
+				</div>
+			</div>
+		</div>
+
+   		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'" id="TabMain"
+		style="width: 95%; height: 100%; margin:0;padding:0;white-space:nowrap;border:none">
+			<div id="gridUserDiv" class="gridContainer"></div>
+		</div>
+	</div>
+</div>
+<!--  Edit User -->
+<div dojoType="dijit.Dialog" id="divEditUserDB" jsId="divEditUserDB" data-dojo-props="closable:false"
+style="width:80%;height: 60%;margin:0;padding:0;white-space:nowrap;"
+title="<span style='width:88%;font-size:125%;margin:0;padding:0;white-space:nowrap;' class='cl_block_left'>Edit User</span> 
+	<span id='bt_close_edituser' style='width:2%;margin-top:-4px;margin-right:-6px;' class='cl_btlog_block_right' ></span>
+	<span id='btlog_2' style='width:10%;margin-top:-4px;' class='cl_btlog_block_right'></span>
+"> 
+	<div data-dojo-type="dijit/layout/BorderContainer" style="width: 100%; height: 92%; margin:0;padding:0"
+	id="TabEditUser">
+     		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
+		</div>
+      		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'left'">
+		</div>
+    		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
+			<div  dojoType="dijit.TooltipDialog">
+				<label align="center"><B> Name : </B></label>
+						<span id="fnameUid" jsId="fnameUid"></span>
+				<label><B>  </B></label><span id="lnameUid" jsId="lnameUid"></span>
+				<span id="lgroup" jsId="lgroup" style="display: none;"></span>
+			</div>
+			<div id="UserInfo" style="width: 100%; height: 90%;">
+			</div>				
+		</div>
+      		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'bottom'" 
+		align="center" style="color:white;margin: 0; padding: 0">
+			<div data-dojo-type="dijit/Toolbar">
+				<div data-dojo-type="dijit/form/Button" showLabel="true"
+				onClick="chgLog()" iconClass="UserIcon">New Code
+				</div>
+				<div data-dojo-type="dijit/form/Button" showLabel="true"
+				onClick="inactivateUser()" iconClass="UserHideIcon">Inactivate
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div dojoType="dijit.Dialog" id="divChgLog" jsId="divChgLog" data-dojo-props="closable:false" class="wcodeUser"
+title="
+<span style='width:90%;font-size:125%;' class='cl_block_left'><b>Change Access Code</b></span>
+<span id='bt_close_newcode' style='width:4%;margin-top:-4px;' class='cl_btlog_block_right' ></span>
+">
+	<div dojoType="dijit/layout/ContentPane" region="center">
+		<div data-dojo-type="dijit/form/Form" id="chgLogForm" jsId="chgLogForm">
+				<small><i>Suggested Identification Code</i></small>
+				<table style="width: 100%;border: 0.2em solid #7EABCD;">
+					<tr>
+					<td><label for="chglogin"><B>Login</B></label></td>
+					<td>
+					<input type="text" name="chglogin" id="chglogin"
+					data-dojo-type="dijit/form/ValidationTextBox" 
+					regExp="^[a-zA-Z0-9-_]+$" required="true"
+					invalidMessage="Alphanumeric case and No space please">
+           				</td>
+					</tr>
+
+					<tr>
+					<td><label for="chgpassword"><B>Password</B></label></td>
+					<td>
+					<input type="text" name="chgpassword" id="chgpassword"
+					data-dojo-type="dijit/form/ValidationTextBox" 
+					regExp="^[a-zA-Z0-9-_]+$" required="true"
+					invalidMessage="Alphanumeric case and No space please">
+            				</td>
+					</tr>
+				</table>
+		</div>
+		<div dojoType="dijit/layout/ContentPane" region="bottom" align="center" 
+		style="color:white;margin: 0; padding: 0">
+			<div data-dojo-type="dijit/Toolbar">
+				<div data-dojo-type="dijit/form/Button" showLabel="true"
+				onClick="chgAccess();" iconClass="validIcon">Submit
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+
+<div dojoType="dijit.Dialog" id="divInitLog" jsId="divInitLog" data-dojo-props="closable:false" class="wcodeUser"
+title="
+<span style='width:90%;font-size:125%;' class='cl_block_left'><b>Group DIAG: Change Access Code</b></span>
+<span id='bt_close_initcode' style='width:4%;margin-top:-4px;' class='cl_btlog_block_right' ></span>
+">
+	<div dojoType="dijit/layout/ContentPane" region="center">
+		<div data-dojo-type="dijit/form/Form" id="initLogForm" jsId="initLogForm">
+				<small><i>Suggested Identification Code</i></small>
+				<table style="width: 100%;border: 0.2em solid #7EABCD;">
+					<tr>
+					<td><label for="chglogin"><B>Login</B></label></td>
+					<td>
+					<input type="text" name="initlogin" id="initlogin"
+					data-dojo-type="dijit/form/ValidationTextBox" 
+					regExp="^[a-zA-Z0-9-_]+$" required="true"
+					invalidMessage="Alphanumeric case and No space please">
+           				</td>
+					</tr>
+
+					<tr>
+					<td><label for="chgpassword"><B>Password</B></label></td>
+					<td>
+					<input type="text" name="initpassword" id="initpassword"
+					data-dojo-type="dijit/form/ValidationTextBox" 
+					regExp="^[a-zA-Z0-9-_]+$" required="true"
+					invalidMessage="Alphanumeric case and No space please">
+            				</td>
+					</tr>
+
+
+
+
+				</table>
+		</div>
+		<div dojoType="dijit/layout/ContentPane" region="bottom" align="center" 
+		style="color:white;margin: 0; padding: 0">
+			<div data-dojo-type="dijit/Toolbar">
+				<div data-dojo-type="dijit/form/Button" showLabel="true"
+				onClick="initAccess();" iconClass="validIcon">Submit
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+
+<div dojoType="dijit.Dialog" id="divHideUser" jsId="divHideUser" data-dojo-props="closable:false" class="winactivateUser"
+title="
+<span style='width:90%;font-size:125%;' class='cl_block_left'><b>Inactivate User</b></span>
+<span id='bt_close_hideuser' style='width:4%;margin-top:-4px;' class='cl_btlog_block_right' ></span>
+">
+	<div dojoType="dijit/layout/ContentPane" region="center">
+		<div data-dojo-type="dijit/form/Form" id="inactiveForm" jsId="inactiveForm">
+				<table style="width: 100%;border: 0.2em solid #7EABCD;">
+					<tr>
+					<td><label for="inactivelogin"><B>Login</B></label></td>
+					<td>
+					<input type="text" name="inactivelogin" id="inactivelogin"
+					data-dojo-type="dijit/form/ValidationTextBox" disabled
+					regExp="^[a-zA-Z0-9-_]+$" required="true">
+           				</td>
+					</tr>
+				</table>
+		</div>
+		<div dojoType="dijit/layout/ContentPane" region="bottom" align="center" 
+		style="color:white;margin: 0; padding: 0">
+			<div data-dojo-type="dijit/Toolbar">
+				<div data-dojo-type="dijit/form/Button" showLabel="true" 
+				onClick="hideUser();" iconClass="validIcon">Submit
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+
+
+<!-- Errors -->
+ <div id="myError" jsId="myError" dojoType="dijit.Dialog" title="<span class='spError'>Error</span>"  execute="">
+ 	<div id="textError" jsId="textError" dojoType="dijit.TooltipDialog">
+ 	</div>
+ 	<button type="button" dojotype="dijit.form.Button" onclick="myError.hide()">Close</button>	
+</div>
+
+<!-- Validation Message -->
+<div id="myMessage" jsId="myMessage" dojoType="dijit.Dialog" title="<span class='spMessage'>Validation Message</span>" execute="">
+ 	<div id="textMessage" jsId="textMessage" dojoType="dijit.TooltipDialog">
+ 	</div>
+ 	<button type="button" dojotype="dijit.form.Button" onclick="myMessage.hide()"
+		iconClass="closeIcon">
+		Close
+	</button>	
+</div>
+
+<!-- ############################################################################################## -->
+<!-- Login -->
+<!-- ############################################################################################## -->
+<div class="logdiag" id="ulogin" dojoType="dijit.Dialog" execute="setPasswordlocal();" align="right">
+	<div dojoType="dijit.form.Form" id="loginForm" jsId="loginForm" method="post" class="signin">
+		<table>
+			<tr>
+			<td><label for="username" class="username">USERNAME</label></td>
+			<td><input id="username" value="" dojoType="dijit.form.TextBox" class="dj_user"
+				autocomplete="on" placeholder="Username"></td>
+			</tr>
+			<tr>
+                        <td><label for="password" class="password">PASSWORD</label></td>
+                        <td><input id="passwd" name="password" value="" type="password" class="dj_passwd"
+				dojoType="dijit.form.TextBox"
+				placeholder="Password"></td>
+			</tr>
+		</table>
+	</div>
+	<div type="submit" dojoType="dijit.form.Button" id="btlog" class="btlog">Sign in</div>
+</div>
+
+</body>
+</html>
+<!-- ############################# END HTML ################################## -->
+
+<!-- ############################################################################################## -->
+<!-- Standby -->
+<!-- ############################################################################################## -->
+<div id="myStandby" jsId="myStandby" dojoType="dijit.Dialog" execute="">
+	<div id="winStandby"
+	style="width: 20em; height: 4em; background-color: yellow; border-style: solid; border-width: 0.2em;">
+	</div>
+</div>
+
+<!-- ############################################################################################## -->
+<!-- ADD USER -->
+<!-- ############################################################################################## -->
+<div data-dojo-type="dijit/Dialog" id="divUserDB" class="wAddUser" data-dojo-props="closable:false"
+title="<span style='width:20%;font-size:125%;' class='cl_block_left'>Add User</span>
+	<span id='bt_close_adduser' style='width:2%;margin-right:-6px' class='cl_btlog_block_right' ></span>
+	<span id='btlog_1' style='width:10%;' class='cl_btlog_block_right'></span>
+">
+	<div dojoType="dijit/layout/BorderContainer" style="height:93%"  id="TabAddUser">
+		<div dojoType="dijit/layout/ContentPane" region="left" style="width:23%;height:100%">
+			<div data-dojo-type="dijit/form/Form" id="adduserForm" jsId="adduserForm">
+				<div dojoType="dijit.Tooltip" connectId="IHG" position="above">
+					<label class="tooltip">
+						When Toggled, view on The Human Gene Mutation Database permitted
+					</label>
+				</div>
+				<table style="width: 21em;border: 0">
+					<tr>
+					<td><label for="firstname"><B>First Name</B></label></td>
+					<td>
+					<input type="text" name="firstname" id="firstname"
+					data-dojo-type="dijit/form/ValidationTextBox" 
+					regExp="^[a-zA-Z0-9-_/ ]+$" required="true" propercase="true"
+					invalidMessage="No accent please">
+           				</td>
+					</tr>
+
+					<tr>
+					<td><label for="lastname"><B>Last Name</B></label></td>
+					<td>
+					<input type="text" name="lastname" id="lastname"
+					data-dojo-type="dijit/form/ValidationTextBox" 
+					uppercase="true"
+					regExp="^[a-zA-Z0-9-_/ ]+$" required="true"
+					invalidMessage="No accent please">
+           				</td>
+					</tr>
+
+					<tr>
+					<td><label for="email"><B>E-mail</B></label></td>
+					<td>
+					<input type="text" name="email" id="email"
+					data-dojo-type="dijit/form/ValidationTextBox" 
+					regExp="[a-zA-Z0-9._%-]+@[a-z0-9.-]+\.[a-z]{2,4}" required="true"
+ 					invalidMessage="Need a real email please">
+          				</td>
+					</tr>
+					<tr>
+					<td>Group</td>
+					<td><input id="groupSelect"></td>
+           				</tr>
+
+				</table><P>
+				<table>
+				<!-- field HGMD -->
+				<button dojoType="dijit/form/ToggleButton" id="TNhgmd"
+				data-dojo-props="iconClass:'dijitCheckBoxIcon', checked: true">
+					HGMD <img id="IHG"src="icons/information.png">
+				</button>	
+				</table>
+				<table style="width: 24em;border: 0;margin-top:15em">
+				</table>
+				<H2>Suggested Identification Code</H2>
+				<table style="border: 0.2em solid #7EABCD;">
+					<tr>
+					<td><label for="login"><B>Login</B></label></td>
+					<td>
+					<input type="text" name="login" id="login"
+					data-dojo-type="dijit/form/ValidationTextBox" 
+					regExp="^[a-zA-Z0-9-_]+$" required="true"
+					invalidMessage="Alphanumeric case and No space please">
+           				</td>
+					</tr>
+
+					<tr>
+					<td><label for="password"><B>Password</B></label></td>
+					<td>
+					<input type="text" name="password" id="password"
+					data-dojo-type="dijit/form/ValidationTextBox" 
+					regExp="^[a-zA-Z0-9-_]+$" required="true"
+					invalidMessage="Alphanumeric case and No space please">
+            				</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div dojoType="dijit/layout/ContentPane" region="center" 
+		style="width:77%;height:100%;margin: 0; padding: 0;">
+			<div dojoType="dijit/layout/AccordionContainer" id="AccTeam" style="width:100%,height:100%">
+  				<div dojoType="dijit/layout/ContentPane" id="CPTeamSel" onShow="onClickSelTeam();"
+				title="<B>Team Selection/Update</B>" 
+				selected="true" onMouseEnter="">
+					<div dojoType="dijit.layout.ContentPane" region="top" id="loadF" width="100%">
+						<div dojoType="dijit.Toolbar" id="toolbar_newteam">
+ 							<div dojoType="dijit.Tooltip" connectId="Tprint"
+							position="below">
+								<label class="tooltip">
+								<b>Preview/Save All : </b>
+								Right click on the Grid<br>
+								<b>Preview/Save Selected : </b>
+								Select rows then right click on one Grid row selected
+								</label>
+							</div>
+							<table width="100%"
+							style="margin:0;padding:0;border:0;color:white">
+							<tr>	
+							<td align="left">
+							<img id="Tprint" src="icons/table_save.png">
+							</td>
+							<td align="right" width="80%">
+							<div dojoType="dijit.form.Button" iconClass="plusFolderIcon"
+							onClick="viewNewTeam();" showLabel="true"
+							id="button_newTeam">New Team
+							</div>
+							</td>
+							</tr>
+							</table>
+						</div>
+					</div>
+					<div dojoType="dijit.layout.ContentPane" region="center" id="" width="100%">
+						<div id="gridTUDiv" style="width: 100%; height: 93.5%;"></div>
+					</div>
+					<div dojoType="dijit.layout.ContentPane" region="bottom" id=""
+					align="center" width="100%">
+						<div dojoType="dijit.Toolbar" style="color:white;">
+							<div dojoType="dijit.form.Button"
+							iconClass="renameIcon" 
+							onClick='upTeam();' showLabel="true">Save
+							</div>
+						</div>
+					</div>
+				</div>
+  				<div dojoType="dijit/layout/ContentPane" id="CPNewTeam" onShow="onClickNewTeam();"
+				title="<B>New Team - Update Unit </B>" onMouseEnter="">
+					<div dojoType="dijit/layout/BorderContainer" 
+					style="width:100%;height:93%;">
+						<div dojoType="dijit/layout/ContentPane" region="left"
+						style="width:39%;margin: 0; padding: 0;border:0;">
+							<div dojoType="dijit.layout.ContentPane"
+							region="center" style="width:100%;height: 96.7%">
+								<div data-dojo-type="dijit/form/Form" id="teamForm" 
+								jsId="teamForm" >
+									<table style="width: 25em;">
+									<tr><td><label for="name">
+									<B>Name </B><I class='warnIcon'></I>
+									<I> no accent, no apostrophe</I>
+        								</label></td></tr>
+        								<tr><td>
+									<textarea id="name" name="name" 
+					 				dojoType="dijit.form.SimpleTextarea"
+									required="true"
+        								rows="8" cols="36" style="width:auto;" 
+									value=""></textarea>
+									</td></tr>
+									</table>
+									<P>
+								</div>
+								<div data-dojo-type="dijit/form/Form" id="leaderForm"
+								jsId="leaderForm" >
+									<table style="width: 25.5em;">
+									<tr><td colspan=3><hr noshade></td></tr>
+									<tr><P><td colspan=3 align=center><B>Leaders
+									</B></td><tr><P>
+									<tr>
+									<td><label for="fleaders"><B>First Name</B>
+									</label></td>
+									<td><label for="lleaders"><B>Last Name</B>
+									</label></td>
+									<td></td>
+									</tr>
+									<tr>
+									<td>
+									<input type="text" name="fleaders1" 
+									id="fleaders1"
+									data-dojo-type="dijit/form/ValidationTextBox" 
+									propercase="true" style="width: 12em;"
+									regExp="^[a-zA-Z0-9-_/ ]+$" required="true">
+           								</td>
+									<td>
+									<input type="text" name="lleaders1" 
+									id="lleaders1"
+									data-dojo-type="dijit/form/ValidationTextBox" 
+									uppercase="true" style="width: 12.5em;"
+									regExp="^[a-zA-Z0-9-_/ ]+$" required="true">
+           								</td>
+									</tr>
+									<tr>
+									<td>
+									<input type="text" name="fleaders2" 
+									id="fleaders2"
+									propercase="true" style="width: 12em;"
+									data-dojo-type="dijit/form/ValidationTextBox" 
+									regExp="^[a-zA-Z0-9-_/ ]+$">
+           								</td>
+									<td>
+									<input type="text" name="lleaders2" 
+									id="lleaders2"
+									data-dojo-type="dijit/form/ValidationTextBox" 
+									uppercase="true" style="width: 12.5em;"
+									regExp="^[a-zA-Z0-9-_/ ]+$">
+           								</td>
+									</tr>
+									</table>
+								</div>
+							</div>
+							<div data-dojo-type="dijit/layout/ContentPane" 
+							data-dojo-props="region:'bottom'" align="center"
+							style="color:white; margin: 0; padding: 0">
+									<div dojoType="dijit.Toolbar"
+									style="color:white;">
+										<div dojoType="dijit.form.Button" 
+										onClick='newTeam();'
+										iconClass="validIcon" 
+										showLabel="true">Submit
+										</div>
+									</div>
+							</div>
+						</div>
+						<div dojoType="dijit/layout/ContentPane" region="center"
+							style="width:61%;margin: 0; padding: 0;border:0;">
+							<div dojoType="dijit.layout.BorderContainer" 
+							style="width: 100%; height: 100%">
+								<div dojoType="dijit.layout.ContentPane" region="top"
+								layoutAlign="top" id="searchUnit" width="94%">
+ 									<div dojoType="dijit.Tooltip"
+									connectId="Uprint" position="below">
+										<label class="tooltip">
+										<b>Preview/Save All :</b>
+								Right click on the Grid<br>
+										<b>Preview/Save Selected :</b>
+								Select rows then right click on one Grid row selected
+										</label>
+									</div>
+									<table width="100%"
+								style="margin:0;padding:0;border:0;color:white">
+									<tr>
+									<td width="27%">
+									<B>Unit Selection/Update</B>
+									</td>
+									<td align="left">
+									<img id="Uprint" src="icons/table_save.png">
+									</td>
+									<td align="right" width="60%">
+									<div dojoType="dijit.Toolbar"
+									id="toolbar_newunit">
+										<div dojoType="dijit.form.Button"
+											iconClass="plusFolderIcon"
+									 		showLabel="true"
+											id="button_newUnit">New Unit
+										</div>
+									</div>
+									</td>
+									</tr>
+									</table>
+								</div>
+								<div dojoType="dijit.layout.ContentPane"
+								region="center" style="width:100%;height: 100%">
+									<div id="unitGridDiv" 
+									style="width: 100%; height: 95%;"></div>
+								</div>
+     								<div data-dojo-type="dijit/layout/ContentPane" 
+								data-dojo-props="region:'bottom'" align="center"
+								style="color:white; margin: 0; padding: 0">
+									<div dojoType="dijit.Toolbar"
+									style="color:white;">
+										<div dojoType="dijit.form.Button"
+										iconClass="renameIcon" 
+										onClick='upUnit();'
+										showLabel="true">Save
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div dojoType="dijit/layout/ContentPane" region="bottom" align="center"
+		style="color:white; margin: 0; padding: 0">
+			<div dojoType="dijit.Toolbar">
+				<div dojoType="dijit.form.Button" onClick='newUser();' value="Submit"
+				iconClass="validIcon" showLabel="true" id="button_adduser">Submit
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Input Unit -->
+<div data-dojo-type="dijit/Dialog" id="divUnitDB" align="top" style="margin:0;padding:0;"  data-dojo-props="closable:false"
+title="
+<span style='width:96%;font-size:125%;' class='cl_block_left'><b>Add Unit</b></span>
+<span id='bt_close_addunit' style='width:4%;margin-top:-4px;margin-right:-6px' class='cl_btlog_block_right' ></span>
+">
+	<div data-dojo-type="dijit/form/Form" id="unitForm" jsId="unitForm" height="10%"
+	style="margin:0;padding:0;border: 0.1em solid black;">
+		<table valign="top"style="width: 36em;border: 0.1em solid #9f9f9f;margin:0;padding:0;">
+			<tr>
+			<td><label for="code">Lab Code</label></td>
+			<td>
+			<input type="text" name="code" id="code" maxlength="25"
+			data-dojo-type="dijit/form/ValidationTextBox" regExp="^[a-zA-Z0-9-_/ ]+$" uppercase="true">
+			</td>
+           		</tr>
+			<tr>
+			<td>Institute</td>
+			<td><input id="instituteSelect"></td>
+           		</tr>
+			<tr>
+			<td>Site</td>
+			<td><input id="site"></td>
+          		</tr>
+			<P>
+			<tr><td colspan=3><hr noshade></td></tr>
+			<tr><P><td colspan=3 align=center><B>Director</B></td><tr>
+
+			<tr>
+			<td><label for="fndirector">First Name</label></td>
+			<td>
+			<input type="text" name="fndirector" id="fndirector" propercase="true"
+			data-dojo-type="dijit/form/ValidationTextBox" regExp="^[a-zA-Z0-9-_/ ]+$" required="true">
+			</td>
+			</tr>
+			<tr>
+			<td><label for="lndirector">Last Name</label></td>
+			<td>
+			<input type="text" name="lndirector" id="lndirector" propercase="true"
+			data-dojo-type="dijit/form/ValidationTextBox" regExp="^[a-zA-Z0-9-_/ ]+$" required="true">
+			</td>						
+           		</tr>
+			<tr><td colspan=3><hr noshade></td></tr><P>
+		</table>
+		<div dojoType="dijit.Toolbar" style="color:white;" align="center">
+			<div dojoType="dijit.form.Button" onClick='newUnit();'
+			iconClass="validIcon" showLabel="true">Submit
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ############################################################################################## -->
+<!-- GROUP USER -->
+<!-- ############################################################################################## -->
+
+<div data-dojo-type="dijit/Dialog" id="userDialog" jsId="userDialog" data-dojo-props="closable:false" class="groupUser"
+title="
+<span style='width:12%;font-size:125%;' class='cl_block_left'><b>Group User</b></span>
+<span id='guserid' jsId='guserid' style='display:none' class='cl_block_left'></span>
+<span style='width:4%;background:-moz-linear-gradient(#1181C6,#203442);border-radius: 5px 0 0 5px;color:white;' class='cl_block_left'>User: </span>
+<span id='gusername' jsId='gusername' style='width:auto;background:-moz-linear-gradient(#1181C6,#203442);color:white;border-radius: 0 5px 5px 0;' class='cl_block_left'></span>
+<span id='bt_close_group' style='width:4%;margin-top:-4px;margin-right:-6px' class='cl_btlog_block_right' ></span>
+<span id='btlog_3' style='width:10%;margin-top:-4px;' class='cl_btlog_block_right'></span>
+">
+	<div dojoType="dijit.layout.BorderContainer" id="borderContainerUser">
+		<div dojoType="dijit.layout.ContentPane" region="top"
+			style="height: 2em; border:none;margin: 0; padding: 0:color:white;text-align:center">
+			<div dojoType="dijit.Toolbar" id="toolbar_Group" style="color:white;">
+				<div dojoType="dijit.form.Button" onClick='viewNewGroup();'
+					iconClass="plusIcon" howLabel="true">New Group</div>
+				<div dojoType="dijit.form.Button" onClick='addUserGroup();'
+					iconClass="plusIcon" howLabel="true">Add User</div>
+				<div dojoType="dijit.form.Button" onClick='removeUserGroup();'
+					iconClass="delIcon" showLabel="true">Remove User</div>
+			</div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="left" style="width: 55%;">
+			<B>User's Group</B>
+				<div id="userGroupGridDiv" style="height: 96%;"></div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="center" style="width: 20%;">
+			<B>List of Groups</B>&nbsp;&nbsp;
+			<div id="gridGroupDiv" style="height: 96%;"></div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="right" 
+		style="width: 25%;margin:0;padding:0;white-space:nowrap;border: 1px solid #696B43;">
+			<div dojoType="dijit.layout.BorderContainer" id="NewGroupTab" 
+			style="margin:0;padding:0;border:0;white-space:nowrap;visibility:hidden">
+				<div dojoType="dijit.layout.ContentPane" region="top" align="center" onShow=""
+				style="margin:0;padding:0;border:0;white-space:nowrap;">
+					<div dojoType="dijit.Toolbar">
+						<table width="100%">
+						<TR><TD width="95%" align="center">
+						<div dojoType="dijit.form.Button" iconClass="validIcon"
+						style="color:white;"
+						onClick="createNewGroup();" showLabel="true">
+						Submit
+						</div>
+						</TD>
+						<TD width="5%" align="right">
+						<div dojoType="dijit.form.Button" iconClass="closeIcon"
+						showLabel="false" style="text-align:right;"
+						onClick="dojo.style('NewGroupTab','visibility','hidden');">
+						Close
+						</div>
+						</TD></TR>
+						</TABLE>
+					</div>
+					<table style="border:0;margin:0;padding:0;white-space:nowrap;"
+						width="92%">
+					<tr>
+					<td align="center" height="100%"
+						style="border: 5px solid grey; margin: 0; padding: 0;">
+								<B>NEW Group</B>
+					</td>
+					</tr>
+					</table>
+				</div>
+				<div dojoType="dijit.layout.ContentPane" region="center">
+					<div dojoType="dijit.form.Form" id="newGroupForm" jsId="newGroupForm">
+						<table style="width: 95%;">
+						<tr><td align="center">
+						<label for="groupName"><b>Group Name</b><br>
+						<i align="center" class='warnIcon'><small>no space, no accent, no apostrophe</small></i>
+						</label>
+						</TD></tr>
+						<tr><td align="left">
+						<textarea id="groupNameId" name="groupName"
+						dojoType="dijit.form.SimpleTextarea" rows="2" cols="33"
+						style="width: auto;" value=""></textarea>
+						</TD></tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

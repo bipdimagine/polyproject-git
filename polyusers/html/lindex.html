@@ -1,0 +1,73 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="icon" type="image/png" href="icons/user.png">
+        <title>User log</title>
+         <style type="text/css">
+	body,html {
+		font-family: helvetica, arial, sans-serif;
+		font-size: 90%;
+		width: 100%;
+		height: 100%;
+		margin: 0;padding: 0;border:0;
+		overflow: hidden;
+	}
+        </style>
+        <style type="text/css">
+	@import "//ajax.googleapis.com/ajax/libs/dojo/1.12.1/dojo/resources/dojo.css";
+ 	@import "//ajax.googleapis.com/ajax/libs/dojo/1.12.1/dijit/themes/tundra/tundra.css";
+	</style>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/dojo/1.12.1/dojo/dojo.js"
+    		data-dojo-config="parseOnLoad: true">
+	</script>
+	<script type="text/javascript" src="luser.js" data-dojo-config="parseOnLoad: true"></script>
+</head>
+<body class="tundra">
+<div>
+Changing password
+</div>
+<button id="bt_formLogin" data-dojo-type="dijit.form.Button" type="button" onClick="viewLog()">User Account
+</button>
+<div dojoType="dijit.Dialog" id="divViewLog" jsId="divViewLog" title="User Account" style="width: 60em; height: 25em;">
+	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="region: 'center'" 
+	style="width: 100%; height:80%;margin:0;padding:0;white-space:nowrap;border: 0.1em solid #9f9f9f;">
+<!--
+    		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'" 
+		style="margin:0;padding:0;white-space:nowrap;border: 0.1em solid #9f9f9f;">top
+		</div>
+-->
+   		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'"
+	style="width: 95%; height: 100%; margin:0;padding:0;white-space:nowrap;border: 0.1em solid #9f9f9f;">
+    			<form action="?" method="POST">
+				<input id='submit' type="submit" value="Submit">
+			</form>
+    			<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer>
+
+<!--
+			<div dojoType="dijit.form.Form" id="logForm" jsId="logForm">
+				<table style="border: 0.2em solid #7EABCD;">
+					<tr>
+					<td><label for="login"><B>Login</B></label></td>
+					<td>
+					<input type="text" name="login" id="login"
+					data-dojo-type="dijit/form/ValidationTextBox" 
+					regExp="^[a-zA-Z0-9-_]+$" required="true"
+					invalidMessage="Alphanumeric case and No space please">
+           				</td>
+					</tr>
+				</table>
+				<div dojoType="dijit.form.Button" dojoType="dijit.form.Button" type="submit" value="Submit"
+					onClick="submitLog();" iconClass="validIcon" showLabel="true">
+					Submit
+				</div>
+-->
+
+			<div>
+		</div>
+	</div>
+</div>
+</body>
+
+</html>
+
+

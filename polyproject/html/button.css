@@ -1,0 +1,181 @@
+	.plusIcon2 {
+		background-image:url(/icons/Polyicons/arrow_turn_left.png);
+		background-repeat:no-repeat;
+		height:16px;
+		width: 16px;
+		}
+	.plusIcon {
+		background-image:url(/icons/Polyicons/plus.gif);
+		background-repeat:no-repeat;
+		height:16px;
+		width:16px;
+	}
+	.delIcon {
+		background-image:url(/icons/Polyicons/delete.png);
+		background-repeat:no-repeat;
+		height:16px;
+		width:16px;
+	}
+	.refreshIcon {
+		background-image:url(/icons/Polyicons/table_refresh.png);
+		background-repeat:no-repeat;
+		height:16px;
+		width:16px;
+	}
+	.deleteIcon {
+		background-image:url(/icons/Polyicons/cross.png);
+		background-repeat:no-repeat;
+		height:16px;
+		width:16px;
+	}
+	.brlmmIcon {
+		background-image:url(/icons/Polyicons/application_view_tile.png);
+		background-repeat:no-repeat;
+		height:16px;
+		width:16px;
+	}
+	.closeIcon {
+			background-image:url(/icons/Polyicons/cross.png);
+			background-repeat:no-repeat;
+			height:16px;
+			width:16px;
+		}
+	.validIcon {
+		background-image:url(/icons/Polyicons/accept-icon-16.png);
+		background-repeat:no-repeat;
+		height:16px;
+		width:16px;
+	}
+	.plusFolderIcon {
+		background-image:url(/icons/Polyicons/folder_add.png);
+		background-repeat:no-repeat;
+		height:16px;
+		width:16px;
+	}
+	.progressIcon {
+		background-image:url(/icons/Polyicons/radProgressBar_20x10.jpg);
+		background-repeat:no-repeat;
+		height:16px;
+		width:20px;
+	}
+	.plusUserIcon {
+		background-image:url(/icons/Polyicons/user_add.png);
+		background-repeat:no-repeat;
+		height:16px;
+		width:16px;
+	}
+	.plusPatientIcon {
+		background-image:url(/icons/Polyicons/18x18_patient_add.png);
+		background-repeat:no-repeat;
+		height:18px;
+		width:18px;
+	}
+	.DiseaseIcon {
+		background-image:url(/icons/Polyicons/Stethoscope_16x16.png);
+		background-repeat:no-repeat;
+		height:18px;
+		width:18px;
+	}
+	.warn2Icon {
+		background-image:url(/icons/Polyicons/warning.png);
+		background-repeat:no-repeat;
+		height:16px;
+		width:16px;
+	}
+	.viewProject {
+		background-image:url(/icons/Polyicons/report_magnify.png);
+		background-repeat:no-repeat;
+		height:16px;
+		width:16px;
+	}
+	.oldLogin {
+		background-image:url(/icons/myicons2/application_home.png);
+		background-repeat:no-repeat;
+		height:16px;
+		width:16px;
+	}
+	
+	.testIcon {
+		background-image:url(/icons/myicons2/lightning.png);
+		background-repeat:no-repeat;
+		height:16px;
+		width:16px;
+	}
+	.pedigreeIcon {
+		background-image:url(/icons/myicons2/chart_organisation.png);
+		background-repeat:no-repeat;
+		height:16px;
+		width:16px;
+	}
+	.saveIcon {
+		background-image:url(/icons/myicons2/disk.png);
+		background-repeat:no-repeat;
+		height:16px;
+		width:16px;
+	}
+	.spError {
+ 		 padding: 1px 1px 1px 25px;;
+		 white-space: nowrap;
+		 font-size: 14px;
+		 font-family: Arial, Helvetica, sans-serif;
+		 color: #000000;
+		 font-weight: bold;
+		 text-align: center;
+		 background:url(/icons/myicons2/exclamation.png) no-repeat center left;
+		 }
+	.spWarning {
+ 		 padding: 1px 1px 1px 25px;;
+		 white-space: nowrap;
+		 font-size: 14px;
+		 font-family: Arial, Helvetica, sans-serif;
+		 color: #000000;
+		 font-weight: bold;
+		 text-align: center;
+		 background:url(/icons/myicons2/error.png) no-repeat center left;
+		 }
+	.warnIcon {
+ 		 padding: 1px 1px 1px 16px;;
+		 white-space: nowrap;
+		 font-size: 14px;
+		 font-family: Arial, Helvetica, sans-serif;
+		 color: #000000;
+		 font-weight: bold;
+		 text-align: center;
+		 background:url(/icons/Polyicons/warning.png) no-repeat center left;
+		 }
+	.spMessage {
+ 		 padding: 1px 1px 1px 25px;;
+		 white-space: nowrap;
+		 font-size: 14px;
+		 font-family: Arial, Helvetica, sans-serif;
+		 color: #000000;
+		 font-weight: bold;
+		 text-align: center;
+		 background:url(/icons/myicons2/information.png) no-repeat center left;
+		 }
+.titre {
+                padding: 1px 1px 1px 25px;
+                margin-left: 100px;
+                margin-bottom: 16px;
+                white-space: nowrap;
+                font-size: 13px;
+                font-family: Arial, Helvetica, sans-serif;
+                color: #000000;
+                font-weight: bold;
+                text-align: center;
+                background: url(/icons/myicons2/report_edit.png) no-repeat center left;
+            }
+			
+.titre2 {
+                padding: 1px 1px 1px 25px;
+                margin-left: 10px;
+				margin-right: 100px;
+                margin-bottom: 16px;
+                white-space: nowrap;
+                font-size: 21px;
+                font-family: Arial, Helvetica, sans-serif;
+                color: #0F1DA2;
+                font-weight: bold;
+                text-align: center;
+            }
+

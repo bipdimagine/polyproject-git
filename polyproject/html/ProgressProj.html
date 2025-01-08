@@ -1,0 +1,190 @@
+<html>
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Untitled Document</title>
+		<!-- chargement des feuilles de styles necessaires à l'affichage -->
+        <style type="text/css">
+		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.6//dojox/grid/resources/Grid.css";
+		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/resources/dojo.css";
+ 		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/resources/tundraGrid.css";
+		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/tundra/tundra.css";
+          
+		@import "button.css";
+		@import "general.css";
+	
+body, html {
+	margin:0; padding:0; width:100%; background:#fff;color:#000;
+}
+.tooltip { color:red;font-size:80%;}
+.dojoxGrid-row-odd td {background:#e8f2ff;}
+.name {color:#2962A7;font-weight:bold;}	
+.colright  { width:490px;margin:0 auto;float:right;}
+.colleft  { width:490px;margin:0 auto; margin-left:5px;float:left;}
+#divProj {position:absolute; top:0;right:0}	
+
+</style>
+	<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js"
+        djConfig="parseOnLoad: true">
+	</script>
+	<script type="text/javascript" src="include.js" djConfig="parseOnLoad: true"></script> 
+    <script type="text/javascript" src="./Utility/my_formatter.js" djConfig="parseOnLoad: true"></script>
+	<script type="text/javascript" src="include.js" djConfig="parseOnLoad: true"></script>
+	<script type="text/javascript" src="./Utility/my_formatter.js" djConfig="parseOnLoad: true"></script>
+	<script type="text/javascript" src="ProgressProj.js" djConfig="parseOnLoad: true"></script> 
+</head>
+<body class="tundra">
+<div class="partsContainer" id="local">
+	<div class="gridContainer">
+    	 <div id="gridProject" dojoType="dojox.grid.DataGrid" rowsPerPage="40" style=”height:100%;width:100%” 
+    	 jsId="gridProject" autowidth="true" structure = "layoutProject" selectionMode="single" sortInfo="-2">
+    	 </div>
+	</div>
+	<button id="1570" dojoType="dijit.form.Button" onClick='goBack' iconClass="plusIcon2">Back
+	</button>
+	<button jsId="buttonProgress" dojoType="dijit.form.Button" type="button" iconClass="viewProject">Edit process
+	</button>
+<!-- Details progress -->	
+    <div id="divProj"  jsId="divProj" dojoType="dijit.Dialog" title="Details progression" closable="true">
+    	<div dojoType="dijit.layout.ContentPane" region="top" align="center" style="border:1px solid #7EABCD;width:100%; height: 10%;">
+<!-- border:1px solid #7EABCD;width:98%; height: 5%; -->
+			<div id="list0"></div>
+		</div>
+		
+		<div dojoType="dijit.layout.TabContainer" style="width: 1030px; height: 560px;">
+		
+			<div dojoType="dijit.layout.ContentPane" title="Details">
+				<div id="list2"></div>
+<!--  						<div dojoType="dijit.layout.ContentPane" region="left" style="width: 300px;"> -->
+				<table dojoType="dojox.grid.DataGrid" jsId="gridProjectName0" style="width:100%; height: 7em" elasticView="2" rowsPerPage="1">
+				<thead>
+				<P>
+				<tr>
+<!--					<th width="35em" field="progress" formatter="icon_progress" >Progression</th>-->
+					<th width="31em" field="progress" formatter="icon_progress" >Progression</th>
+				</tr>
+				</thead>
+				</table>
+		<div class="colleft">
+				<table dojoType="dojox.grid.DataGrid" jsId="gridProjectName0b" style="width:100%; height: 7em" elasticView="1" rowsPerPage="1">
+				<thead>
+				<tr>
+					<th width="10em" field="seqDes" formatter="icon_follow2" >Raw Sequence</th>
+					<th width="34.5em" field="seq" formatter="format_seq">.</th>
+				</tr>
+				</thead>
+				</table>
+				
+				<table dojoType="dojox.grid.DataGrid" jsId="gridProjectName1" style="width:100%; height: 7em" elasticView="2" rowsPerPage="1">
+				<thead>
+				<tr>
+					<th width="10em" field="alignDes" formatter="icon_follow2" >Alignment</th>
+					<th width="34.5em" field="align" formatter="format_seq">.</th>
+				</tr>
+				</thead>
+				</table>
+				<table dojoType="dojox.grid.DataGrid" jsId="gridProjectName2" style="width:100%; height: 7em" elasticView="2" rowsPerPage="1">
+				<thead>
+				<tr>
+					<th width="10em" field="calling_varDes" formatter="icon_follow2" >Calling variation</th>
+					<th width="34.5em" field="calling_var" formatter="format_seq" >.</th>
+				</tr>
+				</thead>
+				</table>
+				<table dojoType="dojox.grid.DataGrid" jsId="gridProjectName3" style="width:100%; height: 7em" elasticView="2" rowsPerPage="1">
+				<thead>
+				<tr>
+					<th width="10em" field="calling_indelDes" formatter="icon_follow2" >Calling indel</th>
+					<th width="34.5em" field="calling_indel" formatter="format_seq" >.</th>
+				</tr>
+				</thead>
+				</table>
+				</div>
+		<div class="colright">
+<!--  				<div dojoType="dijit.layout.ContentPane" region="right" style="width: 300px;"> -->
+				<table dojoType="dojox.grid.DataGrid" jsId="gridProjectName4" style="width:100%; height: 7em" elasticView="2" rowsPerPage="1">
+				<thead>
+				<tr>
+					<th width="10em" field="insert_variationDes" formatter="icon_follow2" >Insert variation</th>
+					<th width="34.5em" field="insert_variation" formatter="format_patient">.</th>
+				</tr>
+				</thead>
+				</table>
+				
+				<table dojoType="dojox.grid.DataGrid" jsId="gridProjectName5" style="width:100%; height: 7em" elasticView="2" rowsPerPage="1">
+				<thead>
+				<tr>
+					<th width="10em" field="insert_insertionDes" formatter="icon_follow2" >Insert insertion</th>
+					<th width="34.5em" field="insert_insertion" formatter="format_patient">.</th>
+				</tr>
+				</thead>
+				</table>
+				
+				<table dojoType="dojox.grid.DataGrid" jsId="gridProjectName6" style="width:100%; height: 7em" elasticView="2" rowsPerPage="1">
+				<thead>
+				<tr>
+					<th width="10em" field="insert_deletionDes" formatter="icon_follow2" >Insert deletion</th>
+					<th width="34.5em" field="insert_deletion" formatter="format_patient">.</th>
+				</tr>
+				</thead>
+<!--				
+					<th width="10em" field="insert_deletionDes" formatter="icon_follow2" >Insert deletion</th>
+					<th width="34.5em" field="insert_deletion" formatter="format_patient">.</th>
+-->					
+				</table>
+				<table dojoType="dojox.grid.DataGrid" jsId="gridProjectName7" style="width:100%; height: 7em" elasticView="2" rowsPerPage="1">
+				<thead>
+				<tr>
+					<th width="10em" field="cache_genesDes" formatter="icon_follow2" >Cache genes</th>
+					<th width="34.5em" field="cache_genes" >.</th>
+				</tr>
+				</thead>
+				</table>
+
+				<table dojoType="dojox.grid.DataGrid" jsId="gridProjectName8" style="width:100%; height: 10em" elasticView="2" rowsPerPage="1">
+				<thead>
+				<tr>
+					<th width="10em" field="cache_variationsDes" formatter="icon_follow2" >Cache variations</th>
+					<th width="34.5em" field="cache_variations" formatter="format_seq">.</th>
+				</tr>
+				</thead>
+				
+				</table>
+			</div>
+       	 	</div>
+       	 	<div dojoType="dijit.layout.ContentPane" title="Info">
+ 				<div id="list1"></div>
+			</div>       	 	
+       	 	<div dojoType="dijit.layout.ContentPane" title="Users">
+			<table dojoType="dojox.grid.DataGrid" jsId="grid2"   id="grid2" elasticView="2"
+			clientSort="true" style="width:100%; height: 80%">
+			<thead>
+			<tr>
+				<th width="2em" field="Row">Row</th>
+				<th width="10em" field="Name">Name</th>
+				<th width="10em" field="Firstname">First Name</th>
+				<th width="15em" field="Director">Director</th>
+				<th width="10em" field="Site">Site</th>
+			</tr>
+			</thead>
+			</table>       	 	
+			</div>       	 	
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="bottom" style="border:1px solid #7EABCD;">
+		<button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('divProj').hide();" 
+		iconClass="plusIcon2" style="margin-top:1em">Back
+		</button>
+		</div>
+	</div>
+<!-- Errors -->
+ 	<div id="myError" jsId="myError" dojoType="dijit.Dialog" title="<span class='spError'>Error</span>" execute="#">
+ 		<div id="textError" jsId="textError" dojoType="dijit.TooltipDialog">
+ 		</div>
+ 		<button type="button" dojotype="dijit.form.Button" onclick="myError.hide()"
+		iconClass="closeIcon">
+		Close
+		</button>	
+	</div>
+</div>
+</body>
+</html>
+		

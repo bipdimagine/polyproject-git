@@ -1,0 +1,751 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="icon" type="image/png" href="/icons/Polyicons/application_view_tile.png">
+        <title>polyprojectNGS</title>
+		<!-- chargement des feuilles de styles necessaires a l'affichage -->
+         <style type="text/css">
+            body, html { font-family:helvetica,arial,sans-serif; font-size:90%; position:static;}
+        </style>
+        <style type="text/css">
+		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojox/grid/resources/Grid.css";
+		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojo/resources/dojo.css";
+ 		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojox/grid/resources/tundraGrid.css";
+		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.7/dijit/themes/tundra/tundra.css";
+		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojox/grid/enhanced/resources/tundraEnhancedGrid.css";
+		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojox/grid/enhanced/resources/EnhancedGrid.css";
+		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojox/grid/resources/nihiloGrid.css";
+		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojox/layout/resources/ExpandoPane.css";
+		@import "button.css";
+
+		#borderContainer {width: 100%; height: 100%; margin:0 auto;}
+		#borderContainerProj {width: 100%; height: 57em; margin:0 auto;}
+		#borderContainerRun {width: 100%; height: 62em; margin:0 auto;}
+		#borderContainerPat {width: 100%; height: 52em; margin:0 auto;}
+		#borderContainerDis {width: 100%; height: 65em; margin:0 auto;}
+		#ContentPaneRun {height: 45em; margin:0}
+                .tooltip { color:red;font-size:80%;}
+
+                .userWin  { width:45em;height:50em;margin:0 auto;}
+                .methWin  { width:20em;height:25em;margin:0 auto;}
+                .pltWin  { width:20em;height:25em;margin:0 auto;}
+                .seqWin  { width:20em;height:25em;margin:0 auto;}
+		.projWin  { width:80em;height: 60em;margin:0 auto;}
+                .projList { width:100%;height: 100%;margin:0 auto;}
+                .projRun  { width:60em;height: 65em;margin:0 auto;}
+                .projPat  { width:60em;height: 55em;margin:0 auto;}
+                .projDis  { width:80em;height: 68em;margin:0 auto;}
+                .projEdit  { width:80em;height: 68em;margin:0 auto;}
+
+		.Central  {border:1px solid #7EABCD}
+		.bottombar  {width:3em;}
+
+		#grid {width: 100%; height: 100%;  margin:0 auto; } 
+		#patGridDiv {width: 100%; height: 100%; margin:0 auto; } 
+		#disGridDiv {width: 100%; height: 100%; margin:0 auto; } 
+		#disprojGridDiv {width: 100%; height: 90%; margin:0 auto; } 				
+		#userprojectGridDiv {width: 100%; height: 100%; margin:0 auto; } 
+		#patientprojectGridDiv {width: 100%; height: 100%; margin:0 auto; }
+
+
+		#printContainer {width: 20em; height: 5em; margin:0 auto;}
+
+            .dojoxGrid table { margin: 0; } html, body { width: 100%; height: 100%;
+            margin: 0; }
+
+		.expWin  { width:80em;height: 60em;margin:0 auto;}
+ 
+#output {
+    width: 100%;
+    height: 150px;
+}
+#ExportContainer {
+    width: 100%;
+    height: 100%;
+}
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojo/dojo.js"
+    djConfig="parseOnLoad: true">
+</script>
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js"
+        djConfig="parseOnLoad: true">
+</script>-->
+
+<script type="text/javascript" src="include.js" djConfig="parseOnLoad: true"></script>
+<script type="text/javascript" src="polyprojectNGS.js" djConfig="parseOnLoad: true"></script>
+<script type="text/javascript" src="Utility/TableFilter2.js" djConfig="parseOnLoad: true"></script>
+<script type="text/javascript" src="Utility/utilGrid2.js" djConfig="parseOnLoad: true"></script> 
+
+</head>
+<body class="tundra">
+<div dojoType="dijit.layout.BorderContainer" id="borderContainer" autoHeight="true">
+	<div id="header" dojoType="dijit.layout.ContentPane" region="top">
+		<div style="background-color:#F0F0F0">
+			<img src="/icons/Polyicons/logoBIP-D.png">
+		</div>
+	</div>
+
+<!--New Data -->
+
+	<div dojoType="dojox.layout.ExpandoPane" title="New Data" maxWidth="100" startExpanded="false"
+		plitter="true" region="left" style="width: 160px;">
+		<div dojoType="dijit.DropDownMenu" id="navMenu">
+    			<div dojoType="dijit.MenuItem" data-dojo-props="iconClass:'dijitIconNewTask'"
+        		onClick='viewNewPlateform()'>PlateformA</div>
+    			<div dojoType="dijit.MenuItem" data-dojo-props="iconClass:'dijitIconNewTask'"
+        		onClick='viewNewMachine()'>Machine</div>
+    			<div dojoType="dijit.MenuItem" data-dojo-props="iconClass:'dijitIconNewTask'"
+        		onClick='viewNewMethSeq()'>Sequencing Method</div>
+    			<!--<div dojoType="dijit.MenuItem" data-dojo-props="iconClass:'dijitIconNewTask'"
+        		onClick='viewNewTypeSeq()'>Sequencing Type</div>-->
+    			<div dojoType="dijit.MenuItem" data-dojo-props="iconClass:'dijitIconNewTask'"
+        		onClick='viewNewCapture()'>Exon Capture</div>
+    			<div dojoType="dijit.MenuItem" data-dojo-props="iconClass:'dijitIconNewTask'"
+        		onClick='viewNewMethAlign()'>Alignment Method</div>
+    			<div dojoType="dijit.MenuItem" data-dojo-props="iconClass:'dijitIconNewTask'"
+        		onClick='viewNewMethCall()'>Calling Method</div>
+    			<!--<div dojoType="dijit.MenuItem" data-dojo-props="iconClass:'dijitIconNewTask'"
+        	onClick=''>Genome Release</div>-->
+    			<div dojoType="dijit.MenuItem" data-dojo-props="iconClass:'dijitIconNewTask'"
+        		onClick='viewNewDisease()'>Disease</div>
+     			<div dojoType="dijit.MenuItem" data-dojo-props="iconClass:'dijitIconNewTask'"
+        		onClick='viewNewUser()'>User</div>
+   			<div dojoType="dijit.MenuItem" data-dojo-props="iconClass:'dijitIconNewTask'"
+        		onClick='http://mendel.necker.fr/plaza/polyusers/index.html'>User</div>
+		</div>
+	</div>
+
+<!--Polyproject List 
+style="border:1px solid #7EABCD; height:3em"
+-->
+
+	<div dojoType="dijit.layout.ContentPane" splitter="true" region="center" id="projList" >
+	
+	<div dojoType="dijit.Tooltip" connectId="T1" position="above">
+		<label class="tooltip"><i>Column selection: Right click on grid header</i></label>
+	</div>
+	<h1 style="font:20em;margin-top:0em;line-height:0em;"><b>
+	PolyProject : NGS Sequencing Project List 
+	<button id="1190" dojoType="dijit.form.Button" onClick='launchPrint()' iconClass="save2Icon">
+	</button>
+
+	</b>
+	<div align="right" style="font-size:9;line-height:0em"><i>Column visibility<img  id="T1" src="/icons/Polyicons/information.png" align="right">
+	</div>
+	</h1>	
+	<div dojoType="dojo.data.ItemFileReadStore" content="text/html; charset=iso-8859-1" 
+	url="/cgi-bin/plaza/polyprojectNGS/polyprojectNGS_view.pl" jsId="PolyStore" >
+	</div>
+ <!--	<div dojoType="dijit.TooltipDialog">-->
+		<table class="filterTable" id ="filterTable" jsId="filterTable">
+		<tr id ="filterTableTr" jsId="filterTableTr">
+		<td>Filter Table By :</td>
+		</tr>
+		</table>
+<!-- 	</div> headermenu="gridMenu"-->
+
+<!-- gridMenu-->
+	<div  dojotype="dijit.Menu" jsid="gridMenu" id="checkBoxContainer" style="display: none;">
+		<div dojotype="dojox.widget.PlaceholderMenuItem" label="checkBoxContainer"></div>
+	</div>
+<!-- End gridMenu-->
+
+	<div dojoType="dijit.tree.ForestStoreModel" jsId="Model" store="PolyStore" childrenAttrs:"children">
+	</div>
+<!-- 	data-dojo-props="structure:layoutProject, plugins:{exporter: true}" -->
+
+	<div id="grid" dojoType="dojox.grid.LazyTreeGrid" jsId="grid" sortInfo="-4" treeModel= "Model" 
+	onRowDblClick="editProject();" headermenu="gridMenu" 
+	data-dojo-props="structure:layoutProject, plugins:{printer: true}"
+	autowidth="true" selectionMode="single" rowSelector= "0.2em" height="81%">
+	</div>
+
+<!--Buttons menu Bar style="height: 100px;"-->
+
+	<div dojoType="dojox.layout.ExpandoPane" title="Project Menu" id="bottombar"
+		splitter="true" region="bottom">
+		<button id="1200" dojoType="dijit.form.Button" onClick='refreshPolyList()' iconClass="refreshIcon">
+		Refresh
+		</button>
+		<button id="1210" dojoType="dijit.form.Button" onClick='editProject()' iconClass="viewProject">
+		Edit Project
+		</button> 
+		<!--<!--<button id="1210" dojoType="dijit.form.Button" onClick='selProject("edit",grid)' iconClass="viewProject">
+		Edit Project
+		</button>-->
+		<button id="buttonAddProj" dojoType="dijit.form.Button" type="button" iconClass="plusFolderIcon">
+		New Project
+		</button>
+		<button id="1220" dojoType="dijit.form.Button" onClick='selProject("run",grid)' iconClass="plusPatientIcon">
+		New Run/Patient
+		</button>
+		<button id="1230" dojoType="dijit.form.Button" onClick='selProject("pat",grid)' iconClass="plusPatientIcon">
+		New Patient
+		</button>
+		<button id="1240" dojoType="dijit.form.Button" onClick='selProject("user",grid)' iconClass="plusUserIcon">
+		User
+		</button>
+		<button id="1250" dojoType="dijit.form.Button" onClick='selProject("call",grid)' iconClass="plusIcon">
+		Calling
+		</button>
+		<button id="1260" dojoType="dijit.form.Button" onClick='selProject("aln",grid)' iconClass="plusIcon">
+		Alignment
+		</button>
+		<button id="1270" dojoType="dijit.form.Button" onClick='selProject("plt",grid)' iconClass="plusIcon">
+		Plateform
+		</button>
+		<button id="1280" dojoType="dijit.form.Button" onClick='selProject("seq",grid)' iconClass="changeIcon">
+		MethSeq
+		</button>
+		<button id="1290" dojoType="dijit.form.Button" onClick='AddRemDisease()' iconClass="pluslessIcon">
+		Disease
+		</button>
+		<button id="1295" dojoType="dijit.form.Button" iconClass="progressIcon" onClick='viewProgressProj();'>
+		Progression
+		</button>
+<!--		<button id="1295" dojoType="dijit.form.Button" iconClass="progressIcon" onClick='clickViewProgressProj();'>
+		Progression
+		</button>-->
+
+
+
+
+	</div>
+</div> 
+<!--  Add Patient -->	
+<div dojoType="dijit.Dialog" id="patDialog" jsId="patDialog" title="Add Patient" class="projPat">
+	 <div dojoType="dijit.layout.BorderContainer" id="borderContainerPat">
+		<div dojoType="dijit.layout.ContentPane" region="top" style="border:1px solid #7EABCD; height:3em">
+			<input id="patpName" jsId="patpName" name="Ppname" value="111" type="hidden">
+			<div  dojoType="dijit.TooltipDialog">
+				<label><B>Polyproject ID : </B></label><span id="patProjId" jsId="patProjId"></span>
+				<label><B> Name: </B></label><span id="patName" jsId="patName"></span>
+				<label><B> Run: </B></label><span id="patRunId" jsId="patRunId"></span>
+			</div>
+		</div>
+ 		<div dojoType="dijit.layout.ContentPane" region="left" style="width: 50%">
+			<B> PATIENT</B><P>
+	<!-- Patient Run List -->
+			<div id="patGridDiv"></div>
+		</div>
+		 <div dojoType="dijit.layout.ContentPane" region="right" style="width: 50%">
+			<B> NEW PATIENT</B><P>
+ 	<!-- field Patient -->
+			<div dojoType="dijit.form.Form" id="patFormAdd" jsId="patFormAdd">
+				<table style="width: 20em;border: 0.1em solid #9f9f9f;">
+				<tr>
+        			<label for="patient">
+            			Column List of Patient Names
+        			</label>
+				</tr>
+				<td>
+            			<textarea id="patientAdd" name="patient" dojoType="dijit.form.SimpleTextarea"
+				rows="20" cols="30" style="width:auto;" value=""></textarea>
+         			</td>
+				</table>
+			</div>
+		</div>
+	<!-- Run Buttons -->
+		<div dojoType="dijit.layout.ContentPane" region="bottom" style="border:1px solid #7EABCD; height:4em">
+
+
+			<center><button dojoType="dijit.form.Button" type="submit" onClick="newPat(patGrid)"
+			value="Submit" iconClass="validIcon" style="margin-top:1em">
+			 Submit
+			</button>
+			<button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('patDialog').hide();"
+			 iconClass="closeIcon" style="margin-top:1em">
+			Cancel
+			</button></center>
+		</div>
+
+	</div>
+</div>
+
+
+
+<!--  Add Run -->
+<!-- execute="refreshPolyList();" -->
+<div dojoType="dijit.Dialog" id="runDialog" jsId="runDialog" title="Add Run" class="projRun">
+	 <div dojoType="dijit.layout.BorderContainer" id="borderContainerRun">
+		<div dojoType="dijit.layout.ContentPane" region="top" style="border:1px solid #7EABCD; height:3em">
+			<input id="runpName" jsId="runpName" name="Dpname" value="111" type="hidden">
+			<div  dojoType="dijit.TooltipDialog">
+				<label><B>Polyproject ID : </B></label><span id="runProjId" jsId="projProjId"></span>
+				<label><B> Name: </B></label><span id="runName" jsId="runName"></span>
+ 			</div>
+		</div>
+ 		<div dojoType="dijit.layout.ContentPane" region="left" style="width: 50%">
+			<B> RUN</B><P>
+	<!-- field plateform -->
+			<span dojoType="dojo.data.ItemFileReadStore"
+			url ="/cgi-bin/plaza/polyprojectNGS/manageData.pl?option=plateform"
+			jsId="plateStore" store="plateStore">
+			</span>
+			<table dojoType="dojox.grid.DataGrid" jsId="plateformGrid"
+			store="plateStore" query="{ plateformName: '*' }" selectionMode="single"
+        	style="width: 15em; height: 10em;border: 0.1em solid #9f9f9f;" rowSelector="1em">
+			<tr>
+			Sequencing Plateform
+			</tr>
+			<thead>
+			<tr>
+			<th width="12em" field="plateformName">
+				Plateform Name
+			</th>
+			</tr>
+ 			</thead>
+			</table>
+			<p>
+	<!-- field machine -->
+			<span dojoType="dojo.data.ItemFileReadStore"
+			url ="/cgi-bin/plaza/polyprojectNGS/manageData.pl?option=machine"
+			jsId="macStore" store="macStore">
+			</span>
+			<table dojoType="dojox.grid.DataGrid" jsId="machineGrid"
+			store="macStore" query="{ macName: '*' }" selectionMode="single"
+        	style="width: 15em; height: 10em;border: 0.1em solid #9f9f9f;" rowSelector="1em">
+			<tr>
+			Sequencing machine
+			</tr>
+			<thead>
+			<tr>
+			<th width="12em" field="macName">
+				Machine Name
+			</th>
+			</tr>
+ 			</thead>
+			</table>
+			<p>
+	<!-- field MethodSeq -->
+			<span dojoType="dojo.data.ItemFileReadStore"
+			url ="/cgi-bin/plaza/polyprojectNGS/manageData.pl?option=methodSeq"
+			jsId="mseqStore" store="mseqStore">
+			</span>
+			<table dojoType="dojox.grid.DataGrid" jsId="mseqGrid"
+			store="mseqStore" query="{ methSeqName: '*' }" selectionMode="single"
+        	style="width: 20em; height: 10em;border: 0.1em solid #9f9f9f;" rowSelector="1em">
+			<tr>
+			Sequencing Method
+			</tr>
+			<thead>
+			<tr>
+			<th width="18em" field="methSeqName">
+				Sequencing method Name
+			</th>
+			</tr>
+ 			</thead>
+			</table>
+			<p>
+
+
+	<!-- field RunType -->
+			<div dojoType="dojo.data.ItemFileReadStore"
+			url ="/cgi-bin/plaza/polyprojectNGS/manageData.pl?option=runtype"
+			jsId="rtypeStore">
+			</div>
+			<table style="width: 18em;height: 4em;border: 0.1em solid #9f9f9f;"
+		 	cellspacing="1">
+			<tr for="type">
+			Run Type
+			</tr>
+			<tr>
+			<td>
+
+			<input dojoType="dijit.form.FilteringSelect" store="rtypeStore" value="ngs"
+			searchAttr="runTypeName" name="runTypeName" id="rtypeInput" jsId="rtypeInput">
+			</td>
+			</tr>
+			</table>
+		</div>
+ 		<div dojoType="dijit.layout.ContentPane" region="right" style="width: 50%">
+			<B> PATIENT</B><P>
+	<!-- field Capture -->
+			<span dojoType="dojo.data.ItemFileReadStore"
+			url ="/cgi-bin/plaza/polyprojectNGS/manageData.pl?option=capture"
+			jsId="capStore" store="capStore">
+			</span>
+			<table dojoType="dojox.grid.DataGrid" jsId="capGrid"
+			store="capStore" query="{ capName: '*' }" selectionMode="single"
+        	style="width: 34em; height: 10em;border: 0.1em solid #9f9f9f;" rowSelector="1em">
+			<tr>
+			Exon Capture
+			</tr>
+			<thead>
+			<tr>
+			<th width="16em" field="capName">Name</th>
+			<th width="16em" field="capDes">Description</th>
+
+			</tr>
+ 			</thead>
+			</table>
+			<p>
+ 	<!-- field Patient -->
+			<div dojoType="dijit.form.Form" id="patForm" jsId="patForm">
+				<table style="width: 20em;border: 0.1em solid #9f9f9f;">
+				<tr>
+        			<label for="patient">
+            			Column List of Patient Names
+        			</label>
+				</tr>
+				<td>
+            			<textarea id="patient" name="patient" dojoType="dijit.form.SimpleTextarea"
+				rows="20" cols="30" style="width:auto;" value=""></textarea>
+         			</td>
+				</table>
+			</div>
+		</div>
+	<!-- Run Buttons -->
+		<div dojoType="dijit.layout.ContentPane" region="bottom" style="border:1px solid #7EABCD; height:4em">
+
+
+			<center><button dojoType="dijit.form.Button" type="submit" onClick="newRun(grid)"
+			value="Submit" iconClass="validIcon" style="margin-top:1em">
+			 Submit
+			</button>
+			<button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('runDialog').hide();"
+			 iconClass="closeIcon" style="margin-top:1em">
+			Cancel
+			</button></center>
+		</div>
+    </div>
+</div>
+<!-- Add POLYPROJECT -->
+<!-- execute="refreshPolyList();" -->
+<div dojoType="dijit.Dialog" id="projDialog" title="Add PolyProject" class="projwin">
+<!--	<div dojoType="dijit.layout.BorderContainer" id="borderContainerProj" autoHeight="true">-->
+ 	<div dojoType="dijit.layout.BorderContainer" id="borderContainerProj">
+ 		<div dojoType="dijit.layout.ContentPane" region="left" style="width: 50%">
+			
+		<!-- field Description Project -->
+        		<div dojoType="dijit.form.Form" id="projForm" jsId="projForm">
+				<!-- <table style="width: 30em;border: 0.1em solid #9f9f9f;"> -->
+				<table style="width: 30em;">
+				<tr>
+        			<label for="description">
+            			Description project <I class='warnIcon'></I><I> no accent, no apostrophe</I>
+        			</label>
+				</tr>
+        			<textarea id="description" name="description" dojoType="dijit.form.SimpleTextarea"
+        			rows="3" cols="42" style="width:auto;" value=""></textarea>
+				</table>
+			</div>	
+			<p>
+		<!-- field method subsection Alignment -->
+			<div dojoType="dojo.data.ItemFileReadStore"
+			url="/cgi-bin/plaza/polyprojectNGS/manageData.pl?option=method" jsId="methStore">
+			</div>
+			<table dojoType="dojox.grid.DataGrid" jsId="alnGrid" store="methStore" 
+			query="{ methType: 'ALIGN' }" clientSort="true" selectionMode="multiple"
+        		style="width: 15em; height: 10em;border: 0.1em solid #9f9f9f;" rowSelector="1em">
+			<tr>
+			Alignment Method
+			</tr>
+			<thead>
+			<tr>
+			<th width="12em" field="methName">
+				Method Name
+			</th>
+			</tr>
+ 			</thead>
+			</table>
+			<p>
+		<!-- field method subsection Call -->
+			<table dojoType="dojox.grid.DataGrid" jsId="methGrid" store="methStore" 
+			query="{ methType: 'SNP' }" clientSort="true"  selectionMode="multiple"
+        		style="width: 15em; height: 15em;border: 0.1em solid #9f9f9f;" rowSelector="1em">
+			<tr>
+			Calling Method
+			</tr>
+			<thead>
+			<tr>
+			<th width="12em" field="methName">
+				Method Name
+			</th>
+			</tr>
+ 			</thead>
+			</table>
+			<p>
+		<!-- field database -->
+			<div dojoType="dijit.form.Form" id="dbForm" jsId="dbForm">
+			<table style="width: 20em;height: 5em;height: 5em;border: 0.1em solid #9f9f9f;"
+			cellspacing="1">
+			<tr for="database">
+			Database
+			</tr>
+			<tr>
+			<td>
+                        <input id="databaseSelect">
+			</td>
+			</tr>
+			</table>
+			</div>
+			<p>
+		<!-- field release -->
+			<table>
+			<tr for="release">
+			Human Genome Release
+			</tr>
+			<div dojoType="dijit.form.Form" id="relForm" jsId="relForm">
+				<span id="relRadio"></span>
+			</div>
+			</table>
+			<p>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="center" style="width: 50%">
+			<span dojoType="dojo.data.ItemFileReadStore"
+				url ="/cgi-bin/plaza/polyprojectNGS/manageData.pl?option=disease"
+				jsId="diseaseStore" store="diseaseStore">
+			</span>
+			<img  id="T2" src="/icons/Polyicons/information.png" align="left">
+			Disease (Multiple selection)
+            		<div dojoType="dijit.Tooltip" connectId="T2" position="above">
+             			<label class="tooltip">
+				<i>For a new disease:<br> After validation, expand the left panel New Data and select Disease session<br>Update your project's disease with the button Disease of Project Menu bar
+				</i>
+				</label>
+			</div>
+			<table dojoType="dojox.grid.DataGrid" jsId="diseaseGrid"
+			store="diseaseStore" query="{ diseaseId: '*' }" selectionMode="multiple"
+        		style="width: 40em; height: 52em;border: 0.1em solid #9f9f9f;" rowSelector="1em">
+			<thead> 
+
+			<tr>
+			<th width="30em" field="diseaseName">
+				Disease Name
+			</th>
+			<th width="7em" field="diseaseAbb">
+				Abbreviation
+			</th>
+			</tr>
+ 			</thead>
+			</table>
+			<p>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="bottom" style="border:1px solid #7EABCD; height:4em">
+		<center><button dojoType="dijit.form.Button" type="submit" onClick="newProject()"
+			value="Submit" iconClass="validIcon" style="margin-top:1em">
+			Submit
+			</button>
+			<button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('projDialog').hide();"
+			 iconClass="closeIcon" style="margin-top:1em">
+			Cancel
+			</button></center>
+		</div>
+	</div>
+</div>
+<!--  Add USER -->	
+<div id="divUser" jsId="divUser" dojoType="dijit.Dialog" title="Add Users" width="100%" height="100%" store="userStore">
+	<input id="projpname" jsId="projpname" name="pname" value="111111" type="hidden">
+	<div  dojoType="dijit.TooltipDialog">
+		<label><B>Polyproject ID : </B></label><span id="projid" jsId="projid"></span>
+		<label><B> Name : </B></label><span id="projname" jsId="projname"></span>
+	</div>
+	<div class="userWin">
+        	<div id="gridUserDiv" style="width:100%; height: 95%"></div>
+	</div>
+	<button dojoType="dijit.form.Button" type="submit" value="Submit" onClick='newUserProject()' iconClass="validIcon" style="margin-top:1em" execute="refreshPolyList();">
+                Submit
+	</button>
+	<button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('divUser').hide();" iconClass="closeIcon" style="margin-top:1em">
+                Cancel
+	</button>
+</div>
+
+<!-- Add CALLING METHOD -->
+<div id="divMeth" jsId="divMeth" dojoType="dijit.Dialog" title="Add Calling Method" width="100%" height="100%" store="methStore">
+	<input id="projMpname" jsId="projMpname" name="Mpname" value="111111" type="hidden">
+	<div  dojoType="dijit.TooltipDialog">
+		<label><B>Polyproject ID : </B></label><span id="projMid" jsId="projMid"></span>
+		<label><B> Name : </B></label><span id="projMname" jsId="projMname"></span>
+	</div>
+	<div class="methWin">
+        	<div id="gridMDiv" style="width:100%; height: 95%"></div>
+	</div>
+	<button dojoType="dijit.form.Button" type="submit" value="Submit" onClick='newMethProject()' iconClass="validIcon" style="margin-top:1em">
+                Submit
+	</button>
+	<button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('divMeth').hide();" iconClass="closeIcon" style="margin-top:1em">
+                Cancel
+	</button>
+</div>
+
+<!-- Add ALIGNMENT METHOD -->
+<div id="divAln" jsId="divAln" dojoType="dijit.Dialog" title="Add Alignment Method" width="100%" height="100%" store="methStore">
+	<input id="projApname" jsId="projApname" name="Apname" value="111111" type="hidden">
+	<div  dojoType="dijit.TooltipDialog">
+		<label><B>Polyproject ID : </B></label><span id="projAid" jsId="projAid"></span>
+		<label><B> Name : </B></label><span id="projAname" jsId="projAname"></span>
+	</div>
+	<div class="methWin">
+        	<div id="gridADiv" style="width:100%; height: 95%"></div>
+	</div>
+	<button dojoType="dijit.form.Button" type="submit" value="Submit" onClick='newAlnProject()' iconClass="validIcon" style="margin-top:1em" execute="refreshPolyList();">
+                Submit
+	</button>
+	<button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('divAln').hide();" iconClass="closeIcon" style="margin-top:1em">
+                Cancel
+	</button>
+</div>
+
+<!-- Add PLATEFORM -->
+<div id="divPlateform" jsId="divPlateform" dojoType="dijit.Dialog" title="Add Plateform" width="100%" height="100%">
+	<input id="projFpname" jsId="projFpname" name="Fpname" value="111111" type="hidden">
+	<div  dojoType="dijit.TooltipDialog">
+		<label><B>Polyproject ID : </B></label><span id="projFid" jsId="projFid"></span>
+		<label><B> Name : </B></label><span id="projFname" jsId="projFname"></span>
+		<label><B> Run: </B></label><span id="pltRunId" jsId="pltRunId"></span> 
+	</div>
+	<div class="pltWin">
+        	<div id="gridFDiv" style="width:100%; height: 95%"></div>
+	</div>
+	<button dojoType="dijit.form.Button" type="submit" value="Submit" onClick='newPlateformRun()' iconClass="validIcon" style="margin-top:1em" execute="refreshPolyList();">
+                Submit
+	</button>
+	<button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('divPlateform').hide();" iconClass="closeIcon" style="margin-top:1em">
+                Cancel
+	</button>
+</div>
+
+<!--  Add/Remove DISEASE -->	
+<div dojoType="dijit.Dialog" id="disDialog" jsId="disDialog" title="Add/Remove Diseases from project" class="projDis">
+	 <div dojoType="dijit.layout.BorderContainer" id="borderContainerDis">
+		<div dojoType="dijit.layout.ContentPane" region="top" style="border:1px solid #7EABCD; height:3em">
+			<input id="dispName" jsId="dispName" name="Ppname" value="111" type="hidden">
+			<div  dojoType="dijit.TooltipDialog">
+				<label><B>Polyproject ID : </B></label><span id="disProjId" jsId="disProjId"></span>
+				<label><B> Name: </B></label><span id="disName" jsId="disName"></span>
+			</div>
+		</div>
+ 		<div dojoType="dijit.layout.ContentPane" region="left" style="width: 50%">
+			<B>Project's Diseases</B><P>
+ 			<div id="disGridDiv"></div>
+		</div>
+ 		 <div dojoType="dijit.layout.ContentPane" region="right" style="width: 50%">
+			<img  id="T3" src="/icons/Polyicons/information.png" align="left">
+			<B>List of Diseases</B>
+            		<div dojoType="dijit.Tooltip" connectId="T3" position="above">
+             			<label class="tooltip">
+				<i>For a new disease:<br> Expand the left panel New Data and select Disease session
+				</i>
+				</label>
+			</div>
+			<div id="disprojGridDiv"></div>
+ 		</div>
+		<div dojoType="dijit.layout.ContentPane" region="bottom" style="border:1px solid #7EABCD; height:5em">
+		<center>
+			<button id="1310" dojoType="dijit.form.Button" onClick='refreshDiseaseList(disGrid);'
+			 iconClass="refreshIcon" style="margin-top:1em">
+			Refresh
+			</button>
+			<button id="1320" dojoType="dijit.form.Button" onClick='addDiseaseProject();'
+				iconClass="validIcon" style="margin-top:1em">
+				Add Disease
+			</button>
+
+			<button id="1300" dojoType="dijit.form.Button" onClick='removeDiseaseProject();' 
+			 iconClass="delIcon" style="margin-top:1em">
+				Remove Disease
+			</button>
+			<button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('disDialog').hide();"
+			 iconClass="closeIcon" style="margin-top:1em">
+				Close
+			</button>
+		</center>
+		</div>
+	</div>
+</div>
+<!-- Chg MethodSeq -->
+<div id="divMethSeq" jsId="divMethSeq" dojoType="dijit.Dialog" title="Change Sequencing Method from a Run" width="100%" height="100%">
+	<input id="projSpname" jsId="projSpname" name="Spname" value="111111" type="hidden">
+	<div  dojoType="dijit.TooltipDialog">
+		<label><B>Polyproject ID : </B></label><span id="projSid" jsId="projSid"></span>
+		<label><B> Name : </B></label><span id="projSname" jsId="projSname"></span>
+		<label><B> Run: </B></label><span id="seqRunId" jsId="seqRunId"></span> 
+	</div>
+
+	<div class="seqWin">
+        	<div id="gridSDiv" style="width:100%; height: 95%"></div>
+	</div>
+	<button dojoType="dijit.form.Button" type="submit" value="Submit" onClick='chgMethSeqRun()' iconClass="validIcon" style="margin-top:1em" execute="refreshPolyList();">
+                Submit
+	</button>
+	<button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('divMethSeq').hide();" iconClass="closeIcon" style="margin-top:1em">
+                Cancel
+	</button>
+</div>
+
+
+<!--  Edit Project -->
+<div dojoType="dijit.Dialog" id="viewProj" jsId="viewProj" title="Edit Project" class="projEdit">
+	<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 70%;">
+		<div dojoType="dijit.layout.ContentPane" region="top" style="border:1px solid #7EABCD; height:3em">
+			<input id="projUpname" jsId="projUpname" name="Upname" value="111" type="hidden">
+			<div  dojoType="dijit.TooltipDialog">
+				<label><B>Polyproject ID : </B></label><span id="projUid" jsId="projUid"></span>
+				<label><B> Name: </B></label><span id="projUname" jsId="projUname"></span>
+			</div>
+		</div>
+		<div dojoType="dijit.layout.TabContainer" region="center">
+<!-- Project -->
+			<div dojoType="dijit.layout.ContentPane" title="Project" style="width:100%; height: 100%">
+				<div id="ProjectList" style="margin:2px 5px 5px 3px"></div>				
+			</div>
+<!-- Patients -->
+			<div dojoType="dijit.layout.ContentPane" title="Run/Patients" style="width:100%; height: 100%">
+				<div id="patientprojectGridDiv"></div>
+			</div>
+<!-- Users -->
+			<div dojoType="dijit.layout.ContentPane" title="Users" style="width:100%; height: 100%">
+				<div id="userprojectGridDiv"></div>
+			</div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="bottom" style="border:1px solid #7EABCD; height:5em">
+		<center>
+<!--			<button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('viewProj').hide();"
+			 iconClass="closeIcon" style="margin-top:1em">-->
+			<button dojoType="dijit.form.Button" type="submit" onClick="dijit.byId('viewProj').reset"
+			 iconClass="closeIcon" style="margin-top:1em">
+				Close
+			</button>
+		</center>
+		</div>
+	</div>
+</div>
+
+<!-- export/print -->
+<div dojoType="dijit.Dialog" id="printDialog" jsId="printDialog" title="Export - Print" class="printContainer"  width="100%" height="100%">
+	<button id="1060" dojoType="dijit.form.Button" onClick='printPreview(grid2P)' 			iconClass="htmlIcon" style="margin-top:1em">
+		Preview
+	</button>
+	<button id="1070" dojoType="dijit.form.Button" onClick='printGrid(grid2P)' 			iconClass="printIcon" style="margin-top:1em">
+		Print
+	</button>
+	<button id="1080" dojoType="dijit.form.Button" onClick='saveGridtoCSV(grid2P)' 			iconClass="excelIcon" style="margin-top:1em">
+		Save
+	</button>
+	<button dojoType="dijit.form.Button" type="submit" onClick="dijit.byId('printDialog').reset"
+		iconClass="closeIcon" style="margin-top:1em">
+		Close
+	</button>
+       <div id="grid2PDiv" type="hidden"></div>
+</div>
+
+<!-- Errors -->
+ <div id="myError" jsId="myError" dojoType="dijit.Dialog" title="<span class='spError'>Error</span>"  execute="" >
+ 	<div id="textError" jsId="textError" dojoType="dijit.TooltipDialog">
+ 	</div>
+ 	<button type="button" dojotype="dijit.form.Button" onclick="myError.hide()">Close</button>	
+</div>
+<!-- Validation Message -->
+<div id="myMessage" jsId="myMessage" dojoType="dijit.Dialog" title="<span class='spMessage'>Validation Message</span>" execute="">
+ 	<div id="textMessage" jsId="textMessage" dojoType="dijit.TooltipDialog">
+ 	</div>
+ 	<button type="button" dojotype="dijit.form.Button" onclick="myMessage.hide()"
+		iconClass="closeIcon">
+		Close
+	</button>	
+</div>
+</body>
+</html>

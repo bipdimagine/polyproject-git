@@ -1,0 +1,451 @@
+#borderContainerProj {
+	width: 100%;
+	height: 57em;
+	margin: 0 auto;
+}
+
+#borderContainerRun {
+	width: 100%;
+	height: 69em;
+	margin: 0 auto;
+}
+
+#borderContainerProjectRun {
+	width: 100%;
+	height: 62em;
+	margin: 0 auto;
+}
+
+#borderContainerDocRun {
+	width: 100%;
+	height: 62em;
+	margin: 0 auto;
+}
+
+#borderContainerDis {
+	width: 100%;
+	height: 65em;
+	margin: 0 auto;
+}
+
+#borderContainerUser {
+	width: 100%;
+	height: 65em;
+	margin: 0 auto;
+}
+
+/*
+#borderContainerUser {
+	width: 100%;
+	height: 65em;
+	margin: 0 auto;
+}
+*/
+
+#borderContainerSearch {
+	width: 100%;
+	height: 44em;
+	margin: 0 auto;
+}
+
+#ContentPaneRun {
+	height: 45em;
+	margin: 0
+}
+
+.tooltip {
+	color: red;
+	font-size: 80%;
+}
+
+.userWin {
+	width: 45em;
+	height: 50em;
+	margin: 0 auto;
+}
+
+.methWin {
+	width: 20em;
+	height: 25em;
+	margin: 0 auto;
+}
+
+.pltWin {
+	width: 20em;
+	height: 25em;
+	margin: 0 auto;
+}
+
+.seqWin {
+	width: 20em;
+	height: 25em;
+	margin: 0 auto;
+}
+
+.projWin {
+	width: 100%;
+	max-width: 80em;
+	height: 100%;
+	max-height: 60em;
+	margin: 0 auto;
+}
+
+.projList {
+	width: 100%;
+	height: 40em;
+	margin: 0 auto;
+}
+
+.projRun {
+	width: 100%;
+	max-width: 98em;
+	height: 100%;
+	max-height: 72em;
+	margin: 0 auto;
+}
+
+.linkRun {
+	width: 100%;
+	max-width: 92em;
+	height: 100%;
+	max-height: 68em;
+	margin: 0 auto;
+}
+
+.linkProj {
+	width: 100%;
+	max-width: 98em;
+	height: 100%;
+	max-height: 68em;
+	margin: 0 auto;
+}
+
+.showRun {
+	width: 100%;
+	max-width: 98em;
+	height: 100%;
+	max-height: 68em;
+	margin: 0 auto;
+}
+
+.showBun {
+	width: 80%;
+	height: 92%;
+	margin: 0 auto;
+}
+
+
+.newProject {
+	width: 30%;
+	height: 35%;
+	margin: 0 auto;
+}
+
+.oldProject {
+	width: 50%;
+	height: 60%;
+	margin: 0 auto;
+}
+
+.searchMeth {
+	width: 25%;
+	height: 50%;
+	margin: 0 auto;
+}
+
+.searchPlateform {
+	width: 25%;
+	height: 55%;
+	margin: 0 auto;
+}
+
+.searchCapture {
+	width: 35%;
+	height: 60%;
+	margin: 0 auto;
+}
+
+.projDis {
+	width: 100%;
+	max-width: 80em;
+	height: 100%;
+	max-height: 68em;
+	margin: 0 auto;
+}
+
+.projUser {
+	width: 100%;
+	max-width: 95em;
+	height: 100%;
+	max-height: 68em;
+	margin: 0 auto;
+}
+
+.projEdit {
+	width: 100%;
+	max-width: 92em;
+	height: 100%;
+	max-height: 68em;
+	margin: 0 auto;
+}
+
+.docRun {
+	width: 96em;
+	height: 68em;
+	margin: 0 auto;
+}
+
+.runPat {
+	width: 56em;
+	height: 55em;
+	margin: 0 auto;
+}
+
+.searchPat {
+	width: 56em;
+	height: 48em;
+	margin: 0 auto;
+}
+
+.pedigreeProject {
+	width: 45%;
+	height: 90%;
+	margin: 0 auto;
+}
+
+/* margin-left: 5px;*/
+.buttonContentPane {
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: center;
+	margin: 0;
+	padding:0;
+	height: 1.5em;
+}
+
+#disGridDiv {
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+}
+
+#disprojGridDiv {
+	width: 100%;
+	height: 90%;
+	margin: 0 auto;
+}
+
+#userGridDiv {
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+}
+
+#userprojectGridDiv {
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+}
+
+#patientprojectGridDiv {
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+}
+
+#runpatientprojectGridDiv {
+	width: 100%;
+	height: 80%;
+	margin: 0 auto;
+}
+
+#freerunGridDiv {
+	width: 100%;
+	height: 92%;
+	margin: 0 auto;
+}
+
+#projectRunFreeGridDiv {
+	width: 100%;
+	height: 92%;
+	margin: 0 auto;
+}
+
+#gridFreeRunDiv {
+	width: 100%;
+	height: 92%;
+	margin: 0 auto;
+}
+
+#runGridDiv {
+	width: 98.5%;
+	height: 96%;
+	padding:0;
+	margin: 0;
+	border:0;
+}
+
+#capGridDiv {
+	width: 100%;
+	height: 92%;
+	margin: 0 auto;
+}
+
+#captureDiv {
+	width: 100%;
+	height: 92%;
+	margin: 0 auto;
+}
+
+#patmethGridDiv {
+	width: 100%;
+	height: 92%;
+	margin: 0 auto;
+}
+
+#gridProjRunDiv {
+	width: 100%;
+	height: 92%;
+	margin: 0 auto;
+}
+
+#printContainer {
+	width: 20em;
+	height: 5em;
+	margin: 0 auto;
+}
+
+.dojoxGrid table {
+	margin: 0;
+}
+
+
+#ExportContainer {
+	width: 100%;
+	height: 100%;
+}
+
+#onedocGridDiv {
+	float: left;
+}
+
+#right {
+	float: right;
+}
+
+.standbyUnderlayNode {
+	display: none;
+	opacity: 0;
+	z-index: 9999;
+	position: absolute;
+	cursor: wait;
+}
+
+.standbyImageNode {
+	opacity: 0;
+	display: none;
+	z-index: -10000;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	cursor: wait;
+}
+
+#myStandby .dijitDialogCloseIcon {
+	display: none;
+}
+
+#myStandby .dijitDialogTitleBar {
+	display: none;
+}
+
+#header {
+	padding: 0;
+	margin: 0;
+	position: absolute;
+	background-image: url(icons/logo.png);
+	background-repeat: no-repeat;
+	background-color: #9ABF5E;
+	background-position: center left;
+	width: 100%;
+	border: 1px solid #9ABF5E;
+}
+
+/* marron foncé */
+.tundra .dijitTabContainerTop-tabs {
+	background: -moz-linear-gradient(#510303, brown);
+	border-color: black;
+}
+
+/* beige #F5F5DC #DDDDC9*/
+
+/* marron */
+/* ori #DBBA97  */
+
+/* ori #B49674  */
+.tundra .dojoxGridRow {
+	background-color: #DDDDC9;
+	border-color: #DDDDC9;
+}
+/* ori #AD8F6B #DBBA97 */
+.tundra .dijitContentPane {
+	background-color: #DDDDC9;
+	border-color: #DDDDC9;
+}
+
+.tundra .dojoxGridRowOdd {
+	background-color: beige;
+}
+
+/* ori #AD8F6B  */
+.tundra .dojoxGridScrollbox {
+	background-color: #DDDDC9;
+	border-color: #DDDDC9;
+}
+
+/* ori #B49674  */
+.tundra .dijitToolbar {
+	background: -moz-linear-gradient(#510303, brown);
+}
+
+/* orange */
+.tundra .dijitTabChecked {
+	background: -moz-linear-gradient(#EC6E24, orange);
+	border: 0;
+}
+
+.tundra .dojoxGridHeader .dojoxGridCell {
+	border-color: #EA5F0E;
+	background: #EC6E24;
+}
+
+.tundra .spanfilter.dijitToolbarSeparator {
+	width: 0.01px;
+	background: white;
+}
+
+.tundra .spanpat.dijitToolbarSeparator {
+	width: 0.01px;
+	background: green;
+}
+
+.tundra .reset {
+	background: -moz-linear-gradient(#995507, green);
+}
+
+.tundra .dojoxGridRowbar { 
+	background: red;
+}
+.tundra .dojoxGridRowbarOver { 
+	background: #EC6E24;
+}
+.tundra .dojoxGridRowbarSelected {
+	background: blue;
+}
+
+.tundra .dijitToggleButton .dijitRadioIcon {
+	background-position: 0 18;
+	float: right;
+	right: -10px;
+}
+

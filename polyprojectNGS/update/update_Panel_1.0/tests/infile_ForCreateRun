@@ -1,0 +1,13 @@
+plateform:plateform=Plateform1
+machine:machine=Machine1 type=MacType1
+methseq:methseq=Methseq1
+methaln:methaln=aln1
+methsnp:methsnp=snp1
+capture:capture=Target1 capVs=1 capDes=destar1 capType=agilent capMeth=capture golden_path=HG19 capAnalyse=target
+panel:name=Panel1 validation=Validation1
+bundle:bundle=bun1 bunVs=1 bunDes=bunDes1
+transcript:transcript=ENST0000000TEST transmission=AD tmod=1 btmod=1
+project:golden_path=HG19 description=des_proj1
+run:name=runTrgname1 description=DesTrg1 pltname=pltrunTrgname1 nbpat=2
+patient:patient=ffpat1,ffpat2 family=pat1,pat2 father=, mother=, sex=1,1 status=2,2 fc=A bc=,
+

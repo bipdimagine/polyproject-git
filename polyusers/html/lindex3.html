@@ -1,0 +1,42 @@
+<html>
+  <head>
+ 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="icon" type="image/png" href="icons/user.png">
+        <title>User log</title>
+        <style type="text/css">
+	@import "//ajax.googleapis.com/ajax/libs/dojo/1.12.1/dojo/resources/dojo.css";
+ 	@import "//ajax.googleapis.com/ajax/libs/dojo/1.12.1/dijit/themes/tundra/tundra.css";
+	</style>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/dojo/1.12.1/dojo/dojo.js"
+    		data-dojo-config="parseOnLoad: true">
+	</script>
+   <title>reCAPTCHA demo: Explicit render after an onload callback</title>
+	<script src="https://www.google.com/recaptcha/api.js?render=6LfQ_fwZAAAAAGYb7VcAdTKJv25vPXNTda54fXPt"></script>
+	<script type="text/javascript" src="include_luser.js" data-dojo-config="parseOnLoad: true"></script>
+  </head>
+  <body>
+    <form action="?" method="POST">
+
+      <input name="name" type="text"><br>
+      <input name="g-recaptcha-response" id="g-recaptcha-response" type="text"><br>
+     <input type="submit" value="Submit">
+    </form>
+   <script>
+  //    function onClick(e) {
+ 		console.log("fggfgfgfgfgfgg");
+ //      e.preventDefault();
+        grecaptcha.ready(function() {
+		console.log("tututuutututut");
+          grecaptcha.execute('6LfQ_fwZAAAAAGYb7VcAdTKJv25vPXNTda54fXPt', {action: 'submit'}).then(function(token) {
+              // Add your logic to submit to your backend server here.
+		console.log("totottttttttttttttt");
+		console.log(token);
+		document.getElementById('g-recaptcha-response').value=token;
+          });
+ 		console.log("erndnsdsdt");
+       });
+ //     }
+  </script>
+  </body>
+</html>
+

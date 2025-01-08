@@ -1,0 +1,174 @@
+<html>
+<!-- viewPolyproject.html -->
+<head>
+        <style type="text/css">
+            body, html { font-family:helvetica,arial,sans-serif; font-size:90%; }
+        </style>
+        <style type="text/css">
+		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/grid/resources/tundraGrid.css";
+		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css";
+		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/grid/resources/Grid.css";
+		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/resources/dojo.css"; 
+		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/enhanced/resources/tundraEnhancedGrid.css";
+		@import "http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+        @import "http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojox/layout/resources/ExpandoPane.css";
+		@import "button.css";
+		html, body { width: 100%; height: 100%; margin: 0; }
+		.dojoxGrid table { margin: 0; } 
+                .content { width: 100%; height: 100%; margin: 0;}
+		#grid {
+			height:400px;
+		}
+		.tundra #grid .dojoxGridRowOdd {
+    			background: #F0F0F0;
+		}
+		.tundra #grid .dojoxGrid-header {
+    			background: red;
+		}
+		.Central  {border:1px solid #7EABCD}
+
+        </style>
+       <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js"
+        djConfig="parseOnLoad: true">
+        </script>
+	<script type="text/javascript" src="include.js" djConfig="parseOnLoad: true"></script> 
+	<script type="text/javascript" src="viewpolyproject.js" djConfig="parseOnLoad: true"></script> 
+	<script type="text/javascript" src="PolyUtility.js" djConfig="parseOnLoad: true"></script> 
+	
+</head>
+    
+<body class="tundra">
+<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 70%;" margin="10em">
+	<div dojoType="dijit.layout.ContentPane" region="top" align="center" style="border:1px solid #7EABCD; width:98%; height: 5%">
+		<span id="titre" class="titre" type="hidden"></span> 
+<!--		<span id="list0"></span>-->
+	</div>
+	<div dojoType="dijit.layout.TabContainer" region="center">
+<!-- Patients -->
+		<div dojoType="dijit.layout.ContentPane" title="Patients" style="width:100%; height: 100%">
+			<div class="Central" style="margin:5">
+			<table dojoType="dojox.grid.DataGrid" jsId="gridP"   id="gridP" elasticView="1"
+			clientSort="true" style="width:20%; height: 80%;margin:2" rowSelector="2em">
+			<thead>
+			<tr>
+				<th width="3em" field="Row">Row</th>
+				<th width="20em" field="Patient">Patient</th>
+			</tr>
+			</thead>
+			</table>
+			</div>
+<!-- Patients Buttons -->
+			<div dojoType="dijit.layout.ContentPane" region="bottom" style="border:1px solid #7EABCD;">
+			<button id="buttonAddPat" dojoType="dijit.form.Button" type="button" iconClass="plusIcon">Add Patient
+			</button>
+			<button id="1520" dojoType="dijit.form.Button" onClick='refreshPatientList()' iconClass="refreshIcon">Refresh
+			</button>
+			
+			</div>
+		</div>
+<!-- Project -->
+
+        <div dojoType="dijit.layout.BorderContainer" design="sidebar" gutters="true" title="Project"
+        liveSplitters="true" id="borderContainer">
+ <!-- Project Disease Section -->
+            <div dojoType="dojox.layout.ExpandoPane" title="Details" maxWidth="700"
+            splitter="true" region="leading" style="width: 700px;">
+			<div id="list1" style="margin:2px 5px 5px 3px"></div>
+             </div>
+            <div dojoType="dijit.layout.ContentPane" splitter="true" region="center">
+                <B>Project's Diseases</B>
+				<table dojoType="dojox.grid.DataGrid" jsId="gridD"   id="gridD" elasticView="2"
+			clientSort="true" style="width:100%; height: 93%;margin:2" rowSelector="2em">
+				<thead>
+				<tr>
+				<th width="3em" field="Row">Row</th>
+				<th width="5em" field="diseaseAbb">Abbrev</th>
+				<th width="65em" field="diseaseName">Diseases</th>
+				</tr>
+				</thead>
+				</table>
+             </div>
+        </div>
+
+<!-- Users -->
+		<div dojoType="dijit.layout.ContentPane" title="Users" class="Users" style="width:100%; height: 100%">
+			<div class="Central">
+			<table dojoType="dojox.grid.DataGrid" jsId="grid2"   id="grid2" elasticView="2"
+			clientSort="true" style="width:100%; height: 80%" rowSelector="2em">
+			<thead>
+			<tr>
+				<th width="3em" field="Row">Row</th>
+				<th width="15em" field="Name">Name</th>
+				<th width="20em" field="Firstname">First Name</th>
+				<th width="20em" field="Email">Email</th>
+				<th width="15em" field="Code">Code</th>
+				<th width="15em" field="Organisme">Institute</th>
+				<th width="20em" field="Site">Site</th>
+			</tr>
+			<tr>
+				<th colspan="3" field="Team">Team</th>
+				<th colspan="2" field="Responsable">Team Leader</th>
+				<th colspan="2" field="Director">Director</th>
+			</tr>
+			</thead>
+			</table>
+			</div>
+		</div>
+		
+	</div>
+	<div dojoType="dijit.layout.ContentPane" region="bottom" style="border:1px solid #7EABCD;">
+		<button id="1470" dojoType="dijit.form.Button" onClick='goBack' iconClass="plusIcon2">Back</button>
+	</div>
+</div>
+<!-- Add Patient -->
+<div dojoType="dijit.Dialog" id="patDialog" title="Add Patient">
+<!-- field Patient Name -->
+        <div dojoType="dijit.form.Form" id="patForm" jsId="patForm">
+		<span id="titre" class="titre" type="hidden"></span> 
+        <span id="list0"></span>
+		<table style="width: 30em;border: 0.1em solid #9f9f9f;">
+		<tr>
+        	<label for="patient">
+            	Column List of Patient Names
+        	</label>
+		</tr>
+		<td>
+<!--        	<input id="patient" name="patient" dojoType="dijit.form.TextBox" type="text"> -->
+            <textarea id="patient" name="patient" dojoType="dijit.form.SimpleTextarea"
+                        rows="10" cols="48" style="width:auto;" value=""></textarea>
+         </td>
+		</table>
+	</div>	
+		<button dojoType="dijit.form.Button" type="submit" onClick="newPatient()"
+		value="Submit" iconClass="validIcon" style="margin-top:1em" execute="refreshPatientList();">
+                Submit
+		</button>
+		<button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('patDialog').hide();" iconClass="closeIcon" style="margin-top:1em">
+                Cancel
+		</button>
+
+<!-- Errors -->
+ 	<div id="myError" jsId="myError" dojoType="dijit.Dialog" title="<span class='spError'>Error</span>" execute="#">
+ 		<div id="textError" jsId="textError" dojoType="dijit.TooltipDialog">
+ 		</div>
+ 		<button type="button" dojotype="dijit.form.Button" onclick="myError.hide()"
+		iconClass="closeIcon">
+		Close
+		</button>	
+	</div>
+<!-- Validation Message -->
+ 	<div id="myMessage" jsId="myMessage" dojoType="dijit.Dialog" title="<span class='spMessage'>Validation Message</span>" execute="#">
+ 		<div id="textMessage" jsId="textMessage" dojoType="dijit.TooltipDialog">
+ 		</div>
+ 		<button type="button" dojotype="dijit.form.Button" onclick="myMessage.hide()"
+		iconClass="closeIcon">
+		Close
+		</button>	
+	</div>
+
+		
+</div>	
+
+
+</body>
+</html>

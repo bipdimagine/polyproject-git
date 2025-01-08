@@ -1,0 +1,249 @@
+#borderContainerRun {
+	width: 100%;
+	height: 69em;
+	margin: 0 auto;
+}
+
+
+/*
+#borderContainerUser {
+	width: 100%;
+	height: 65em;
+	margin: 0 auto;
+}
+*/
+
+#borderContainerSearch {
+	width: 100%;
+	height: 44em;
+	margin: 0 auto;
+}
+
+.tooltip {
+	color: red;
+	font-size: 80%;
+}
+
+
+
+/* margin-left: 5px;*/
+.buttonContentPane {
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: center;
+	margin: 0;
+	padding:0;
+	height: 1.5em;
+}
+
+
+#printContainer {
+	width: 20em;
+	height: 5em;
+	margin: 0 auto;
+}
+
+.dojoxGrid table {
+	margin: 0;
+}
+
+
+#ExportContainer {
+	width: 100%;
+	height: 100%;
+}
+
+#onedocGridDiv {
+	float: left;
+}
+
+#right {
+	float: right;
+}
+
+.standbyUnderlayNode {
+	display: none;
+	opacity: 0;
+	z-index: 9999;
+	position: absolute;
+	cursor: wait;
+}
+
+.standbyImageNode {
+	opacity: 0;
+	display: none;
+	z-index: -10000;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	cursor: wait;
+}
+
+#myStandby .dijitDialogCloseIcon {
+	display: none;
+}
+
+#myStandby .dijitDialogTitleBar {
+	display: none;
+}
+
+#header {
+	padding: 0;
+	margin: 0;
+	float: left;
+	position: absolute;
+	background-image: url(icons/logo.png);
+	background-repeat: no-repeat;
+	background-color: #9ABF5E;
+	background-position: center left;
+	width: 100%;
+	height: 4em;
+	border: 1px solid #9ABF5E;
+}
+
+/* marron foncé */
+.tundra .dijitTabContainerTop-tabs {
+	background: linear-gradient(#510303, brown);
+	border-color: black;
+}
+
+/* beige #F5F5DC #DDDDC9*/
+
+/* marron */
+/* ori #DBBA97  */
+
+/* ori #B49674  */
+.tundra .dojoxGridRow {
+	background-color: #DDDDC9;
+	border-color: #DDDDC9;
+}
+/* ori #AD8F6B #DBBA97 */
+.tundra .dijitContentPane {
+	background-color: #DDDDC9;
+	border-color: #DDDDC9;
+}
+
+.tundra .dojoxGridRowOdd {
+	background-color: beige;
+}
+
+/* ori #AD8F6B  */
+.tundra .dojoxGridScrollbox {
+	background-color: #DDDDC9;
+	border-color: #DDDDC9;
+}
+
+/* ori #B49674  */
+.tundra .dijitToolbar {
+	background: linear-gradient(#510303, brown);
+}
+
+/* orange */
+.tundra .dijitTabChecked {
+	background: linear-gradient(#EC6E24, orange);
+	border: 0;
+}
+
+.tundra .dojoxGridHeader .dojoxGridCell {
+	border-color: #EA5F0E;
+	background: #EC6E24;
+}
+
+.tundra .spanfilter.dijitToolbarSeparator {
+	width: 0.01px;
+	background: white;
+}
+
+.tundra .spanpat.dijitToolbarSeparator {
+	width: 0.01px;
+	background: green;
+}
+
+.tundra .reset {
+	background: linear-gradient(#995507, green);
+}
+
+.tundra .dojoxGridRowbar { 
+	background: red;
+}
+.tundra .dojoxGridRowbarOver { 
+	background: #EC6E24;
+}
+.tundra .dojoxGridRowbarSelected {
+	background: blue;
+}
+
+.tundra .dijitToggleButton .dijitRadioIcon {
+	background-position: 0 18;
+	float: right;
+	right: -10px;
+}
+
+
+
+.patcov .dijitAccordionTitle  {
+/*	background: #6895de !important;*/
+	background: #a3be8c !important;
+}
+.patcov .dijitAccordionTitleHover  {
+/*	background: #e3f2ee !important;*/
+	background: #8B8B00 !important;
+}
+.patcov .dijitAccordionTitleSelected {
+/*	background: #3B5998 !important;*/
+	background: #556B2F !important;
+	color: white;
+}
+.filtcov .dijitAccordionTitleSelected {
+	background: #2D495D !important;
+	color: white;
+}
+
+.tundra .dijitAccordionArrow {
+    background:url("icons/spriteArrows.png") no-repeat -14px top;
+    width:7px;
+    height:8px;
+    margin-top:-1px;
+}
+
+.tundra .dijitAccordionTitleSelected .dijitAccordionArrow {
+    background:url("icons/spriteArrows.png") no-repeat -28px top;
+    margin-top:-1px;
+}
+
+
+#bt_runFile {
+	background:#6D7741;
+	border-radius: 5px 5px 5px 5px;
+	width:30px;
+	padding:0;
+	margin:0;
+	white-space:nowrap;
+}
+
+#bt_runFile:hover {
+        background: linear-gradient(to right,#AEC641,#6D7741);
+	border-radius: 5px 5px 5px 5px;
+	width:30px;
+	padding:0;
+	margin:0;
+	white-space:nowrap;
+}
+
+.roundedButton .dijitButtonNode {
+	background: transparent;
+	background-color: transparent;
+	padding:0;
+	margin:0;
+	border:none;
+	white-space:nowrap;
+}
+.roundedButton .dijitButtonNode:hover {
+	background: transparent;
+	background-color: transparent;
+}
+
+
+
+
+

@@ -1,0 +1,3931 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="icon" type="image/png"
+	href="icons/application_view_tile.png">
+<title>polyprojectNGS</title>
+<style type="text/css">
+/* scrollbar styling non-standard version */
+body,html {
+	font-family: helvetica, arial, sans-serif;
+	font-size: 60%;
+	width: 100%;
+	height: 100%;
+	margin: 0;padding: 0;border:0;
+	white-space:nowrap;
+	overflow: hidden;
+}
+
+</style>
+<!--
+dojo 1.12.1 ==> lookup Failed Doc:  internalError: too much recursion formatter:extension
+dojo 1.10.7 ==> OK 
+-->
+<style type="text/css">
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/resources/Grid.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojo/resources/dojo.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/resources/tundraGrid.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dijit/themes/tundra/tundra.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/enhanced/resources/tundraEnhancedGrid.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/enhanced/resources/EnhancedGrid.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/resources/nihiloGrid.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/layout/resources/ExpandoPane.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/form/resources/CheckedMultiSelect.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/form/resources/RangeSlider.css";
+@import "button.css";
+@import "general.css";
+@import "login.css";
+@import "myMblSwitch.css";
+
+</style>
+<!--
+	src="//ajax.googleapis.com/ajax/libs/dojo/1.9.5/dojo/dojo.js" ok res=callback differed
+-->
+<script type="text/javascript"
+	src="//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojo/dojo.js"
+	djConfig="parseOnLoad: true">
+</script>
+
+<script type="text/javascript" src="include.js"
+	djConfig="parseOnLoad: true"></script>
+<script type="text/javascript" src="polyprojectNGS.js"
+	djConfig="parseOnLoad: true"></script>
+<script type="text/javascript" src="newData.js"
+	djConfig="parseOnLoad: true"></script>
+<script type="text/javascript" src="uploadFile.js"
+	djConfig="parseOnLoad: true"></script>
+<script type="text/javascript" src="vp.js"
+	djConfig="parseOnLoad: true"></script>
+<script type="text/javascript" src="stat.js"
+	djConfig="parseOnLoad: true">
+</script>
+<script type="text/javascript" src="monitoring.js"
+	djConfig="parseOnLoad: true">
+</script>
+
+
+</head>
+<body class="tundra">
+	<div dojoType="dijit.layout.BorderContainer"
+	style="width: 100%; height: 100%;margin: 0; padding: 0;white-space:nowrap;border:none">
+		<div id="header" dojoType="dijit.layout.ContentPane" region="top">
+			<table ALIGN="center" style='color: #5C1820;' width="100%">
+				<tr>
+				<td width="33%" align="right">
+				</td>
+				<td width="20%" align="right" style='font-size: 4em;'>
+					<B>...PolyProject</B>
+				</td>
+				<td width="2%" align="left" style='font-size: 2em;'>
+					<B>NGS</B>
+				</td>
+				<td align="left" style='width:14.1%;font-size: 1.5em;'>
+					<B>Sequencing Projects</B>
+				</td>
+				<td width="auto" align="right">
+				</td>
+				<td align="right" valign="bottom" 
+			style='width:6.8%;color: white;font-size: 0.8em;line-height:1;padding-bottom: 4px;'>
+					<B>Bioinformatics<br>Paris Cité</B>
+				</td>
+				</tr>
+			</table>
+		</div>
+		<div dojoType="dijit.layout.TabContainer"  region="center" id="TabMain"
+		style="height: 100%; margin: 0; padding: 0;white-space:nowrap;border: none;">
+			<!-- ################################################################################### -->
+			<!--		Run Main List -->
+			<!-- ################################################################################### -->
+			<div dojoType="dijit.layout.ContentPane" id="CPrun" title="<B>Run</B>"
+			style="margin:0;padding:0;white-space:nowrap;border:none;">
+				<div dojoType="dijit.layout.ContentPane" region="top"
+				style="height: 3%;margin:0;padding:0;white-space:nowrap;border:none;">
+					<div dojoType="dijit.form.Form" id="searchRunForm" jsId="searchRunForm">
+						<div dojoType="dijit.Tooltip" connectId="Rprint" position="below">
+							<label class="tooltip">
+							<b>Preview/Save All :</b> right click on the Grid<br>
+				<b>Preview/Save Selected :</b>Select rows then right click on one Grid row selected
+							</label>
+
+						</div>
+						<div dojoType="dijit.Tooltip" 
+						data-dojo-props="connectId:['PEd','REd','DBL1']" position="below">
+							<label class="tooltip">
+								<b>Double click</b> on grid row to Edit
+							</label>
+						</div>
+						<div dojoType="dijit.Toolbar">
+						<div dojoType="dijit.Tooltip" data-dojo-props="connectId:['SW-R','SW-P','SW-C']"
+ 						position="below">
+						<label class="tooltip">
+							<b>Analyse in </b><br>
+							<table witdth=30em>
+							<tr><td style='background:orange;width:2em'></td><td><b>All</b> Switch to All Analysis</td></tr>
+							<tr><td style='background:#66CC00;width:2em'></td><td><b>Exome</b> Switch to Exome Analysis</td></tr>
+							<tr><td style='background:#FFFF00;width:2em'></td><td><b>Genome</b> Switch to Genome Analysis</td></tr>
+							<tr><td style='background:#009966;width:2em'></td><td><b>Target</b> Switch to Target Analysis (Validation)</td></tr>
+							<tr><td style='background:#6666FF;width:2em'></td><td><b>RNAseq</b> Switch to RNAseq Analysis</td></tr>
+							<tr><td style='background:#33CCFF;width:2em'></td><td><b>SingleCell</b> Switch to SingleCell Analysis</td></tr>
+							<tr><td style='background:#F18973;width:2em'></td><td><b>Amplicon</b> Switch to Amplicon Analysis</td></tr>
+							<tr><td style='background:#618685;width:2em'></td><td><b>Other</b> Switch to Other Analysis</td></tr>
+							</table>
+						</label>
+						</div>	
+							<table style="border:0; margin: 0; padding: 0;width:100%;">
+							<tr>
+							<td valign="top" align="left" style="width: 2em;">
+							<div dojoType="dijit.form.Button" id="bt_cleargridrun"
+							onClick="gridRundoc.selection.clear();" showLabel="false" 
+							iconClass="clearIcon" style="border:0;color:white;margin: 0;padding:0;">
+							</div>
+							</td>
+
+							<TD valign="top" align="left" style="width:1em;">
+								<img src="icons/zoom.png">
+							</TD>
+
+							<td valign="top" align="left" 
+							style="width: 38em;border:none;margin: 0;padding: 0;">
+							<input type="text" id="FilterRunBox"
+							style="width: 38em;" name="FilterRunBox"
+							dojoType="dijit.form.ValidationTextBox" 
+data-dojo-props="placeHolder: 'Patient, Run, Run Name, PltRun, Description, Project, BC, Capture, Analyse, User'">
+							</TD>
+
+							<td valign="top" align="left" style="width: 3.5em;">
+							<div dojoType="dijit.form.Button" id="bt_resetSearchRun"
+							onClick="resetSearchRun(gridRundoc);" showLabel="true" 
+							iconClass="dijitIconUndo"
+style="float:center;border-radius:10px;background:linear-gradient(brown,#510303);border:0;color:white;margin:0;padding:0;width:1.5em;">
+							</div>
+							</td>
+
+							<td valign="top" align="left" style="width:30em;">
+							<div dojoType="dijit.form.Form" id="FormSliderFilterRun" jsId="FormSliderFilterRun" >
+<input id="slider_run" jsId="slider_run" data-dojo-type="dijit.form.HorizontalSlider"
+data-dojo-props= 'minimum:1,value:1,maximum:8,discreteValues:8,showButtons:false,intermediateChanges:true,slideDuration:0'>
+	<div data-dojo-type="dijit.form.HorizontalRule" data-dojo-props='container:"bottomDecoration", count:8,
+ style:{height:"1em;"}'> 
+	</div>
+<ol data-dojo-type="dijit.form.HorizontalRuleLabels"
+ data-dojo-props='container:"bottomDecoration",style:{height:"0.5em", fontSize:"75%"}'>
+                                <li><b class="sl_Analyse sl_all">All</b></li>
+                                <li><b class="sl_Analyse sl_exome">Exome</b></li>
+                                <li><b class="sl_Analyse sl_genome">Genome</b></li>
+                           	<li><b class="sl_Analyse sl_target">Target</b></li>
+                                <li><b class="sl_Analyse sl_rnaseq">RNAseq</b></li>
+                                <li><b class="sl_Analyse sl_singlecell">SingleCell</b></li>
+                                <li><b class="sl_Analyse sl_amplicon">Amplicon</b></li>
+                                <li><b class="sl_Analyse sl_other">Other</b></li>
+                         </ol>								
+							</div>
+							</td>
+
+							<td valign="top" align="center" style="width:5em;">
+								<img id="SW-R"src="icons/information.png">
+							</td>
+							<TD VALIGN="TOP" align="center">
+							<div id="buttonAddRun" style="color:white;margin-top:-10px" 
+							dojoType="dijit.form.Button" type="button"  iconClass="run_addIcon"
+							 showLabel="true">New Run
+							</div>
+							<div id="buttonRefreshRun" style="color:white;margin-top:-10px"
+							dojoType="dijit.form.Button" iconClass="refreshIcon"
+							onClick='refreshRunDoc();resetSearchRun(gridRundoc);'
+						 	showLabel="true">Refresh
+							</div>
+							<img id="Rprint" src="icons/table_save.png">
+							<img id="REd" src="icons/double_click.png">
+							</td>
+
+							<td id='btlog_0' class='cl_log_td' align="right">
+							</td>
+							</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div dojoType="dijit.layout.ContentPane" region="center" id="TabMainRun"
+				refreshOnShow="true"
+				style="height: 97%;margin: 0; padding: 0;white-space:nowrap;border: none;">
+					<div id="gridRundocDiv" style="width: 100%; height: 100%"></div>
+				</div>
+			</div>
+			<!-- ################################################################################### -->
+			<!--		Project Main List                                                        -->
+			<!-- ################################################################################### -->
+			<div dojoType="dijit.layout.ContentPane" title="<B>Project</B>" id="CPproj"
+			style="margin: 0; padding: 0;white-space:nowrap;border:none;" >
+				<div dojoType="dijit.layout.ContentPane" region="top"
+				style="height: 3%;margin: 0; padding: 0;white-space:nowrap;border:none;">
+					<div dojoType="dijit.form.Form" id="searchProjForm"
+					jsId="searchProjForm" style="height: 3%;">
+						<div dojoType="dijit.Tooltip" connectId="Tprint" position="below">
+							<label class="tooltip">
+							<b>Preview/Save All :</b> right click on the Grid<br>
+							<b>Preview/Save Selected :</b>Select rows then right click on one Grid row selected
+							</label>
+						</div>
+						<div dojoType="dijit.Toolbar">
+							<table style="border:1;margin:0;padding:0;width:100%;">
+							<tr>
+							<td valign="top" align="left" style="width: 2em;">
+							<div dojoType="dijit.form.Button" id="bt_cleargridproj"
+							onClick="grid.selection.clear();" showLabel="false" 
+							iconClass="clearIcon" style="border:0;color:white;margin: 0;padding:0;">
+							</div>
+							</td>
+							<TD valign="top" align="left" style="width:1em;">
+								<img src="icons/zoom.png">
+							</TD>
+							<td valign="top" align="left" 
+							style="width: 36em;border:none;margin: 0; padding: 0">
+							<input type="text" id="FilterProjBox"
+							style="width: 36em;" name="FilterProjBox"
+							dojoType="dijit.form.ValidationTextBox" 
+			data-dojo-props="placeHolder: 'Patient,Person,PersonId,Project,Run,BC,Capture,Analyse,Description,User,Group'">
+							</TD>
+							<td valign="top" align="left" style="width: 3.5em;">
+							<div dojoType="dijit.form.Button" id="bt_resetSearchProj"
+							onClick="resetSearchProj(grid);" showLabel="true" 
+							iconClass="dijitIconUndo"
+style="float:center;border-radius:10px;background:linear-gradient(brown,#510303);border:0;color:white;margin: 0;padding:0;width:1.5em;">						
+							</div>
+							</td>
+
+							<td valign="top" align="left" style="width:30em;">
+							<div dojoType="dijit.form.Form" id="FormSliderFilterProj" jsId="FormSliderFilterProj" >
+<input id="slider_proj" jsId="slider_proj" data-dojo-type="dijit.form.HorizontalSlider"
+data-dojo-props= 'minimum:1,value:1,maximum:8,discreteValues:8,showButtons:false,intermediateChanges:true,slideDuration:0'>
+	<div data-dojo-type="dijit.form.HorizontalRule" data-dojo-props='container:"bottomDecoration", count:8,
+ style:{height:"1em;"}'> 
+	</div>
+<ol data-dojo-type="dijit.form.HorizontalRuleLabels"
+ data-dojo-props='container:"bottomDecoration",style:{height:"0.5em", fontSize:"75%"}'>
+                                <li><b class="sl_Analyse sl_all">All</b></li>
+                                <li><b class="sl_Analyse sl_exome">Exome</b></li>
+                                <li><b class="sl_Analyse sl_genome">Genome</b></li>
+                                <li><b class="sl_Analyse sl_target">Target</b></li>
+                                <li><b class="sl_Analyse sl_rnaseq">RNAseq</b></li>
+                                <li><b class="sl_Analyse sl_singlecell">SingleCell</b></li>
+                                <li><b class="sl_Analyse sl_amplicon">Amplicon</b></li>
+                                <li><b class="sl_Analyse sl_other">Other</b></li>
+                            </ol>								
+							</div>
+							</td>
+							<td valign="top" align="center" style="width:5em;">
+								<img id="SW-P"src="icons/information.png">
+							</td>
+
+							<TD VALIGN="TOP" align="center">
+							<div dojoType="dijit.form.Button" iconClass="UserGroupIcon"
+							id="buttonGroupDB" style="color:white;margin-top:-10px"
+							onClick='AddRemUserGroup()' showLabel="true">Group</div>
+
+							<div dojoType="dijit.form.Button" iconClass="plusUserIcon"
+							id="buttonAddProjUser" style="color:white;margin-top:-10px"
+							onClick='AddRemUser()' showLabel="true">User</div>
+
+							<div dojoType="dijit.form.Button" id="bt_unAssigned"
+							style="color:white;margin-top:-10px" iconClass="btwarnIcon" onClick='unaProjDisplay();'
+							showLabel="true">Unassigned</div>
+
+							<div dojoType="dijit.form.Button" iconClass="refreshIcon"
+							id="buttonRefreshProj" style="color:white;margin-top:-10px"
+							onClick='refreshPolyList()' showLabel="true">Refresh</div>
+							<img id="Tprint" src="icons/table_save.png">
+							<img id="PEd" src="icons/double_click.png">
+							</TD>
+							
+							<td id='btlog_1' class='cl_log_td' align="right">
+							</td>
+							</tr>
+							</table>
+						</div>
+						<div data-dojo-type="dijit.Tooltip" 
+						data-dojo-props="connectId:'bt_unAssigned',position:['above']">
+							<label class="tooltip">
+							Projects <b>without user assigned<b>
+							</label>
+						</div>
+					</div>
+				</div>
+				<div dojoType="dijit.layout.ContentPane" region="center" id="TabMainProj"
+				refreshOnShow="true"
+				style="height: 97%;margin: 0; padding: 0;white-space:nowrap;border: none;">
+					<div id="gridDiv" style="width: 100%; height: 100%"></div>
+				</div>
+			</div>
+			<!-- ################################################################################## -->
+			<!--		Capture             -->
+			<!-- ################################################################################## -->
+			<div dojoType="dijit.layout.ContentPane" title="<B>Capture</B>" id="CPcapture"
+			style="margin:0;padding:0;white-space:nowrap;border:none">
+				<div dojoType="dijit.layout.ContentPane" region="top"
+				style="height: 3%;margin:0;padding:0;white-space:nowrap;border:none;">
+					<div dojoType="dijit.form.Form" id="searchCaptureForm" 
+					jsId="searchCaptureForm">
+						<div dojoType="dijit.Tooltip" connectId="Cprint" position="below">
+							<label class="tooltip">
+							<b>Preview/Save All :</b> right click on the Grid<br>
+							<b>Preview/Save Selected :</b>Select rows then right click on one Grid row selected
+							</label>
+						</div>
+						<div dojoType="dijit.Tooltip" connectId="DBL1" position="below">
+							<label class="tooltip">
+								<b>Double click</b> on grid row to Edit
+							</label>
+						</div>
+						<div dojoType="dijit.Tooltip" connectId="DBL1" position="below">
+							<label class="tooltip">
+								<b>Double click</b> on grid row to Edit
+							</label>
+						</div>
+						<div dojoType="dijit.Toolbar">
+							<table style="border: 1; margin: 0; padding: 0;width:100%;">
+							<tr>
+							<td valign="top" align="left" style="width: 2em;">
+							<div dojoType="dijit.form.Button" id="bt_cleargridcap"
+							onClick="gridCap.selection.clear();" showLabel="false" 
+							iconClass="clearIcon" style="border:0;color:white;margin: 0;padding:0;">
+							</div>
+							</td>
+
+							<TD valign="top" align="left" style="width:1em;">
+								<img src="icons/zoom.png">
+							</TD>
+
+							<td valign="top" align="left" 
+							style="width: 30em;border:none;margin: 0;padding: 0;">
+							<input type="text" id="FilterCapBox"
+							style="width: 30em;" name="FilterCapBox"
+							dojoType="dijit.form.ValidationTextBox" 
+	data-dojo-props="placeHolder: 'Capture, Description, Type, Analyse, Validation, Bundle'">
+							</TD>
+
+							<td valign="top" align="left" style="width: 3.5em;">
+							<div dojoType="dijit.form.Button" showLabel="true" id="bt_resetSearchCap"
+							onClick="resetSearchCap(gridCap);" iconClass="dijitIconUndo"
+style="float:center;border-radius:10px;background:linear-gradient(brown,#510303);border:0;color: white;margin: 0;padding:0;width:1.5em;">
+							</div>
+							</td>
+							<td valign="top" align="left" style="width:30em;">
+							<div dojoType="dijit.form.Form" id="FormSliderFilterCap" jsId="FormSliderFilterCap" >
+<input id="slider_cap" jsId="slider_cap" data-dojo-type="dijit.form.HorizontalSlider"
+data-dojo-props= 'minimum:1,value:1,maximum:8,discreteValues:8,showButtons:false,intermediateChanges:true,slideDuration:0,'>
+	<div data-dojo-type="dijit.form.HorizontalRule" data-dojo-props='container:"bottomDecoration", count:8,
+ style:{height:"1em;"}'> 
+	</div>
+<ol data-dojo-type="dijit.form.HorizontalRuleLabels"
+ data-dojo-props='container:"bottomDecoration",style:{height:"0.5em", fontSize:"75%"}'>
+                                <li><b class="sl_Analyse sl_all">All</b></li>
+                                 <li><b class="sl_Analyse sl_exome">Exome</b></li>
+                                <li><b class="sl_Analyse sl_genome">Genome</b></li>
+                              	<li><b class="sl_Analyse sl_target">Target</b></li>
+                                <li><b class="sl_Analyse sl_rnaseq">RNAseq</b></li>
+                                <li><b class="sl_Analyse sl_singlecell">SingleCell</b></li>
+                                <li><b class="sl_Analyse sl_amplicon">Amplicon</b></li>
+                                <li><b class="sl_Analyse sl_other">Other</b></li>
+                          </ol>								
+							</div>
+							</td>
+							<td valign="top" align="center" style="width:5em;">
+								<img id="SW-C"src="icons/information.png">
+							</td>
+							<td VALIGN="TOP" align="center">
+								<span id="button_cap"></span>
+								<span dojoType="dijit.form.Button" iconClass="refreshIcon"
+									id="buttonRefreshCap" style="color:white"
+									onClick='refreshCaptureList()' showLabel="true">Refresh
+								</span>
+								<img id="Cprint" src="icons/table_save.png">
+								<img id="DBL1" src="icons/double_click.png">
+							</td>
+							<td id='btlog_5' class='cl_log_td' align="right">
+							</td>
+
+							</tr>
+							</table>
+						</div>
+					</div>
+					<div dojoType="dijit.layout.ContentPane" region="center" id="TabMainCap"
+					refreshOnShow="true"
+					style="height: 95%;margin: 0; padding: 0;white-space:nowrap;border: none;">
+						<div id="appSubCapture" style="width: 100%; height: 100%"></div>
+					</div>
+				</div>
+			</div>
+			<!-- ################################################################################## -->
+			<!--		New Data             -->
+			<!-- ################################################################################## -->
+			<div dojoType="dijit.layout.ContentPane" title="<B>New Data</B>" id="CPdata"
+			style="margin:0;padding:0;white-space:nowrap;border:none">
+				<div dojoType="dijit.layout.BorderContainer"
+	style="background:transparent;margin:0;padding:0;border:none;white-space:nowrap;width:100%;height:100%">
+					<div dojoType="dijit.layout.ContentPane" region="top"
+					style="margin:0;padding:0;white-space:nowrap;border:none">
+						<div dojoType="dijit.Toolbar">
+							<table 
+					style="margin: 0; padding: 0;width:100%;white-space:nowrap;border: none;">
+							<tr>
+							<td id='btlog_2' class='cl_log_td' align="right">
+							</td>
+							</TR>
+							</table>
+						</div>
+					</div>
+					<div dojoType="dijit.layout.ContentPane" region="left" id="TabMainMenuData"
+					style="width: 10%;margin: 0; padding: 0;white-space:nowrap;border:none;">
+						<div dojoType="dijit.DropDownMenu" id="navMenu">
+   							<div dojoType="dijit.PopupMenuItem" 
+							data-dojo-props="iconClass:'dijitIconNewTask'">
+        							<span>Plateform</span>
+								<div dojoType="dijit.DropDownMenu" id="subPlt">
+									<div dojoType="dijit.MenuItem" id="addPlt"
+								data-dojo-props="iconClass:'dijitIconNewTask'"
+									onClick='viewNewPlateform()'>
+										Add/Edit Plateform, Update Default
+									</div>
+								</div>
+							</div>
+  							<div dojoType="dijit.PopupMenuItem" 
+							data-dojo-props="iconClass:'dijitIconNewTask'">
+        							<span>Machine</span>
+								<div dojoType="dijit.DropDownMenu" id="subMac">
+									<div dojoType="dijit.MenuItem" id="addMac"
+								data-dojo-props="iconClass:'dijitIconNewTask'"
+									onClick='viewNewMachine()'>
+										Add/Edit Machine, Update Default
+									</div>
+								</div>
+							</div>
+  							<div dojoType="dijit.PopupMenuItem" 
+							data-dojo-props="iconClass:'dijitIconNewTask'">
+        							<span>Sequencing<br>Method</span>
+								<div dojoType="dijit.DropDownMenu" id="subMSeq">
+									<div dojoType="dijit.MenuItem" id="addMSeq"
+								data-dojo-props="iconClass:'dijitIconNewTask'"
+									onClick='viewNewMethSeq()'>
+										Add/Edit Sequencing Method, Update Default
+									</div>
+								</div>
+							</div>
+  							<div dojoType="dijit.PopupMenuItem" 
+							data-dojo-props="iconClass:'dijitIconNewTask'">
+        							<span>Alignment<br>Method</span>
+								<div dojoType="dijit.DropDownMenu" id="subMAln">
+									<div dojoType="dijit.MenuItem" id="addMAln"
+								data-dojo-props="iconClass:'dijitIconNewTask'"
+									onClick='viewNewMethAlign()'>
+										Add/Edit Alignment Method, Update Default
+									</div>
+								</div>
+							</div>
+ 							<div dojoType="dijit.PopupMenuItem" 
+							data-dojo-props="iconClass:'dijitIconNewTask'">
+        							<span>Calling<br>Method</span>
+								<div dojoType="dijit.DropDownMenu" id="subMCall">
+									<div dojoType="dijit.MenuItem" id="addMCall"
+								data-dojo-props="iconClass:'dijitIconNewTask'"
+									onClick='viewNewMethCall()'>
+										Add/Edit Calling Method, Update Default 
+									</div>
+								</div>
+							</div>
+							<div dojoType="dijit.PopupMenuItem" 
+							data-dojo-props="iconClass:'dijitIconNewTask'">
+        							<span>Pipeline<br>Profile</span>
+								<div dojoType="dijit.DropDownMenu" id="subPIPE">
+									<div dojoType="dijit.MenuItem" id="addPIPE"
+								data-dojo-props="iconClass:'dijitIconNewTask'"
+									onClick='viewNewPIPE()'>
+										Add/Update Pipeline Profile
+									</div>
+								</div>
+							</div>
+ 							<div dojoType="dijit.PopupMenuItem" 
+							data-dojo-props="iconClass:'dijitIconNewTask'">
+        							<span>UMI</span>
+								<div dojoType="dijit.DropDownMenu" id="subUMI">
+									<div dojoType="dijit.MenuItem" id="addUMI"
+								data-dojo-props="iconClass:'dijitIconNewTask'"
+									onClick='viewNewUMI()'>
+										Add/Edit UMI
+									</div>
+								</div>
+							</div>
+							<div dojoType="dijit.PopupMenuItem" 
+							data-dojo-props="iconClass:'dijitIconNewTask'">
+        							<span>Profile</span>
+								<div dojoType="dijit.DropDownMenu" id="subPRO">
+									<div dojoType="dijit.MenuItem" id="addPRO1"
+								data-dojo-props="iconClass:'dijitIconNewTask'"
+									onClick='viewNewPERS()'>
+										Add/Edit Perspective
+									</div>
+									<div dojoType="dijit.MenuItem" id="addPRO2"
+								data-dojo-props="iconClass:'dijitIconNewTask'"
+									onClick='viewNewTECH()'>
+										Add/Edit Technology
+									</div>
+									<div dojoType="dijit.MenuItem" id="addPRO3"
+								data-dojo-props="iconClass:'dijitIconNewTask'"
+									onClick='viewNewPREP()'>
+										Add/Edit Preparation
+									</div>
+									<div dojoType="dijit.MenuItem" id="addPRO4"
+								data-dojo-props="iconClass:'dijitIconNewTask'"
+									onClick='viewNewPROF()'>
+										Add/Update Profile <img id="IPRO" src="icons/information.png">
+									</div>
+								</div>
+							</div>
+							<div dojoType="dijit.PopupMenuItem" 
+							data-dojo-props="iconClass:'dijitIconNewTask'">
+        							<span>Genome<br>Release</span>
+								<div dojoType="dijit.DropDownMenu" id="subREL">
+									<div dojoType="dijit.MenuItem" id="addREL"
+								data-dojo-props="iconClass:'dijitIconNewTask'"
+									onClick='viewUpdateRelease();'>
+										Edit/Update Genome Release Default
+									</div>
+								</div>
+							</div>
+							<div dojoType="dijit.PopupMenuItem" 
+							data-dojo-props="iconClass:'dijitIconNewTask'">
+        							<span>Exon<br>Capture</span>
+								<div dojoType="dijit.DropDownMenu" id="subCAP">
+									<div dojoType="dijit.MenuItem" id="addCAP"
+								data-dojo-props="iconClass:'dijitIconNewTask'"
+									onClick='viewUpdateCapture()'>
+										Edit/Update Exon Capture Default
+									</div>
+								</div>
+							</div>
+							<div dojoType="dijit.MenuItem" id="Muser"
+								data-dojo-props="iconClass:'UserIcon'"
+								onClick='viewNewUser()'>User
+							</div>
+						</div>
+						<div dojoType="dijit.Tooltip" connectId="IPRO" position="above">
+							<label class="tooltip">
+							<b>Add/Update Profile</b> need <b>Perspective Technology Preparation</b> values that have already been created<br>
+							</label>
+						</div>
+					</div>
+
+					<div dojoType="dijit.layout.ContentPane" region="right" id="TabMainData"
+					style="width: 90%;margin: 0; padding: 0;white-space:nowrap;border:none;">
+						<div id="appSub" style="width: 100%; height: 100%"></div>
+					</div>
+				</div>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" disabled
+			title="<table class='tab_table_empty' ><tr><td style='width:11.5em'></td>
+				</tr></table>">
+			</div>
+<!-- onShow="year_graphics();" -->
+			<div dojoType="dijit.layout.ContentPane" id="statPoly" title="<b>Statistics</b>"
+data-dojo-props="href:'stat.html', executeScripts: true">
+			</div>
+			<div dojoType="dijit.layout.ContentPane" id="monitoringPoly" title="<b>Monitoring</b>"
+data-dojo-props="href:'monitoring.html', executeScripts: true">
+			</div>
+		</div>
+	</div>
+	<!-- ################################################################################### -->
+	<!--		New Run           -->
+	<!-- ################################################################################### -->
+	<div dojoType="dijit.Dialog" id="runDialog" class="projRun" data-dojo-props="closable:false"
+	title="<span style='float:left;width:92%;font-size:125%;text-align:left'>New Run</span><span id='bt_submit_run' class='cl_button_span_nowidth'></span><span id='bt_close_run' class='cl_button_span'></span>">
+		<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true"
+		style="width: 100%; height: 98.5%;margin: 0; padding: 0;white-space:nowrap;">
+			<div dojoType="dijit.layout.ContentPane" region="top"
+			style="border: 0; width: 100%; height: 5%;white-space:nowrap;">
+				<div dojoType="dijit.form.Form" id="speciesForm" jsId="speciesForm">
+					<table width="100%" height="100%"
+					style="border: 0; margin: 0; padding: 0;white-space:nowrap;">
+					<tr>
+					<td width="50%" align="center" height="100%"
+					style="border: 5px solid grey; margin: 0; padding: 0;"><B>NEW RUN</B>
+					</td>
+					<td width="15%" align="center" height="100%"
+					style="border: 5px solid grey; margin: 0; padding: 0;background:#EC6E24"><B>Species</B>&nbsp;
+						<input id="speciesName">
+					</td>
+					<td width="35%" align="center" height="100%"
+					style="border: 5px solid grey; margin: 0; padding: 0;"><B>NEW PATIENT</B>
+					</td>
+					</tr>
+					</table>
+				</div>
+						<div dojoType="dijit.Tooltip" 
+						data-dojo-props="connectId:['PIPR','PIPP','PIPM']" position="below">
+							<label class="tooltip">
+								<b>Short Cut for Methods</b><br>
+								<i>Use Pipeline Methods to get methods in Alignment,Calling and Other (SV,SPLICES,...) needed in Pipeline<br>
+								New Pipeline Methods in New Data</i>
+							</label>
+						</div>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="left"
+			style="width: 29%; margin: 0; padding: 0;white-space:nowrap;" align="center">
+				<div dojoType="dijit.form.Form" id="desForm" jsId="desForm">
+					<div dojoType="dijit.Tooltip" connectId="NRF" position="above">
+						<label class="tooltip">
+						Run Name: <b>bcl directory</b> (date_machine_n°run_n°FC+Idflowcell)<br>
+						Plateform Run Name: <b>fastq directory</b>
+						</label>
+					</div>
+					<table style="width: 25em; border: 0.1em solid #9f9f9f;">
+						<!-- Name -->
+					<tr style="line-height: 0.8;margin:0;padding: 0;">
+					<td ><label for="Rname"><b>Name</b> <i style="font-size:70%">(bcl)</i>
+					<img id="NRF"src="icons/information.png"></label>
+					</td>
+					<td><input type="text" id="Rname" name="Rname"
+						dojoType="dijit.form.ValidationTextBox" style="width: 14em;"
+						required="true" regExp="^[a-zA-Z0-9-_/]+$">
+					</td>
+					</tr>
+						<!-- Plateform Run Name -->
+					<tr style="line-height: 0.8;margin:0;padding: 0;">
+					<td ><label for="PLTname"><b>Plateform Run Name</b> <i style="font-size:70%">(fastq)</i><br></label>
+					</td>
+					<td><input type="text" id="PLTname" name="PLTname" regExp="^[a-zA-Z0-9-_/]+$"
+						dojoType="dijit.form.ValidationTextBox" style="width: 14em;">
+					</td>
+					</tr>
+						<!-- Nb patient -->
+					<tr>
+					<td><label for="Rnbpat"><b>Number of patient</b> </label></td>
+					<td><input type="text" id="Rnbpat" name="Rnbpat"
+						dojoType="dijit.form.NumberTextBox" required="false"
+						constraints="{min:1,max:400}" style="width: 5em;"
+						invalidMessage="Invalid Number">
+					</td>
+					</tr>
+						<!-- Flowcell-->
+					<tr>
+					<td><label for="fc"><b>Flowcell</b></label></td>
+					<td><input type="radio" dojoType="dijit.form.RadioButton"
+						name="fc" id="fcA" value="A"> 
+						<label for="fcA">A</label>
+						<input type="radio" 
+						dojoType="dijit.form.RadioButton" name="fc"
+						id="fcB" value="B"> 
+						<label for="fcB">B</label>
+						<input type="radio" 
+						dojoType="dijit.form.RadioButton" name="fc"
+						id="fcNone" value=" "> 
+						<label for="fcNone">None</label>
+					</td>
+					</tr>
+					<!-- type -->
+					<tr>
+					<td><label for="patientType"><b>Type</b></label></td>
+					<td><input id="patientType"></td>
+					</tr>
+					</table>
+						<!-- Description -->
+					<table style="width: 20em;">
+					<tr>
+					<td><label for="Rdescription"> <b>Description</b> 
+					<I class='warnIcon'></I><I> no accent, no apostrophe</I></label>
+					</td>
+					</tr>
+					<tr>
+					<td><textarea id="Rdescription" name="Rdescription"
+						dojoType="dijit.form.SimpleTextarea" rows="2" cols="32"
+						style="width: auto;" value=""></textarea></td>
+					</tr>
+					</table>
+						<!-- Profile -->
+					<table style="width: 20em;">
+						<tr><td><label for="profileName"><b>Profile</b></label></td></tr>
+						<tr><td><input id="profileName"></td></tr>
+						<tr><td></td></tr>
+					</table>
+					<!-- field plateform -->
+					<table dojoType="dojox.grid.DataGrid" jsId="plateformGrid"
+					selectionMode="single" rowSelector="0.4em"
+					style="width: 18em; height: 12em; border: 0.1em solid #9f9f9f;">
+					<tr align="center">
+					<b>Sequencing Plateform</b>
+					</tr>
+					<tr>&nbsp;</tr>
+					<tr>
+					<input type="checkbox" id="plt_defbox" name="plt_defbox"
+					dojoType="dojox/mobile/CheckBox" checked>
+					<label for="plt_defbox">Def</label>
+					</tr>
+					<thead>
+					<tr>
+					<th width="15em" field="plateformName">Plateform Name</th>
+					</tr>
+					</thead>
+					</table><br>
+				</div>
+				<div dojoType="dijit.Toolbar">
+					<TABLE><TD>
+					<button data-dojo-type="dijit.form.ToggleButton" 
+style="height:16;width:90;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43; color: white"
+				data-dojo-props="iconClass:'dijitRadioIcon'" onChange="chgPipe" id="btn_pipe">
+					<i style="font-size:70%;margin:0;padding:0;border:0">Pipeline Methods</i>
+					<img id="PIPR" src="icons/information.png"></button>
+					</TD></TABLE>
+				</div>
+				<!-- Profile pipeline methods-->
+				<table id="pipeline" style="width: 25em;">
+						<tr><td><label for="pipelineName"><b>Pileline Profile</b>
+							</label>
+						</td></tr>
+						<tr><td><input id="pipelineName"></td></tr>
+						<tr><td></td></tr>
+				</table>
+				<!--table of tables -->
+				<TABLE id="alncall">
+				<TD>
+					<table dojoType="dojox.grid.DataGrid" jsId="alnRGrid"  clientSort="true" id="alnRGrid"
+					selectionMode="multiple" rowSelector="0.4em"
+					style="width: 15em; height: 12em; border: 0.1em solid #9f9f9f;">
+					<tr><b>Alignment Method</b></tr>
+					<tr>&nbsp;</tr>
+					<tr>
+					<input type="checkbox" id="maln_defbox" name="maln_defbox"
+					dojoType="dojox/mobile/CheckBox" checked>
+					<label for="maln_defbox">Def</label>
+					</tr>
+					<thead>
+					<tr><th width="12em" field="methName">Method Name</th></tr>
+					</thead>
+					</table>
+				</TD>
+				<TD>
+					<table dojoType="dojox.grid.DataGrid" jsId="callRGrid" clientSort="true" id="callRGrid"
+					selectionMode="multiple" rowSelector="0.4em"
+					style="width: 15em; height: 12em; border: 0.1em solid #9f9f9f;">
+					<tr><b>Calling Method</b></tr>
+					<tr>&nbsp;</tr>
+					<tr>
+					<input type="checkbox" id="mcall_defbox" name="mcall_defbox"
+					dojoType="dojox/mobile/CheckBox" checked>
+					<label for="mcall_defbox">Def</label>
+					</tr>
+					<thead>
+					<tr><th width="12em" field="methName">Method Name</th></tr>
+					</thead>
+					</table>
+				</TD>
+				</TABLE>
+				<TABLE id="othermeth">
+				<TD>
+					<table dojoType="dojox.grid.DataGrid" jsId="otherRGrid"  clientSort="true" id="otherRGrid"
+					selectionMode="multiple" rowSelector="0.4em"
+					style="width: 15em; height: 8em; border: 0.1em solid #9f9f9f;">
+					<tr><b>Other Method</b></tr>
+					<tr>&nbsp;</tr>
+					<tr>
+					<!--<input type="checkbox" id="other_defbox" name="other_defbox"
+					dojoType="dojox/mobile/CheckBox" checked>
+					<label for="other_defbox">Def</label>-->
+					</tr>
+					<thead>
+					<tr><th width="12em" field="methName">Method Name</th></tr>
+					</thead>
+					</table>
+				</TD>
+				</TABLE>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="center"
+			style="width: 37%; margin: 0; padding: 0;white-space:nowrap;" align="center">
+				<div dojoType="dijit.form.Form" id="relCapForm" jsId="relCapForm">
+					<!--table of tables -->
+					<TABLE>
+					<TD>
+					<table dojoType="dojox.grid.DataGrid" jsId="machineGrid" 
+					selectionMode="single" rowSelector="0.4em"
+					style="width: 17em; height: 7em;border: 0.1em solid #9f9f9f;;">
+					<tr><b>Sequencing Machine</b></tr>
+					<tr>&nbsp;</tr>
+					<tr>
+					<input type="checkbox" id="mac_defbox" name="mac_defbox"
+					dojoType="dojox/mobile/CheckBox" checked>
+					<label for="mac_defbox">Def</label>
+					</tr>
+					<thead>
+					<tr><th width="14em" field="macName">Machine Name</th></tr>
+					</thead>
+					</table>
+					</TD> 
+					<TD width="5em"></TD>
+					<TD>
+					<table dojoType="dojox.grid.DataGrid" jsId="mseqGrid"
+					selectionMode="single"  rowSelector="0.4em"
+					style="width: 16em; height: 7em;border: 0.1em solid #9f9f9f;white-space:nowrap;">
+					<tr><b>Sequencing Method</b></tr>
+					<tr>&nbsp;</tr>
+					<tr>
+					<input type="checkbox" id="mseq_defbox" name="mseq_defbox"
+					dojoType="dojox/mobile/CheckBox" checked>
+					<label for="mseq_defbox">Def</label>
+					</tr>
+					<thead>
+					<tr><th width="14em" field="methSeqName">Sequencing method Name</th></tr>
+					</thead>
+					</table>
+					</TD>
+					</TABLE>
+
+					<table
+					style="width:98%;margin:0;padding:0;white-space:nowrap;border:0.1em solid grey;">
+					<tr for="release" align="center">
+					<td><b>Genome Release</B>&nbsp;
+					<input type="checkbox" id="rel_defbox" name="rel_defbox"
+					dojoType="dojox/mobile/CheckBox" checked>
+					<label for="rel_defbox">Def</label>
+					</td></tr>
+					<tr><td>
+						<span id="relRadioCap"></span>
+					</td></tr>
+					</table>
+
+					<table style="margin:0;padding:0;white-space:nowrap;border:0" >
+					<tr><td>
+					<b>Exon Capture</b> from Genome Release Selection
+					<input type="checkbox" id="capd_defbox" name="capd_defbox"
+					dojoType="dojox/mobile/CheckBox" checked>
+					<label for="capd_defbox">Def</label>
+
+					<div id="captureDiv" align="right"
+					style="width:33em; height:27em;margin:0;padding:0;white-space:nowrap;border:0">
+					</div>
+					</td></tr>
+					</table>
+				</div>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="right" data-dojo-props="splitter:true"
+				style="width: 34%; margin: 0; padding: 0;white-space:nowrap;" align="center">
+				<!-- Upload SampleSheet File  style="display: none;"-->
+				<div dojoType="dijit.Tooltip" connectId="USS" position="below">
+						<label class="tooltip">
+						<i>Upload the Sample Sheet File before submitting<br><b>Run Name</b> and <b>Plateform Run Name</b> must be filled in at least</i>
+						</label>
+				</div>
+
+				<table style="border: 0.1em solid #9f9f9f;">
+				<tr><td align="center">
+				<div dojoType="dijit.form.Button" iconClass="uploadIcon"
+				onClick='addSample2Run();' showLabel="true">Upload Sample Sheet <img id="USS" src="icons/information.png"></div>
+				</td></tr>
+				<tr><td>
+				<input id='runSamplesheet' jsId='runSamplesheet' name='rSamplesheet' value='' disabled>
+				</td></tr>
+				</table>
+				<!-- field Patient -->
+				<table style="border: 0.1em solid #9f9f9f;">	
+				<tr><td align="center">
+					<input type="radio" dojoType="dijit.form.RadioButton"
+					name="pat_input" id="pat_file" value="A" onChange="chgFil"> 
+					<label for="pat_file">Upload File
+					<img src="icons/document_a4_upload.png">&nbsp;&nbsp;</label>
+
+					<input type="radio" dojoType="dijit.form.RadioButton" checked
+					name="pat_input" id="pat_col" value="B" onChange="chgCol"> 
+					<label for="pat_col">Copy/Paste
+					<img src="icons/copy_paste_16.png">&nbsp;&nbsp;</label>
+				</td></tr>
+				</table>
+				<div dojoType="dijit.Tooltip" connectId="CLF" position="below">
+						<label class="tooltip">
+						<i>Column Tabulated List with Header must contain either:<ul>
+							<li>At least, 1 column with Header: Patient</li>
+							<li>At max, 11 columns with Header Patient first then no order: Patient Group Family Father Mother Sex Status BC BC2 IV Person</li>
+							<li>IV: Identity Vigilance</li>
+							<li>Person: Reffering Person Name</li></ul></i>
+						</label>
+				</div>
+				<div dojoType="dijit.form.Button" id="loadF"
+				onClick='load_patientFile();' showLabel="true">
+ 				Upload Patient Tab File <img id="CLF" src="icons/information.png">
+				</div>
+
+				<div dojoType="dijit.form.Form" id="patForm" jsId="patForm">
+					<div dojoType="dijit.Tooltip" connectId="CL" position="below">
+						<label class="tooltip">
+						<i>The Tabulated Header must contain:<ul>
+						<li>first field : Patient</li>
+						<li>Max: 11 fields, first field: Patient,  then other field: no order</li>
+						<li>Patient Group Family Father Mother Sex Status BC BC2 IV Person</li>
+						<li>IV: Identity Vigilance</li>
+						<li>Person: Reffering Person Name</li>
+						</ul>
+						<b>Example of desired columns</b> Patient Sex IV:
+						<br>Patient Sex IV
+						<br>Pat1    1	221331133321133
+						<br>Pat2    2	132231233331113
+						<br></i></label>
+					</div>
+					<table style="border: 0.1em solid #9f9f9f;">
+						<tr>
+						<label for="Rpatient">
+						<b>Column Tabulated List with Header:</b>
+						<i style="font-size:70%">(Copy/Paste from your Excel File)</i><br>
+<a style="font-size:90%">Patient&nbsp;&nbsp;Group&nbsp;&nbsp;Family&nbsp;&nbsp;Father&nbsp;&nbsp;Mother&nbsp;&nbsp;Sex&nbsp;&nbsp;Status&nbsp;&nbsp;BC&nbsp;&nbsp;BC2&nbsp;&nbsp;IV&nbsp;&nbsp;Person</a>
+						<img id="CL" src="icons/information.png"></label>
+						</tr>
+						<!--Enable tab key inside textarea onKeyDown="keyTab"-->
+						<tr>
+						<td><textarea id="Rpatient" name="Rpatient" onKeyDown="keyTab"
+							dojoType="dijit.form.SimpleTextarea" rows="30" cols="50"
+							style="width: 28em;" value=""></textarea></td>
+						</tr>
+					</table>
+				</div>
+				<div data-dojo-type="dijit.Tooltip" 
+				data-dojo-props="connectId:['bt_cleargridproj','bt_cleargridrun','bt_cleargridcap'],position:['above']">
+							<label class="tooltip">
+							<b>Clear selection<b>
+							</label>
+				</div>
+				<div data-dojo-type="dijit.Tooltip" 
+				data-dojo-props="connectId:['bt_resetSearchRun','bt_resetSearchProj','bt_resetSearchCap']" position="below">
+					<label class="tooltip">
+						<b>Reset filter<b>
+					</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!-- Add/Remove USER -->
+	<!-- ############################################################################################## -->
+	<div dojoType="dijit.Dialog" id="userDialog" jsId="userDialog" class="projUser"
+	data-dojo-props="closable:false"
+title="<span style='width:25%;font-size:125%;' class='cl_block_left'>Add/Remove Users from project</span>
+<span id='projid' jsId='projid' style='display:none' class='cl_block_left'></span>
+<span style='width:8%;background:#6D7741;border-radius: 5px 0 0 5px;' class='cl_block_left'>Project Name: </span>
+<span id='projname' jsId='projname' style='width:auto;background:#6D7741;border-radius: 0 5px 5px 0;' class='cl_block_left'></span>
+<span id='bt_close_userproj' style='width:2%;' class='cl_btlog_block_right'></span>
+<span id='btlog_7' style='width:10%;' class='cl_btlog_block_right'></span>
+<span id='button_newuser' style='width:10%;' class='cl_button_span_right'></span>
+	">
+		<div dojoType="dijit.layout.BorderContainer" id="borderContainerUser">
+			<div dojoType="dijit.layout.ContentPane" region="top"
+			style="height: 2em; border:none;margin: 0; padding: 0:color:white;text-align:center">
+				<div dojoType="dijit.Toolbar" id="toolbar_AddUser" style="color:white;">
+					<div dojoType="dijit.form.Button"
+				onClick='refreshUserList(userGrid);refreshAllUsersList();' iconClass="refreshIcon"
+						showLabel="true">Refresh</div>
+					<div dojoType="dijit.form.Button" onClick='addUserProject();'
+						iconClass="plusIcon" howLabel="true">Add User</div>
+					<div dojoType="dijit.form.Button" onClick='removeUserProject();'
+						iconClass="delIcon" showLabel="true">Remove User</div>
+				</div>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="left" style="width: 28%;">
+				<B>Project's Users</B>
+				<div id="userGridDiv" style="height: 96%;"></div>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="right" style="width: 72%;">
+				<img id="T3" src="icons/information.png" align="left">
+				<B>List of Users</B>&nbsp;&nbsp;
+				<I class='multipleIcon' title='Multiple Selection'></I>
+				<div dojoType="dijit.Tooltip" connectId="T3" position="above">
+					<label class="tooltip"><i><b>For a new User:</b><br>
+						Use Button New User, then Refresh the List of Users <br>
+						Group <b>STAFF</b> is added by default<br></i>
+					</label>
+				</div>
+				<div id="gridUserDiv" style="height: 96%;"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!-- Remove USER for all projects-->
+	<!-- ############################################################################################## -->
+	<div dojoType="dijit.Dialog" id="remuserDialog" jsId="remuserDialog" class="projUserAll"
+	data-dojo-props="closable:false"
+title="<span style='width:25%;font-size:125%;' class='cl_block_left'>Remove User for All project</span>
+<span id='bt_close_remuserproj' style='width:2%;' class='cl_btlog_block_right'></span>
+	">
+		<div dojoType="dijit.layout.BorderContainer" id="borderContainerRemUser">
+			<div dojoType="dijit.layout.ContentPane" region="top"
+			style="height: 2em; border:none;margin: 0; padding: 0:color:white;text-align:center">
+				<div dojoType="dijit.Toolbar" id="toolbar_RemUser" style="color:white;">
+					<div dojoType="dijit.form.Button" onClick='removeUserForAllProject();'
+						iconClass="delIcon" showLabel="true">Remove User</div>
+				</div>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="center" style="width: 100%;">
+				<B>List of Users</B>&nbsp;&nbsp;
+				<div id="remgridUserDiv" style="height: 96%;"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!--  Edit Project -->
+	<!-- ############################################################################################## -->
+	<div dojoType="dijit.Dialog" id="viewProj" jsId="viewProj" class="projEdit"  
+	data-dojo-props="closable:false"
+	title="<span style='width:20%;font-size:125%;' class='cl_block_left'>Edit Project</span>
+<span style='width:6%;background:#6D7741;border-radius: 5px 0 0 5px;' class='cl_block_left'>Project ID: </span>
+		<span id='projUid' jsId='projUid' style='width:3%;background:#6D7741;' class='cl_block_left'></span>
+		<span style='width:4%;background:#6D7741;' class='cl_block_left'>Name: </span>
+<span id='projUname' jsId='projUname' style='width:9%;background:#6D7741;border-radius: 0 5px 5px 0;' class='cl_block_left'></span>
+		<span id='projOnco' jsId='projOnco' style='width:20%;' class='cl_block_left'></span>
+		<input id='projUpname' jsId='projUpname' name='Upname' value='111' type='hidden'>
+		<span id='bt_close_proj' style='width:2%;' class='cl_btlog_block_right'></span>		
+		<span id='btlog_4' style='width:10%;' class='cl_btlog_block_right'></span>
+		">
+
+		<div dojoType="dijit.layout.BorderContainer" id="TabEditProj"
+		style="width: 100%; height: 98.7%;margin: 0; padding: 0;white-space:nowrap;border: none;">
+			<div dojoType="dijit.layout.TabContainer" region="center"
+			style="width: 100%; height: 92%;margin: 0; padding: 0;white-space:nowrap;border: none;">
+				<!-- Patient -->
+				<div dojoType="dijit.layout.ContentPane" title="Patients"
+	onShow="dojo.style(dijit.byId('bt_savePatient').domNode,{'visibility':'visible'});dojo.style(dijit.byId('bt_saveProject').domNode,{'visibility':'hidden'});show_bt_Project();"
+					style="width: 100%; height: 94%;margin: 0; padding: 0;white-space:nowrap;border: none;">
+					<div dojoType="dijit.Tooltip" connectId="PPF" position="below">
+						<label class="tooltip">
+				<i><b>Deposit:</b> Create a project pedigree file in the project folder<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Force:</b> make a copy version pedigree file and replace it if this already exist<br>
+			
+				<b>Retrieve:</b> Get pedigree file from project folder to update patient features
+				</i>
+						</label>
+					</div>
+					<div dojoType="dijit.Tooltip" connectId="SF" position="above">
+						<label class="tooltip">
+				<i><b>Deposit:</b> Create a project somatic file in the project folder<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Force:</b> make a copy version somatic file and replace it if this already exist<br>
+				</i>
+						</label>
+					</div>
+					<div dojoType="dijit.Tooltip" connectId="Pprint" position="below">
+						<label class="tooltip">
+						<b>Preview/Save All :</b> right click on the Grid<br>
+						<b>Preview/Save Selected :</b>Select rows then right click on one Grid row selected
+						</label>
+					</div>
+					<div dojoType="dijit.Toolbar">
+						<TABLE style="color:white">
+							<TR>
+							<TD style="border: 1px solid green">
+							<img src="icons/tree-32.png"
+							align="top" height="20" width="30" hspace="2">
+							<B>Pedigree Folder</B>
+							<img id="PPF"src="icons/information.png">
+							<span data-dojo-props="'class':'spanpat'" 
+									dojoType="dijit.ToolbarSeparator">
+							</span> 
+							<div dojoType="dijit.form.Button" iconClass=""
+								showLabel="true"
+								style="float: center; background-color: #9ABF5E"
+								onClick="pedigreeDeposit();">Deposit
+							</div>
+							<button data-dojo-type="dijit.form.ToggleButton" 
+style="height:16;width:47;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43; color: white"
+data-dojo-props="iconClass:'dijitRadioIcon'" onChange="chgForce" id="btn_force">
+						<i style="font-size:70%;margin:0;padding:0;border:0">Force</i>
+							</button>
+							<span data-dojo-props="'class':'spanpat'" 
+									dojoType="dijit.ToolbarSeparator">
+							</span> 
+							<div dojoType="dijit.form.Button" iconClass=""
+								showLabel="true"
+								style="float: center; background-color: #5B6D13"
+								onClick="pedigreeRetrieve();">Retrieve
+							</div>
+							</TD>
+
+							<TD width=10 align="right">
+							</TD>
+
+							<TD style="margin:1;border: 1px solid green;display:none" 
+							id="depositOnco" jsId="depositOnco">
+							<img src="icons/cells.png" align="top" 
+							height="18" width="18" vspace="2" hspace="2">
+							<B>Project Somatic Folder</B>
+							<img id="SF"src="icons/information.png">
+							<div dojoType="dijit.form.Button" iconClass=""
+								showLabel="true"
+								style="float: center; background-color: #9ABF5E"
+								onClick="somaticDeposit();">Deposit
+							</div>
+							<button data-dojo-type="dijit.form.ToggleButton" 
+style="height:16;width:47;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43; color: white"
+data-dojo-props="iconClass:'dijitRadioIcon'" onChange="chgSomatic" id="btn_sforce">
+							<i style="font-size:70%;margin:0;padding:0;border:0">Force</i>
+							</button>
+							</TD>
+
+							<TD style="border: 1px solid green;width:7em;margin:0;padding:0;white-space:nowrap;" align="center">
+							<button data-dojo-type="dijit.form.ToggleButton" 
+style="height:16;width:auto;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43; color: white"
+							data-dojo-props="iconClass:'dijitCheckBoxIcon'" onChange="chgControl" id="btn_control2">
+							<i style="font-size:70%;margin:0;padding:0;border:0">Control</i>
+							</button>
+		
+							<div dojoType="dijit.form.Button" id="bt_ctrlsubmit2"
+							onClick="chgControl2patient(fromproject=1);" showLabel="true" 
+							iconClass="validIcon"
+style="float:center;border-radius:10px;background:linear-gradient(brown,#510303);border:0;color:white;margin:0;padding:0;width:1.5em;">
+							</div>
+							</td>
+
+							<div data-dojo-type="dijit.Tooltip" data-dojo-props="connectId:'btn_control2',position:['above']">
+							<label class="tooltip">
+							Selector for <b>Patient Control or Not</b>
+							</label>
+							</div>
+							<div data-dojo-type="dijit.Tooltip" data-dojo-props="connectId:'bt_ctrlsubmit2',position:['above']">
+							<label class="tooltip">
+							Submit Button for <b>selected Patient</b> according to <b>Patient Control Selector</b>
+							</label>
+							</div>
+							<TD width=30></TD>
+							<TD>
+							<div dojoType="dijit.form.Button" iconClass="renameIcon" 
+							id="bt_savePatient"
+							onClick='upPatient(fromproject=1);' showLabel="true">Save
+							</div>
+							<div dojoType="dijit.form.Button" iconClass="removeIcon" 
+							id="bt_remPatientProject" showLabel="true"
+							onClick='removePatientProject();'>Remove Patient
+							</div>
+							</TD>
+							<TD>
+							<div id="dropDownProjectCapture_bt"></div>
+							</TD>
+							<TD>
+							<div id="dropDownProjectProfile_bt"></div>
+							</TD>
+							<TD>
+							<div id="dropDownProjectSpecies_bt"></div>
+							</TD>
+							<TD>
+							<button dojoType="dijit.form.ToggleButton" id="btn_person2" onChange="chgPerson2"
+style="height:16;width:auto;margin:0;padding:0;float: top; border-radius: 8px;background:#b8a9c9; border: 1px solid #696B43; color: white"
+							data-dojo-props="iconClass:'dijitCheckBoxIcon', checked: false, showLabel: true">
+							<i style="font-size:70%;margin:0;padding:0;border:0"><b>P</b></i>
+							</button>
+							</TD>
+
+							<TD width=5 align="right">
+								<img id="Pprint" src="icons/table_save.png">
+							</TD>
+
+							</TR>
+						</TABLE>
+					</div>
+					<div id="patientprojectGridDiv"></div>
+				</div>
+				<!-- Project -->
+				<div dojoType="dijit.layout.ContentPane" title="Project" id="projectCP"
+	onShow="dojo.style(dijit.byId('bt_savePatient').domNode,{'visibility':'hidden'});dojo.style(dijit.byId('bt_saveProject').domNode,{'visibility':'visible'});dojo.style(dijit.byId('bt_remPatientProject').domNode,{'visibility':'hidden'})"
+					style="width: 100%; height: 100%">
+					<div dojoType="dijit.Tooltip" connectId="ISP" position="above">
+						<label class="tooltip">
+						<b>Save Project: Phenotype</b><br> Use the dropdown list to add or remove phenotype from project and their patients
+							<br>Add multiples phenotypes: Save one by one the selected phenotype
+							<br>Remove all phenotypes: Use selection "No Phenotype"
+						</label>
+					</div>
+					<div dojoType="dijit.Toolbar">
+						<table align="center" width="100%" style="color:white"><TR>
+						<TD width="100%" align="center">
+						<div dojoType="dijit.form.Button" iconClass="delIcon" 
+						id="bt_delProject"
+						onClick='delProject();' showLabel="true">Del Project
+						</div>
+						<div dojoType="dijit.form.Button" iconClass="renameIcon" 
+						id="bt_saveProject"
+						onClick='saveProject();' showLabel="true">
+							Save <img id="ISP" src="icons/information.png">
+						</div>						
+						</TD>
+						</TR></TABLE>
+					</div>
+					<div id="oneprojGridDiv" style="width: 100%; height: 100%"></div>
+				</div>
+				<!-- Users -->
+				<div dojoType="dijit.layout.ContentPane" title="Users"
+	onShow="dojo.style(dijit.byId('bt_savePatient').domNode,{'visibility':'hidden'});dojo.style(dijit.byId('bt_savePatient').domNode,{'visibility':'hidden'});dojo.style(dijit.byId('bt_saveProject').domNode,{'visibility':'hidden'});dojo.style(dijit.byId('bt_remPatientProject').domNode,{'visibility':'hidden'})"
+					style="width: 100%; height: 100%">
+					<div id="userprojectGridDiv"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!--  Edit Project  : Show pedigree from project ped file -->
+	<!-- ############################################################################################## -->
+	<div dojoType="dijit.Tooltip" connectId="Dprint" position="below">
+		<label class="tooltip">
+		<b>Preview/Save All :</b> right click on the Grid<br>
+		</label>
+	</div>
+	<div dojoType="dijit.Dialog" id="pedigreeDialog" jsId="pedigreeDialog"  class="pedigreeProject"
+	data-dojo-props="closable:false" 
+	title="<span style='width:40%;font-size:125%;' class='cl_block_left'>PedigreeB Retrieve From Folder</span>
+	<span style='width:8%;background:#6D7741;border-radius: 5px 0 0 5px;' class='cl_block_left'>Project: </span>
+<span id='pedprojname' style='width:16%;background:#6D7741;border-radius: 0 5px 5px 0;' class='cl_block_left'></span>
+		<span style='width:3%;' class='cl_block_left'>
+		<img id='Dprint' src='icons/table_save.png'></span>
+		<span id='bt_close_ped' style='width:3%;' class='cl_btlog_block_right'></span>			
+		<span id='bt_submit_ped' style='width:18%;' class='cl_btlog_block_right'></span>		
+	">
+		<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+			<div dojoType="dijit.layout.ContentPane" region="center"
+				style="height: 40em">
+				<div id="pedGrid" style="width: 100%; height: 100%"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!--  Edit Run  : Add/Del Patient || Capture change || Methods ALN ALIGN || Info -->
+	<!-- ############################################################################################## -->
+	<div dojoType="dijit.Dialog" id="showrunDialog" jsId="showrunDialog" 
+	class="showRun" data-dojo-props="closable:false"
+	title="<span style='width:20%;font-size:125%;' class='cl_block_left'>Edit Run</span>
+	<span style='width:3%;background:#6D7741;border-radius: 5px 0 0 5px;' class='cl_block_left'>Run: </span>
+	<span id='SrunId' style='width:3%;background:#6D7741;border-radius: 0 5px 5px 0;' class='cl_block_left'></span>
+	<span id='SrunAnalyse' style='width:12%;background:#6D7741;border-radius: 5px 5px 5px 5px;text-align:center;' class='cl_block_left'></span>
+	<span id='SrunRel' style='width:10%;background:#6D7741;border-radius: 5px 5px 5px 5px;text-align:center;' class='cl_block_left'></span>
+		<span id='runOnco' style='width:20%;' class='cl_block_left'></span>
+		<span id='bt_close_patrun' style='width:2%;' class='cl_btlog_block_right'></span>		
+		<span id='btlog_3' style='width:10%;' class='cl_btlog_block_right'</span>
+		">
+
+		<div dojoType="dijit.layout.BorderContainer" id="TabEditRun"
+		style="width: 100%; height: 97%;margin:0;padding:0;white-space:nowrap;">
+			<!-- Add Del Patient -->
+			<div dojoType="dijit.layout.TabContainer" region="center" doLayout="false"
+			style="width: 100%; height: 96%" controllerWidget="dijit.layout.TabController">
+				<!-- Patient -->
+				<div dojoType="dijit.layout.ContentPane" title="Patient"
+				style="width: 100%; height: 97%">
+					<div dojoType="dijit.layout.BorderContainer">
+						<div dojoType="dijit.layout.ContentPane" region="left"
+						style="width: 100%;">
+							<div dojoType="dijit.Tooltip" connectId="RPprint"
+							position="below">
+								<label class="tooltip">
+								<b>Preview/Save All :</b> right click on the Grid<br>
+								<b>Preview/Save Selected :</b>Select rows then right click on one Grid row selected
+								</label>
+							</div>
+							<div dojoType="dijit.Tooltip" 
+								data-dojo-props="connectId:['btn_person']" position="below">
+								<label class="tooltip">
+									<b>Toggle</b> to show Table Person Information
+								</label>
+							</div>
+
+							<div dojoType="dijit.Toolbar" id="toolbar_project" >
+								<TABLE style="color:white">
+									<TR>
+									<TD style="border: 1px solid green;width:7em;margin:0;padding:0;white-space:nowrap;" align="center">
+									<button data-dojo-type="dijit.form.ToggleButton" 
+style="height:16;width:auto;margin:0;padding:0;white-space:nowrap;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43; color: white"
+									data-dojo-props="iconClass:'dijitCheckBoxIcon'" onChange="chgControl" id="btn_control">
+									<i style="font-size:70%;margin:0;padding:0;border:0">Control</i>
+									</button>
+									<div dojoType="dijit.form.Button" id="bt_ctrlsubmit"
+									onClick="chgControl2patient(fromproject=0);" showLabel="true" 
+									iconClass="validIcon"
+style="float:center;border-radius:10px;background:linear-gradient(brown,#510303);border:0;color:white;margin:0;padding:0;white-space:nowrap;width:1.5em;">
+									</div>
+									</td>
+									<div data-dojo-type="dijit.Tooltip" data-dojo-props="connectId:'btn_control',position:['above']">
+									<label class="tooltip">
+									Selector for <b>Patient Control or Not</b>
+									</label>
+									</div>
+									<div data-dojo-type="dijit.Tooltip" data-dojo-props="connectId:'bt_ctrlsubmit',position:['above']">
+									<label class="tooltip">
+									Submit Button for <b>selected Patient</b> according to <b>Patient Control Selector</b>
+									</label>
+									</div>
+
+									<TD width=5></TD>
+									<TD style="border: 1px solid green">
+									<div dojoType="dijit.form.Button"
+									iconClass="" showLabel="true"
+								style="float: center; background-color: #5B6D13;margin:0;padding:0;white-space:nowrap;"
+								onClick="SearchAndNewProject(tproject=1);">
+									Current Project</div>
+									</TD>
+									<TD style="border: 1px solid green">
+									<div dojoType="dijit.form.Button"
+									iconClass="" showLabel="true"
+								style="float: center; background-color: #5B6D13;margin:0;padding:0;white-space:nowrap;"
+								onClick="SearchAndNewProject(tproject=0);">
+									Target Project</div>
+									</TD>
+									<TD width=5></TD>
+									<TD>
+									<div dojoType="dijit.form.Button" style="margin:0;padding:0;white-space:nowrap;"
+									iconClass="refreshIcon" showLabel="false"
+									onClick='refreshPatRun();'>Refresh</div>
+									</TD>
+									<TD>
+									<div dojoType="dijit.form.Button"
+									iconClass="renameIcon" style="margin:0;padding:0;white-space:nowrap;"
+									onClick='upPatient(fromproject=0);'
+									showLabel="true">Save</div>
+									</TD>
+									<TD>
+									<div dojoType="dijit.form.Button"
+									iconClass="delIcon" showLabel="true" style="margin:0;padding:0;white-space:nowrap;"
+									onClick='delPat2Run();'>Del Patient</div>
+									</TD>
+									<TD>
+									<div dojoType="dijit.form.Button" id="buttonAddPat" type="button"
+									showLabel="true" iconClass="plusPatientIcon" style="margin:0;padding:0;white-space:nowrap;">
+									Add Patient</div>
+									</TD>
+
+									<TD>
+									<div dojoType="dijit.form.Button" id="buttonUpPat" type="button"
+									showLabel="true" iconClass="renameIcon" style="margin:0;padding:0;white-space:nowrap;">
+									Up Patient</div>
+									</TD>
+									<div data-dojo-type="dijit.Tooltip" 
+									data-dojo-props="connectId:'buttonUpPat',position:['above']">
+									<label class="tooltip">
+									Update Patients by <b>Copy/Paste</b>
+									</label>
+									</div>
+
+									<TD>
+									<div dojoType="dijit.form.Button" id="buttonAddBCG"  type="button"
+									showLabel="true" iconClass="barcodeIcon" style="margin:0;padding:0;white-space:nowrap;">
+									Add IV</div>
+									</TD>
+									<TD>
+									<div id="dropDownRunCapture_bt"></div>
+									</TD>
+									<TD>
+									<div id="dropDownRunProfile_bt"></div>
+									</TD>
+									<TD>
+									<div id="dropDownRunSpecies_bt"></div>
+									</TD>
+
+									<TD>
+									<div dojoType="dijit.form.Button" id="buttonMethPat" type="button" style="margin:0;padding:0;white-space:nowrap;"
+									showLabel="true" iconClass="methodsIcon" onClick='showMethods()'>
+									Methods</div>
+									</TD>
+
+									<TD>
+									<button dojoType="dijit.form.ToggleButton" id="btn_person" onChange="chgPerson"
+style="height:16;width:auto;margin:0;padding:0;white-space:nowrap;float: top; border-radius: 8px;background:#b8a9c9; border: 1px solid #696B43; color: white"
+									data-dojo-props="iconClass:'dijitCheckBoxIcon', checked: false, showLabel: true">
+									<i style="font-size:70%;margin:0;padding:0;border:0"><b>P</b></i>
+									</button>
+									</TD>
+
+									<TD width=5 align="right">
+									<img id="RPprint" src="icons/table_save.png">
+									</TD>
+									</TR>
+								</TABLE>
+							</div>
+							<div id="runGridDiv" jsId="runGridDiv_jsId"></div>
+						</div>
+					</div>
+				</div>
+				<!-- ########################################################################## -->
+				<!-- Info & Document -->
+				<!-- ########################################################################## -->
+				<div dojoType="dijit.layout.ContentPane" title="Run & Document" style="height: 96%">
+					<div dojoType="dijit.layout.BorderContainer">
+						<div dojoType="dijit.layout.ContentPane" region="top"
+						align="center" style="color:white;margin:0; padding:0;">
+							<div dojoType="dijit.Toolbar">
+								<div dojoType="dijit.form.Button"
+								iconClass="renameIcon"
+								onClick='upRun();' showLabel="true">Save</div>
+								<div dojoType="dijit.form.Button"
+								iconClass="plusIcon"
+								onClick='addDoc2Run();' showLabel="true">
+								Add Document</div>
+								<span dojoType="dijit.ToolbarSeparator"></span>
+								<div dojoType="dijit.form.Button"
+								iconClass="refreshIcon"
+				onClick='refreshOneRunDoc();refreshOneRun();refreshRunDoc();' showLabel="true">
+								Refresh</div>
+							</div>
+						</div>
+						<div dojoType="dijit.layout.ContentPane" region="center" 
+						align="center">
+							<div dojoType="dijit.Tooltip" connectId="TR"
+							position="below">
+								<label class="tooltip"> 
+								<i>Double click to get the document</i>
+								</label>
+							</div>
+							<div align="left">
+								<div id="onerunGridDiv" 
+								style="width: 100%; height: 20%">
+								</div>
+								<form id="formdownload" name="formdownload"
+								enctype="multipart/form-data" action="url_ftpfile"
+								method="post">
+								<input name="opt" value="getrunDoc" type="hidden"> 
+								<input id="fileRunid" name="fileRunid" value="zzz"
+								type="hidden">
+								</form>
+							</div>
+							<div id="onedocGridDiv" 
+								style="width: 34%; height: 20%">
+							</div>
+							<div align="left"
+					style="width: 70%; margin-top: 0.3em; font-size: 8; line-height: 0em">
+								<i>Document</i> 
+								<img id="TR" src="icons/information.png">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!-- PROJECT:     Search and Add Current and Target PROJECT -->
+	<!-- ############################################################################################## -->
+	<div dojoType="dijit.Dialog" id="searchProjectDialog" jsId="searchProjectDialog" 
+	data-dojo-props="closable:false"
+	title="<span class='title_Diag'>Search Project</span>
+	<span id='bt_close_searchP' class='cl_button_span_right'></span>
+	<span id='curtag' class='title_newProject'></span>"
+	class="showAddProject">
+		<div dojoType="dijit.layout.BorderContainer"
+		style="width: 100%; height: 97%;white-space:nowrap;margin:0;padding:0;">
+			<div dojoType="dijit.layout.ContentPane" region="left"
+			style="width:65%;margin:0;padding:0;white-space:nowrap;">
+				<div dojoType="dijit.layout.BorderContainer" 
+				style="width: 80%;margin:0;padding:0;white-space:nowrap;">
+					<div dojoType="dijit.layout.ContentPane" region="top" layoutAlign="top"
+				 	id="searchProject" width="94%">
+						<table width="100%" style="margin:0;padding:0;border:0;color:white">
+						<tr>
+						<td>					
+						<label><B>Run : </B>
+						</label><span id="currentrunid"></span>
+						</td>
+						<td align="right" width="80%">
+						<div dojoType="dijit.Toolbar" id="toolbar_newproject">
+							<div dojoType="dijit.form.Button" iconClass="validIcon"
+							onClick="direct_addProject2Patient();" showLabel="true">Submit
+							</div>
+							<div dojoType="dijit.form.Button" iconClass="plusFolderIcon"
+								onClick="viewNewProject();" showLabel="true"
+								id="button_newProject">New Project
+							</div>
+						</div>
+						</td>
+						</tr>
+						</table>
+					</div>
+					<div dojoType="dijit.layout.ContentPane" region="center">
+						<div id="gridProjDiv" 
+						style="width: 100%; height:100%;margin:0;padding:0;white-space:nowrap;"">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="right" 
+style="width:35%;height:100%;margin:0;padding:0;white-space:nowrap;border: 1px solid #696B43;">
+				<div dojoType="dijit.layout.BorderContainer" id="targetNewProj" style="height:100%;margin:0;padding:0;border:0;white-space:nowrap;visibility:hidden">
+					<div dojoType="dijit.layout.ContentPane" region="top" align="center" onShow="initPhenotype();"
+					style="margin:0;padding:0;border:0;white-space:nowrap;">
+						<div dojoType="dijit.Toolbar">
+							<table width="100%">
+							<TR><TD width="95%" align="center">
+							<div dojoType="dijit.form.Button" iconClass="validIcon"
+							style="color:white;"
+							onClick="createNewProject();" showLabel="true">
+							Submit
+							</div>
+							</TD>
+							<TD width="5%" align="right">
+							<div dojoType="dijit.form.Button" iconClass="closeIcon"
+							showLabel="false" style="text-align:right;"
+							onClick="dojo.style('targetNewProj','visibility','hidden');document.getElementById('TablePhenotype').style.visibility='hidden';">
+							Close
+							</div>
+							</TD></TR>
+							</TABLE>
+						</div>
+						<table style="border:0;margin:0;padding:0;white-space:nowrap;"
+						width="92%">
+						<tr>
+						<td align="center" height="100%"
+						style="border: 5px solid grey; margin: 0; padding: 0;white-space:nowrap;">
+								<B>NEW PROJECT</B>
+						</td>
+						</tr>
+						</table>
+					</div>
+					<div dojoType="dijit.layout.ContentPane" region="center">
+						<div dojoType="dijit.form.Form" id="newProjDesForm"
+						jsId="newProjDesForm">
+							<div dojoType="dijit.Tooltip" connectId="DV2"
+							position="above">
+								<label class="tooltip">
+								When Toggled, Project will be seen on PolyDejaVu
+								</label>
+							</div>
+							<div dojoType="dijit.Tooltip" connectId="SO2"
+ 							position="above">
+								<label class="tooltip">
+					When Toggled, Project will concern Somatic Cells in molecular Oncology
+								</label>
+							</div>
+							<table style="width: 98%;">
+							<tr><td align="left">
+							<label for="description"><b>Description Project</b>
+							<i class='warnIcon'><small>no accent, no apostrophe</small></i><br>
+							</label>
+							</TD></tr>
+							<tr><td align="left">
+							<textarea id="descriptionNew" name="description"
+							dojoType="dijit.form.SimpleTextarea" rows="1" cols="33"
+							value=""></textarea>
+							</TD></tr>
+							</table>
+							<!-- field release -->
+							<table style="width:98%;margin:2;padding:1;white-space:nowrap;border:0.1em solid grey;">
+							<tr for="release"><td align="center"><b>Genome Release</b></td>
+							</tr>
+							<tr><td>
+							<div dojoType="dijit.form.Form" id="relNewForm"
+							jsId="relNewForm">
+								<span id="relRadioNew"></span>
+							</div>
+							</td></tr>
+							</table>
+							<table>
+							<!-- field dejaVu -->
+							<button dojoType="dijit.form.ToggleButton" id="TNdejavu"
+						data-dojo-props="iconClass:'dijitCheckBoxIcon', checked: true">
+							Déjà Vu <img id="DV2"src="icons/information.png">
+							</button>	
+							<!-- field Somatic -->
+							<button dojoType="dijit.form.ToggleButton" id="TNsomatic"
+						data-dojo-props="iconClass:'dijitCheckBoxIcon', checked: false">
+							Somatic <img id="SO2"src="icons/information.png">
+							</button>	
+							</table>
+							<table id="TablePhenotype">
+								<tr>
+								<td><label for="phenotypeSelect_id"><b>Phenotype&nbsp;</b></td>
+								<td><input id="phenotypeSelect_id"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>			
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!--  Input Capture -->
+	<!-- ############################################################################################## -->
+
+	<!-- ################ Deposit Capture & Primer File ############################# -->
+	<div dojoType="dijit.Dialog" id="divCaptureFile" jsId="divCaptureFile" 
+	style="width: 75%; height: 58%">
+		<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%"
+		data-dojo-props="gutters:true,liveSplitters:false">
+			<div dojoType="dijit.layout.ContentPane" 
+			data-dojo-props="region:'leading',splitter:true"
+			style="width: 40%;">
+				<table>
+					<tr>
+					<td><B>Capture Id: </B><span id="capId"></span></td>
+					</tr>
+					<tr>
+					<td><B>Capture Type: </B><span id="TypeCap"></span></td>
+					</tr>
+					<tr>
+					<td><B><span id="FileName_Cap"></span></B>
+						<input type="text" name="FileNameCap" id="FileNameCap"
+						dojoType="dijit.form.ValidationTextBox" disabled
+						regExp="^[a-zA-Z0-9-_.]+$"
+						invalidMessage="no space please">
+					</td>
+					</tr>
+					<tr>
+					<td><B>Genome Release: </B><span id="capRel"></span></td>
+					</tr>
+					<tr>
+						<td><B>Folder_out: </B><span id="out_enddirCap"></span></td>
+					</tr>
+					<tr style="display:none;">
+						<td><B>Folderout: </B><span id="enddirCap"></span></td>
+					</tr>
+				</table>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" id="capBed" style="width: 60%;"
+			data-dojo-props="region:'center',splitter:true">
+				<div dojoType="dijit.Tooltip" connectId="IcapFile" position="below">
+					<label class="tooltip">
+						<b>Capture Column Tabulated List</b><br>
+						chr[1..22,X,Y]&nbsp;<b>*</b>&nbsp;&nbsp;Start&nbsp;&nbsp;End<P>
+						<b>Primer Column Tabulated List</b><br>
+<b>4 Columns:</b> chr[1..22,X,Y]&nbsp;<b>*</b>&nbsp;&nbsp;Start&nbsp;&nbsp;End&nbsp;&nbsp;Pool&nbsp;&nbsp;<b> Or </b><br><b>6 Columns:</b> chr[1..22,X,Y]&nbsp;<b>*</b>&nbsp;&nbsp;Start<sub>1</sub>&nbsp;&nbsp;End<sub>1</sub>&nbsp;&nbsp;Start<sub>2</sub>&nbsp;&nbsp;End<sub>2</sub>&nbsp;&nbsp;Pool<br>
+						<b>*</b>&nbsp;First column: Chromosome column must be confirm to Genome Fasta index File (.fai) of the release<br>
+					</label>
+				</div>
+				<table style="border: 0.1em solid #9f9f9f;">
+					<input type="radio" dojoType="dojox/mobile/RadioButton"
+					name="cap_input" id="cap_file" value="A" checked
+					onChange="chgCapFile();"> 
+					<label for="cap_file">Upload File
+					<img src="icons/document_a4_upload.png">&nbsp;&nbsp;
+					<img id="IcapFile" src="icons/information.png">
+					</label>
+					<input type="radio" dojoType="dojox/mobile/RadioButton"
+					name="cap_input" id="cap_col" value="B"
+					onChange="chgCapCol();"> 
+					<label for="cap_col">Copy/Paste
+					<img src="icons/copy_paste_16.png"></label>
+				</table>	
+				<div dojoType="dijit.form.Button" id="loadFC"
+				onClick='cap_uploadFile();' showLabel="true">
+				</div>
+				<div dojoType="dijit.form.Form" id="capColForm" jsId="capColForm">
+					<table style="border: 0.1em solid #9f9f9f;">
+						<tr>
+						<label for="Rcapcol">
+						<b>Column Tabulated List</b>
+						<i style="font-size:70%">(Copy/Paste from your Excel File)</i>
+						</label>
+						</tr>
+						<tr><td>
+						<span id="Column_legend"></span>
+						</tr></td>
+
+						<!--Enable tab key inside textarea onKeyDown="keyTab"-->
+						<tr><td>
+						<textarea id="Rcapcol" name="Rcapcol" 
+						onKeyDown="keyTab" rows="20" cols="40"
+						dojoType="dijit.form.SimpleTextarea" 
+						style="width: auto;" value=""></textarea>
+						</td></tr>
+					</table>
+
+					<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="cap_pasteFile();" iconClass="validIcon" showLabel="true">
+					<!--execute="refreshCaptureList();">-->
+					Submit
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!--  New Data : Plateform -->
+	<!-- ############################################################################################## -->
+	<div dojoType="dijit.Dialog" id="divPlateformDB" jsId="divPlateformDB" title="Add Plateform Data"
+	style="width: 28em; height: 6em">
+		<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+			<div dojoType="dijit.layout.ContentPane" region="top" >
+
+				<div dojoType="dijit.Toolbar" align="center" 
+				style="color:white;margin: 0; padding: 0;">
+					<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="newPlateform();" iconClass="validIcon" showLabel="true">
+					Submit
+					</div>					
+				</div>
+
+				<div dojoType="dijit.form.Form" id="pltForm" jsId="pltForm">
+					<table style="width: 100%;border: 0.1em solid #9f9f9f;">
+					<tr>
+					<td><label for="plateform">Plateform Name</label></td>
+					
+					<td><input type="text" name="plateform" id="plateform"
+						dojoType="dijit.form.ValidationTextBox" regExp="^[a-zA-Z0-9-_]+$"
+						required="true" invalidMessage="no space please"></td>
+					</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!--  New Data : Machine -->
+	<!-- ############################################################################################## -->
+	<div dojoType="dijit.Dialog" id="divMachineDB" jsId="divMachineDB" title="Add Machine Data"
+	style="width: 28em; height: 7.5em">
+		<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+			<div dojoType="dijit.layout.ContentPane" region="top">
+				<div dojoType="dijit.Toolbar" align="center" 
+				style="color:white;margin: 0; padding: 0;">
+					<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="newMachine();" iconClass="validIcon" showLabel="true">
+					Submit
+					</div>					
+				</div>
+
+				<div dojoType="dijit.form.Form" id="macForm" jsId="macForm">
+					<table style="width: 100%;border: 0.1em solid #9f9f9f;">
+						<tr>
+							<td><label for="machine">Machine Name</label>
+							</td>
+							<td><input type="text" name="machine" id="machine"
+								dojoType="dijit.form.ValidationTextBox"
+								regExp="^[a-zA-Z0-9-_]+$" required="true"
+								invalidMessage="no space please">
+							</td>
+						</tr>
+						<tr>
+							<td><label for="mactype">Machine type name</label>
+							</td>
+							<td><input type="text" name="mactype" id="mactype"
+								dojoType="dijit.form.ValidationTextBox"
+								regExp="^[a-zA-Z0-9-_]+$" required="true"
+								invalidMessage="no space please">
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ############################################################################################## -->
+	<!--  New Data : UMI -->
+	<!-- ############################################################################################## -->
+	<div dojoType="dijit.Dialog" id="divUmiDB" jsId="divUmiDB" title="Add UMI Data"
+	style="width: 28em; height: 7.5em">
+		<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+			<div dojoType="dijit.layout.ContentPane" region="top">
+				<div dojoType="dijit.Toolbar" align="center" 
+				style="color:white;margin: 0; padding: 0;">
+					<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="newUmi();" iconClass="validIcon" showLabel="true">
+					Submit
+					</div>					
+				</div>
+
+				<div dojoType="dijit.form.Form" id="umiForm" jsId="umiForm">
+					<table style="width: 100%;border: 0.1em solid #9f9f9f;">
+						<tr>
+							<td><label for="umi">Umi Name</label>
+							</td>
+							<td><input type="text" name="umi" id="umi"
+								dojoType="dijit.form.ValidationTextBox"
+								regExp="^[a-zA-Z0-9-_]+$" required="true"
+								invalidMessage="no space please">
+							</td>
+						</tr>
+						<tr>
+							<td><label for="umimask">UMI mask</label>
+							</td>
+							<td><input type="text" name="umimask" id="umimask"
+								dojoType="dijit.form.ValidationTextBox"
+								regExp="^[A-Z0-9-_;\*]+$" required="true"
+								invalidMessage="no space please">
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!--  New Data : Perspective -->
+	<!-- ############################################################################################## -->
+	<div dojoType="dijit.Dialog" id="divPerspectiveDB" jsId="divPerspectiveDB" title="Add Perspective Data"
+	style="width: 28em; height: 6em">
+		<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+			<div dojoType="dijit.layout.ContentPane" region="top" >
+
+				<div dojoType="dijit.Toolbar" align="center" 
+				style="color:white;margin: 0; padding: 0;">
+					<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="newPerspective();" iconClass="validIcon" showLabel="true">
+					Submit
+					</div>					
+				</div>
+
+				<div dojoType="dijit.form.Form" id="persForm" jsId="persForm">
+					<table style="width: 100%;border: 0.1em solid #9f9f9f;">
+					<tr>
+					<td><label for="perspective">Perspective Name</label></td>
+					
+					<td><input type="text" name="perspective" id="perspective"
+						dojoType="dijit.form.ValidationTextBox" regExp="^[a-zA-Z0-9-_+]+$"
+						required="true" invalidMessage="no space please"></td>
+					</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!--  New Data : Technology -->
+	<!-- ############################################################################################## -->
+	<div dojoType="dijit.Dialog" id="divTechnologyDB" jsId="divTechnologyDB" title="Add Technology Data"
+	style="width: 28em; height: 6em">
+		<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+			<div dojoType="dijit.layout.ContentPane" region="top" >
+
+				<div dojoType="dijit.Toolbar" align="center" 
+				style="color:white;margin: 0; padding: 0;">
+					<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="newTechnology();" iconClass="validIcon" showLabel="true">
+					Submit
+					</div>					
+				</div>
+
+				<div dojoType="dijit.form.Form" id="techForm" jsId="techForm">
+					<table style="width: 100%;border: 0.1em solid #9f9f9f;">
+					<tr>
+					<td><label for="technology">Technology Name</label></td>
+					
+					<td><input type="text" name="technology" id="technology"
+						dojoType="dijit.form.ValidationTextBox" regExp="^[a-zA-Z0-9-_+]+$"
+						required="true" invalidMessage="no space please"></td>
+					</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!--  New Data : Preparation -->
+	<!-- ############################################################################################## -->
+	<div dojoType="dijit.Dialog" id="divPreparationDB" jsId="divPreparationDB" title="Add Preparation Data"
+	style="width: 28em; height: 6em">
+		<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+			<div dojoType="dijit.layout.ContentPane" region="top" >
+
+				<div dojoType="dijit.Toolbar" align="center" 
+				style="color:white;margin: 0; padding: 0;">
+					<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="newPreparation();" iconClass="validIcon" showLabel="true">
+					Submit
+					</div>					
+				</div>
+
+				<div dojoType="dijit.form.Form" id="prepForm" jsId="prepForm">
+					<table style="width: 100%;border: 0.1em solid #9f9f9f;">
+					<tr>
+					<td><label for="preparation">Preparation Name</label></td>
+					
+					<td><input type="text" name="preparation" id="preparation"
+						dojoType="dijit.form.ValidationTextBox" regExp="^[a-zA-Z0-9-_+]+$"
+						required="true" invalidMessage="no space please"></td>
+					</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!--  New Data : Profile -->
+	<!-- ############################################################################################## -->
+	<div dojoType="dijit.Dialog" id="divProfileDB" jsId="divProfileDB" class="wProfile" title="New/Update Profile Data">
+		<div data-dojo-type="dijit/layout/BorderContainer" style="width: 100%; height: 100%" data-dojo-props="gutters:true, liveSplitters:true">
+			<div data-dojo-type="dijit.layout.ContentPane" region="top" style="height:3.5%;width:100%; margin: 0; padding: 0;white-space:nowrap;" align="center">
+				<div dojoType="dijit.Toolbar" align="center" 
+				style="color:white;margin: 0; padding: 0;">
+					<span id='sp_3prof' style='width:50%;background:white;color:black' class='cl_block_left'></span>
+					<div dojoType="dijit.form.Button" id="bt_submitProf"
+					onClick="newProfile();" iconClass="validIcon" showLabel="true">Submit
+					</div>
+					<div dojoType="dijit.form.Button"id="bt_saveProf"
+					onClick='saveProfile();' iconClass="renameIcon" showLabel="true">Save
+					</div>
+				</div>
+			</div>
+			<div data-dojo-type="dijit.layout.ContentPane" region="left" style="width: 33%; margin: 0; padding: 0;white-space:nowrap;" align="center" refreshOnShow="true">
+				<div id="persGridDiv" 
+						style="width: 100%; height:100%;margin:0;padding:0;white-space:nowrap;">
+				</div>
+			</div>
+			<div data-dojo-type="dijit.layout.ContentPane" region="center" style="width: 33%; margin: 0; padding: 0;white-space:nowrap;" align="center" refreshOnShow="true">
+				<div id="techGridDiv" 
+						style="width: 100%; height:100%;margin:0;padding:0;white-space:nowrap;">
+				</div>
+			</div>
+			<div data-dojo-type="dijit.layout.ContentPane" region="right" style="width: 33%; margin: 0; padding: 0;white-space:nowrap;" align="center" refreshOnShow="true">
+				<div id="prepGridDiv" 
+						style="width: 100%; height:100%;margin:0;padding:0;white-space:nowrap;">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!--  New Data : Sequencing Method -->
+	<!-- ############################################################################################## -->
+	<div dojoType="dijit.Dialog" id="divMethodSeqDB" jsId="divMethodSeqDB" title="Add Sequencing Method Data"
+	style="width: 30em; height: 6em">
+		<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+			<div dojoType="dijit.layout.ContentPane" region="top">
+				<div dojoType="dijit.Toolbar" align="center" 
+				style="color:white;margin: 0; padding: 0;">
+					<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="newSeqMethod();" iconClass="validIcon" showLabel="true">
+					Submit
+					</div>					
+				</div>
+
+				<div dojoType="dijit.form.Form" id="methSeqForm" jsId="methSeqForm">
+					<table style="width: 100%;border: 0.1em solid #9f9f9f;">
+						<tr>
+							<td><label for="methseq">Sequencing Method Name</label>
+							</td>
+							<td><input type="text" name="methseq" id="methseq"
+								dojoType="dijit.form.ValidationTextBox"
+								regExp="^[a-zA-Z0-9-_]+$" required="true"
+								invalidMessage="no space please"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!--  New Data : Alignment Method -->
+	<!-- ############################################################################################## -->
+	<div dojoType="dijit.Dialog" id="divMethodAlnDB" jsId="divMethodAlnDB"title="Add Alignment Method Data"
+	style="width: 30em; height: 6em">
+		<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+			<div dojoType="dijit.layout.ContentPane" region="top">
+				<div dojoType="dijit.Toolbar" align="center" 
+				style="color:white;margin: 0; padding: 0;">
+					<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="newAlignMethod();" iconClass="validIcon" showLabel="true">
+					Submit
+					</div>					
+				</div>
+				<div dojoType="dijit.form.Form" id="methAlnForm" jsId="methAlnForm">
+					<table style="width: 100%;border: 0.1em solid #9f9f9f;">
+						<tr>
+							<td><label for="methodAln">Alignment Method Name</label>
+							</td>
+							<td><input type="text" name="methodAln" id="methodAln"
+								dojoType="dijit.form.ValidationTextBox"
+								regExp="^[a-zA-Z0-9-_]+$" required="true"
+								invalidMessage="no space please">
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!--  New Data : Calling Method -->
+	<!-- ############################################################################################## -->
+	<div dojoType="dijit.Dialog" id="divMethodCallDB" jsId="divMethodCallDB" title="Add Calling Method Data"
+	style="width: 30em; height: 6em">
+		<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+			<div dojoType="dijit.layout.ContentPane" region="top">
+				<div dojoType="dijit.Toolbar" align="center" 
+				style="color:white;margin: 0; padding: 0;">
+					<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="newCallMethod();" iconClass="validIcon" showLabel="true">
+					Submit
+					</div>					
+				</div>
+				<div dojoType="dijit.form.Form" id="methCallForm" jsId="methCallForm">
+					<table style="width: 100%;border: 0.1em solid #9f9f9f;">
+						<tr>
+							<td><label for="methodCall">Calling Method Name</label>
+							</td>
+							<td><input type="text" name="methodCall" id="methodCall"
+								dojoType="dijit.form.ValidationTextBox"
+								regExp="^[a-zA-Z0-9-_]+$" required="true"
+								invalidMessage="no space please">
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!--  New Data : Pipeline Methods -->
+	<!-- ############################################################################################## -->
+	<div dojoType="dijit.Dialog" id="divPipeDB" jsId="divPipeDB" title="New/Update Pipeline Methods Data"
+	style="width: 60em; height: 50em" onHide="hidePipe();">
+		<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+			<div dojoType="dijit.layout.ContentPane" region="top">
+				<div dojoType="dijit.Toolbar" align="center" 
+				style="color:white;margin: 0; padding: 0;">
+					<div dojoType="dijit.form.Button" dojoType="dijit.form.Button" id="NewPipe"
+					onClick="newPipeline();" iconClass="validIcon" showLabel="true">
+					Submit
+					</div>
+					<div dojoType="dijit.form.Button" onClick='savePipeline();' id="SavePipe"
+						iconClass="renameIcon" showLabel="true">Save
+					</div>
+				
+				</div>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="left" style="width: 60%;">
+				<div dojoType="dijit.form.Form" id="pipeForm" jsId="pipeForm">
+					<table style="width: 99%;border: 0.1em solid #9f9f9f;">
+						<tr>
+							<td><label for="pipe">Pipeline Name</label>
+							</td>
+							<td><input type="text" name="pipe" id="pipe"
+								dojoType="dijit.form.ValidationTextBox"
+								regExp="^[a-zA-Z0-9-_]+$" required="true"
+								invalidMessage="no space please">
+							</td>
+						</tr>
+						<tr>
+							<td><label for="pcontent">Content</label>
+							</td>
+							<td><input type="text" name="pcontent" id="pcontent" 
+								style="width: 320px;"  disabled
+								dojoType="dijit.form.ValidationTextBox"
+								regExp="^[a-zA-Z0-9-_ ]+$" required="true">
+							</td>
+						</tr>
+					</table>
+					
+
+				</div>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="right" style="width: 40%;">
+				<B>List of Methods</B>&nbsp;&nbsp;
+				<I class='multipleIcon' title='Multiple Selection'></I>
+				<div id="methodGridDiv" style="height: 96%;"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ############################################################################################## -->
+	<!--  Upload patient file -->
+	<!-- ############################################################################################## -->
+	<div id="div_uploadPatientfile" jsId="div_uploadPatientfile"
+	dojoType="dijit.Dialog" title="Load Tabulated Patient File" width="300">
+		<form id="uploadForm2" enctype="multipart/form-data" name="fileTest"
+			method="post" accept-charset="utf-8">
+			<input id="size" name="MAX_FILE_SIZE" value="50000000" type="hidden">
+			<input name="opt" id="optPat" type="hidden"> 
+			<input id="file_Projname" name="fileProjname" type="hidden"> 
+			<span id="preamble2">File to Upload:</span><br> 
+			<span id="inputField2">
+			<input id="fileInput2" name="file_name" type="file"> </span> 
+			<span id="progressField2" style="display: none;">
+				<div dojotype="dijit.ProgressBar" style="width: 200px;" indeterminate="true">
+				</div>
+			</span><br>
+			<button type="button" value="upload" dojotype="dijit.form.Button"
+				onclick="sendPatientFileForm()">Upload</button>
+		</form>
+	</div>
+	<!-- ############################################################################################## -->
+	<!--  General Upload file -->
+	<!-- ############################################################################################## -->
+	<div id="div_uploadFile" jsId="div_uploadFile"
+	dojoType="dijit.Dialog" title="Load Tabulated File" width="300">
+		<form id="uploadFormFile" enctype="multipart/form-data" name="fileTest"
+			method="post" accept-charset="utf-8">
+			<input id="sizeLoad" name="MAX_FILE_SIZE" value="50000000" type="hidden">
+			<input id="opt" name="opt" type="hidden"> 
+
+			<input id="loadfile_Projname" name="fileProjname" type="hidden"> 
+			<input id="param_out" name="param_out" type="hidden">
+			<input id="param_dir" name="param_dir" type="hidden">
+			<input id="param_capid" name="param_capid" type="hidden">
+			<input id="param_type" name="param_type" type="hidden">
+			<input id="param_trans" name="param_trans" type="hidden">
+
+			<span id="preambleFile">File to UploadA:</span><br> 
+			<span id="inputLoadField">
+			<input id="InputFile" name="file_name" type="file"> </span>
+			<span id="progressLoadFile" style="display: none;">
+			<div dojotype="dijit.ProgressBar" style="width: 200px;" indeterminate="true">
+			</div>
+			</span><br>
+			<button type="button" value="upload" dojotype="dijit.form.Button"
+				onclick="sendUploadFileForm(type_file=param_type)">Upload
+			</button>
+		</form>
+	</div>
+	<!-- ############################################################################################## -->
+	<!-- Add Document -->
+	<!-- ############################################################################################## -->
+	<div id="div_addDocument" jsId="div_addDocument"
+	dojoType="dijit.Dialog" title="Add a document" width="300">
+		<form id="uploadForm" enctype="multipart/form-data" name="fileTest"
+			method="post" accept-charset="utf-8">
+			<input name="MAX_FILE_SIZE" value="50000000" type="hidden"> 
+			<input name="opt" value="runDoc" type="hidden">
+			<input id="file_Runid" name="fileRunid" type="hidden">
+			<span id="preamble">File to Upload:</span><br>
+			<span id="inputField">
+				<input id="fileInput" name="file_name" type="file">
+			</span> 
+			<span id="progressField" style="display: none;">
+				<div dojotype="dijit.ProgressBar" style="width: 200px;" indeterminate="true"></div>
+			</span><br>
+			<button type="button" value="upload" dojotype="dijit.form.Button"
+				onclick="sendDocForm()">Upload</button>
+		</form>
+	</div>
+	<!-- ############################################################################################## -->
+	<!-- Standby -->
+	<!-- ############################################################################################## -->
+	<div id="myStandby" jsId="myStandby" dojoType="dijit.Dialog" execute="">
+		<div id="winStandby"
+		style="width: 20em; height: 4em; background-color: yellow; border-style: solid; border-width: 0.2em;">
+		</div>
+	</div>
+	<!-- ############################################################################################## -->
+	<!-- Errors -->
+	<!-- ############################################################################################## -->
+	<div id="myError" jsId="myError" dojoType="dijit.Dialog"
+		title="<span class='spError'>Error</span>" execute="">
+		<div id="textError" jsId="textError" dojoType="dijit.TooltipDialog">
+		</div>
+		<button type="button" dojoType="dijit.form.Button"
+			onclick="myError.hide()" iconClass="closeIcon"
+			style="margin-top: 1em">Close</button>
+	</div>
+	<!-- ############################################################################################## -->
+	<!-- Validation Message -->
+	<!-- ############################################################################################## -->
+	<div id="myMessage" jsId="myMessage" dojoType="dijit.Dialog"
+		title="<span class='spMessage'>Validation Message</span>" execute="">
+		<div id="textMessage" jsId="textMessage"
+			dojoType="dijit.TooltipDialog"></div>
+		<button type="button" dojoType="dijit.form.Button" id="myMessageSubmit"
+			onclick="myMessage.hide();" iconClass="closeIcon"
+			style="margin-top: 1em">Close</button>
+	</div>
+ 	<!-- ############################################################################################## -->
+	<!-- Login -->
+	<!-- ############################################################################################## -->
+        <div class="logdiag" id="login" dojoType="dijit.Dialog" execute="setPasswordlocal();" align="right">
+		<div dojoType="dijit.form.Form" id="loginForm" jsId="loginForm" method="post" class="signin">
+			<table>
+			<tr>
+			<td><label for="username" class="username">USERNAME</label></td>
+			<td><input id="username" value="" dojoType="dijit.form.TextBox" class="dj_user"
+				autocomplete="on" placeholder="Username"></td>
+			</tr>
+			<tr>
+                        <td><label for="password" class="password">PASSWORD</label></td>
+                        <td><input id="passwd" name="password" value="" type="password" class="dj_passwd"
+				dojoType="dijit.form.TextBox"
+				placeholder="Password"></td>
+			</tr>
+			</table>
+ 		</div>
+		<div type="submit" dojoType="dijit.form.Button"
+			id="btlog" class="btlog">Sign in
+		</div>
+	</div>
+</body>
+</html>
+<!-- ############################################################################################## -->
+<!--  New Data : Default Grouping from Plateform Data -->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="divExtractPlateformDB" jsId="divExtractPlateformDB" title="Default Grouping from Plateform Data"
+	style="width: 30em; height: 6em">
+	<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+		<div dojoType="dijit.layout.ContentPane" region="top" >
+			<div dojoType="dijit.Toolbar" align="center" 
+			style="color:white;margin: 0; padding: 0;">
+				<button data-dojo-type="dijit.form.ToggleButton" 
+					style="height:16;width:auto;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43; color: white"
+					data-dojo-props="iconClass:'dijitCheckBoxIcon'" id="btn_Plt">
+					<i style="font-size:70%;margin:0;padding:0;border:0">Default</i>
+				</button>
+
+				<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="upExtractDefPlt('Plt');" iconClass="validIcon" showLabel="true">
+					Submit
+				</div>					
+			</div>
+			<table id="ExtractRel"
+				style="width:98%;margin:2;padding:1;white-space:nowrap;border:0.1em solid grey;">
+				<tr><td><label for="yearSelect_Plt"><b>Year</b></label></td>
+				<td><input id="yearSelect_Plt"></td>
+			</table>
+		</div>
+	</div>
+</div>	
+<!-- ############################################################################################## -->
+<!--  New Data : Default Grouping from Machine Data -->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="divExtractMachineDB" jsId="divExtractMachineDB" title="Default Grouping from Machine Data"
+	style="width: 30em; height: 6em">
+	<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+		<div dojoType="dijit.layout.ContentPane" region="top" >
+			<div dojoType="dijit.Toolbar" align="center" 
+			style="color:white;margin: 0; padding: 0;">
+				<button data-dojo-type="dijit.form.ToggleButton" 
+					style="height:16;width:auto;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43; color: white"
+					data-dojo-props="iconClass:'dijitCheckBoxIcon'" id="btn_Mac">
+					<i style="font-size:70%;margin:0;padding:0;border:0">Default</i>
+				</button>
+
+				<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="upExtractDefMac('Mac');" iconClass="validIcon" showLabel="true">
+					Submit
+				</div>					
+			</div>
+			<table id="ExtractMac"
+				style="width:98%;margin:2;padding:1;white-space:nowrap;border:0.1em solid grey;">
+				<tr><td><label for="yearSelect_Mac"><b>Year</b></label></td>
+				<td><input id="yearSelect_Mac"></td>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- ############################################################################################## -->
+<!--  New Data : Default Grouping from Sequencing Methods Data -->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="divExtractMethSeqAlnDB" jsId="divExtractMethSeqDB" title="Default Grouping from Sequencing Methods Data"
+	style="width: 30em; height: 6em">
+	<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+		<div dojoType="dijit.layout.ContentPane" region="top" >
+			<div dojoType="dijit.Toolbar" align="center" 
+			style="color:white;margin: 0; padding: 0;">
+				<button data-dojo-type="dijit.form.ToggleButton" 
+					style="height:16;width:auto;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43; color: white"
+					data-dojo-props="iconClass:'dijitCheckBoxIcon'" id="btn_MSeq">
+					<i style="font-size:70%;margin:0;padding:0;border:0">Default</i>
+				</button>
+
+				<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="upExtractDefMSeq('MSeq');" iconClass="validIcon" showLabel="true">
+					Submit
+				</div>					
+			</div>
+			<table id="ExtractMSeq"
+				style="width:98%;margin:2;padding:1;white-space:nowrap;border:0.1em solid grey;">
+				<tr><td><label for="yearSelect_MSeq"><b>Year</b></label></td>
+				<td><input id="yearSelect_MSeq"></td>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- ############################################################################################## -->
+<!--  New Data : Default Grouping from Alignment Methods Data -->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="divExtractMethodsAlnDB" jsId="divExtractMethodsAlnDB" title="Default Grouping from Alignment Methods Data"
+	style="width: 30em; height: 6em">
+	<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+		<div dojoType="dijit.layout.ContentPane" region="top" >
+			<div dojoType="dijit.Toolbar" align="center" 
+			style="color:white;margin: 0; padding: 0;">
+				<button data-dojo-type="dijit.form.ToggleButton" 
+					style="height:16;width:auto;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43; color: white"
+					data-dojo-props="iconClass:'dijitCheckBoxIcon'" id="btn_MAln">
+					<i style="font-size:70%;margin:0;padding:0;border:0">Default</i>
+				</button>
+
+				<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="upExtractDefMAln('MAln');" iconClass="validIcon" showLabel="true">
+					Submit
+				</div>					
+			</div>
+			<table id="ExtractMaln"
+				style="width:98%;margin:2;padding:1;white-space:nowrap;border:0.1em solid grey;">
+				<tr><td><label for="yearSelect_MAln"><b>Year</b></label></td>
+				<td><input id="yearSelect_MAln"></td>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- ############################################################################################## -->
+<!--  New Data : Default Grouping from Calling Methods Data -->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="divExtractMethodsCallDB" jsId="divExtractMethodsCallDB" title="Default Grouping from Calling Methods Data"
+	style="width: 30em; height: 6em">
+	<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+		<div dojoType="dijit.layout.ContentPane" region="top" >
+			<div dojoType="dijit.Toolbar" align="center" 
+			style="color:white;margin: 0; padding: 0;">
+				<button data-dojo-type="dijit.form.ToggleButton" 
+					style="height:16;width:auto;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43; color: white"
+					data-dojo-props="iconClass:'dijitCheckBoxIcon'" id="btn_MCall">
+					<i style="font-size:70%;margin:0;padding:0;border:0">Default</i>
+				</button>
+
+				<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="upExtractDefMCall('MCall');" iconClass="validIcon" showLabel="true">
+					Submit
+				</div>					
+			</div>
+			<table id="ExtractMCall"
+				style="width:98%;margin:2;padding:1;white-space:nowrap;border:0.1em solid grey;">
+				<tr><td><label for="yearSelect_MCall"><b>Year</b></label></td>
+				<td><input id="yearSelect_MCall"></td>
+			</table>
+		</div>
+	</div>
+</div>	
+	
+<!-- ############################################################################################## -->
+<!--  New Data : Default Grouping from Release Data -->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="divExtractReleaseDB" jsId="divExtractReleaseDB" title="Default Grouping from Release Data"
+	style="width: 30em; height: 6em">
+	<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+		<div dojoType="dijit.layout.ContentPane" region="top" >
+			<div dojoType="dijit.Toolbar" align="center" 
+			style="color:white;margin: 0; padding: 0;">
+				<button data-dojo-type="dijit.form.ToggleButton" 
+					style="height:16;width:auto;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43; color: white"
+					data-dojo-props="iconClass:'dijitCheckBoxIcon'" id="btn_Rel">
+					<i style="font-size:70%;margin:0;padding:0;border:0">Default</i>
+				</button>
+
+				<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="upExtractDefRel('Rel');" iconClass="validIcon" showLabel="true">
+					Submit
+				</div>					
+			</div>
+			<table id="ExtractRel"
+				style="width:98%;margin:2;padding:1;white-space:nowrap;border:0.1em solid grey;">
+				<tr><td><label for="yearSelect_Rel"><b>Year</b></label></td>
+				<td><input id="yearSelect_Rel"></td>
+			</table>
+		</div>
+	</div>
+</div>	
+<!-- ############################################################################################## -->
+<!--  New Data : Default Grouping from Capture Data -->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="divExtractCaptureDB" jsId="divExtractCaptureDB" title="Default Grouping from Capture Data"
+	style="width: 70em; height: 60em"  onHide="hideCap();">
+	<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+		<div dojoType="dijit.layout.ContentPane" region="left" style="width: 40%;">
+			<div dojoType="dijit.Toolbar" align="center" 
+			style="color:white;margin: 0; padding: 0;">
+				<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="showFilteringTable('Capd');" iconClass="validIcon" showLabel="true">
+					Show
+				</div>					
+			</div>
+			<table id="ExtractCap"
+			style="width:98%;margin:2;padding:1;white-space:nowrap;border:0.1em solid grey;">
+					<tr><td><label for="yearSelect"><b>Year</b></label></td>
+					<td><input id="yearSelect_Capd"></td>
+					<td><label for="analyseSelect"><b>Analyse</b></label></td>
+					<td><input id="analyseSelect"></td>
+			</table>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="right" style="width: 60%;">
+			<div dojoType="dijit.Toolbar" align="center" 
+			style="color:white;margin: 0; padding: 0;">
+				<button data-dojo-type="dijit.form.ToggleButton" 
+					style="height:16;width:auto;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43; color: white"
+					data-dojo-props="iconClass:'dijitCheckBoxIcon'" id="btn_Capd">
+					<i style="font-size:70%;margin:0;padding:0;border:0">Default</i>
+				</button>
+				<div dojoType="dijit.form.Button" dojoType="dijit.form.Button"
+					onClick="upExtractDefCap('Capd');" iconClass="validIcon" showLabel="true">
+					Submit
+				</div>					
+			</div>
+			<div id="filterCapGridDiv" style="height: 96%;"></div>		
+		</div>
+	</div>
+</div>
+<!-- ############################################################################################## -->
+<!-- Add/Remove USER Group -->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="usergroupDialog" jsId="usergroupDialog" class="projUserGroup"
+data-dojo-props="closable:false"
+title="<span style='width:25%;font-size:125%;' class='cl_block_left'>Add/Remove User Group from project</span>
+<span id='gprojid' jsId='gprojid' style='display:none' class='cl_block_left'></span>
+<span style='width:8%;background:#6D7741;border-radius: 5px 0 0 5px;' class='cl_block_left'>Project Name: </span>
+<span id='gprojname' jsId='gprojname' style='width:auto;background:#6D7741;border-radius: 0 5px 5px 0;' class='cl_block_left'></span>
+<span id='bt_close_group' style='width:2%;' class='cl_btlog_block_right'></span>
+<span id='btlog_8' style='width:10%;' class='cl_btlog_block_right'></span>
+">
+	<div dojoType="dijit.layout.BorderContainer" id="borderContainerUserGroup">
+		<div dojoType="dijit.layout.ContentPane" region="top"
+		style="height: 2em; border:none;margin: 0; padding: 0:color:white;text-align:center">
+			<div dojoType="dijit.Toolbar" style="color:white;">
+					<div dojoType="dijit.form.Button" onClick='addProjects2Group();'
+						iconClass="plusIcon" howLabel="true">Add Group</div>
+					<div dojoType="dijit.form.Button" onClick='removeUserGroupProject();'
+						iconClass="delIcon" showLabel="true">Remove Group</div>
+			</div>
+			<div dojoType="dijit.Tooltip" connectId="GRF" position="above">
+				<label class="tooltip">
+					Click on <b>User icon</b> to get all users of the group<br>
+					Group <b>STAFF</b> is added by default, no need to select it<br>
+					</label>
+			</div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="left" style="width: 18%;height: 100%;">
+			<b>Project's Group</b>
+			<div id="usergroupProjGridDiv" style="height: 96%;"></div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="center" style="width: 22%;height: 100%;">
+			<b>List of Groups</b><img id="GRF" src="icons/information.png">
+			<div id="gridGroupDiv" style="height: 90%;"></div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="right" style="width: 60%;height: 100%;">
+			<b>User Group</b>
+			<span id='gusergroup' jsId='gusergroup' 
+				style='width:auto;background:#6D7741;color:white;border-radius: 5px;margin:10px;'></span>
+			<div id="userGroupGridDiv" style="height: 96%;"></div>
+		</div>
+	</div>
+</div>
+<!--############################################################################################## -->
+<!-- Capture Folder Download  -->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="downcapFileFolderDialog" jsId="downcapFileFolderDialog"  class="expfile" data-dojo-props="closable:false"
+title="<span style='width:20%;font-size:125%;text-align:left;'>Download</span>
+<span id='bt_close_capbed' style='width:4%;text-align:right;' class='cl_btclose_block_right'></span>
+">
+	<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 100%">
+		<div dojoType="dijit.layout.ContentPane" region="center" style="height: 40em">
+			<button  type="button" id="bt_capbed" dojotype="dijit.form.Button" onclick="exportFileAll(capbedGrid);">Export all to CSV</button>
+			<div id="capbedGrid" style=display: none;"></div>
+		</div>
+	</div>
+</div>
+
+<!--############################################################################################## -->
+<!-- Capture Bundle Transcipt Add & Update -->
+<!-- ############################################################################################## -->
+<div data-dojo-type="dijit/Dialog" id="divCapBun" class="wCapBun" data-dojo-props="closable:false"
+title="<span style='width:50%;font-size:125%;' class='cl_block_left'>Exon Capture - Bundle Transcript</span>
+	<span id='bt_close_cap' style='width:2%;' class='cl_btlog_block_right'></span>
+	<span id='btlog_6' style='width:10%;' class='cl_btlog_block_right'></span>
+	">
+
+	<div dojoType="dijit/layout/BorderContainer" data-dojo-props="design: 'sidebar',gutters:true,liveSplitters:false" id="BCMain"
+	style="width: 100%; height: 97.5%; margin:0;padding:0;border:0;white-space:nowrap;">
+		<div dojoType="dijit/layout/ContentPane" region="left" class="CPleftCapture" id="leftCapture">
+			<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="region: 'center'" 
+			style="margin:0;padding:0;white-space:nowrap;border:0;">
+   				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'" 
+				style="margin:0;padding:0;white-space:nowrap;border:0">
+					<div dojoType="dijit.Toolbar">
+						<table width="95%"
+						style="margin:0;padding:0;border:none;color:white">
+							<tr>	
+							<td align="left" width="100%" style="font-size:125%;">
+								<B>Capture</B>
+							</td>
+							<td>
+							<div dojoType="dijit.form.Button" iconClass="renameIcon" 
+							id="bt_saveCapture" onClick='save_NewCap(newCap=0);'
+							showLabel="true">
+								Save
+							</div>
+							</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+   				<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'"
+				style="margin:0;padding:0;white-space:nowrap;border:0">
+					<div dojoType="dijit.Tooltip" data-dojo-props="connectId:['IRGC']"
+ 					position="below">
+						<label class="tooltip">
+						<b>Gene Release from Capture, not from Bundle </b><br>
+						</label>
+					</div>	
+					<div dojoType="dijit.form.Form" id="capForm" jsId="capForm">
+						<table style="width: auto; margin:0;padding:0;white-space:nowrap;">
+							<input name="captureId" id="captureId" type="hidden"> 
+							<tr>
+							<td><label for="capture" width="5em" >Name</label>
+							</td>
+							<td>
+							<input type="text" name="capture" id="capture"
+							dojoType="dijit.form.ValidationTextBox" width="auto"
+							regExp="^[a-zA-Z0-9-_]+$" required="true"
+							invalidMessage="no space please">
+							</td>
+							</tr>
+							<tr>
+							<td><label for="capDes" width="5em" >Description</label>
+							</td>
+							<td><input type="text" name="capDes" id="capDes"
+							dojoType="dijit.form.ValidationTextBox" required="true">
+							</td>
+							</tr>
+								
+							<tr>
+							<td><label for="capType">Type<br></label></td>
+							<td><input id="capType"></td>
+							</tr>
+
+							<tr>
+							<td><label for="capUMI">UMI<br></label></td>
+							<td><input id="capUMI"></td>
+							</tr>
+
+						</table>
+						<table style="width: auto; margin:0;padding:0;white-space:nowrap;">
+							<tr>
+							<td style="width:5em;"><label for="capMethod">Method<br></label></td>
+							<td><input id="capMethod"></td>
+							<td><label for="capVs">Version</label>
+							</td>
+							<td><input type="text" name="capVs" id="capVs"
+							dojoType="dijit.form.ValidationTextBox" style="width:2em;"
+							regExp="^[0-9]+$" invalidMessage="Only number please">
+							</td>
+							</tr>
+						</table>
+						<table
+				style="width:auto;margin:2;padding:1;white-space:nowrap;border:0.1em solid grey;">
+
+						<tr for="release" align="center">
+						<td style="background:beige;font-weight:900;">Genome Release</td>
+						</tr>
+						<tr><td>
+						<div style="height: 6em; width:25em;overflow: auto;">
+							<div dojoType="dijit.form.Form" id="releaseCapForm"
+							jsId="releaseCapForm" > 
+								<span id="releaseRadioCap"></span>
+							</div>
+						</div>
+						</table>
+
+						<table id="TableErrorGenome"
+							<tr><td>
+							SELECT a Release Genome and SAVE
+							</td></tr>							
+						</table>
+
+						<table id="TableGeneRelease_title"
+				style="width:94%;margin:2;padding:1;white-space:nowrap;border:0.1em solid grey;">
+						<tr for="release" align="center">
+						<td style="background:beige;font-weight:900;">Gene Release<img id="IRGC"src="icons/information.png"></td>
+						</tr>
+						<tr><td><input id="capRelGene"></td></tr>
+						</table>
+
+						<table id="TableValidation_title"
+							style="width:94%;margin:2;padding:1;white-space:nowrap;border:0.1em solid grey;">
+							<tr>
+							<td align="middle" 
+							style="background:beige;font-weight:900;">
+							Analyse & Validation
+							</td>
+							</tr>
+						</table>
+
+						<table id="TableValidation_5buttons"
+							style="width:94%;margin:2;padding:1;white-space:nowrap;">
+							<tr>
+							<td colspan="4" align="middle">
+							</td>
+							</tr>
+
+							<tr>
+							<td>Exome</td>
+							<td>Genome</td>
+							<td>SingleCell</td>
+							<td>Validation</td>
+							</tr>
+
+							<tr>
+							<td>
+							<input data-dojo-type="dojox/mobile/RadioButton"
+							name="analRadio" id="analEx" value="exome"
+							onClick="Manage_Analyse(this)" type="radio">
+							</td>
+							<td>
+							<input type="radio" dojoType="dojox/mobile/RadioButton"
+							name="analRadio" id="analGe" value="genome"
+							onClick="Manage_Analyse(this)">
+							</td>
+
+							<td>
+							<input type="radio" dojoType="dojox/mobile/RadioButton"
+							name="analRadio" id="analSi" value="singlecell"
+							onClick="Manage_Analyse(this)">
+							</td>
+
+							<td>
+							<input dojoType="dojox/mobile/RadioButton"
+							name="analRadio" id="analOldVal" type="radio"
+							onClick="Manage_Analyse(this)" value="old">
+							<label for="analNewVal">Old</label>
+							</td>
+							</tr>
+
+							<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>
+							<input type="radio" dojoType="dojox/mobile/RadioButton"
+							name="analRadio" id="analNewVal"
+							onClick="Manage_Analyse(this)" value="new">
+							<label for="analNewVal">New</label>
+							</td>						
+							</tr>
+
+
+							<tr>
+							<td colspan="4" align="middle">
+							</td>
+							</tr>
+
+							<tr>
+							<td>RNAseq</td>
+							<td>Amplicon</td>
+							<td>Other</td>
+							</tr>
+
+							<tr>
+							<td>
+							<input type="radio" dojoType="dojox/mobile/RadioButton"
+							name="analRadio" id="analRNA" value="rnaseq"
+							onClick="Manage_Analyse(this)">
+							</td>
+
+							<td>
+							<input data-dojo-type="dojox/mobile/RadioButton"
+							name="analRadio" id="analAm" value="amplicon"
+							onClick="Manage_Analyse(this)" type="radio">
+							</td>
+
+							<td>
+							<input type="radio" dojoType="dojox/mobile/RadioButton"
+							name="analRadio" id="analOt" value="other"
+							onClick="Manage_Analyse(this)">
+							</td>
+							</tr>
+						</table>
+						<table id="TableValidation_box"
+							style="width:94%;margin:2;padding:1;white-space:nowrap">
+							<tr>
+							<td><label for="capAnalyse">Analyse<br></td>
+							<td colspan="3"><input id="capAnalyse"></td>
+							</tr>
+							<tr>
+							<td><label for="capValidation">Validation</label></td>
+							<td colspan="">
+							<input name="capValidation" id="capValidation"
+							dojoType="dijit.form.ValidationTextBox"  type="text"
+							regExp="^[a-zA-Z0-9-]+$" value='' disabled
+							invalidMessage="no space please">
+							</td>
+							</tr>
+						</table>
+						<table align="center"
+		style="width:94%;color:white;text-align: center;margin:0;padding:0;white-space:nowrap;border:0;">
+							<tr style="background:green">
+							<td id="domBt_capFilesNext">
+							</td>
+							</tr>
+							
+						</table>
+						<table id="TableCapFiles"
+				style="width:94%;margin:2;padding:1;white-space:nowrap;border:0.1em solid grey;">
+							<tr>
+							<td colspan="3" align="middle" 
+							style="background:beige;font-weight:900;">
+							Upload Files
+							</td>
+							</tr>
+							<!-- Capture toto-->
+							<tr>
+							<td>Capture</td>
+							<td><label for="capFile">File Name</label></td>
+							</tr>
+							<tr>
+							<td id="domBt_capFile" class="roundedButton"> 
+							<button id="bt_capFile"></button>
+							</td>
+							<td><input type="text" name="capFile" id="capFile"
+							dojoType="dijit.form.ValidationTextBox" disabled
+							regExp="^[a-zA-Z0-9-._]+$" required="true" style="width: 165px;"
+							invalidMessage="no space please">
+							</td>
+							<td id="domBt_downcapFile" class="roundedButton"> 
+							<button id="bt_downcapFile"></button>
+
+							</tr>
+							<!-- Primer -->
+							<td>Primer</td>
+							<td><label for="capFilePrimer">File Name</label></td>
+							</tr>
+							<tr>
+							<td id="domBt_capFilePrimer" class="roundedButton">
+							<button id="bt_capFilePrimer"></button>
+							</td>
+							<td><input type="text" disabled
+							name="capFilePrimer" id="capFilePrimer"
+							dojoType="dijit.form.ValidationTextBox" style="width: 165px;"
+							regExp="^[a-zA-Z0-9-._]+$"
+							invalidMessage="no space please">
+							</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div dojoType="dijit/layout/ContentPane" region="center" class="CPcenterBunTr" id="rightCapture">
+			<div dojoType="dijit/layout/AccordionContainer" id="AccMain"
+			style="width:100%,height:100%;margin: 0; padding: 0;border: 1em black">
+  				<div dojoType="dijit/layout/ContentPane" onShow=""
+				style="margin:0;padding:0;white-space:nowrap;" id="CPnewBun"
+				title="<B>Other Bundles: Add - New Bundle</B>" 
+				selected="true" onMouseEnter="">
+					<div dojoType="dijit.layout.ContentPane" region="top" width="100%">
+						<div dojoType="dijit.Tooltip" connectId="Bprint" position="below">
+							<label class="tooltip">
+				<b>Preview/Save All :</b> right click on the Grid<br>
+				<b>Preview/Save Selected :</b>Select rows then right click on one Grid row selected
+							</label>
+						</div>
+
+						<div dojoType="dijit.Toolbar" id="toolbar_newbundle">
+							<table width="100%"
+							style="margin:0;padding:0;border:0;color:white">
+							<tr>	
+							<td align="left">
+							<img id="Bprint" src="icons/table_save.png">
+							</td>
+							<td align="left" width="85%">
+							</td>
+							<td align="left">
+							<div dojoType="dijit.form.Button"
+							iconClass="plusIcon"  showLabel="true"
+							onClick='addBundle2capture();'>Add to Capture
+							</div>
+							</td>
+
+							<td align="right">
+							<div dojoType="dijit.form.Button" iconClass="plusFolderIcon"
+							showLabel="true" onClick="viewNewBundle();"
+							id="button_newBundle">New Bundle & Transcript
+							</div>
+							</td>
+							</tr>
+							</table>
+						</div>
+					</div>
+					<div dojoType="dijit.layout.ContentPane" region="center" 
+					id="" width="100%">
+						<div id="gridBundleDiv" style="width: 100%; height: 93.5%;">
+						</div>
+					</div>
+				</div>
+  				<div dojoType="dijit/layout/ContentPane" onShow=""
+				style="margin:0;padding:0;white-space:nowrap;" id="CPCapBun"
+				selected="true" onMouseEnter="">
+					<div dojoType="dijit.layout.ContentPane" region="top" width="100%">
+						<div dojoType="dijit.Tooltip" connectId="BCprint" position="below">
+							<label class="tooltip">
+				<b>Preview/Save All :</b> right click on the Grid<br>
+				<b>Preview/Save Selected :</b>Select rows then right click on one Grid row selected
+							</label>
+						</div>
+						<div dojoType="dijit.Tooltip" connectId="DBL" position="below">
+							<label class="tooltip">
+								<b>Double click</b> on grid row to Edit <b>Bundle & New Transcript</b>
+							</label>
+						</div>
+						<div dojoType="dijit.Toolbar" id="toolbar_newtranscript">
+							<table width="100%"
+							style="margin:0;padding:0;border:0;color:white">
+							<tr>	
+							<td align="left">
+							<img id="BCprint" src="icons/table_save.png">
+							</td>
+							<td align="left">
+							<img id="DBL" src="icons/double_click.png">
+							</td>
+							<td align="left" width="85%">
+							</td>
+							<td align="left">
+							<div dojoType="dijit.form.Button" iconClass="delIcon" 
+							onClick='removeCaptureBundle();' showLabel="true">
+								Remove
+							</div>
+							</td>
+
+							<td align="right">
+							<div dojoType="dijit.form.Button" iconClass="plusIcon"
+							showLabel="true" onClick="viewAddBundle();"
+							id="button_addBundle">Add Bundle
+							</div>
+							</td>
+							</tr>
+							</table>
+						</div>
+					</div>
+					<div dojoType="dijit.layout.ContentPane" region="center" width="100%">
+						<div id="gridCaptureBundleDiv" style="width:100%;height:93.5%;">
+						</div>
+					</div>
+				</div>
+  				<div dojoType="dijit/layout/ContentPane"
+				style="margin:0;padding:0;white-space:nowrap;" id="CPcapEx"
+				title="<B>Transcripts/Exons</B><span id='relExon' style='display:none;'></span>" 
+				selected="true" onMouseEnter="">
+					<div dojoType="dijit.Tooltip" connectId="EXin" position="below">
+						<label class="tooltip">
+						<i>Exon Transcript Site Matching with Exon Capture Position
+						</i></label>
+					</div>
+					<div dojoType="dijit.Tooltip" connectId="EXout" position="below">
+						<label class="tooltip">
+						<i>Exon Transcript Site NOT Matching with Exon Capture Position
+						</i></label>
+					</div>
+
+					<div dojoType="dijit.Tooltip" connectId="EXprint" position="below">
+						<label class="tooltip">
+				<b>Preview/Save All :</b> right click on the Grid<br>
+				<b>Preview/Save Selected :</b>Select rows then right click on one Grid row selected
+						</label>
+					</div>
+					<div dojoType="dijit.Tooltip" connectId="BTexon" position="below">
+						<label class="tooltip">
+						<b>Toggle Switch Filter Exon</b><br>
+	<img src='icons/square_green_16_ns.png'>&nbsp;Exon of designed Transcript <b>in</b> Exon Capture <b>(covered)</b><br>
+	<img src='icons/square_red_16_ns.png'>&nbsp;Exon of designed Transcript <b>out</b> Exon Capture <b>(not covered)</b>
+						</label>
+					</div>
+					<div dojoType="dijit.Tooltip" connectId="WCslider" position="below">
+						<label class="tooltip">
+						<b>Filter Position</b><br>
+			Widened Exon Capture position in Start(-) End(+) position from 10 to 50 nt 
+						</label>
+					</div>
+					<div dojoType="dijit.Tooltip" connectId="INex" position="below">
+						<label class="tooltip">
+						<b>Deposit</b><br>
+		Generate in background an Covered Exon File according Selectors: Switch Filter Exon, Widened Exon Capture position<br>
+						<b>Retrieve</b><br>
+		When the processing on Covered Exon is over, get view from the pre-filtered Covered Exon File
+
+						</label>
+					</div>
+					<div dojoType="dijit.Toolbar">
+						<table>
+						<tr>						
+						<td valign="top"><img id="BTexon" src="icons/information.png">
+
+						<div id="swExon" data-dojo-type="dojox/mobile/Switch" 
+						value="off" 
+					leftLabel="Exon In <span style='padding:6 4 2 2;background:red'>Out</span>" 
+						rightLabel="Exon Out"
+style="float: center; border-radius: 10px;background:linear-gradient(brown,#510303); border: 0; color: white;margin: 0; padding: 0;white-space:nowrap;width: 6.5em;">
+						</div>
+						<div dojoType="dijit.form.Form" 
+						id="FilterExonForm" jsId="FilterExonForm">
+							<img src="icons/zoom.png">
+							<input type="text" id="FilterExonBox"
+							style="width: 15em;" name="FilterExonBox"
+							dojoType="dijit.form.ValidationTextBox" 
+							data-dojo-props="placeHolder: 'Transcript, Gene'">
+							<div dojoType="dijit.Tooltip" connectId="sEx"
+							position="below">
+								<label class="tooltip"><b>Reset Search</b><br>
+								</label>
+							</div>
+							<div dojoType="dijit.form.Button" id="sEx"
+								onClick="resetSearchExon(captureTrGrid);"
+								showLabel="true" iconClass="dijitIconUndo"
+	style="float: center; border-radius: 10px;background:linear-gradient(brown,#510303); border: 0; color: white;margin: 0; padding: 0;width: 1.5em;">
+							</div>
+						</div>
+						</td>
+						<td style="text-align:center;width:8em;white-space:nowrap;margin:0;padding:0;border:none;background:#9ABF5E;color:white;font-size:75%">
+							Widened<br>Capture Position
+						</td>
+						<td style="white-space:nowrap;margin:0;padding:0;border:none;background:#9ABF5E">
+ 						<div id="sliderCap" style="width:15em;" name="sliderCap"
+    						data-dojo-type="dijit.form.HorizontalSlider"
+						data-dojo-args="value" onChange="wideCapture"
+    						data-dojo-props="value:0, minimum: 0, maximum:50, discreteValues:6,
+    						intermediateChanges:false,showButtons:false">
+    							<div data-dojo-type="dijit.form.HorizontalRule" 							container="bottomDecoration" count=6 style="height:5px;">
+							</div>
+							<ol data-dojo-type="dijit/form/HorizontalRuleLabels"
+							container="bottomDecoration"
+        						style="height:1em;font-size:75%;color:gray;">
+        							<li>0</li>
+        							<li>&#177;10</li>
+       								<li>&#177;20</li>
+        							<li>&#177;30</li>
+								<li>&#177;40</li>
+								<li>&#177;50</li>
+    							</ol>
+						</div>
+						</td>
+						<td style="text-align:center;white-space:nowrap;margin:0;padding:0;border:none;background:#9ABF5E;font-size:70%">
+						<img id="WCslider" src="icons/information.png">
+						</td>
+						<td>
+						<img id="EXprint" src="icons/table_save.png">
+						</td>
+						<td>
+							<div dojoType="dijit.form.Button" iconClass=""
+								showLabel="true" id="exDeposit"
+								style="float: center; color:white; background-color: #3D7D52"
+								onClick="exonDeposit();">Deposit
+							</div>
+						</td>
+						<td>
+							<div dojoType="dijit.form.Button" iconClass=""
+								showLabel="true" id="exRetrieve"
+								style="float: center; color:white; background-color: #5D7747"
+								onClick="exonRetrieve();">Retrieve
+							</div>
+						</td>
+						<td style="text-align:center;white-space:nowrap;margin:0;padding:0;border:none;font-size:70%">
+						<img id="INex" src="icons/information.png">
+						</td>
+						</tr>
+
+						</table>
+					</div>
+					<div id="captureTrGridDiv" style="width: 100%; height: 97%;">
+					</div>
+				</div>
+  				<div dojoType="dijit/layout/ContentPane"
+				style="margin:0;padding:0;white-space:nowrap;" id="CPcapUnTr"
+				title="<B>Undesigned Transcripts</B>" selected="true" onMouseEnter="">
+					<div style="height: 100%; width: 100%" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design: 'headline'">
+						<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', splitter:false">
+
+							<div dojoType="dijit.Tooltip" connectId="UNslider" position="below">
+								<label class="tooltip">
+								<b>Filter Position</b><br>
+			Widened Exon Capture position in Start(-) End(+) position from 10 to 50 nt 
+								</label>
+							</div>
+							<div dojoType="dijit.Tooltip" connectId="UNprint" position="below">
+								<label class="tooltip">
+								<b>Only right table</b><br>
+								<b>Preview/Save All :</b> right click on the Grid<br>
+								<b>Preview/Save Selected :</b>Select rows then right click on one Grid row selected
+								</label>
+							</div>
+							<div dojoType="dijit.Tooltip" connectId="UNinfo" position="below">
+								<label class="tooltip">
+								<b><ol>Filter Transcripts</b>
+								<li>Only encoding transcript</li>
+							<li>Coverage greater than %Threshold (by default 40%) between probes and exons of transcripts</li>
+								</ol>
+								</label>
+							</div>
+
+							<div dojoType="dijit.Toolbar">
+								<div style="float:left;">
+								<table>
+								<tr>
+								<td>
+								<div dojoType="dijit.form.Button" iconClass="expandIcon"
+								showLabel="true" style="background:#ADC18B" 
+								onClick="expandUnTr();">
+								Expand All
+								</div>
+								<div dojoType="dijit.form.Button" iconClass="collapseIcon"
+								showLabel="true" style="background:#ADC18B"
+								onClick="collapseUnTr();">
+								Collapse All
+								</div>
+								<div dojoType="dijit.form.Form" 
+								id="FilterUnTrForm" jsId="FilterUnTrForm">
+								<img src="icons/zoom.png">
+								<input type="text" id="FilterUnTrBox" style="width: 12em;"
+								dojoType="dijit.form.ValidationTextBox" 
+								name="FilterUnTrBox" showLabel="true"
+								data-dojo-props="placeHolder: 'Transcript, Gene, Chr'">
+									<div dojoType="dijit.form.Button"
+								onClick="resetSearchUnTr(captureUnTrGrid);resetSearchUnTr(captureUnGeneGrid);"
+								iconClass="dijitIconUndo"
+	style="float: center; border-radius: 10px;background: linear-gradient(brown,#510303); border: 0; color: white;margin: 0; padding: 0;width: 1.5em;">
+									</div>
+								</div>
+								</td>
+								<td style="text-align:center;width:8em;white-space:nowrap;margin:0;padding:0;border:none;background:#9ABF5E;font-size:75%">
+								Widened<br>Capture Position
+								</td>
+								<td style="white-space:nowrap;margin:0;padding:0;border:none;background:#9ABF5E">
+ 								<div id="sliderCapUn" style="width:15em;" name="sliderCapUn"
+    								data-dojo-type="dijit.form.HorizontalSlider"
+								data-dojo-args="value"
+ 								onChange="wideCaptureUn"
+    								data-dojo-props="value:0, minimum: 0, maximum:50, discreteValues:6,
+    								intermediateChanges:false,showButtons:false">
+    									<div data-dojo-type="dijit.form.HorizontalRule" 									container="bottomDecoration" count=6 style="height:5px;">
+									</div>
+									<ol data-dojo-type="dijit/form/HorizontalRuleLabels"
+									container="bottomDecoration"
+        								style="height:1em;font-size:75%;color:gray;">
+        								<li>0</li>
+        								<li>&#177;10</li>
+       									<li>&#177;20</li>
+        								<li>&#177;30</li>
+									<li>&#177;40</li>
+									<li>&#177;50</li>
+    									</ol>
+								</div>
+								</td>
+								<td style="text-align:center;white-space:nowrap;margin:0;padding:0;border:none;background:#9ABF5E;font-size:70%">
+								<img id="UNslider" src="icons/information.png">
+								</td>
+								<td style="width:8em;text-align:center;white-space:nowrap;margin:2;padding:0;border:none;background:#9ABF5E;font-size:75%">
+								<label for="thresholdUn" style="text-align:left;">% Threshold<br></label>
+								<input id="thresholdUn">
+								</td>
+								<td style="background:#9ABF5E;">
+								<img id="UNinfo" src="icons/information.png">
+								</td>
+								</tr>
+								</table>
+								</div>
+								<div style="float:right;background:#9ABF5E;">
+								<table>
+								<tr>
+								<td style="background:#9ABF5E;" rowspan="2">
+								<img id="UNprint" src="icons/table_save.png">
+								</td>
+								</tr>
+								</table>
+								</div>
+							</div>
+						</div>
+						<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'leading', splitter: true" style="width: 65%;">
+
+							<div id="captureUnTrGridDiv" style="width: 100%; height: 97%;">
+							</div>
+						</div>
+						<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'right', splitter: true" style="width: 33%;">
+							<div id="captureUnGeneGridDiv" style="width: 100%; height: 97%;">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ############################################################################################## -->
+<!--  Input Bundle & Transcript -->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="divBundleDB" jsId="divBundleDB" class="newBunTrans">
+	<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true"
+	style="width: 100%; height: 100%;margin: 0; padding: 0;white-space:nowrap;" >
+
+		<div dojoType="dijit.layout.ContentPane" region="top"
+		style="background: linear-gradient(#510303, brown);border: 0; width: 100%;white-space:nowrap;">
+			<table style="width:100%;color:white;margin:0;padding:0;border:0;white-space:nowrap;">
+			<tr>
+			<td style="width:20%" align="left"><span id="LibBundleDB"></span></td>
+			<td style="width:30%" align="center" class="spot">
+				<B>Capture:</B>
+				<span id="SbundleCap"></span>
+				<B>&nbsp;&nbsp;Id:</B>
+				<span id="SbundleCapId"></span>
+				<B>&nbsp;&nbsp;Type:</B>
+				<span id="SbundleCapType"></span>
+			</td>
+			<td style="width:40%" align="left"></td>
+			<td align="left" style="display:none;">
+			<B>&nbsp;&nbsp;dirTrs:</B><span id="enddirTrs"></span></td>
+			<td style="width:0.1%;margin: 0; padding: 0;white-space:nowrap;" align="right">
+				<span id='bt_close_excap' class='cl_button_span_right'></span></td>
+			</tr>
+			</table>
+			<div dojoType="dijit.Toolbar">
+				<table width="100%" 
+				style="border: 0; margin: 0; padding: 0;white-space:nowrap;color:white;">
+				<tr>
+				<td width="17%" align="center">
+					<div dojoType="dijit.form.Button" iconClass="renameIcon" id="bt_upBun"
+					onClick="upBundle();" showLabel="true">Save</div>
+				</td>
+				<td width="52%" align="center">
+					<div dojoType="dijit.form.Button" onClick="newBundleAndCapture(upload=0);"
+					id="bt_bunSubmit" showLabel="true"
+					iconClass="validIcon">Submit</div>
+
+					<div dojoType="dijit.form.Button" iconClass="renameIcon" id="bt_upTrans"
+					onClick="upTranscript();" showLabel="true">Save</div>
+					<div dojoType="dijit.form.Button" iconClass="delIcon" id="bt_delTrans"
+					onClick="delTranscript();" showLabel="true">Remove</div>
+					<div dojoType="dijit.form.Button" iconClass="refreshIcon" 
+					onClick='refreshBundleTransList();' showLabel="true">Refresh</div>
+				</td>
+				<td width="31%" align="center">
+					<div dojoType="dijit.form.Button" iconClass="plusIcon" id="bt_addTrans"
+					onClick="addTranscript();" showLabel="true">Add</div>
+				</td>
+				</tr>
+				</table>
+			</div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="left"
+		style="width: 20%; margin: 0; padding: 0;white-space:nowrap;" align="center">
+			<div dojoType="dijit.Tooltip" data-dojo-props="connectId:['IRGB']" position="below">
+				<label class="tooltip">
+					<b>Gene Release from Bundle, not from Capture </b><br>
+				</label>
+			</div>	
+
+			<table width="100%" style="border: 0; margin: 0; padding: 0;white-space:nowrap;">
+			<tr>
+			<td align="center" style="border: 5px solid grey; margin: 0; padding: 0;">
+				<B><span id="labBundle"></span></B>
+			</td>
+			</tr>
+			</table>
+
+			<div dojoType="dijit.form.Form" id="bunForm" jsId="bunForm">
+				<table style="width: 100%; border: 0">
+				<tr>
+				<td><label for="bundleId">Bundle ID</label></td>
+				</tr>
+				<tr>
+				<td><span id="bundleId" style="font-weight:900"></span></td>
+				</tr>
+				<tr>
+				<td><label for="bundle">Bundle Name</label></td>
+				</tr>
+				<tr>
+				<td><textarea name="bundle" id="bundle" required="true"
+				dojoType="dijit.form.SimpleTextarea" rows="3" cols="23"
+				style="width: auto;" value=""></textarea>
+				</td>
+				</tr>
+				<tr>
+				<td><label for="bunVs">Version</label>
+				</td>
+				</tr>
+				<tr>
+				<td><input type="text" name="bunVs" id="bunVs"
+				dojoType="dijit.form.ValidationTextBox"
+				regExp="^[0-9]+$"
+				invalidMessage="Only number please">
+				</td>
+				</tr>
+				<tr>
+				<td><label for="bunDes">Description
+				<br><I class='warnIcon'></I>
+				<I> no accent, no apostrophe</I></label>
+				</td>
+				</tr>
+				<tr>
+				<td><textarea name="bunDes" id="bunDes" required="true"
+				dojoType="dijit.form.SimpleTextarea" rows="5" cols="23"
+				style="width: auto;" value=""></textarea>
+				</td>
+				</tr>
+				<tr>
+				<td><label for="meshid">Mesh Id</label>
+				</td>
+				</tr>
+				<tr>
+				<td><input type="text" name="meshid" id="meshid"
+				dojoType="dijit.form.ValidationTextBox"
+				regExp="^[a-zA-Z0-9]+$"
+				invalidMessage="no space please">
+				</td>
+				</tr>
+
+				<tr><td><label for="bunRelGene">Gene Release<img id="IRGB"src="icons/information.png"><br></label></td><tr>
+				<tr><td><input id="bunRelGene"></td></tr>
+
+				</table>
+			</div>	
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="center"
+		style="width: 49%; margin: 0; padding: 0;white-space:nowrap;" align="center">
+			<div dojoType="dijit.Tooltip" connectId="BTprint" position="below">
+				<label class="tooltip">
+				<b>Preview/Save All :</b> right click on the Grid<br>
+				<b>Preview/Save Selected :</b>Select rows then right click on one Grid row selected
+				</label>
+			</div>
+			<div dojoType="dijit.Tooltip" connectId="lightGene" position="below">
+				<label class="tooltip">
+				<img src='icons/ledred.png'>&nbsp;Bundle with at least One Non-annotated Gene Transcript<br>
+				<img src='icons/ledgreen.png'>&nbsp;Bundle with  All annotated Gene Transcript<br>
+				</label>
+			</div>
+			<table width="100%" style="border: 0; margin: 0; padding: 0;white-space:nowrap;">
+			<tr>
+			<td  align="center" style="border: 5px solid grey; margin: 0; padding: 0;">
+				<B>BUNDLE TRANSCRIPT</B>
+				<span id="lightGene"></span>&nbsp;&nbsp;<img id="BTprint" src="icons/table_save.png">
+			</td>
+			</tr>
+			</table>
+			<div id="gridBundleTransDiv" style="width: 98%; height: 95%;border: 0.1em solid #9f9f9f;">
+			</div>
+		</div>
+
+		<div dojoType="dijit.layout.ContentPane" region="right"
+		style="width: 31%; margin: 0; padding: 0;white-space:nowrap;" align="center">
+			<table width="100%" style="border: 0; margin: 0; padding: 0;white-space:nowrap;">
+			<tr>
+			<td  align="center" style="border: 5px solid grey; margin: 0; padding: 0;">
+				<B>NEW TRANSCRIPT</B>
+			</td>
+			</tr>
+			</table>
+			<div dojoType="dijit.form.Form" id="transForm" jsId="transForm">
+				<div dojoType="dijit.Tooltip" connectId="TBLbt" position="below">
+					<label class="tooltip">
+					<i>
+					<B>AR </B> Autosomal Recessive<br>
+					<B>AD </B> Autosomal Dominant<br>
+					<B>XL </B> X Linked<br>
+					</i></label>
+				</div>
+				<div dojoType="dijit.Tooltip" connectId="TBTbt" position="below">
+					<label class="tooltip">
+					<i>
+					<B>TRANS </B> Transcript Transmission Mode<br>
+					<B>BTRANS </B> Specific Bundle Transcript Transmission Mode<P>
+					<B>AR </B> Autosomal Recessive<br>
+					<B>AD </B> Autosomal Dominant<br>
+					<B>XL </B> X Linked<br>
+					</i>
+					</label>
+				</div>
+				<table style="align:left;width:23em">
+				<tr>
+				<td><b>Transmision Mode in</b></td>
+				<td><input type="checkbox" id="dbox1" name="dbox1"
+				dojoType="dojox.mobile.CheckBox" checked>
+				<label for="dbox1">Trans</label>
+				<input type="checkbox" id="dbox2" name="dbox2"
+				dojoType="dojox.mobile.CheckBox" checked>
+				<label for="dbox2">B-Trans</label>
+				<img id="TBTbt" src="icons/information.png">
+				</td>
+				</tr>
+				</table>
+
+				<table style="border: 0.1em solid #9f9f9f;">
+				<input type="radio" dojoType="dojox/mobile/RadioButton"
+				name="trs_input" id="trs_col" value="B" onChange="chgTrsCol();">
+				<label for="trs_col">Copy/Paste</i>
+				<img src="icons/copy_paste_16.png">
+				</label>
+				<input type="radio" dojoType="dojox/mobile/RadioButton" checked
+				name="trs_input" id="trs_file" value="A" onChange="chgTrsFile();">
+				<label for="trs_file">Upload File
+				<img src="icons/document_a4_upload.png">&nbsp;&nbsp;
+				</label>
+				</table>
+				<div dojoType="dijit.form.Button" id="loadFCtrs"
+				onClick="trs_uploadFile();" showLabel="true">
+					Upload Transcript Tab File <img id="TrsFbt" src="icons/information.png">
+				</div>
+				<div dojoType="dijit.Tooltip" connectId="TrsFbt" position="below">
+					<label class="tooltip">
+					<i>The Transcript File must be a Text or CSV File 
+					<b>without</b> Header<br>
+					<b>Transcript Column Tabulated List</b><br>
+					ENST transcript name (+ eventually Transmission Mode AR or AD or XL)
+					</i></label>
+				</div>
+				<div dojoType="dijit.form.Form" id="trsColForm" jsId="trsColForm">
+					<table style="border: 0.1em solid #9f9f9f;">
+					<tr>
+					<label for="Rtrans">
+					<small><b>Column Tabulated List</b>
+					eventually with TRANSmission Mode (AR,AD,XL)
+					<img id="TBLbt" src="icons/information.png"></small>
+					</label>
+					</tr>
+					<td>
+					<textarea id="Rtrans" name="Rtrans"  onKeyDown="keyTab" 
+					rows="35" cols="40" dojoType="dijit.form.SimpleTextarea" 
+					style="width: auto;" value=""></textarea>
+					</td>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+<!-- ############################################################################################## -->
+<!--  Add Patient file/copy_paste -->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="addPatientDialog" class="projRun"  data-dojo-props="closable:false"
+title="<span style='float:left;width:40%;font-size:125%;text-align:left'>Add Patients</span>
+<span style='width:7%;background:#6D7741;border-radius: 5px 0 0 5px;' class='cl_block_left'>Run: </span>
+<span id='ADDPATrunId' style='width:7%;background:#6D7741;border-radius: 0 5px 5px 0;' class='cl_block_left'></span>
+<span id='bt_close_addpat' class='cl_button_span_right'></span>
+<span id='bt_submit_addpat' class='cl_button_span_right'></span>"
+>
+	<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true"
+	style="width: 100%; height: 100%;margin: 0; padding: 0;white-space:nowrap;">
+		<div dojoType="dijit.layout.ContentPane" region="left"
+		style="width: 59%;height: 100%; margin: 0; padding: 0;white-space:nowrap;" align="center">
+			<div dojoType="dijit.form.Form" id="a_desForm" jsId="a_desForm">
+				<table width="100%" height="5%" style="border: 0; margin: 0; padding: 0;white-space:nowrap;">
+				<tr>
+				<td width="73%" align="center" height="100%"
+				style="border: 5px solid grey; margin: 0; padding: 0;"><B>NEW PATIENT INFORMATION</B>
+				</td>
+				<td width="27%" align="center" height="100%"
+				style="border: 5px solid grey; margin: 0; padding: 0;background:#EC6E24"><B>Species</B>&nbsp;
+						<input id="a_speciesName">
+				</td>
+				</tr>
+				</table>
+				<table style="width: 25em; border: 0.1em solid #9f9f9f;">
+				<!-- Nb patient -->
+				<tr>
+				<td><label for="a_Rnbpat"><b>Number of patient</b> </label></td>
+				<td><input type="text" id="a_Rnbpat" name="a_Rnbpat"
+					dojoType="dijit.form.NumberTextBox" required="false"
+					constraints="{min:1,max:600}" style="width: 5em;"
+					invalidMessage="Invalid Number">
+				</td>
+				</tr>
+				<!-- Flowcell-->
+				<tr>
+				<td><label for="fc"><b>Flowcell</b></label></td>
+				<td><input type="radio" dojoType="dijit.form.RadioButton"
+					name="a_fc" id="a_fcA" value="A"> 
+					<label for="a_fcA">A</label>
+					<input type="radio" dojoType="dijit.form.RadioButton" name="a_fc"
+					id="a_fcB" value="B"> 
+					<label for="fcB">B</label>
+					<input type="radio" dojoType="dijit.form.RadioButton" name="a_fc"
+					id="a_fcNone" value=" "> 
+					<label for="a_fcNone">None</label>
+				</td>
+				</tr>
+				<!-- type -->
+				<tr>
+				<td><label for="a_patientType"><b>Type</b></label></td>
+				<td><input id="a_patientType"></td>
+				</tr>
+				<!-- Profile -->
+				<tr><td><label for="a_profileName"><b>Profile</b></label></td>
+				<td><input id="a_profileName"></td>
+				</tr>
+				</table>
+				<p>
+
+				<div dojoType="dijit.Toolbar">
+					<TABLE><TD>
+					<button data-dojo-type="dijit.form.ToggleButton" 
+style="height:16;width:90;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43; color: white"
+				data-dojo-props="iconClass:'dijitRadioIcon'" onChange="a_chgPipe" id="a_btn_pipe">
+					<i style="font-size:70%;margin:0;padding:0;border:0">Pipeline Methods</i>
+					<img id="PIPP" src="icons/information.png">
+					</button>
+					</TD></TABLE>
+				</div>
+
+				<!-- Profile pipeline methods-->
+				<table id="a_pipeline" style="width: 25em;">
+						<tr><td><label for="a_pipelineName"><b>Pileline Profile</b></label></td></tr>
+						<tr><td><input id="a_pipelineName"></td></tr>
+						<tr><td></td></tr>
+				</table>
+				<p>
+
+				<!--table of tables -->
+				<TABLE id="a_alncall" style="width: 30em;">
+				<TD>
+				<table dojoType="dojox.grid.DataGrid" jsId="a_alnRGrid"  clientSort="true" id="a_alnRGrid"
+				selectionMode="multiple" rowSelector="0.4em"
+				style="width: 15em; height: 12em; border: 0.1em solid #9f9f9f;">
+				<tr><b>Alignment Method</b>
+				<I class='multipleIcon' title='Multiple Selection'></I></tr>
+				<tr>&nbsp;</tr>
+				<tr>
+				<input type="checkbox" id="a_maln_defbox" name="a_maln_defbox"
+				dojoType="dojox/mobile/CheckBox" checked>
+				<label for="a_maln_defbox">Def</label>
+				</tr>
+				<thead>
+				<tr><th width="12em" field="methName">Method Name</th></tr>
+				</thead>
+				</table>
+				</TD>
+				<TD>
+				<table dojoType="dojox.grid.DataGrid" jsId="a_callRGrid" clientSort="true" id="a_callRGrid"
+				selectionMode="multiple" rowSelector="0.4em"
+				style="width: 15em; height: 12em; border: 0.1em solid #9f9f9f;">
+				<tr><b>Calling Method</b>
+				<I class='multipleIcon' title='Multiple Selection'></I></tr>
+				<tr>&nbsp;</tr>
+				<tr>
+				<input type="checkbox" id="a_mcall_defbox" name="a_mcall_defbox"
+				dojoType="dojox/mobile/CheckBox" checked>
+				<label for="a_mcall_defbox">Def</label>
+				</tr>
+				<thead>
+				<tr><th width="12em" field="methName">Method Name</th></tr>
+				</thead>
+				</table>
+				</TD>
+				</TABLE>
+
+				<TABLE id="a_othermeth" style="width: 30em;">
+				<TD>
+					<table dojoType="dojox.grid.DataGrid" jsId="a_otherRGrid"  clientSort="true" id="a_otherRGrid"
+					selectionMode="multiple" rowSelector="0.4em"
+					style="width: 15em; height: 8em; border: 0.1em solid #9f9f9f;">
+					<tr><b>Other Method</b></tr>
+					<tr>&nbsp;</tr>
+					<tr>
+					<!--<input type="checkbox" id="a_other_defbox" name="a_other_defbox"
+					dojoType="dojox/mobile/CheckBox" checked>
+					<label for="other_defbox">Def</label>-->
+					</tr>
+					<thead>
+					<tr><th width="12em" field="methName">Method Name</th></tr>
+					</thead>
+					</table>
+				</TD>
+				</TABLE>
+			</div>
+			<div dojoType="dijit.form.Form" id="a_relCapForm" jsId="a_relCapForm">
+				<table style="width:86%;margin:2;padding:1;white-space:nowrap;border:0.1em solid grey;">
+				<tr for="a_release" align="center">
+				<td><b>Genome Release</b>&nbsp;
+					<input type="checkbox" id="a_rel_defbox" name="a_rel_defbox"
+					dojoType="dojox/mobile/CheckBox" checked>
+					<label for="a_rel_defbox">Def</label>
+				</td></tr>
+				<tr><td>
+					<span id="a_relRadioCap"></span>
+				</td></tr>
+				</table>
+				<p>
+				<table style="margin:0;padding:0;white-space:nowrap;border:0">
+				<tr><td>
+				<b>Exon Capture</b> from Genome Release Selection
+					<input type="checkbox" id="a_capd_defbox" name="a_capd_defbox"
+					dojoType="dojox/mobile/CheckBox" checked>
+					<label for="a_capd_defbox">Def</label>
+				<div id="a_captureDiv" align="right"
+				style="width:36em; height:40em;margin:0;padding:0;white-space:nowrap;border:0">
+				</div>
+				</td></tr>
+				</table>
+			</div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="right"
+		style="width: 40%;height: 100%; margin: 0; padding: 0;white-space:nowrap;" align="center">
+			<table width="100%" height="5%" style="border: 0; margin: 0; padding: 0;white-space:nowrap;">
+			<tr><td width="100%" align="center" height="100%"
+			style="border: 5px solid grey; margin: 0; padding: 0;"><B>NEW PATIENT</B>
+			</td></tr>
+			</table>
+			<p>
+			<!-- field Patient -->
+			<table style="border: 0.1em solid #9f9f9f;">	
+			<input type="radio" dojoType="dijit.form.RadioButton"
+			name="a_pat_input" id="a_pat_file" value="A" onChange="a_chgFil"> 
+			<label for="a_pat_file">Upload File
+			<img src="icons/document_a4_upload.png">&nbsp;&nbsp;</label>
+
+			<input type="radio" dojoType="dijit.form.RadioButton" checked
+			name="a_pat_input" id="a_pat_col" value="B" onChange="a_chgCol"> 
+			<label for="a_pat_col">Copy/Paste
+			<img src="icons/copy_paste_16.png">&nbsp;&nbsp;</label>
+			</table>
+			<div dojoType="dijit.form.Button" id="a_loadF" onClick='load_patientFile();' showLabel="true">
+ 			Upload Patient Tab File <img id="CLF" src="icons/information.png">
+			</div>
+			<div dojoType="dijit.form.Form" id="a_patForm" jsId="a_patForm">
+				<div dojoType="dijit.Tooltip" connectId="CL" position="below">
+						<label class="tooltip">
+						<i>The Tabulated Header must contain:<ul>
+						<li> first field : Patient</li>
+						<li> Max: 11 fields, first field: Patient,  then other field: no order</li>
+						<li>Patient Group Family Father Mother Sex Status BC BC2 IV Person</li>
+						<li>IV: Identity Vigilance</li>
+						<li>Person: Reffering Person Name</li>
+						</ul>
+						<b>Example of desired columns</b> Patient Sex IV:
+						<br>Patient Sex IV
+						<br>Pat1    1	221331133321133
+						<br>Pat2    2	132231233331113
+						<br></i></label>
+				</div>
+				<table style="border: 0.1em solid #9f9f9f;">
+				<tr>
+				<label for="a_Rpatient">
+				<b>Column Tabulated List with Header:</b>
+				<i style="font-size:70%">(Copy/Paste from your Excel File)</i><br>
+<a style="font-size:90%">Patient&nbsp;&nbsp;Group&nbsp;&nbsp;Family&nbsp;&nbsp;Father&nbsp;&nbsp;Mother&nbsp;&nbsp;Sex&nbsp;&nbsp;Status&nbsp;&nbsp;BC&nbsp;&nbsp;BC2&nbsp;&nbsp;IV&nbsp;&nbsp;Person</a>
+
+				<img id="CL" src="icons/information.png"></label>
+				</tr>
+				<!--Enable tab key inside textarea onKeyDown="keyTab"-->
+				<tr>
+				<td><textarea id="a_Rpatient" name="a_Rpatient" onKeyDown="keyTab"
+						dojoType="dijit.form.SimpleTextarea" rows="30" cols="50"
+						style="width: 28em;" value=""></textarea></td>
+				</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ############################################################################################## -->
+<!--  Update Patient file/copy_paste -->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="upPatientDialog" class="uppatCL"  data-dojo-props="closable:false"
+title="<span style='float:left;width:40%;font-size:125%;text-align:left'>Update patients</span>
+<span style='width:7%;background:#6D7741;border-radius: 5px 0 0 5px;' class='cl_block_left'>Run: </span>
+<span id='UPPATrunId' style='width:7%;background:#6D7741;border-radius: 0 5px 5px 0;' class='cl_block_left'></span>
+<span id='bt_close_uppat' class='cl_button_span_right'></span>
+<span id='bt_submit_uppat' class='cl_button_span_right'></span>"
+>
+	<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true"
+		style="width: 100%; height: 100%;margin: 0; padding: 0;white-space:nowrap;">
+		<div dojoType="dijit.layout.ContentPane" region="center"
+			style="width: 100%; margin: 0; padding: 0;white-space:nowrap;" align="center">
+			<div dojoType="dijit.form.Form" id="uppatForm" jsId="uppatForm">
+
+					<div dojoType="dijit.Tooltip" connectId="CLUP" position="below">
+						<label class="tooltip">
+						Only Update Patients<br>
+						<i>The Tabulated Header must contain:<ul>
+						<li>first field : Patient</li>
+						<li>Max: 11 fields, first field: Patient,  then other field: no order</li>
+						<li>Patient Group Family Father Mother Sex Status BC BC2 IV Person</li>
+						<li>IV: Identity Vigilance</li>
+						<li>Person: Reffering Person Name</li>
+						</ul>
+						<b>Example of desired columns</b> Patient Sex IV:
+						<br>Patient Sex IV
+						<br>Pat1    1	221331133321133
+						<br>Pat2    2	132231233331113
+						<br></i></label>
+					</div>
+				<table width="100%" height="5%" style="border: 0; margin: 0; padding: 0;white-space:nowrap;">
+				</tr>
+										<td width="27%" align="center" height="100%"
+				style="border: 5px solid grey; margin: 0; padding: 0;background:#EC6E24"><B>Species</B>&nbsp;
+						<input id="b_speciesName">
+				</td>
+				</tr>
+
+				</table>
+				<table style="border: 0.1em solid #9f9f9f;">
+					<tr>
+					<label for="RpatientUP">
+					<b>Column Tabulated List with Header:</b>
+					<i style="font-size:70%">(Copy/Paste from your Excel File)</i><br>
+<a style="font-size:90%">Patient&nbsp;&nbsp;Group&nbsp;&nbsp;Family&nbsp;&nbsp;Father&nbsp;&nbsp;Mother&nbsp;&nbsp;Sex&nbsp;&nbsp;Status&nbsp;&nbsp;BC&nbsp;&nbsp;BC2&nbsp;&nbsp;IV&nbsp;&nbsp;Person</a>
+
+					<img id="CLUP" src="icons/information.png"></label>
+					</tr>
+					<!--Enable tab key inside textarea onKeyDown="keyTab"-->
+					<tr>
+					<td><textarea id="RpatientUP" name="RpatientUP" onKeyDown="keyTab"
+						dojoType="dijit.form.SimpleTextarea" rows="32" cols="60"
+							style="width: 48em;" value=""></textarea></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ############################################################################################## -->
+<!--  Identity Vigilance -->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="bcgDialog" class="bcgCL"  data-dojo-props="closable:false"
+title="<span style='float:left;width:60%;font-size:125%;text-align:left'>Add/Update Identity Vigilance</span>
+<span style='width:7%;background:#6D7741;border-radius: 5px 0 0 5px;' class='cl_block_left'>Run: </span>
+<span id='BCGrunId' style='width:7%;background:#6D7741;border-radius: 0 5px 5px 0;' class='cl_block_left'></span>
+<span id='bt_submit_bcg' class='cl_button_span_nowidth'></span>
+<span id='bt_close_bcg' class='cl_button_span'></span>"
+>
+	<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true"
+		style="width: 100%; height: 100%;margin: 0; padding: 0;white-space:nowrap;">
+		<div dojoType="dijit.layout.ContentPane" region="center"
+			style="width: 100%; margin: 0; padding: 0;white-space:nowrap;" align="center">
+				<table style="border: 0.1em solid #9f9f9f;">	
+					<input type="radio" dojoType="dijit.form.RadioButton"
+					name="bcg_input" id="bcg_file" value="A" onChange="chgBCGFil"> 
+					<label for="bcg_file">Upload File
+					<img src="icons/document_a4_upload.png">&nbsp;&nbsp;</label>
+
+					<input type="radio" dojoType="dijit.form.RadioButton" checked
+					name="bcg_input" id="bcg_col" value="B" onChange="chgBCGCol"> 
+					<label for="bcg_col">Column List
+					<img src="icons/copy_paste_16.png">&nbsp;&nbsp;</label>
+				</table>
+				<div dojoType="dijit.Tooltip" connectId="CLFBCG" position="below">
+						<label class="tooltip">
+						<i>The Tabulated Patient Identity Vigilance File must contain <br>
+				 2 columns with Header in order: Patient IV
+						</i></label>
+				</div>
+				<div dojoType="dijit.form.Button" id="loadBCG"
+				onClick='bcg_uploadFile();' showLabel="true">
+ 				Upload Patient Identity Vigilance Tab File <img id="CLFBCG" src="icons/information.png">
+				</div>
+				<div dojoType="dijit.form.Form" id="bcgForm" jsId="bcgForm">
+					<div dojoType="dijit.Tooltip" connectId="CLBCG" position="below">
+						<label class="tooltip">
+						<i>Column Tabulated List with Header must contain:<ul>
+							<li>2 columns: Patient&nbsp;&nbsp;&nbsp;IV</li>
+							<li>Patient:&nbsp;&nbsp;&nbsp;Patient Name</li>
+							<li>IV:&nbsp;&nbsp;&nbsp;Identity Vigilance&nbsp;&nbsp;&nbsp;15-digit from 1 to 4, giving the
+genotype of the 15 SNPs by numbers</li>
+							<li>1:&nbsp;&nbsp;&nbsp;wild allele</li>
+							<li>2:&nbsp;&nbsp;&nbsp;homozygous alternative allele</li>
+							<li>3:&nbsp;&nbsp;&nbsp;heterozygous alternative allele</li>
+							<li>4:&nbsp;&nbsp;&nbsp;uninterpretable</li>
+						</ul><b>Example</b>
+						<br>Patient IV
+						<br>Pat1    312323332312321
+						<br>Pat2    322222112231232
+						</i></label>
+					</div>
+					<table style="border: 0.1em solid #9f9f9f;">
+						<tr>
+						<label for="RpatientBCG">
+						<b>Column Tabulated List with Header:</b>
+						<i style="font-size:70%">(Copy/Paste from your Excel File)</i><br>
+						Patient&nbsp;&nbsp;&nbsp;IV
+						<img id="CLBCG" src="icons/information.png"></label>
+						</tr>
+						<!--Enable tab key inside textarea onKeyDown="keyTab"-->
+						<tr>
+						<td><textarea id="RpatientBCG" name="RpatientBCG" onKeyDown="keyTab"
+							dojoType="dijit.form.SimpleTextarea" rows="30" cols="50"
+							style="width: 28em;" value=""></textarea></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ############################################################################################## -->
+<!--  Unassigned Project -->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="unaDialog" data-dojo-props="closable:false" class="showUnaProject"
+	title="<span style='float:left;width:66%;font-size:125%;text-align:left'><i class='warnIcon'></i>Projects without User assigned. Explored Period: </span>
+	<span id='sp_nbweeks' style='width:1.5%;' class='cl_block_left'></span>
+	<span style='width:6%;' class='cl_block_left'>Weeks</span>
+	<span style='width:2%;' class='cl_block_left'><img id='Tuna' src='icons/information.png' align='left'></span>
+	<span style='width:2%;' class='cl_block_left'><img id='Uprint' src='icons/table_save.png' align='left'></span>
+	<span id='bt_close_unaProj' class='cl_button_span_right'></span>"
+>
+	<div dojoType="dijit.Tooltip" connectId="Tuna" position="above">
+		<label class="tooltip"> <i>Explored Period:<br>
+		Start Period: One week ago</i>
+		</label>
+	</div>
+	<div dojoType="dijit.Tooltip" connectId="Uprint" position="below">
+		<label class="tooltip">
+		<b>Preview/Save All :</b> right click on the Grid<br>
+		</label>
+	</div>
+
+	<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true"
+	style="width: 100%; height: 95%;margin: 0; padding: 0;white-space:nowrap;" >
+		<div dojoType="dijit.layout.ContentPane" region="center"
+		style="width: 52%; margin: 0; padding: 0;white-space:nowrap;" align="center">
+			<div dojoType="dijit.layout.ContentPane" region="center">
+				<div id="unaProjGridDiv" 
+						style="width: 100%; height:100%;margin:0;padding:0;white-space:nowrap;">
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+
+<!-- ############################################################################################## -->
+<!-- Warning Remove USER for all projects -->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="warnUserDialog" jsId="warnUserDialog" class="warnUser" data-dojo-props="closable:false"
+title="<span style='width:3%;' class='cl_block_left'><img src='icons/warning.png'></span>
+<span style='width:25%;font-size:125%;text-align:left;' class='cl_block_left'>Warning: Project Not Selected</span>
+<span id='bt_close_wuserproj' style='width:1%;text-align:right;' class='cl_btclose_block_right'></span>
+">
+	<div dojoType="dijit.layout.BorderContainer" id="borderContainerWarnUser">
+		<div dojoType="dijit.layout.ContentPane" region="top" 
+		style="width:100%;height: 30%; border:none;margin:0;padding:0;white-space:nowrap;text-align:center;">
+			<span class="nospace"><b>For User's Project Manager: </b></span>
+			<span class="nospace">Please select Projects befor using Button User</span>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="right" style="width:100%;height: 40%;" align="center">
+			<div dojoType="dijit.Toolbar" style="color:white;">
+				<p>Remove User for All projects
+				<div dojoType="dijit.form.Button"
+					onClick="removeUserAllProjects();dijit.byId('warnUserDialog').hide();"
+					iconClass="nextIcon" howLabel="true">Next
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- ############################################################################################## -->
+<!-- Add SampleSheet -->
+<!-- ############################################################################################## -->
+<div id="div_addSampleSheet" jsId="div_addSampleSheet"
+	dojoType="dijit.Dialog" title="Add Sample Sheet File" width="300">
+	<form id="uploadSampleForm" enctype="multipart/form-data" name="samplefileTest"
+			method="post" accept-charset="utf-8">
+		<input name="MAX_FILE_SIZE" value="50000000" type="hidden"> 
+		<input name="opt" value="sampleDoc" type="hidden">
+		<input id="runName" name="runName" type="hidden">
+		<input id="runPltName" name="runPltName" type="hidden">
+		<span id="samplepreamble">File to Upload:</span><br>
+		<span id="sampleinputField">
+			<input id="samplefileInput" name="samplefile_name" type="file">
+		</span> 
+		<span id="sampleprogressField" style="display: none;">
+		<div dojotype="dijit.ProgressBar" style="width: 200px;" indeterminate="true"></div>
+		</span><br>
+		<button type="button" value="upload" dojotype="dijit.form.Button"
+			onclick="sendSampleForm()">Upload</button>
+	</form>
+</div>
+
+<!-- ############################################################################################## -->
+<!-- Proposal person name New Run-->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="personrunDialog" jsId="personrunDialog" class="runPerson" data-dojo-props="closable:false"
+title="<span style='float:left;width:40%;font-size:125%;text-align:left'>New Run: Proposal for a Uniq Person Name</span>
+<span id='bt_close_personRun' class='cl_button_span_right'></span>
+<span id='bt_submit_personRun' class='cl_button_span_right'></span>
+">
+	<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true"
+	style="width: 100%; height: 100%;margin: 0; padding: 0;white-space:nowrap;">
+		<div dojoType="dijit.layout.ContentPane" region="center" id=""
+		refreshOnShow="true" style="height: 97%;margin: 0; padding: 0;white-space:nowrap;border: none;">
+			<div dojoType="dijit.Toolbar">
+				<table style="color:white;margin: 0; padding: 0;white-space:nowrap;">
+				<tr style="border: 1px solid green">
+				<TD><b>Select All Person for<b></td>
+				<td style="border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43;">
+				<label for="propOld" style="margin: 0; padding: 0;white-space:nowrap;">&nbsp;&nbsp;Old</label>			
+				<input data-dojo-type="dojox/mobile/RadioButton"
+				name="proposalRadio" id="propOld" value="old"
+				onClick="selection_Person(this)" type="radio">
+				</td>
+
+				<td style="border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43;">
+				<label for="propNew" style="margin: 0; padding: 0;white-space:nowrap;">&nbsp;&nbsp;New</label>			
+				<input data-dojo-type="dojox/mobile/RadioButton"
+				name="proposalRadio" id="propNew" value="new"
+				onClick="selection_Person(this)" type="radio">
+				</td>			
+				<td style="border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43;">
+				<label for="propClear" style="margin: 0; padding: 0;white-space:nowrap;">&nbsp;&nbsp;Clear</label>			
+				<input data-dojo-type="dojox/mobile/RadioButton"
+				name="proposalRadio" id="propClear" value="clear"
+				onClick="selection_Person(this)" type="radio">
+				</td>
+				</tr>
+				</table>
+			</div>
+			<div id="tmp_personRunIdentGrid" style="width: 100%; height: 100%"></div>
+		</div>
+	</div>
+</div>
+
+<!-- ############################################################################################## -->
+<!-- Proposal person name Add Patient-->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="personDialog" jsId="personDialog" class="runPerson" data-dojo-props="closable:false"
+title="<span style='float:left;width:40%;font-size:125%;text-align:left'>Proposal for a Uniq Person Name</span>
+<span style='width:7%;background:#6D7741;border-radius: 5px 0 0 5px;' class='cl_block_left'>Run: </span>
+<span id='ADDPERSrunId' style='width:7%;background:#6D7741;border-radius: 0 5px 5px 0;' class='cl_block_left'></span>
+<span id='bt_close_person' class='cl_button_span_right'></span>
+<span id='bt_submit_person' class='cl_button_span_right'></span>
+">
+	<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true"
+	style="width: 100%; height: 100%;margin: 0; padding: 0;white-space:nowrap;">
+		<div dojoType="dijit.layout.ContentPane" region="center" id=""
+		refreshOnShow="true" style="height: 97%;margin: 0; padding: 0;white-space:nowrap;border: none;">
+			<div id="tmp_personIdentGrid" style="width: 100%; height: 100%"></div>
+		</div>
+	</div>
+</div>
+
+<!-- ############################################################################################## -->
+<!--  Add Methods to Patient -->
+<!-- ############################################################################################## -->
+<div dojoType="dijit.Dialog" id="addMetodsToPatientDialog" jsId="addMetodsToPatientDialog" class="patMethods" data-dojo-props="closable:false"
+title="<span style='float:left;width:40%;font-size:125%;text-align:left'>Add Methods to Patients</span>
+<span style='width:7%;background:#6D7741;border-radius: 5px 0 0 5px;' class='cl_block_left'>Run: </span>
+<span id='ADDMETHPATrunId' style='width:7%;background:#6D7741;border-radius: 0 5px 5px 0;' class='cl_block_left'></span>
+<span id='bt_close_addmeth2pat' class='cl_button_span_right'></span>
+<span id='bt_submit_addmeth2pat' class='cl_button_span_right'></span>
+">
+
+	<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true"
+	style="width: 100%; height: 100%;margin: 0; padding: 0;white-space:nowrap;">
+
+		<div dojoType="dijit.layout.ContentPane" region="center"
+		style="width: 100%;height: 100%; margin: 0; padding: 0;white-space:nowrap;" align="center">
+
+			<div dojoType="dijit.form.Form" id="b_desForm" jsId="b_desForm">
+				<div dojoType="dijit.Toolbar">
+					<TABLE><TD>
+					<button data-dojo-type="dijit.form.ToggleButton" 
+style="height:16;width:90;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43; color: white"
+					data-dojo-props="iconClass:'dijitRadioIcon'" onChange="b_chgPipe" id="b_btn_pipe">
+					<i style="font-size:70%;margin:0;padding:0;border:0">Pipeline Methods</i>
+					<img id="PIPM" src="icons/information.png">
+					</button>
+					</TD></TABLE>
+				</div>
+
+				<!-- Profile pipeline methods-->
+				<table id="b_pipeline" style="width: 25em;">
+					<tr><td><label for="b_pipelineName"><b>Pileline Profile</b></label></td></tr>
+					<tr><td><input id="b_pipelineName"></td></tr>
+					<tr><td></td></tr>
+				</table>
+				<p>
+
+				<!--table of tables -->
+				<TABLE id="b_alncall" style="width: 30em;">
+					<TD>
+					<table dojoType="dojox.grid.DataGrid" jsId="b_alnRGrid"  clientSort="true" id="b_alnRGrid"
+					selectionMode="multiple" rowSelector="0.4em"
+					style="width: 16em; height: 12em; border: 0.1em solid #9f9f9f;">
+					<tr><b>Alignment Method</b>
+					<I class='multipleIcon' title='Multiple Selection'></I></tr>
+					<tr>&nbsp;</tr>
+					<tr>
+					<input type="checkbox" id="b_maln_defbox" name="b_maln_defbox"
+					dojoType="dojox/mobile/CheckBox" checked>
+					<label for="b_maln_defbox">Def</label>
+					</tr>
+					<thead>
+					<tr><th width="12em" field="methName">Method Name</th></tr>
+					</thead>
+					</table>
+					</TD>
+
+					<TD>
+					<table dojoType="dojox.grid.DataGrid" jsId="b_callRGrid" clientSort="true" id="b_callRGrid"
+					selectionMode="multiple" rowSelector="0.4em"
+					style="width: 15em; height: 12em; border: 0.1em solid #9f9f9f;">
+					<tr><b>Calling Method</b>
+					<I class='multipleIcon' title='Multiple Selection'></I></tr>
+					<tr>&nbsp;</tr>
+					<tr>
+					<input type="checkbox" id="b_mcall_defbox" name="b_mcall_defbox"
+					dojoType="dojox/mobile/CheckBox" checked>
+					<label for="b_mcall_defbox">Def</label>
+					</tr>
+					<thead>
+					<tr><th width="12em" field="methName">Method Name</th></tr>
+					</thead>
+					</table>
+					</TD>
+
+				</TABLE>
+				<TABLE id="b_othermeth" style="width: 30em;">
+					<TD>
+					<table dojoType="dojox.grid.DataGrid" jsId="b_otherRGrid"  clientSort="true" id="b_otherRGrid"
+					selectionMode="multiple" rowSelector="0.4em"
+					style="width: 15em; height: 8em; border: 0.1em solid #9f9f9f;">
+					<tr><b>Other Method</b></tr>
+					<tr>&nbsp;</tr>
+					<tr>
+					</tr>
+					<thead>
+					<tr><th width="12em" field="methName">Method Name</th></tr>
+					</thead>
+					</table>
+					</TD>
+				</TABLE>
+			</div>
+		</div>
+	</div>
+</div>
+
+

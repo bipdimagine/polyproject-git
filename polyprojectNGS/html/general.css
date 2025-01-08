@@ -1,0 +1,1217 @@
+#borderContainerRun {
+	width: 100%;
+	height: 73em;
+	margin: 0 auto;
+}
+
+#borderContainerProjectRun {
+	width: 100%;
+	height: 62em;
+	margin: 0 auto;
+}
+
+#borderContainerDocRun {
+	width: 100%;
+	height: 62em;
+	margin: 0 auto;
+}
+
+#borderContainerDis {
+	width: 100%;
+	height: 65em;
+	margin: 0 auto;
+}
+
+#borderContainerWarnUser,
+#borderContainerUserGroup,
+#borderContainerRemUser,
+#borderContainerUser {
+	width: 100%;
+	height: 98.5%;
+	margin: 0;
+	padding:0;
+	border:0;
+	white-space:nowrap;
+}
+
+#borderContainerSearch {
+	width: 100%;
+	height: 44em;
+	margin: 0 auto;
+}
+
+#ContentPaneRun {
+	height: 45em;
+	margin: 0
+}
+
+.tooltip {
+	color: red;
+	font-size: 80%;
+}
+
+.userWin {
+	width: 45em;
+	height: 50em;
+	margin: 0 auto;
+}
+
+.methWin {
+	width: 20em;
+	height: 25em;
+	margin: 0 auto;
+}
+
+.pltWin {
+	width: 20em;
+	height: 25em;
+	margin: 0 auto;
+}
+
+.seqWin {
+	width: 20em;
+	height: 25em;
+	margin: 0 auto;
+}
+
+.projWin {
+	width: 100%;
+	max-width: 30em;
+	height: 100%;
+	max-height: 36em;
+	margin: 0 auto;
+}
+
+.projList {
+	width: 100%;
+	height: 40em;
+	margin: 0 auto;
+}
+
+.projRun {
+	width: 100%;
+	max-width: 91em;
+	height: 100%;
+	max-height: 68em;
+	margin: 0;
+	padding:0;
+	white-space:nowrap;
+	overflow: hidden;
+}
+
+.runPerson {
+	width: 100%;
+	max-width: 80em;
+	height: 100%;
+	max-height: 68em;
+	margin: 0;
+	padding:0;
+	white-space:nowrap;
+	overflow: hidden;
+}
+
+.patMethods {
+	width: 100%;
+	max-width: 50em;
+	height: 100%;
+	max-height: 35em;
+	margin: 0;
+	padding:0;
+	white-space:nowrap;
+	overflow: hidden;
+}
+
+
+/*background: -moz-linear-gradient(#510303, brown);*/
+.showRun .dijitDialogTitleBar {
+	background: linear-gradient(#510303, brown);
+	color:white;
+	height: 4.5%;
+	margin: 0;
+	padding:0;
+	white-space:nowrap;
+}
+
+.patMethods .dijitDialogTitleBar,
+.runPerson .dijitDialogTitleBar,
+.projRun .dijitDialogTitleBar {
+	background: linear-gradient(#510303, brown);
+	color:white;
+}
+
+
+
+
+
+
+.linkProj {
+	width: 100%;
+	max-width: 93em;
+	height: 100%;
+	max-height: 62em;
+	margin: 0;
+	padding:0;
+}
+
+.showRun {
+	width: 100%;
+	max-width: 91em;
+	height: 100%;
+	max-height: 68em;
+	margin: 0;
+	padding:0;
+	white-space:nowrap;
+}
+
+.showBun {
+	width: 100%;
+	height: 100%;
+}
+
+.newBunTrans {
+	width: 100%;
+	max-width: 91em;
+	height: 100%;
+	max-height: 68em;
+	margin: 0;
+	padding:0;
+	white-space:nowrap;
+	overflow: hidden;
+}
+
+#BundleTranscriptDialog {
+	width: 100%;
+	max-width: 91em;
+	height: 100%;
+	max-height: 68em;
+	margin: 0;
+	padding:0;
+	white-space:nowrap;
+}
+
+.showAddProject {
+	width: 100%;
+	max-width: 91em;
+	height: 100%;
+	max-height: 68em;
+	margin: 0;
+	padding:0;
+}
+
+.showAddProject .dijitDialogTitleBar {
+	background: linear-gradient(#510303, brown);
+	color:white;
+	line-height:150%;
+}
+
+.searchMeth {
+	width: 25%;
+	height: 50%;
+	margin: 0 auto;
+}
+
+.searchPlateform {
+	width: 25%;
+	height: 55%;
+	margin: 0 auto;
+}
+
+.searchCapture {
+	width: 35%;
+	height: 60%;
+	margin: 0 auto;
+}
+
+.projDis {
+	width: 100%;
+	max-width: 80em;
+	height: 100%;
+	max-height: 68em;
+	margin: 0 auto;
+}
+
+.projUserGroup,
+.projUser {
+	width: 100%;
+	max-width: 91em;
+	height: 100%;
+	max-height: 68em;
+	margin: 0;
+	padding:0;
+	border:0;
+	white-space:nowrap;
+	overflow: hidden;
+}
+
+.projUserAll {
+	width: 100%;
+	max-width: 80em;
+	height: 100%;
+	max-height: 68em;
+	margin: 0 auto;
+}
+
+.projEdit {
+	width: 100%;
+	max-width: 91em;
+	height: 100%;
+	max-height: 68em;
+	margin: 0;
+        padding:0;
+	border:none;
+	white-space:nowrap;
+}
+
+.projUserAll .dijitDialogTitleBar,
+.projUserGroup .dijitDialogTitleBar,
+.projUser .dijitDialogTitleBar,
+.projEdit .dijitDialogTitleBar {
+	background: linear-gradient(#510303, brown);
+	color:white;
+	height: 4.5%;
+	margin: 0;
+	padding:0;
+	white-space:nowrap;
+}
+
+.warnUser {
+	width: 100%;
+	max-width: 35em;
+	height: 100%;
+	max-height: 12em;
+	margin-left:-10;
+	padding:0;
+	border:none;
+	white-space:nowrap;
+	overflow: hidden;
+}
+
+.warnUser .dijitDialogTitleBar {
+	background: linear-gradient(#510303, brown);
+	color:white;
+	height: 2em;
+	margin: 0;
+	padding:0;
+	border:none;
+	white-space:nowrap;
+}
+
+.nospace {
+	margin: 0;
+	padding:0;
+	border:none;
+	white-space:nowrap;
+}
+
+.docRun {
+	width: 96em;
+	height: 68em;
+	margin: 0 auto;
+}
+
+.runPat {
+	width: 56em;
+	height: 55em;
+	margin: 0 auto;
+}
+
+.searchPat {
+	width: 56em;
+	height: 48em;
+	margin: 0 auto;
+}
+
+.pedigreeProject {
+	width: 48%;
+	height: 92%;
+	margin: 0 auto;
+}
+
+.pedigreeProject .dijitDialogTitleBar {
+	background: linear-gradient(#510303, brown);
+	color:white;
+	height: 4.5%;
+	margin: 0;
+	padding:0;
+	white-space:nowrap;
+}
+
+.expfile {
+	width: 14%;
+	height: 8%;
+	margin: 0 auto;
+}
+
+.expfile .dijitDialogTitleBar {
+	background: linear-gradient(#510303, brown);
+	color:white;
+	height: 35%;
+	margin: 0;
+	padding:0;
+	white-space:nowrap;
+}
+
+
+#toolbar_newproject {
+	background: transparent;
+	margin: 0;
+	padding:0;
+	border: 0;
+}
+
+#button_newProject {
+	display: inline;
+	background: transparent;
+	border: 0;
+	color:white;
+	white-space:nowrap;
+	margin: 0;padding:0;border:none;
+	text-align:top;white-space:nowrap;
+}
+
+#searchProject {
+	background: linear-gradient(#510303, brown);
+	margin: 0;
+	padding:0;
+	border: 0;
+}
+
+.buttonContentPane {
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: center;
+	margin: 0;
+	padding:0;
+	height: 1.5em;
+}
+
+#disGridDiv {
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+}
+
+#disprojGridDiv {
+	width: 100%;
+	height: 90%;
+	margin: 0 auto;
+}
+
+#userGridDiv ,
+#gridUserDiv {
+	width: 100%;
+	height: 97.5%;
+	margin: 0;
+	padding:0;
+	border:0;
+	white-space:nowrap;
+}
+
+#userprojectGridDiv {
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+}
+
+#patientprojectGridDiv {
+	width: 100%;
+	height: 93%;
+	margin: 0 auto;
+}
+
+#runpatientprojectGridDiv {
+	width: 100%;
+	height: 80%;
+	margin: 0 auto;
+}
+
+#freerunGridDiv {
+	width: 100%;
+	height: 92%;
+	margin: 0 auto;
+}
+
+#projectRunFreeGridDiv {
+	width: 100%;
+	height: 92%;
+	padding:0;
+	margin: 0;
+}
+
+#gridFreeRunDiv {
+	width: 100%;
+	height: 95%;
+	margin: 0;
+}
+
+#PatProjectRunFreeGridDiv {
+	width: 100%;
+	height: 92%;
+	padding:0;
+	margin: 0;
+}
+
+#runGridDiv {
+	width: 98.5%;
+	height: 96%;
+	padding:0;
+	margin: 0;
+	border:0;
+}
+
+#capGridDiv {
+	width: 100%;
+	height: 92%;
+	margin: 0 auto;
+}
+
+#captureDiv {
+	width: 100%;
+	height: 92%;
+	margin: 0 auto;
+}
+
+#patmethGridDiv {
+	width: 100%;
+	height: 92%;
+	margin: 0 auto;
+}
+
+#gridProjRunDiv {
+	width: 100%;
+	height: 92%;
+	margin: 0 auto;
+}
+
+#printContainer {
+	width: 20em;
+	height: 5em;
+	margin: 0 auto;
+}
+
+.dojoxGrid table {
+	margin: 0;
+}
+
+#ExportContainer {
+	width: 100%;
+	height: 100%;
+}
+
+#onedocGridDiv {
+	float: left;
+}
+
+#right {
+	float: right;
+}
+
+.standbyUnderlayNode {
+	display: none;
+	opacity: 0;
+	z-index: 9999;
+	position: absolute;
+	cursor: wait;
+}
+
+.standbyImageNode {
+	opacity: 0;
+	display: none;
+	z-index: -10000;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	cursor: wait;
+}
+
+#myStandby .dijitDialogCloseIcon {
+	display: none;
+}
+
+#myStandby .dijitDialogTitleBar {
+	display: none;
+}
+
+#header {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	position: absolute;
+	/*background: url(icons/logo.png),url(icons/bipd4.png),
+	linear-gradient(left,#7F94B6, #DFC08E);*/
+	background: url(icons/logo.png),url(icons/paris-cite/paris16.png),url(icons/bipd4.png),
+	linear-gradient(left,#7F94B6, #DFC08E);
+	background-image: url(icons/logo.png),url(icons/paris-cite/paris16.png),url(icons/bipd4.png),
+	-webkit-gradient(left,#7F94B6, #DFC08E);
+	background-image: url(icons/logo.png),url(icons/paris-cite/paris16.png),url(icons/bipd4.png),
+	-webkit-linear-gradient(left,#7F94B6, #DFC08E);
+	background-image: url(icons/logo.png),url(icons/paris-cite/paris16.png),url(icons/bipd4.png),
+	-ms-linear-gradient(left,#7F94B6, #DFC08E);
+	/*background-image: url(icons/logo.png),url(icons/bipd4.png),
+	linear-gradient(left,#7F94B6, #DFC08E);*/
+	background-image: url(icons/logo.png),url(icons/paris-cite/paris16.png),
+	linear-gradient(left,#7F94B6, #DFC08E);
+	/*background-image: url(icons/logo.png),url(icons/paris-cite/paris16.png),url(icons/bipd4.png),
+	linear-gradient(left,#7F94B6, #DFC08E);*/
+	background-repeat: no-repeat,no-repeat,no-repeat;
+	background-position: center left,95.2%,99.8% 25%;
+	background-size: auto,4%, 4%;
+/*	background-repeat: no-repeat,no-repeat;
+	background-position: center left,99.9% 25%;
+	background-size: auto, 3%;*/
+	width: 100%;
+	border: 1px solid #7F94B6;
+}
+
+/* marron foncé */
+.tundra .dijitTabContainerTop-tabs {
+	background: linear-gradient(#510303, brown);
+	border-color: black;
+	padding: 0;
+	margin:0;
+	white-space:nowrap;
+	border:0;
+}
+
+.tundra .dojoxGridTreeModel .dojoxGridNoChildren .dojoxGridExpando .dojoxGridExpandoCell {
+	padding: 0;
+	margin:0;
+}
+
+.nihilo .dojoxGridTreeModel .dojoxGridNoChildren .dojoxGridExpando .dojoxGridExpandoCell {
+	padding: 0;
+	margin:0;
+}
+
+.nihilo .dojoxGridRow .dojoxGridCell {
+	padding-top: 0;
+	padding-bottom: 0;
+	margin:0;
+}
+
+.tundra .dojoxGridRow .dojoxGridCell {
+/*	padding:0;*/
+	padding-top: 0;
+	padding-bottom: 0;
+	margin:0;
+}
+
+
+.tundra .dojoxGridRow {
+	background-color: #DDDDC9;
+	border-color: #DDDDC9;
+}
+
+.tundra .dojoxGridRowOdd {
+	background-color: beige;
+}
+
+.tundra .dojoxGridScrollbox {
+	background-color: #DDDDC9;
+	border-color: #DDDDC9;
+}
+
+/*background: -moz-linear-gradient(#510303, brown);*/
+.tundra .dijitToolbar {
+	background: linear-gradient(#510303, brown);
+}
+
+.tundra .dijitAccordionTitle {
+	background:#AF9264;
+}
+
+.tundra .dijitAccordionTitleSelected  {
+	background: linear-gradient(#510303, brown);
+	color:white;
+}
+
+/* orange */
+.tundra .dijitTabChecked {
+	background: linear-gradient(#EC6E24, orange);
+	border: 0;
+}
+
+/* */
+.tundra .dojoxGridHeader .dojoxGridCell {
+	border-color: #EA5F0E;
+	background: #EC6E24;
+}
+
+.tundra .spanfilter.dijitToolbarSeparator {
+	width: 0.01px;
+	background: white;
+}
+
+.tundra .spanpat.dijitToolbarSeparator {
+	width: 0.01px;
+	background: green;
+}
+
+.tundra .reset {
+	background: linear-gradient(#995507, green);
+}
+
+.tundra .dojoxGridRowbar { 
+	background: red;
+}
+
+.tundra .dojoxGridRowbarOver { 
+	background: #EC6E24;
+}
+
+.tundra .dojoxGridRowbarSelected {
+	background:#7C4D01;
+}
+
+.tundra .dojoxGridRowOver .dojoxGridCell {
+	background-color: #696B43; 
+}
+
+.tundra .dojoxGridRowSelected {
+	background-color: #DFC08E !important;
+}
+.tundra .dojoxGridRowSelected .dojoxGridCell {
+	background-color:#DFC08E;
+}
+
+.tundra .dijitMenuPassive .dijitMenuItemHover,
+.tundra .dijitComboBoxMenu .dijitMenuItemHover,
+.tundra .dijitMenuItemSelected {
+	background-color: #696B43;
+	color:#fff;
+}
+.tundra .dijitMenu,
+.tundra .dijitMenuBar {
+	border: 1px solid #696B43;
+	margin: 0;
+	padding: 0;
+	background-color: #DFC08E;
+}
+
+.tundra .dijitDialog {
+	background: #fff;
+	border: 1px solid #696B43;
+	padding: 0;
+	-webkit-box-shadow: 0 5px 10px #adadad;
+}
+
+.tundra .dijitDialogPaneContent {
+	margin: 0;
+	padding:0;
+	border:0;
+	white-space:nowrap;
+}
+
+.tundra .dijitContentPane {
+	background-color: #DDDDC9;
+	border-color: #DDDDC9;
+        margin: 0;
+        padding:0;
+	border-spacing: 0;
+	white-space:nowrap;
+}
+
+#leftCapture .dijitContentPane {
+	background:#C5C6A7;
+}
+
+.tundra .dijitContentPane.CPleftCapture {
+	width:28%;
+	height:100%;
+	border-color: grey;
+        margin: 0;
+        padding:0;
+	overflow: hidden;	
+}
+
+.tundra .dijitContentPane.CPcenterBunTr {
+	width:72%;
+	height:100%;
+	border-color: grey;
+        margin: 0;
+        padding:0;
+}
+
+.wCapBun {
+        width: 100% ;
+        max-width: 91em;
+        height: 100%;
+        max-height: 68em;
+        margin: 0;
+        padding:0;
+	white-space:nowrap;
+	overflow: hidden;	
+}
+
+.wProfile {
+       	width: 100% ;
+        max-width: 40em;
+        height: 100%;
+        max-height: 40em;
+        margin: 0;
+        padding:0;
+	white-space:nowrap;
+}
+
+.wProfile .dijitDialogTitleBar,
+.wCapBun .dijitDialogTitleBar {
+	background: linear-gradient(#510303, brown);
+	height:3%;
+	color:white;
+}
+
+#divCaptureFile .dijitDialogTitleBar {
+	background: linear-gradient(#510303, brown);
+	color:white;
+}
+/*
+.tundra .dijitTooltipContainer {	
+	border: 1px solid #696B43;
+	padding: 0.45em;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+*/
+.tundra .dijitTooltipContainer {	
+	border: 1px solid #696B43;
+	padding: 0.45em;
+	border-radius: 3px;
+}
+
+.tundra .dijitSplitterH,
+.tundra .dijitGutterH {
+	background:#fcfcfc;
+	border:0;
+	height:0;
+}
+
+.tundra .dijitSplitterV,
+.tundra .dijitGutterV {
+	background:#fcfcfc;
+	border:0;
+	width:0;
+}
+
+.tundra .dijitBorderContainer {
+	background-color: #fcfcfc;
+	padding: 0;
+}
+
+.Onco {
+	width:18em;
+	height:4em;
+	background: url(icons/Oncology.png) no-repeat center left;
+	position: absolute;
+	padding:0;
+	border:0;
+	top:-14;
+}
+
+.rOnco {
+	width:18em;
+	height:4em;
+	background: url(icons/Oncology.png) no-repeat center left;
+	position: absolute;
+	padding:0;
+	border:0;
+	top:-10;
+}
+
+.tundra .dijitAccordionArrow {
+    background:url("icons/spriteArrows.png") no-repeat -14px top;
+    width:7px;
+    height:8px;
+    margin-top:-1px;
+}
+
+.tundra .dijitAccordionTitleSelected .dijitAccordionArrow {
+    background:url("icons/spriteArrows.png") no-repeat -28px top;
+    margin-top:-1px;
+}
+
+.detHeader {
+	background: ButtonFace !important;
+	font-size: 0.9em !important;
+	text-align: center !important;
+}    
+
+.staticHeader {
+	border:  1px Solid ThreeDShadow !important;
+	background: ButtonFace !important;
+	font: Icon !important;
+	text-align: center !important;
+} 
+.colClass {
+	line-height:2em;
+}
+.excolClass {
+	line-height:0.2em;
+}
+
+#clbtEx {
+	background: green;
+
+}
+.title_newProject {
+	display: inline-block;
+	float:right;
+	text-align:center;white-space:nowrap;
+	background: #5B6D13;
+	color:black;
+	font-size:150%;	
+	margin-right:30px;
+	margin-top:-2px;
+	width:15%;
+//	border: 1px solid blue;
+}
+
+.cl_filter {
+	background:#6D7741;
+	border-radius: 5px 5px 5px 5px;
+	margin:2;padding:2
+}
+
+.cl_button_span {
+	display: inline-block;
+	background: transparent;
+	background-color: transparent;
+	vertical-align: top;
+	text-align:right;
+	white-space:nowrap;
+//	width:1%;
+	padding:0;
+//	border: 1px solid blue;
+}
+
+.cl_button_span_right {
+	display: inline-block;
+	float:right;
+	background: transparent;
+	background-color: transparent;
+	vertical-align: top;
+	text-align:right;
+	white-space:nowrap;
+	padding:0;
+	margin-right:-2px;
+	border:none;
+	white-space:nowrap;
+//	border: 1px solid blue;
+}
+
+.cl_button_span_nowidth {
+	display: inline-block;
+	background: transparent;
+	background-color: transparent;
+	vertical-align: top;
+	text-align:right;
+	white-space:nowrap;
+	padding:0;
+}
+
+.cl_button_span_nowidth .dijitButtonNode,
+.cl_button_span_right .dijitButtonNode,
+.cl_button_span .dijitButtonNode {
+	background: transparent;
+	background-color: transparent;
+	padding:0;
+	margin:0;
+	border:none;
+	white-space:nowrap;
+}
+
+#divBundleDB .dijitDialogTitleBar {
+	display: none;
+}
+
+span.cl_block_left {
+	display: inline-block;
+	text-align:left;
+	float:left;
+	padding:0 3 0 5;
+}
+
+.title_Diag {
+	font-size:125%;
+	text-align:left;
+	float:left;
+}
+
+.spot {
+	background-color:#6D7741;
+	border-radius: 5px 5px 5px 5px;
+}
+
+#bt_downcapFile,
+#bt_capFile,
+#bt_capFilePrimer {
+	background:#6D7741;
+	border-radius: 5px 5px 5px 5px;
+	width:30px;
+	padding:0;
+	margin:0;
+	white-space:nowrap;
+}
+#bt_downcapFile:hover,
+#bt_capFile:hover,
+#bt_capFilePrimer:hover {
+        background: linear-gradient(right,#AEC641,#6D7741);
+	border-radius: 5px 5px 5px 5px;
+	width:30px;
+	padding:0;
+	margin:0;
+	white-space:nowrap;
+}
+
+.roundedButton .dijitButtonNode {
+	background: transparent;
+	background-color: transparent;
+	padding:0;
+	margin:0;
+	border:none;
+	white-space:nowrap;
+}
+.roundedButton .dijitButtonNode:hover {
+	background: transparent;
+	background-color: transparent;
+}
+
+#button_newuser .dijitButtonNode {
+        background: linear-gradient(right,#1E303D,#15A584);
+        border-color:#15A584;
+	border-radius: 5px 5px 5px 5px;
+	padding:2;
+	margin:2;
+	white-space:nowrap;
+}
+
+#button_newuser .dijitButtonNode:hover {
+        background: linear-gradient(right,#1E303D,#15A584,rgba(0,255,0,0));
+        color:black;
+}
+
+#Muser {
+        background: linear-gradient(right,#1E303D,#15A584);
+}
+
+#Muser:hover {
+        background: linear-gradient(right,#1E303D,#15A584,rgba(0,255,0,0));
+}
+
+
+#TableErrorGenome {
+        background: white;
+	color:red;
+	text-align:center;
+	border: 1px solid red;
+	font-weight: bold;
+	font-size:70%;
+	line-height:70%;
+	width:100%;
+//	height:3px;
+	margin:0;padding:0;white-space:nowrap;
+ 	animation: blink-animation 1s steps(5, start) infinite;
+	-webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+.tundra .dijitTab {
+	background:transparent;
+	white-space:nowrap;
+	color:white;
+	padding:2px 8px 2px 9px;
+	margin:0;
+	border:none;
+}
+
+.tundra .dijitTabChecked {
+	background: linear-gradient(#EC6E24, orange);
+	color:black;
+	border: 0;
+}
+
+.tab_table_empty {
+	table-layout:fixed;
+	background:transparent;
+	float:right;
+	text-align:right;
+	white-space:nowrap;
+	padding:0;
+	margin:0;
+	border:none;
+} 
+
+.sp_tab1 {
+	background:red;
+
+}
+
+.dojoxCheckedMultiSelectMenu{
+    overflow-y: scroll;
+	background:green;
+    height: 20em;
+
+}
+
+td.dijitMenuItemIconCell {
+    width: 16px;
+    background-position: center center;
+    background-repeat: no-repeat;
+background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAIAAAC0tAIdAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAJBJREFUKFONkjEKg0AURD21t8kN7NKmSBcwhYSQJlZR2BhB3EI0LGwmU9iM8GWX173HNPuz/HBOJ2OKtMdyrYuy3YeDUl8dLDi0ras3LLb1sXL3Hha0sn16fJ4DLGilvtTDy8OCVupb47sJFrRS1900LrCgldqNyxxgQSu1n0OMPwtaqb8h7iN1yqWsP59+g3+NWkJvOi7wvAAAAABJRU5ErkJggg==);    
+}
+
+tr.dojoxCheckedMultiSelectMenuItemChecked td.dijitMenuItemIconCell {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAIAAAC0tAIdAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAM5JREFUKFNjKJt7gHjEAFT6nzgAVAlVXbflOX4ENBBF9aab/w8+BKGbb6EIwgWKAw1CVz359P9Z5/4vuPh/yeX/y66AyJmnf0HcWLHuMbrqvhP/kVHHYahSoLrcJbfwqUZWGth7AYtquIrGvd/ggeTVfjp/9XMsLqne/hEtJCFKgaZg8SVQNdBSNFOBSoGewaIaKAE0CWgeUAPcVIi/saheeOn/rDO/6jc/z15wE0gC2UARCMKiGhKXQA8VrboHJNGiFiUEiUkp0JgnPg0CABclD+QoawMBAAAAAElFTkSuQmCC);
+} 
+
+/*
+.dojoxCheckedMultiSelectWrapper {
+    width: 20em;
+background:green;
+}
+
+.scroll .dojoxCheckedMultiSelectWrapper {
+    height: 20em;
+    overflow-y: scroll;
+background:green;
+}
+.dojoxCheckedMultiSelectWrapper {
+    height: 20em;
+	background:green;
+    overflow-y: scroll;
+}
+*/
+
+
+.sl_Analyse {
+	border-radius: 4px;
+	color:black;
+}
+.sl_all {
+	background :orange;
+	padding:0 8 0 8;
+}
+.sl_exome {
+	padding:0 2 0 2;
+	background :#66CC00;
+}
+.sl_genome {
+	padding:0 2 0 2;
+	background :#FFFF00;
+}
+.sl_target {
+	padding:0 2 0 2;
+	background :#009966;
+}
+.sl_rnaseq {
+	background :#6666FF;
+	padding:0 2 0 2;
+}
+.sl_singlecell {
+	background :#33CCFF;
+	padding:0 2 0 2;
+}
+
+.sl_amplicon {
+	background :#F18973;
+	padding:0 2 0 2;
+}
+
+.sl_other {
+	background :#618685;
+	padding:0 2 0 2;
+}
+
+.bcgCL {
+	width: 100%;
+	max-width: 35em;
+	height: 100%;
+	max-height: 60em;
+	margin: 0;
+	padding:0;
+	white-space:nowrap;
+	overflow: hidden;
+}
+
+.bcgCL .dijitDialogTitleBar {
+	background: linear-gradient(#510303, brown);
+	color:white;
+}
+
+.uppatCL {
+	width: 100%;
+	max-width: 50em;
+	height: 100%;
+	max-height: 60em;
+	margin: 0;
+	padding:0;
+	white-space:nowrap;
+	overflow: hidden;
+}
+
+.uppatCL .dijitDialogTitleBar {
+	background: linear-gradient(#510303, brown);
+	color:white;
+}
+
+.showUnaProject {
+	width: 100%;
+	max-width: 56em;
+	height: 100%;
+	max-height: 20em;
+	margin: 0;
+	padding:0;
+	white-space:nowrap;
+}
+
+.showUnaProject .dijitDialogTitleBar {
+	background: linear-gradient(#510303, brown);
+	color:white;
+	line-height:150%;
+}
+
+.userButton2 .dijitButtonNode {
+	border: 1px solid red;
+	border-radius: 12px;
+	background: yellow;
+}
+
+.userButton {
+ 	background:yellow;
+}
+
+.cl_btclose_block_right {
+	display: inline-block;
+	text-align:right;
+	float:right;
+	margin-right:+15px;
+}
+
+.cl_btclose_block_right .dijitButtonNode {
+	background: green;
+	background-color: transparent;
+	padding:0;
+	margin:0;
+	border:none;
+	white-space:nowrap;
+	float:right;
+}
+
+.scrolltable {
+ 	display: inline-block;
+   max-height:4em;
+    overflow-y:auto;
+}
+
+
+
+

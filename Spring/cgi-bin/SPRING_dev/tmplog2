@@ -1,0 +1,12 @@
+import cgi -- 0.016
+import numpy -- 0.127
+import h5py -- 0.042
+got cgi data -- 0.000
+"Foxp2"
+got cell filter-- 0.023
+loaded hdf5 data -- 0.011
+inialized array -- 0.000
+filled array -- 0.000
+filtered array -- 0.000
+returned data -- 0.003
+0.230054140091

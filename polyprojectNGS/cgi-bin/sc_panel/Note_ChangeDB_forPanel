@@ -1,0 +1,46 @@
+#####################################################################################
+==> Watson
+cd sc_panel
+#Test lecture Capture & validation
+./test_init.pl
+./listInfo_schemasValidation.pl
+
+# Patient:  Modifier creation_date :TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00'"
+#           Dupliquer creation_date en update_date :TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+./updateDB_datefromPatient.pl
+
+# Patient: Supprimer panel_id après capture id 
+./dropDB_panelIdfromPatient.pl
+
+# Patient: Ajouter panel_id après capture id 
+./addDB_panelIdToPatient.pl
+
+# Panel: créer panel bundle_panel panel_capture
+./dropDB_Panel.pl
+./createDB_Panel.pl
+
+# Update panel panel_capture (AA)
+# Create schema validation (AA) si nécessaire ( import des bases validations :Alport,Cakutome,FSGS)
+# For analyse not in exome genome rnaseq:
+# update capture_system:analyse ==> change name_target to target:name_target  
+./step1_PanelFromCapture_CreatePanel.pl
+
+./step2_PanelFromCapture_UpCapture.pl
+
+# Update patient in panel_id  and do (AA)
+./step3_PanelFromPatient_UpPatient.pl
+
+# Update Capture, Add Bundle_Panel for target analyse
+./step4_PanelFromCapture_UpCapPanBun.pl
+
+# Update Capture Bundle_panel for Exome & Genome analysis
+./step5_PanelFromCapture_PanelExomeGenome.pl
+
+# Add All Panels in Panel_Capture  for Exome & Genome analysis
+./step6_PanelFromCapture_ExomeGenome.pl
+
+#END
+Patient: modifier update_date :option TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+./endDB_Panel.pl
+
+

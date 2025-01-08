@@ -1,0 +1,26 @@
+		.filterTable{
+			
+				
+			}
+			.filterTable td{
+				
+				padding:0px 0px 0px 0px;
+			}
+			 .tdActif{
+				border: thin solid #6495ed;
+
+				padding:0px 14px 0px 4px;
+			}
+			.filterLabel {
+				font-weight: bold;
+				color:#333333;
+				background:  url(/icons/myicons2/bullet_black.png) no-repeat center left;
+				padding:0px 5px 0px 20px;
+			}
+	
+			.filterLabelActif {
+				color:#CA1329;
+				font-weight: bold;
+				background:  url(/icons/myicons2/bullet_red.png) no-repeat center left;
+				padding:0px 5px 0px 20px;
+			}

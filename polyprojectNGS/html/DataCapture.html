@@ -1,0 +1,223 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="icon" type="image/png"
+	href="icons/application_view_tile.png">
+<title>polyprojectNGS</title>
+<!-- chargement des feuilles de styles necessaires à l'affichage -->
+<style type="text/css">
+body,html {
+	font-family: helvetica, arial, sans-serif;
+	font-size: 90%;
+}
+</style>
+<style type="text/css">
+@import
+	"http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojox/grid/resources/Grid.css"
+	;
+
+@import
+	"http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojo/resources/dojo.css"
+	;
+
+@import
+	"http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojox/grid/resources/tundraGrid.css"
+	;
+
+@import
+	"http://ajax.googleapis.com/ajax/libs/dojo/1.7/dijit/themes/tundra/tundra.css"
+	;
+
+@import
+	"http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojox/grid/enhanced/resources/tundraEnhancedGrid.css"
+	;
+
+@import
+	"http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css"
+	;
+
+@import
+	"http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojox/grid/resources/nihiloGrid.css"
+	;
+
+@import
+	"http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojox/layout/resources/ExpandoPane.css"
+	;
+
+@import "button.css";
+
+html,body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+#borderContainer {
+	width: 100%;
+	height: 100%;
+}
+
+#header {
+	padding: 0;
+	marging: 0;
+	position: absolute;
+	background-image: url(icons/logo.png);
+	background-repeat: no-repeat;
+	background-color: #9ABF5E;
+	background-position: center left;
+	width: 100%;
+	border: 1px solid #9ABF5E;
+}
+</style>
+<!-- dojo.js pour dijit.DropDownMenu -->
+<script type="text/javascript"
+	src="http://ajax.googleapis.com/ajax/libs/dojo/1.7/dojo/dojo.js"
+	djConfig="parseOnLoad: true">
+</script>
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js"
+        djConfig="parseOnLoad: true">
+</script>-->
+<script type="text/javascript" src="include.js"
+	djConfig="parseOnLoad: true"></script>
+<script type="text/javascript" src="DataCapture.js"
+	djConfig="parseOnLoad: true"></script>
+</head>
+<body class="tundra">
+	<div dojoType="dijit.layout.BorderContainer" id="borderContainer"
+		autoHeight="true">
+		<div id="header" dojoType="dijit.layout.ContentPane" region="top"
+			style="margin: 0; padding: 0; height: 4.3em;">
+			<table ALIGN="center" style='color: grey;'>
+				<tr>
+					<td align="center" style='font-size: 3em;'><B>...PolyProject
+					</B>
+					</td>
+					<td align="center" style='font-size: 1.5em;'><B> NGS
+							Sequencing Project List</B>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div dojoType="dojox.layout.ExpandoPane" title="New Data"
+			maxWidth="100" startExpanded="true" plitter="true" region="left"
+			style="width: 150px;">
+			<div dojoType="dijit.DropDownMenu" id="navMenu">
+				<div dojoType="dijit.MenuItem"
+					data-dojo-props="iconClass:'dijitIconNewTask'" disabled="disabled">Exon
+					Capture</div>
+			</div>
+
+
+		</div>
+		<div dojoType="dijit.layout.ContentPane" splitter="true"
+			region="center">
+			<B>Exon Capture Data</B>
+			<table dojoType="dojox.grid.DataGrid" jsId="gridCap" id="gridCap"
+				elasticView="2" clientSort="true"
+				style="width: 100%; height: 80%; margin: 2" rowSelector="2em">
+				<thead>
+					<tr>
+						<th width="20em" field="capName">Capture</th>
+						<th width="20em" field="capDes">Description</th>
+						<th width="4em" field="capVs">Version</th>
+						<th width="25em" field="capFile">File</th>
+						<th width="10em" field="capType">Type</th>
+						<th width="15em" field="capAnalyse">Analyse</th>
+					</tr>
+				</thead>
+			</table>
+			<!-- Input Capture -->
+			<div dojoType="dijit.Dialog" id="divCaptureDB"
+				title="Add Capture Data">
+				<div dojoType="dijit.form.Form" id="capForm" jsId="capForm">
+					<table style="width: 42em; border: 0.1em solid #9f9f9f;">
+						<tr>
+							<td><label for="capture">Capture Name</label>
+							</td>
+							<td><input type="text" name="capture" id="capture"
+								dojoType="dijit.form.ValidationTextBox"
+								regExp="^[a-zA-Z0-9-_]+$" required="true"
+								invalidMessage="no space please">
+						</tr>
+						<tr>
+							<td><label for="capDes">Description</label>
+							</td>
+							<td><input type="text" name="capDes" id="capDes"
+								dojoType="dijit.form.ValidationTextBox" required="true">
+						</tr>
+						<tr>
+							<td><label for="capVs">Version</label>
+							</td>
+							<td><input type="text" name="capVs" id="capVs"
+								dojoType="dijit.form.ValidationTextBox"
+								regExp="^[0-9]+$"
+								invalidMessage="Only number please">
+						</tr>
+						<tr>
+							<td><label for="capFile">File Name</label>
+							</td>
+							<td><input type="text" name="capFile" id="capFile"
+								dojoType="dijit.form.ValidationTextBox"
+								regExp="^[a-zA-Z0-9-._]+$" required="true"
+								style="width: 30em;"
+								invalidMessage="no space please">
+						</tr>
+						<tr>
+							<td><label for="capType">Type</label>
+							</td>
+							<td><input type="text" name="capType" id="capType"
+								dojoType="dijit.form.ValidationTextBox"
+								regExp="^[a-zA-Z0-9-_]+$" required="true"
+								invalidMessage="no space please">
+						</tr>
+						<tr>
+							<td><label for="capAnalyse">Analyse</label>
+							</td>
+							<td><input type="text" name="capAnalyse" id="capAnalyse"
+								dojoType="dijit.form.ValidationTextBox"
+								regExp="^[a-zA-Z0-9-_]+$" required="true"
+								invalidMessage="no space please">
+						</tr>
+					</table>
+				</div>
+				<button dojoType="dijit.form.Button" type="submit"
+					onClick="newCapture();" value="Submit" iconClass="validIcon"
+					style="margin-top: 1em" execute="refreshCaptureList();">
+					Submit</button>
+				<button dojoType="dijit.form.Button" type="button"
+					onClick="dijit.byId('divCaptureDB').hide();" iconClass="closeIcon"
+					style="margin-top: 1em">Cancel</button>
+			</div>
+			<!-- Capture Buttons -->
+			<div dojoType="dijit.layout.ContentPane" region="bottom"
+				style="border: 1px solid #7EABCD;">
+				<button id="buttonAddCaptureDB" dojoType="dijit.form.Button"
+					type="button" iconClass="plusIcon">New capture</button>
+				<button id="buttonGoMain" dojoType="dijit.form.Button"
+					onClick='goMain();' type="button" iconClass="backIcon">Back
+				</button>
+			</div>
+
+		</div>
+		<div dojoType="dojox.layout.ExpandoPane" region="bottom"
+			style="height: 100px;"></div>
+
+	</div>
+	<!-- Errors -->
+	<div id="myError" jsId="myError" dojoType="dijit.Dialog"
+		title="<span class='spError'>Error</span>" execute="">
+		<div id="textError" jsId="textError" dojoType="dijit.TooltipDialog">
+		</div>
+		<button type="button" dojotype="dijit.form.Button"
+			onclick="myError.hide()">Close</button>
+	</div>
+	<!-- Validation Message -->
+	<div id="myMessage" jsId="myMessage" dojoType="dijit.Dialog"
+		title="<span class='spMessage'>Validation Message</span>" execute="">
+		<div id="textMessage" jsId="textMessage"
+			dojoType="dijit.TooltipDialog"></div>
+		<button type="button" dojotype="dijit.form.Button"
+			onclick="myMessage.hide()" iconClass="closeIcon">Close</button>
+	</div>
+</body>
+</html>

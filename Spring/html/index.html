@@ -1,0 +1,461 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="icon" type="image/png"
+	href="icons/application_view_tile.png">
+<title>Spring Utility</title>
+<style type="text/css">
+body,html {
+	font-family: helvetica, arial, sans-serif;
+	font-size: 90%;
+	width: 100%;
+	height: 100%;
+	margin: 0;padding: 0;border:0;
+	overflow: hidden;
+}
+</style>
+<style type="text/css">
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/resources/Grid.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojo/resources/dojo.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/resources/tundraGrid.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dijit/themes/tundra/tundra.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/enhanced/resources/tundraEnhancedGrid.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/enhanced/resources/EnhancedGrid.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/grid/resources/nihiloGrid.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/layout/resources/ExpandoPane.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/form/resources/CheckedMultiSelect.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojox/form/resources/RangeSlider.css";
+@import "generalSpring.css";
+@import "login.css";
+@import "button.css";
+</style>
+<script type="text/javascript"
+	src="//ajax.googleapis.com/ajax/libs/dojo/1.10.7/dojo/dojo.js"
+	djConfig="parseOnLoad: true">
+</script>
+
+<script type="text/javascript" src="includeSpring.js"
+	djConfig="parseOnLoad: true"></script>
+<script type="text/javascript" src="Spring.js"
+	djConfig="parseOnLoad: true"></script>
+<script type="text/javascript" src="uploadFile.js"
+	djConfig="parseOnLoad: true"></script>
+<script type="text/javascript" src="vp.js"
+	djConfig="parseOnLoad: true"></script>
+
+
+</head>
+<body class="tundra">
+
+<div dojoType="dijit.layout.BorderContainer" autoHeight="true"
+		style="width: 100%; height: 100%;margin:0; padding:0;border:0;">
+		<div id="header" dojoType="dijit.layout.ContentPane" region="top">
+			<table ALIGN="center" style='color: grey;width:100%'>
+				<tr>
+					<td align="right" style='font-size: 3em;width:52%;'><B>Spring
+					</B>
+					</td>
+					<td align="left" style='font-size: 1.5em;'><B>
+					Utility</B>
+					</td>
+					<td id='btlog_0' class='cl_log_td'>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div dojoType="dijit.layout.ContentPane" region="left"
+		style="width:42%; height:100%; margin: 0; padding: 0;" align="center">
+				<div dojoType="dijit.form.Form" id="folderForm" jsId="folderForm">
+					<div dojoType="dijit.Toolbar">
+
+
+						<table id="TableFolder"
+							style="width:98%;margin:2;padding:1;white-space:nowrap;border:0.1em solid grey;">
+							<tr>
+							<td colspan="4" align="middle" 
+							style="background:beige;font-weight:900;">
+							Folder
+							</td>
+
+							<TD style="width:1%;background-color: #5B6D13;" align="middle">
+								<div dojoType="dijit.form.Button" iconClass="validIcon" showLabel="true" id="bt_FolderSubmit"
+								style="text-align: center; background-color: #5B6D13;color:white;"
+								onClick="submitFiles();"
+								>Submit
+								</div>
+							</TD>
+							</tr>
+
+							<tr>
+							<td style="width:10%"><label for="folderName" width="2em" >Project Name</label>
+							</td>
+							<td style="width:10%"><input type="text" name="folderName" id="folderName"
+							dojoType="dijit.form.ValidationTextBox" required="true">
+							</td>
+
+							<TD style="width:5%">
+							<button data-dojo-type="dijit.form.ToggleButton" 
+style="height:16;width:47;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43; color: white;"
+data-dojo-props="iconClass:'dijitRadioIcon'" onChange="chgForce" id="btn_force">
+						<i style="font-size:70%;margin:0;padding:0;border:0">Force</i>
+							</button>
+							</td>
+							<td valign="top" align="left">
+							<button data-dojo-type="dijit.form.Button" id="Treset"
+							onClick="resetField();" showLabel="true" 
+							iconClass="dijitIconUndo"
+style="float:center;border-radius:10px;background:green;border:0;color:white;margin:0;padding:0;width:1.5em;">
+							</button>
+							</td>
+							</tr>
+						</table>
+						<div dojoType="dijit.Tooltip" connectId="Treset" position="below">
+							<label class="tooltip">
+							<b>Reset</b><br>
+							</label>
+						</div>
+						<div dojoType="dijit.Tooltip" connectId="btn_force" position="below">
+							<label class="tooltip">
+							<b>Toggle Force to replace downloading files</b><br>
+							</label>
+						</div>
+						<table id="TableCapRequiredFiles"
+						style="width:98%;margin:2;padding:1;white-space:nowrap;border:0.1em solid grey;background:#DEDEDE;">
+							<tr>
+							<td colspan="3" align="middle" style="background:beige;font-weight:900;">
+							Upload Files
+							</td>
+							</tr>
+
+							<tr>
+							<td>First File: <b>Matrix</b><img id="MF" src="icons/information.png">
+							</td>
+							<td><label for="firstFile">File Name</label></td>
+							</tr>
+							<tr>
+							<td id="domBt_firstFile" class="roundedButton"> 
+							<button id="bt_firstFile"></button>
+							</td>
+							<td><input type="text" name="firstFile" id="firstFile"
+							dojoType="dijit.form.ValidationTextBox" disabled
+							regExp="^[a-zA-Z0-9-._]+$" required="true"
+							invalidMessage="no space please">
+							</td>
+							<TD style="width:10%">
+							<button data-dojo-type="dijit.form.ToggleButton" disabled
+style="height:16;width:80;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43;"
+data-dojo-props="iconClass:'dijitCheckBoxIcon'" onClick="findFolderFiles(type_file='firstFile')" id="btn_matrix">
+						<i style="font-size:80%;margin:0;padding:0;border:0">Matrix</i>
+							</button>
+							</td>
+							<tr><td height=30 colspan=1></td></tr>
+							</tr>
+							<tr>
+							<td>Second File: <b>Gene List</b><img id="GL" src="icons/information.png"></td>
+							</tr>
+							<tr>
+							<td>Gene column number<img id="GC" src="icons/information.png"></td>
+							<td><input type="text" id="ColGene" name="ColGene"
+							dojoType="dijit.form.NumberTextBox" required="true"
+							value="1"
+							constraints="{min:1,max:15}" style="width: 2em;"
+							invalidMessage="Invalid Number">
+							</td>
+							</tr>
+
+							<tr>
+							<td id="domBt_secondFile" class="roundedButton">
+							<button id="bt_secondFile"></button>
+							</td>
+							<td><input type="text" disabled name="secondFile" id="secondFile"
+							dojoType="dijit.form.ValidationTextBox" regExp="^[a-zA-Z0-9-._]+$"
+							invalidMessage="no space please">
+							</td>
+							<TD style="width:10%">
+							<button data-dojo-type="dijit.form.ToggleButton" disabled
+style="height:16;width:80;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43;"
+data-dojo-props="iconClass:'dijitCheckBoxIcon'" onClick="findFolderFiles(type_file='secondFile')" id="btn_gene">
+						<i style="font-size:80%;margin:0;padding:0;border:0">Gene</i>
+							</button>
+							</td>
+							</tr>
+
+							<tr>		
+							<td></td>
+							<td style="width:10%"><input type="text" name="outName" id="outName"
+							dojoType="dijit.form.ValidationTextBox" required="true" disabled>
+							</td>
+							<TD style="width:10%">
+							<button data-dojo-type="dijit.form.ToggleButton" disabled
+style="height:16;width:80;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43;"
+data-dojo-props="iconClass:'dijitCheckBoxIcon'" id="btn_out">
+						<i style="font-size:80%;margin:0;padding:0;border:0">OutDir</i>
+							</button>
+							</td>
+							</tr>
+							<table>
+
+							<table id="TableCapOptFiles"
+							style="width:98%;margin:2;padding:1;white-space:nowrap;border:0.1em solid grey;">
+
+							<tr>
+							<td>Optional File: <b>Cells Grouping List</b><img id="CL" src="icons/information.png"></td>
+							<td><label for="cellsFile">File Name</label></td>
+							</tr>
+							<tr>
+							<td id="domBt_cellsFile" class="roundedButton">
+							<button id="bt_cellsFile"></button>
+							</td>
+							<td><input type="text" disabled name="cellsFile" id="cellsFile"
+							dojoType="dijit.form.ValidationTextBox" regExp="^[a-zA-Z0-9-._]+$"
+							invalidMessage="no space please">
+							</td>
+							<TD style="width:10%">
+							<button data-dojo-type="dijit.form.ToggleButton" disabled
+style="height:16;width:90;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43;"
+data-dojo-props="iconClass:'dijitCheckBoxIcon'" onClick="findFolderFiles(type_file='cellsFile')" id="btn_cells">
+						<i style="font-size:80%;margin:0;padding:0;border:0">Cells Grouping</i>
+							</button>
+							</td>
+							</tr>
+
+							<tr>
+							<td>Optional File: <b>Gene Sets</b><img id="GS" src="icons/information.png"></td>
+							<td></td>
+							</tr>
+							<tr>
+							<td id="domBt_genesetsFile" class="roundedButton">
+							<button id="bt_genesetsFile"></button>
+							</td>
+							<td><input type="text" disabled name="genesetsFile" id="genesetsFile"
+							dojoType="dijit.form.ValidationTextBox" regExp="^[a-zA-Z0-9-._]+$"
+							invalidMessage="no space please">
+							</td>
+							<TD style="width:10%">
+							<button data-dojo-type="dijit.form.ToggleButton" disabled
+style="height:16;width:90;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43;"
+data-dojo-props="iconClass:'dijitCheckBoxIcon'" id="btn_genesets">
+						<i style="font-size:80%;margin:0;padding:0;border:0">Gene Sets</i>
+							</button>
+							</td>
+							</tr>
+
+							<tr>
+							<td>Optional File: <b>Custom Color</b><img id="GU" src="icons/information.png"></td>
+							<td></td>
+							</tr>
+							<tr>
+							<td id="domBt_customColorFile" class="roundedButton">
+							<button id="bt_customColorFile"></button>
+							</td>
+							<td><input type="text" disabled name="customColorFile" id="customColorFile"
+							dojoType="dijit.form.ValidationTextBox" regExp="^[a-zA-Z0-9-._]+$"
+							invalidMessage="no space please">
+							</td>
+							<TD style="width:10%">
+							<button data-dojo-type="dijit.form.ToggleButton" disabled
+style="height:16;width:90;margin:0;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43;"
+data-dojo-props="iconClass:'dijitCheckBoxIcon'" id="btn_customColor">
+						<i style="font-size:80%;margin:0;padding:0;border:0">Custom Color</i>
+							</button>
+							</td>
+							</tr>
+						</table>
+						<div dojoType="dijit.Tooltip" connectId="bt_FolderSubmit" position="below">
+							<label class="tooltip">
+							Submit Button for pre-processing <b>Spring results</b>
+							</label>
+						</div>
+						<div dojoType="dijit.Tooltip" connectId="MF" position="below">
+							<label class="tooltip">
+							<b>Matrix File with extension .mtx</b><br>
+							</label>
+						</div>
+						<div dojoType="dijit.Tooltip" connectId="GL" position="below">
+							<label class="tooltip">
+							<b>Gene List File with extension .csv or .tsv</b><br>
+							<b>One gene name per line</b><br>
+							</label>
+						</div>
+						<div dojoType="dijit.Tooltip" connectId="GC" position="below">
+							<label class="tooltip">
+							<b>Gene Field column number from your Gene List File</b><br>
+							</label>
+						</div>
+						<div dojoType="dijit.Tooltip" connectId="CL" position="below">
+							<label class="tooltip">
+							<b>Cells Grouping List File with extension .csv or .tsv</b><br>
+							</label>
+						</div>
+						<div dojoType="dijit.Tooltip" connectId="GS" position="below">
+							<label class="tooltip">
+							<b>Gene Sets File with extension .gmt</b><br>
+							Tabulated File with following fields but without header:<br> 
+							<b>&lt;name_A_gene_set&gt; &lt;Comment&gt; &lt;gene_1&gt; &lt;gene_2&gt; .. &lt;gene_n&gt;</b><br>
+							<b>&lt;name_B_gene_set&gt; &lt;Comment&gt; &lt;gene_1&gt; &lt;gene_2&gt; .. &lt;gene_n&gt;</b><br>
+							</label>
+						</div>
+						<div dojoType="dijit.Tooltip" connectId="GU" position="below">
+							<label class="tooltip">
+							<b>Custom Color File with extension .csv or .tsv</b><br>
+							</label>
+						</div>
+					</div>
+				</div>
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="right"
+		style="width:58%; height: 100%; margin: 0; padding: 0;" align="center">
+			<div dojoType="dijit.form.Form" id="springForm" jsId="springForm" action="">
+				<div dojoType="dijit.Toolbar">
+					<table id="TableSpring"
+							style="width:98%;margin:2;padding:1;white-space:nowrap;border:0.1em solid grey;">
+						<tr>
+						<TD style="background:beige;font-weight:900;width:17%;margin: 0; padding: 0;"  align="right"> Spring projects in</TD>
+						<TD style="width:1%;background-color: #5B6D13;" align="middle">
+							<div dojoType="dijit.form.Button" iconClass="graphIcon" showLabel="true" id="bt_viewSpring"
+							style="text-align: center; background-color: #5B6D13;color:white;"
+							>Spring View
+							</div>
+						</TD>
+						<TD style="width:1%;background-color: #5B6D13;" align="middle">
+							<div dojoType="dijit.form.Button" iconClass="delIcon" showLabel="true" id="bt_delProject" 
+							style="text-align: center; background-color: #5B6D13;color:white;"
+							>Delete
+							</div>
+						</TD>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+		</div>
+		<div dojoType="dijit.layout.ContentPane" region="bottom"
+				style="color:white;margin: 0; padding: 0">
+		</div>
+</div>
+
+<div id="div_uploadFile" jsId="div_uploadFile" dojoType="dijit.Dialog" title="Load File" width="300">
+	<form id="uploadFormFile" enctype="multipart/form-data" name="fileForm"
+			method="post" accept-charset="utf-8">
+			<input id="sizeLoad" name="MAX_FILE_SIZE" value="50000000" type="hidden">
+			<input id="opt" name="opt" type="hidden"> 
+
+			<input id="loadfile_Projname" name="fileProjname" type="hidden"> 
+			<input id="param_user" name="param_user" type="hidden">
+			<input id="param_out" name="param_out" type="hidden">
+			<input id="param_file" name="param_file" type="hidden">
+			<input id="param_force" name="param_force" type="hidden">
+			<input id="param_dir" name="param_dir" type="hidden">
+<!--			<input id="param_source" name="param_source" type="hidden">-->
+			<span id="preambleFile">File to Upload:</span><br> 
+			<span id="inputLoadField">
+			<input id="InputFile" name="file_name" type="file"> </span>
+			<span id="progressLoadFile" style="display: none;">
+			<div dojotype="dijit.ProgressBar" style="width: 200px;" indeterminate="true">
+			</div>
+			</span><br>
+			<button type="button" value="upload" dojotype="dijit.form.Button" id="bt_upload"
+				onclick="sendUploadSimpleFileForm()">Upload
+			</button>
+	</form>
+</div>
+
+<div dojoType="dijit.Dialog" id="projDialog"  class="cl_proj" data-dojo-props="closable:false" 
+title="<span style='width:65%;font-size:125%;' class='cl_block_left'>Spring Projects</span>
+	<span id='btlog_1' style='width:20%;' class='cl_btlog_block_left'></span>
+	<span id='bt_close_proj' style='width:4%;' class='cl_btlog_block_right'></span>			
+	">
+		<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 92%">
+			<div dojoType="dijit.layout.ContentPane" region="center" id="TabProj">
+				<div id="projGridDiv" style="width: 100%; height:100%;margin:0;padding:0;white-space:nowrap;"">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div dojoType="dijit.Dialog" id="projDialogdel"  data-dojo-props="closable:false" class="cl_proj"
+title="<span style='width:65%;font-size:125%;' class='cl_block_left'>Spring Projects</span>
+	<span id='btlog_2' style='width:20%;' class='cl_btlog_block_left'></span>
+	<span id='bt_close_projdel' style='width:4%;' class='cl_btlog_block_right'></span>			
+	">
+		<div dojoType="dijit.layout.BorderContainer" style="width: 100%; height: 92%" data-dojo-props="gutters:true, liveSplitters:true">
+			<div dojoType="dijit.layout.ContentPane" region="top" class="cl_toolbar"
+			style="height: 2em; border:none;margin: 0; padding: 0:color:white;text-align:center">
+				<div dojoType="dijit.Toolbar">
+					<div dojoType="dijit.form.Button" onClick='deleteProject();'
+						iconClass="delIcon" showLabel="true">Delete Project
+					</div>
+				</div>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="center" id="TabProjdel">
+				<div id="delprojGridDiv" style="width: 100%; height:100%;margin:0;padding:0;white-space:nowrap;"">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- ############################################################################################## -->
+<!-- Standby -->
+<!-- ############################################################################################## -->
+<div id="myStandby" jsId="myStandby" dojoType="dijit.Dialog" execute="">
+	<div id="winStandby"
+		style="width: 20em; height: 4em; background-color: yellow; border-style: solid; border-width: 0.2em;">
+	</div>
+</div>
+
+<!-- ############################################################################################## -->
+<!-- Errors -->
+<!-- ############################################################################################## -->
+<div id="myError" jsId="myError" dojoType="dijit.Dialog"
+		title="<span class='spError'>Error</span>" execute="">
+	<div id="textError" jsId="textError" dojoType="dijit.TooltipDialog">
+	</div>
+	<button type="button" dojoType="dijit.form.Button"
+		onclick="myError.hide()" iconClass="closeIcon"
+		style="margin-top: 1em">Close</button>
+</div>
+
+<!-- ############################################################################################## -->
+<!-- Validation Message -->
+<!-- ############################################################################################## -->
+<div id="myMessage" jsId="myMessage" dojoType="dijit.Dialog"
+	title="<span class='spMessage'>Validation Message</span>" execute="">
+	<div id="textMessage" jsId="textMessage"
+		dojoType="dijit.TooltipDialog"></div>
+	<button type="button" dojoType="dijit.form.Button" id="myMessageSubmit"
+		onclick="myMessage.hide();" iconClass="closeIcon"
+		style="margin-top: 1em">Close</button>
+</div>
+
+<!-- ############################################################################################## -->
+<!-- Login -->
+<!-- ############################################################################################## -->
+<div class="logdiag" id="login" dojoType="dijit.Dialog" execute="setPasswordlocal();" align="right">
+	<div dojoType="dijit.form.Form" id="loginForm" jsId="loginForm" method="post" class="signin">
+		<table>
+		<tr>
+		<td><label for="username" class="username">USERNAME</label></td>
+		<td><input id="username" value="" dojoType="dijit.form.TextBox" class="dj_user"
+				autocomplete="on" placeholder="Username"></td>
+		</tr>
+		<tr>
+                <td><label for="password" class="password">PASSWORD</label></td>
+		<td><input id="passwd" name="password" value="" type="password" class="dj_passwd"
+			dojoType="dijit.form.TextBox" placeholder="Password"></td>
+		</tr>
+		</table>
+ 	</div>
+	<div type="submit" dojoType="dijit.form.Button"
+			id="btlog" class="btlog">Sign in
+	</div>
+</div>
+
+</body>
+</html>
+
+
