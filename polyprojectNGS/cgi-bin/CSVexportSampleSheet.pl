@@ -16,6 +16,7 @@ my $name = $suffix."_".$fcid."_".$time;
 print "Content-type:text/csv;charset=utf-8\n";
 print "Content-Disposition: attachment; filename=$name.csv\n\n";
 binmode(STDOUT);
+#
 print "$header";
 print "$exp";
 exit;
