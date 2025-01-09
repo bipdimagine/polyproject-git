@@ -36,7 +36,6 @@ use queryPanel;
 use Data::Dumper;
 use Carp;
 use JSON;
-use export_data;
 use Getopt::Long;
 
 my $cgi    = new CGI;

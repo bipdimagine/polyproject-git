@@ -35,7 +35,6 @@ use queryPolyproject;
 use Data::Dumper;
 use Carp;
 use JSON;
-use export_data;
 use Getopt::Long;
 #use warnings;
 

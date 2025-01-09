@@ -27,7 +27,6 @@ use Data::Dumper;
 use Carp;
 use JSON;
 use queryStat;
-use export_data;
 
 my $cgi = new CGI;
 

@@ -26,7 +26,6 @@ use queryValidationDB;
 use Data::Dumper;
 use Carp;
 use JSON;
-use export_data;
 use Bio::DB::HTS::Tabix;
 =mod 	
 #use feature qw/switch/; 

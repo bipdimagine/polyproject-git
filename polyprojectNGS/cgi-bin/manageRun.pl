@@ -34,7 +34,6 @@ use Carp;
 use JSON;
 use List::Util qw/ max min /;
 
-use export_data;
 
 my $cgi = new CGI;
 

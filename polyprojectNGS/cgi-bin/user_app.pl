@@ -10,9 +10,11 @@ use lib "$Bin/GenBo/lib/GenBoDB";
 use lib "$Bin/GenBo/lib/obj-nodb";
 use lib "$Bin/GenBo/lib/GenBoDB/writeDB";
 use lib "$Bin/packages"; 
+use lib "$Bin/GenBo/../polymorphism-cgi/packages/export";
 use Time::Local;
 use queryPolyproject;
 use connect;
+
 use export_data;
 use GBuffer;
 use Data::Dumper;

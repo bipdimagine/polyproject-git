@@ -11,7 +11,7 @@ use lib "$Bin/../../polymorphism-cgi/packages/export";
 use lib "$Bin/../../GenBo";
 use lib "$Bin/../../GenBo/lib/GenBoDB";
 use lib "$Bin/../../GenBo/lib/obj-nodb";
-
+use lib "$Bin/GenBo/../polymorphism-cgi/packages/export";
 use Time::Local;
 use connect;
 use export_data;

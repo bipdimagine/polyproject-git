@@ -12,7 +12,6 @@ use queryValidationDB;
 use queryPanel;
 use Carp;
 use JSON;
-use export_data;
 use Getopt::Long;
 
 

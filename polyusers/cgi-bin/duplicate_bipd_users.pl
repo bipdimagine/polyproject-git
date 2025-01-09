@@ -12,7 +12,6 @@ use lib "$Bin/../../GenBo/lib/obj-lite";
 use Time::Local;
 #use queryPolyproject;
 use connect;
-use export_data;
 use GBuffer;
 use Data::Dumper;
 use File::Glob qw(:globally :nocase);

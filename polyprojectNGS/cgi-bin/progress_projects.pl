@@ -22,7 +22,7 @@ use lib "$Bin/packages";
 
 use Time::Local;
 use queryPolyproject;
-
+use lib "$Bin/GenBo/../polymorphism-cgi/packages/export";
 use export_data;
 use connect;
 use GBuffer;

@@ -15,7 +15,6 @@ use Time::Local;
 use queryPolyproject;
 use queryRna;
 use connect;
-use export_data;
 use GBuffer;
 use Data::Dumper;
 use File::Glob qw(:globally :nocase);

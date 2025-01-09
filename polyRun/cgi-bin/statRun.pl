@@ -36,7 +36,6 @@ use Data::Dumper;
 use Carp;
 use JSON;
 use queryRun;
-use export_data;
 
 #use Text::CSV;
 
@@ -56,7 +55,6 @@ unless ($run) {
           -in=coverage_infile\n" );
 }
 =cut
-use export_data;
 
 my $cgi = new CGI;
 

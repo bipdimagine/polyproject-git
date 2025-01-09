@@ -13,7 +13,6 @@ use lib "$Bin/../../GenBo/lib/obj-nodb";
 
 use Time::Local;
 use connect;
-use export_data;
 use GBuffer;
 use Data::Dumper;
 use File::Glob qw(:globally :nocase);
