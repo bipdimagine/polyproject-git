@@ -1925,6 +1925,19 @@ sub getPatientId {
 	return $s->{patient_id};	
 }
 
+sub getPatient_byPatientId {
+	my ($dbh,$patid) = @_;
+	my $query = qq{
+		select *
+		FROM PolyprojectNGS.patient a
+		where a.patient_id='$patid';
+			};
+	my $sth = $dbh->prepare($query);
+	$sth->execute();
+	my $s = $sth->fetchrow_hashref();
+	return $s;	
+}
+
 sub getProjectPatientId {
 	my ($dbh,$patname,$pid) = @_;
 	my $query = qq{

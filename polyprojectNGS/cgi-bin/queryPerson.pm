@@ -23,7 +23,7 @@ sub getPatientPersonInfoProjectDest {
 		a.control,a.type,
 		a.bar_code,a.bar_code2,a.identity_vigilance,a.identity_vigilance_vcf,
 		a.sex,a.status,a.description,a.creation_date as cDate,
-		a.project_id,a.profile_id,a.species_id
+		a.project_id,a.profile_id,a.species_id,a.origin_patient_id
 
 		FROM PolyprojectNGS.patient a
 		LEFT JOIN PolyprojectNGS.patient_person pe

@@ -2083,19 +2083,23 @@ sub genomicRunPatientSection {
 	my $s_group = queryPolyproject::getGroupFromName($buffer->dbh,"STAFF");
 	my $super_grp=$s_group->{UGROUP_ID};
 	my $runListId = queryPerson::getPatientPersonInfoProjectDest($buffer->dbh,$runid,$projid);
-##	warn Dumper $runListId;
-	my $hash_pers;
+#	Not Used Here;
+#	my $hash_pers;
+	#foreach my $a (@$runListId){
+	#	my %s;
+	#	if (defined $patid) {
+	#		next unless $patid==$a->{patient_id};
+	#	}
+	#	next if $a->{name} eq $a->{person};
+	#	$hash_pers->{$a->{patient_id}." ".$a->{name}} = $a->{person} ;
+	#}
+	my $hash_opat;	
 	foreach my $a (@$runListId){
-		#warn Dumper $a->{patient_id};
 		my %s;
-		if (defined $patid) {
-			next unless $patid==$a->{patient_id};
-		}
-		next if $a->{name} eq $a->{person};
-		$hash_pers->{$a->{patient_id}." ".$a->{name}} = $a->{person};
+		#warn Dumper "pat: $a->{name} $a->{patient_id} proj: $a->{project_id} run: $a->{run_id} --- $a->{origin_patient_id}" if $a->{origin_patient_id};# if $a->{patient_id};
+		my $projectname = queryPolyproject::getProjectName($buffer->dbh,$a->{project_id}) if $a->{origin_patient_id};
+		$hash_opat->{$a->{name}." ".$a->{run_id}} = $projectname  if $a->{origin_patient_id};
 	}
-	
-#	die;
 	my @data;
 	my %hdata;
 	$hdata{identifier}="PatId";
@@ -2105,12 +2109,12 @@ sub genomicRunPatientSection {
 		if (defined $patid) {
 			next unless $patid==$c->{patient_id};
 		}
+		next if $c->{origin_patient_id};
 		my %s;
 		$s{RunId} = $c->{run_id};
 		$s{RunId} += 0;
 		$s{PatId} = $c->{patient_id};
 		$s{PatId} += 0;
-
 		my $inf_species= queryPolyproject::getSpecies($buffer->dbh,$c->{species_id});
 		$s{species}=join(" ",map{$_->{name}}@$inf_species) if defined $inf_species;		
 		$s{sp}="";
@@ -2128,16 +2132,18 @@ sub genomicRunPatientSection {
 		$s{CaptureId} += 0;
 		$s{ProjectCurrentName} = queryPolyproject::getProjectName($buffer->dbh,$s{ProjectCurrentId});
 		$s{ProjectName} = queryPolyproject::getProjectName($buffer->dbh,$s{ProjectId});
+		
 		$s{ProjectIdDest} = 0;
 		$s{ProjectIdDest} = $c->{project_id_dest} if $c->{project_id_dest};
 		$s{ProjectNameDest} = "";
 		$s{ProjectNameDest} = queryPolyproject::getProjectName($buffer->dbh,$c->{project_id_dest}) if $c->{project_id_dest};
-		
 		my $cap = queryPolyproject::getCaptureName($buffer->dbh,$s{CaptureId});		
 		$s{capName} = $cap->[0]->{capName};
 		my $caprel = queryPolyproject::getReleaseNameFromCapture($buffer->dbh,$s{CaptureId});
 		$s{capRel}=join(" ",map{$_->{name}}@$caprel) if defined $caprel ;
 		$s{patientName} = $c->{name};
+		$s{oproject} ="";
+		$s{oproject} = $hash_opat->{$c->{name}." ".$c->{run_id}} if $hash_opat->{$c->{name}." ".$c->{run_id}};#copy patient in other project
 		$s{family} = $c->{family};
 		$s{father} = $c->{father};
 		$s{mother} = $c->{mother};
