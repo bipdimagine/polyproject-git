@@ -5946,7 +5946,7 @@ function saveProject(){
 	var check_des = selprojDes.toString();
 	var reg =new RegExp("\t","g");
 	check_des =check_des.replace(reg,'');
-	var alphanum= /^[a-zA-Z0-9-_ \.\>]*$/;
+	var alphanum= /^[a-zA-Z0-9-_ \.\>:]*$/;
 	if (check_des.search(alphanum) == -1) {
 		textError.setContent("Enter a project Description with no accent");
 		myError.show();
@@ -6486,14 +6486,9 @@ function showRun(rid,somatic,capRel,capAnalyse){
 			}
                 }},
 /*################################### Other ###########################################*/
-//		{ field: 'Gproject',name: 'Genomic Project',width: '10em'},
 		{ field: 'Sex',name: 'Sex',width: '3em', editable: true,styles: 'text-align: center;',type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect', widgetProps:{store:sexStore,required:false}},
 		{ field: 'Status',name: 'Status',width: '3em',styles: 'text-align: center;', editable: true, type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect',widgetProps:{store:statusStore,required:false}},
 		{ field: 'Gproject',name: 'Genomic Project',width: '10em'},
-//		{ field: "p_personName",name: "Person", width: '10em', editable: true,formatter:colorPerson,
-//		type:'dojox.grid.cells._Widget',
-//		widgetClass: dijit.form.ValidationTextBox, 
-//		widgetProps:{required:false,regExp:"^[a-zA-Z0-9-_/]+$"}},
 		{ field: "type", name: "Type",datatype:"date", width: '4em', editable: true,styles: 'text-align: center;',type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect', widgetProps:{store:typepatientStore,required:false}},
 //		{ field: 'species',name: 'Species',width: '6em'},
 		{ field: "profile", name: "Profile", width: '15em'},
@@ -6540,7 +6535,7 @@ type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect',widgetP
 		{ field: 'p_Sex',name: 'pSex',width: '3em', formatter:colorPerson},
 		{ field: 'p_Status',name: 'pStatus',width: '3em', formatter:colorPerson},
 		{ field: 'major',name: 'Major',width: '12em', formatter:colorPerson},
-
+		{ field: 'oproject',name: 'copyProject',width: '10em'},
 		{ field: "UserGroups",name: "Groups",width: '12em',formatter:userColorGroup},
 		{ field: "Users",name: "Users",width: '30em',formatter:userColorGroup},
 		{ field: "cDate", name: "Date",datatype:"date", width: '8em'},
