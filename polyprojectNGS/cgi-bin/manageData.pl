@@ -3199,7 +3199,7 @@ sub CaptureValAnalyseSection {
 	my %seenA;
 	foreach my $c (@$captureListAllId){
 		next unless $c->{capAnalyse};
-		if ($c->{capAnalyse}  =~ m/(exome)|(genome)|(rnaseq)|(singlecell)/) {
+		if ($c->{capAnalyse}  =~ m/(exome)|(genome)|(rnaseq)|(singlecell)|(amplicon)|(other)/) {
 			push(@capNoTargetListId,$c) unless $seenA{$c->{capAnalyse}}++;
 		}
 	}
@@ -3207,7 +3207,7 @@ sub CaptureValAnalyseSection {
 	my %seenB;
 	foreach my $c (@$captureListAllId){
 		next unless $c->{capAnalyse};
-		if ($c->{capAnalyse}  !~ m/(exome)|(genome)|(rnaseq)|(singlecell)/) {
+		if ($c->{capAnalyse}  !~ m/(exome)|(genome)|(rnaseq)|(singlecell)|(amplicon)|(other)/) {
 			push(@capTargetListId,$c) unless $seenB{$c->{capAnalyse}}++;
 		}
 	}
@@ -3228,6 +3228,10 @@ sub CaptureValAnalyseSection {
 			$s{label} = "<a style='background:#6666FF'>".$c->{capAnalyse}."</a>";			
 		} elsif ($c->{capAnalyse}  =~ m/(singlecell)/) {
 			$s{label} = "<a style='background:#33CCFF'>".$c->{capAnalyse}."</a>";			
+		} elsif ($c->{capAnalyse}  =~ m/(amplicon)/) {
+			$s{label} = "<a style='background:#F18973'>".$c->{capAnalyse}."</a>";			
+		} elsif ($c->{capAnalyse}  =~ m/(other)/) {
+			$s{label} = "<a style='background:#618685'>".$c->{capAnalyse}."</a>";			
 		} else {
 			$s{label} = $c->{capAnalyse};
 		}
