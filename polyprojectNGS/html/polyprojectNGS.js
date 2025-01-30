@@ -2378,7 +2378,7 @@ initRadioRunRelCap(dojo.byId("relRadioCap"),e_radio.id,checkDefRel,checkDefCapd,
 	buttonDDS2.startup();
 	buttonDDS2.placeAt(sp_btDropDownSpecies_Project);
 //################# Init Unassigned Projects #############################
-	//unaProjDisplay(fromRun=1);
+	unaProjDisplay(fromRun=1);
 }// End init()
 
 function filterDefGrid(table,grid,val) {
