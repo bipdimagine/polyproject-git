@@ -176,6 +176,7 @@ sub getLocalUid {
 	if ($uid==1023) {$uid="cfourrag"}
 	if ($uid==1026) {$uid="eollivie"}
 	if ($uid==1033) {$uid="shanein"}
+	if ($uid==1041) {$uid="mperin"}
 	return $uid;
 }
 
