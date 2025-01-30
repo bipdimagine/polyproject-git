@@ -93,7 +93,7 @@ foreach my $c (sort {$b->{id} <=> $a->{id}}@$projList){
 		#warn Dumper $uid;
 #		my $sb=lstat($file) or die "No $file:$!";
 		my ($dev,$ino,$mode,$nlink,$uid2,$gid,$rdev,$size,$atime,$mtime,$ctime,$blksize,$blocks) = lstat($file);
-##		my $user_uid2=getpwuid($uid2);
+#		my $user_uid2=getpwuid($uid2);
 #		my $sb=stat($file) or die "No $file:$!";
 #		my $user_uid=getpwuid($sb->uid);
 		my $user_uid=getpwuid($uid);
@@ -104,7 +104,9 @@ foreach my $c (sort {$b->{id} <=> $a->{id}}@$projList){
 		$s{name} = $project->name();
 #		$s{login} =$user_uid;
 		$s{login} = $s{userName} = $s{userMail}  = "unknown";
+	#	warn Dumper $uid;
 		$uid=getLocalUid($uid) if ( $uid eq $uid+0);
+#		warn Dumper $uid;
 		my $user_info= queryPolyproject::getUserInfoFromLogin($buffer->dbh,$uid);
 		$s{userName}  = $user_info->{name};
 		$s{userMail}  = $user_info->{Email};		
@@ -170,7 +172,6 @@ sub getLocalUid {
 	if ($uid==1023) {$uid="cfourrag"}
 	if ($uid==1026) {$uid="eollivie"}
 	if ($uid==1033) {$uid="shanein"}
-	if ($uid==1041) {$uid="mperin"}
 	return $uid;
 }
 
