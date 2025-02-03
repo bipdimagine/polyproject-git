@@ -128,7 +128,7 @@ var layoutProject = [
 	styles:"white-space:nowrap;margin:0;padding:0;text-align:center;",
 	width: '1.5',filterable: false, formatter:bullet},
 	{ field: "id",name: "ID",width: '3',formatter:colorField},
-	{ field: "name",name: "Name",width: '8.5',formatter:colorField,styles:'font-weight:bold;'},
+	{ field: "name",name: "Name",width: '9',formatter:colorField,styles:'font-weight:bold;'},
 	{ field: "capAnalyse", name: "Ana", width: '2',styles: 'text-align: center;font-weight:bold;',formatter:colorFieldAnalyse},
 	{ field: "sp",name: "SP", width: '2',styles: 'text-align: center;font-weight:bold;',formatter:colorFieldSpecies},
 	{ field: "dejaVu",name: "Vu",width: '1.5',styles:"text-align:center;",formatter:inactiveRadioButtonView},
