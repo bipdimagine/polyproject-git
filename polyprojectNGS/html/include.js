@@ -917,7 +917,8 @@ function userColorGroup(value,idx,cell,row) {
 					if (value_sp2[1]) {
 						concat_value += "<span style='border:1px solid #00BFFF;background-color:#B0E0E6;color:#000fb3;'>" + value_sp2[0] +"</span>" + " ";
 					} else {
-						concat_value +=value_sp2[0] + " ";
+						//concat_value +=value_sp2[0] + " ";
+						concat_value += "<span style='border:1px solid #00BFFF;background-color:#99ccff;color:#000fb3;'>" + value_sp2[0] +"</span>" + " ";
 					}
 				}
 				value=concat_value;

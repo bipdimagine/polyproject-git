@@ -297,7 +297,7 @@ var layoutRun = [
 		{ field: "macName",name: "Machine",width: '8'},
 		{ field: "phenotype", name: "Phenotype", width: '15', formatter:backgroundCell},
 		{ field: "UserGroups", name: "Groups", width: '8',styles:"text-align:left;white-space:nowrap;", formatter:userColorGroup},
-		{ field: "Users", name: "Users", width: '15',styles:"text-align:left;white-space:nowrap;"},
+		{ field: "Users", name: "Users", width: '15',styles:"text-align:left;white-space:nowrap;", formatter:userColorGroup},
 ];
 
 function sortDateGrid(Store, Date) {

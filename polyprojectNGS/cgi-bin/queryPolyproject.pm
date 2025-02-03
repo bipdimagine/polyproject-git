@@ -3784,7 +3784,7 @@ sub getUsersFromProjects {
 	my @projid=$projid;
 	my $query = qq{
 		SELECT distinct
-        GROUP_CONCAT(DISTINCT U.nom_responsable ORDER BY U.nom_responsable DESC SEPARATOR ' ') as 'username'
+        GROUP_CONCAT(DISTINCT U.nom_responsable ORDER BY U.nom_responsable DESC SEPARATOR ',') as 'username'
         FROM PolyprojectNGS.user_projects up,bipd_users.`USER` U
  		WHERE up.user_id=U.user_id
 		AND
