@@ -10,11 +10,14 @@ use lib "$Bin/GenBo";
 use lib "$Bin/GenBo/lib/GenBoDB";
 use lib "$Bin/GenBo/lib/obj-nodb";
 use lib "$Bin/GenBo/lib/GenBoDB/writeDB";
+use lib "$Bin/../../polymorphism-cgi/packages/export";
+use lib "$Bin/GenBo/../polymorphism-cgi/packages/export";
 use lib "$Bin/packages"; 
 use Time::Local;
 use queryPolyproject;
 use queryRna;
 use connect;
+use export_data;
 use GBuffer;
 use Data::Dumper;
 use File::Glob qw(:globally :nocase);
@@ -64,16 +67,23 @@ sub infoProjectSection {
 			$mydate =""
 		}
 		next unless $mydate;
+		#warn Dumper $patientList;
 		
 		# Calling method: Only featureCounts
 		my @snpList= split(/ /, join(" ",map{$_->{methCall}}@$patientList));
 		my $all_snpList=join ' ', sort{lc $a cmp lc $b} keys %{{map{$_=>1}@snpList}};
+		#warn "tttttt0";
+		#warn Dumper $all_snpList;
 		next unless $all_snpList =~ "featureCounts";
-		
+		#warn "tttttt00";
 		#Alignment method: Only hisat2
 		my @alnList= split(/ /, join(" ",map{$_->{methAln}}@$patientList));
 		my $all_alnList=join ' ', sort{lc $a cmp lc $b} keys %{{map{$_=>1}@alnList}};	
-		next unless $all_alnList =~ "hisat2";
+		#warn "tttttt1";
+		#warn Dumper $all_alnList;
+		#next unless $all_alnList =~ "hisat2";
+		next unless $all_alnList =~ m/(hisat2)|(star)/ ;
+		#warn "tttttt2";
 		
 		# Sequencing Machine: not NEXTSEQ	
 		my @macnameList= split(/ /, join(" ",map{$_->{macName}}@$patientList));
@@ -148,6 +158,7 @@ sub infoProjectSection {
 		# featureCounts
 		my $dir_count="";
 		$dir_count= $project->getCountingDir("featureCounts");
+		#warn Dumper $dir_count;
  		my @type_count_file=(".exons.txt",".exons.txt.summary",".genes.txt",".genes.txt.summary");
 		my $file_ofcount=1;
 		my $stat_count=0;
@@ -162,6 +173,7 @@ sub infoProjectSection {
 		}
 
 		my $dirproject=$project->getRootDir();
+		#warn Dumper $dirproject;
  		my @type_analyse=("analysis","NSanalysis","Analysis_".$s{name});
   		my $stat_analyse=0;# pas D'analyse
   		##########################
