@@ -2566,8 +2566,8 @@ function unaProjDisplay(fromRun) {
 	});
 	buttonformclose_unaProj.startup();
 	buttonformclose_unaProj.placeAt(sp_btcloseunaProj);
-//	nbweeks=18;// 9 weeks = 2 months
-	nbweeks=27;// 9 weeks = 2 months
+	nbweeks=18;// 9 weeks = 2 months
+//	nbweeks=27;// 9 weeks = 2 months
 	var spNBW = dojo.byId("sp_nbweeks");
 	spNBW.innerHTML= nbweeks;
 
