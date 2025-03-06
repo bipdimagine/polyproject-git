@@ -375,7 +375,7 @@ var layoutSearchPat = [
 
 var layoutUnaProjGrid = [
 	{ field: "Row", name: "Row",get: getRow, width: '2'},
-	{ field: "id",name: "ID",width: '3'},
+	{ field: "id",name: "ID",width: '4'},
 	{ field: "name",name: "Project Name",width: '9',formatter:colorField,styles:'font-weight:bold;'},
 	{ field: 'CaptureAnalyse',name: 'Ana',width: '2',styles: 'text-align: center;font-weight:bold;',formatter:colorFieldAnalyse},
 	{ field: "cDate", name: "Date", datatype:"date", width: '8'},
