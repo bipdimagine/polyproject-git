@@ -498,7 +498,8 @@ sub UpPatientSection {
 			next unless $s;
 			$ln++ if $s eq $res_pat->{person};
 			next if $s eq $res_pat->{person};
-			my $personList= queryPerson::getPatientPersonInfo_Startwith_PersonName($buffer->dbh,$s);
+			my $personList=[];
+			#$personList= queryPerson::getPatientPersonInfo_Startwith_PersonName($buffer->dbh,$s);# Pas de extend....
 			if (scalar @$personList) {
 				$ident=1;
 				my @newPersonName=new_PersonName($row,$s,$personList);
@@ -715,9 +716,12 @@ sub UpPatientSection {
 		if ($groupid->[0]->{group_id}) {
 			queryPolyproject::removeGroup2patient($buffer->dbh,$fieldI[$i]) if $fieldGNname[$i] eq "";
   			next if $fieldGNname[$i] eq "";
-			
-   			queryPolyproject::upPatientGroup($buffer->dbh,$fieldI[$i],$fieldGN[$i]) if ($fieldGN[$i]);
-   			queryPolyproject::removeGroup2patient($buffer->dbh,$fieldI[$i]) unless ($fieldGN[$i]);
+			if ($fieldGN[$i]) {
+   				queryPolyproject::removeGroup2patient($buffer->dbh,$fieldI[$i]);
+   				queryPolyproject::addGroup2patient($buffer->dbh,$fieldI[$i],$fieldGN[$i]);
+			}			
+   			#queryPolyproject::upPatientGroup($buffer->dbh,$fieldI[$i],$fieldGN[$i]) if ($fieldGN[$i]);
+   			#queryPolyproject::removeGroup2patient($buffer->dbh,$fieldI[$i]) unless ($fieldGN[$i]);
  			unless ($fieldGN[$i]) {					
    				queryPolyproject::removeGroup2patient($buffer->dbh,$fieldI[$i]);
 				my $last_groupid = queryPolyproject::newGroup($buffer->dbh,$fieldGNname[$i]);
