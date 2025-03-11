@@ -720,8 +720,8 @@ sub UpPatientSection {
    				queryPolyproject::removeGroup2patient($buffer->dbh,$fieldI[$i]);
    				queryPolyproject::addGroup2patient($buffer->dbh,$fieldI[$i],$fieldGN[$i]);
 			}			
-   			#queryPolyproject::upPatientGroup($buffer->dbh,$fieldI[$i],$fieldGN[$i]) if ($fieldGN[$i]);
-   			#queryPolyproject::removeGroup2patient($buffer->dbh,$fieldI[$i]) unless ($fieldGN[$i]);
+   			##queryPolyproject::upPatientGroup($buffer->dbh,$fieldI[$i],$fieldGN[$i]) if ($fieldGN[$i]);
+   			##queryPolyproject::removeGroup2patient($buffer->dbh,$fieldI[$i]) unless ($fieldGN[$i]);
  			unless ($fieldGN[$i]) {					
    				queryPolyproject::removeGroup2patient($buffer->dbh,$fieldI[$i]);
 				my $last_groupid = queryPolyproject::newGroup($buffer->dbh,$fieldGNname[$i]);
