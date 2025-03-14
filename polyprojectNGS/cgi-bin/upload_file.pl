@@ -360,7 +360,6 @@ sub InsertPasteSection {
 	my %hdata;
 	$hdata{identifier}="row";
 	$hdata{label}="row";
-
 	my @data = split(",",$Lines);
 	my $row=1;
 	open( my $FHO, '>', $file_out ) or die("Can't create file: $file_out\n");
@@ -470,8 +469,8 @@ default => else
 	}
 	if ($s{"col".2}> $s{"col".3}) {
 		rm_file_gz_tbi($file_out,$FHO,$directory);
-		sendError("Error Position Begin > End: position Begin must be smaller than End ") if $ktab;
-		sendFormError("Error Position Begin > End: position Begin must be smaller than End ") unless $ktab;
+		sendError("Error Position Begin > End: position Begin must be smaller than End: $s{'col'.1} $s{'col'.2} > $s{'col'.3}") if $ktab;
+		sendFormError("Error Position Begin > End: position Begin must be smaller than End: $s{'col'.1} $s{'col'.2} > $s{'col'.3}") unless $ktab;
 	}
 	return $line;
 }
@@ -519,8 +518,8 @@ default => else
 	}
 	if ($s{"col".2}> $s{"col".3}) {
 		rm_file($file_out,$FHO,$directory);
-		sendError("Error Position Begin > End: position Begin must be smaller than End") if $ktab;
-		sendFormError("Error Position Begin > End: position Begin must be smaller than End") unless $ktab;
+		sendError("Error Position Begin > End: position Begin must be smaller than End: $s{'col'.1} $s{'col'.2} > $s{'col'.3}") if $ktab;
+		sendFormError("Error Position Begin > End: position Begin must be smaller than End: $s{'col'.1} $s{'col'.2} > $s{'col'.3}") unless $ktab;
 	}
 	return $line;
 }
