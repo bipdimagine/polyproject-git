@@ -3210,6 +3210,8 @@ sub getAllRunInfo {
 	return \@res;
 }
 
+#		GROUP_CONCAT(DISTINCT a.patient_id ORDER BY a.patient_id ASC SEPARATOR ',') as 'patId',
+# 		count(distinct if (a.project_id > 0,a.patient_id,null)) as 'nbPrjRun',
 sub getAllqRunInfo {
 	my ($dbh,$rid) = @_;
 	my $query2 = qq {where r.run_id='$rid'};
@@ -3221,10 +3223,10 @@ sub getAllqRunInfo {
 		r.step,
 		GROUP_CONCAT(DISTINCT a.name ORDER BY a.name ASC SEPARATOR ',') as 'patName',
 		GROUP_CONCAT(DISTINCT a.g_project ORDER BY g_project ASC SEPARATOR ',') as 'Gproject',
-		GROUP_CONCAT(DISTINCT a.patient_id ORDER BY a.patient_id ASC SEPARATOR ',') as 'patId',
+		GROUP_CONCAT(DISTINCT if (a.origin_patient_id = 0,a.patient_id,null) ORDER BY a.patient_id ASC SEPARATOR ',') as 'patId',
 		GROUP_CONCAT(DISTINCT a.bar_code ORDER BY a.bar_code ASC SEPARATOR ',') as 'patBC',
 		GROUP_CONCAT(DISTINCT sp.code ORDER BY sp.code ASC SEPARATOR ' ') as 'spCode',		
-		count(distinct if (a.project_id > 0,a.patient_id,null)) as 'nbPrjRun',
+		count(distinct case when a.project_id > 0 and a.origin_patient_id = 0 then a.patient_id else null end ) as 'nbPrjRun',
 		GROUP_CONCAT(DISTINCT a.project_id ORDER BY a.project_id ASC SEPARATOR ',') as 'projectId',
 		GROUP_CONCAT(DISTINCT a.project_id_dest ORDER BY a.project_id_dest ASC SEPARATOR ',') as 'projectDestId'
 		
