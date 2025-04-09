@@ -2087,6 +2087,11 @@ sub genomicRunPatientSection {
 	my $s_group = queryPolyproject::getGroupFromName($buffer->dbh,"STAFF");
 	my $super_grp=$s_group->{UGROUP_ID};
 	my $runListId = queryPerson::getPatientPersonInfoProjectDest($buffer->dbh,$runid,$projid);
+	# In patient_person remove double patient_id for family_id=0
+	my $res_dup=rem_dupPatientPerson($runListId);
+	if ($res_dup) {
+		$runListId = queryPerson::getPatientPersonInfoProjectDest($buffer->dbh,$runid,$projid);
+	}
 #	Not Used Here;
 #	my $hash_pers;
 	#foreach my $a (@$runListId){
@@ -2253,6 +2258,34 @@ sub genomicRunPatientSection {
 	queryPolyproject::upNbPat2run($buffer->dbh,$runid,$nbPatRun);
 	$hdata{items}=\@data;
 	printJson(\%hdata);
+}
+
+sub rem_dupPatientPerson {
+	my ($runList) = @_;
+	my $res=0;
+	my %seen;
+	my $hash_pid;
+	foreach my $c (@$runList){
+		$hash_pid->{$c->{patient_id}."-".$c->{person_id}."-".$c->{family_id}}=$c->{patient_id};
+	}
+	my %cpt;
+	foreach my $val (values %$hash_pid) {
+		$cpt{$val}++;
+	}
+	my %hash_dup;
+	while (my ($cle, $valeur) = each %$hash_pid) {
+		if ($cpt{$valeur} > 1) {
+			$hash_dup{$cle} = $valeur;
+		}
+	}
+	foreach my $key (sort{$a cmp $b} keys %hash_dup) {
+		warn "Duplicate Patient_Person";
+		my @sp_line = split(/-/,$key);
+		#$sp_line[2]==0 => for family_id==0
+		queryPerson::delPatientPerson($buffer->dbh,$sp_line[0],$sp_line[1]) if $sp_line[2]==0;
+		$res=1 if $sp_line[2]==0;
+	}
+	return $res;
 }
 
 sub freeRunPatientSection {
