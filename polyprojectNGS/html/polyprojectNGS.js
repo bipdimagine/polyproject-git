@@ -5567,7 +5567,7 @@ function showProject(id,name,somatic){
 	layoutPatientProject = [
 		{ field: "Row", name: "Row",get: getRow, width: 3},
 		{ field: "group", name: "Group", width: '6', editable:true,required:true,
-		type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.ComboBox',widgetProps:{store:groupNameStore}},
+		type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.ComboBox',widgetProps:{store:groupNameStore,ignoreCase: false}},
 		{ field: "control",name: "PC",width: '1.5',styles:"text-align:center;",formatter:inactiveRadioButtonView},
 		{ field: "p_personName",name: "Person", width: '10em', editable: true,formatter:colorPerson,
 		type:'dojox.grid.cells._Widget',
@@ -6395,7 +6395,7 @@ function showRun(rid,somatic,capRel,capAnalyse){
 		width: '1.5',filterable: false, formatter:bullet},
 		{ field: "group", name: "Group", width: '6', editable:true,required:true,
 		type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.ComboBox',
-		widgetProps:{store:groupNameStore}},
+		widgetProps:{store:groupNameStore,ignoreCase: false}},
 		{ field: "control",name: "PC",width: '1.5',styles:"text-align:center;",formatter:inactiveRadioButtonView},
 		{ field: "sp",name: "SP", width: '2',styles: 'text-align: center;font-weight:bold;',formatter:colorFieldSpecies},
 		{ field: "p_personName",name: "Person", width: '10em', editable: true,formatter:colorPerson,
