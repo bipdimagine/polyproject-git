@@ -57,11 +57,11 @@ my $message ="Usage :
  		-tproject=<NGS Target Project> => NGS Project to append Patient 
 			
   		-des=<description> => if this option is not set: List of all Input projects 
-  						  => use qutoted \"<description>\" if spaces are used
-  		-methods=<method1,method2> => Methods: calling, aligment or others methods
+  						  => use quoted \"<description>\" if spaces are used
+  		-methods=<method1,method2> => Methods: calling, alignment or others methods
   		-profile=<Profile Name>
   		
-  	File In: No Header, Tabulated lines with NGSProject, Patient Name [Optionaly Status case/control- (third column)] 
+  	File In: No Header, Tabulated lines with NGSProject, Patient Name [Optionally Status case/control- (third column)] 
   	NGS<Year>_<.....>	Patient1	case
   	NGS<Year>_<.....>	Patient2	case
   	NGS<Year>_<.....>	PatientN	control
