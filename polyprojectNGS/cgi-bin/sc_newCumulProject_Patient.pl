@@ -51,7 +51,7 @@ my $profile;
 
 my $message ="Usage :
 	$0	-h or -help 
-  	$0	-rel=<release> -list < File_In          # show old projet patient
+  	$0	-rel=<release>  < File_In          # show old projet patient
   	$0	-rel=<release> -insert < File_In  # create a New Project (when no -tproject) and New Patients
   	optional parameters:
  		-tproject=<NGS Target Project> => NGS Project to append Patient 
@@ -267,8 +267,8 @@ if ($insert && $ok) {
 		} else {
 			$last_patient_id=newPatient($buffer->dbh,$r->{name},$r->{name},$newprojectid,$r->{run_id},$r->{capture_id},$r->{family},$r->{flowcell},$r->{bar_code},$r->{bar_code2},$r->{identity_vigilance},$r->{father},$r->{mother},$r->{sex},$r_status,$r->{type},$r->{species_id},$r_profileid,$r->{lane},$r->{control},$r->{description},$r->{g_project},$r->{identity_vigilance_vcf},$r->{patient_id},$r->{demultiplex_only});
 			$newpatient_id=$last_patient_id->{'LAST_INSERT_ID()'};
-			print "$cpt Olp Project: $projectId $projectName - New Project: $newprojectid $newprojectname - New Patient: $newpatient_id $r->{name} $r->{name} (old patId:$r->{patient_id}) - PersonId: $personId Status: $r_status\n" if $okstat;
-			print "$cpt Olp Project: $projectId $projectName - New Project: $newprojectid $newprojectname - New Patient: $newpatient_id $r->{name} $r->{name} (old patId:$r->{patient_id}) - PersonId: $personId\n" unless $okstat;
+			print "$cpt Old Project: $projectId $projectName - New Project: $newprojectid $newprojectname - New Patient: $newpatient_id $r->{name} $r->{name} (old patId:$r->{patient_id}) - PersonId: $personId Status: $r_status\n" if $okstat;
+			print "$cpt Old Project: $projectId $projectName - New Project: $newprojectid $newprojectname - New Patient: $newpatient_id $r->{name} $r->{name} (old patId:$r->{patient_id}) - PersonId: $personId\n" unless $okstat;
 			
 		}		 
 # Patient Person
