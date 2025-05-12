@@ -14,9 +14,11 @@ use lib "$Bin/GenBo/lib/GenBoDB";
 use lib "$Bin/GenBo/lib/obj-nodb";
 use lib "$Bin/GenBo/lib/GenBoDB/writeDB";
 use lib "$Bin/GenBo/script/ngs_exome/last_script/packages";
+use lib "$Bin/GenBo/script/ngs_exome/last_script/packages";
 use lib "$Bin/packages"; 
 
 use lib "$Bin/../../polymorphism-cgi/packages/export";
+use lib "$Bin/GenBo/../polymorphism-cgi/packages/export";
 
 use Time::Local;
 use List::MoreUtils qw/ uniq /;
@@ -59,12 +61,12 @@ my $message ="Usage :
   		-methods=<method1,method2> => Methods: calling, aligment or others methods
   		-profile=<Profile Name>
   		
-  	File In: No Header, Tabulated lines with NGSProject, Patient Name [Optionaly Status - (third column)] 
+  	File In: No Header, Tabulated lines with NGSProject, Patient Name [Optionaly Status case/control- (third column)] 
   	NGS<Year>_<.....>	Patient1	case
   	NGS<Year>_<.....>	Patient2	case
   	NGS<Year>_<.....>	PatientN	control
   	
-  	status : status=2  for case or affected or 2
+  	Status : status=2  for case or affected or 2
   	         status=1  for control or unaffected or 1
 \n";
 
