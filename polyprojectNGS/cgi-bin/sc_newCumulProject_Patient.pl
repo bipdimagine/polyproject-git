@@ -120,28 +120,15 @@ if ($profile) {
 	die("$message Error: Unknown Profile Name : $profile\n") unless $i_profile->{profile_id};
 	$i_profileid=$i_profile->{profile_id};		
 }
-# J'en suis la ::a tester ###############################################
-#if ($oldproject && !-t STDIN) {
-#    die "Erreur : aucun fichier d'entrée fourni en redirection (< File_in)\n";
-#}
 
-#if (-t STDIN) {
-#    die "Erreur : aucun fichier d'entrée fourni en redirection (< File_in)\n";
-#}
 if ($oldproject) {
-	warn "toto";
 	if (!-t STDIN) {
-		warn "titi";
 	    die "$message Error : choose between -oldprojet or  Input tabulated file of NGSProject Patient Name  (< File_in)\n";
 	}	
-#    die "Erreur : aucun fichier d'entrée fourni en redirection (< File_in)\n";
 } else {
 	if (-t STDIN) {
-		warn "tutu";
 	    die "$message Error : Need an Input tabulated file of NGSProject Patient Name  (< File_in)\n";
-	#    die "Erreur : aucun fichier d'entrée fourni en redirection (< File_in)\n";
 	}	
-	
 }
 
 my $ok=0;
@@ -187,13 +174,8 @@ if ($oldproject) {
 	
 		my $p=queryPolyproject::getPatient_byPatientId($buffer->dbh,$patientid);
 		my $p_profileid=$p->{profile_id};
-		#warn "toto";
-		#warn Dumper $p_profileid;
 		my $r_profile;
 		$r_profile = queryPolyproject::getProfile_byId($buffer->dbh,$p_profileid) if $p_profileid;
-		#warn Dumper $r_profile;
-		#warn Dumper $r_profile->[0]->{name};
-		#warn "toto1";
 		unless ($i_profileid) {		
 			die "$message Error: No Profile for Patient $patNGS" unless ($p_profileid);	
 		}
@@ -334,37 +316,25 @@ sub getPatientsfromProjects {
 		my $s_projid = queryPolyproject::getProjectFromName($buffer->dbh,$s_projects[$i]);
 		my $patientsP = queryPolyproject::getPatientsFromProject($buffer->dbh,$s_projid->{projectId});
 		foreach my $c (@$patientsP) {
-			#warn Dumper $c;
-#push(@Indata,$projectid.",".$projNGS.",".$patientid.",".$patNGS.",".$personid);
-		#	print "Project: $projectid $projNGS - Patient: $patientid $patNGS PersonId: $personid Profile:$p_profile\n" unless $insert;
-		#	print "\n" unless $insert;
-		#	push(@Indata,$projectid.",".$projNGS.",".$patientid.",".$patNGS.",".$personid);
-			#warn Dumper $p;
 			my $r_patpers=queryPerson::getPatientPerson_byPatientId($buffer->dbh,$c->{patient_id});	
 			die "Error: Input Patient - Person not valid" unless (scalar(@$r_patpers)>=1);
 			my $p=queryPolyproject::getPatient_byPatientId($buffer->dbh,$c->{patient_id});
 			my $p_profileid=$p->{profile_id};	
 			unless ($i_profileid) {		
-			#die "$message Error: No Profile for Patient $patNGS" unless ($p_profileid);	
 				die "$message Error: No Profile for Patient $c->{name}" unless ($p_profileid);	
 			}
 			my $r_profile;
 			$r_profile = queryPolyproject::getProfile_byId($buffer->dbh,$p_profileid) if $p_profileid;
 			my $p_profile="";
 			$p_profile=$r_profile->[0]->{name} if $r_profile->[0]->{name};
-			$p_profile=$profile unless $r_profile->[0]->{name};
-			
-			
+			$p_profile=$profile unless $r_profile->[0]->{name};			
 			
 			my $personid=$r_patpers->[0]->{person_id};
 			print "Project: $s_projid->{projectId} $s_projects[$i] - Patient: $c->{patient_id} $c->{name} PersonId: $personid Profile:$p_profile\n" unless $insert;
 			print "\n" unless $insert;
 			push(@Indata,$s_projid->{projectId}.",".$s_projects[$i].",".$c->{patient_id}.",".$c->{name}.",".$personid);
-
-		#	warn Dumper $c->{};
 		}
 	}
-#	warn Dumper @Indata;
 	return @Indata;
 }
 
