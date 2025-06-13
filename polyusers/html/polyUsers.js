@@ -237,7 +237,6 @@ function activeRadioButtonView(value,idx,cell) {
 	return Cbutton;
 }
 
-
 //reloadMemStore(sc="true");
 function init(){
 	reloadMemStore(sc="true");
