@@ -1827,6 +1827,8 @@ function showUser(id,fname,lname){
 			var d2width=700;
 			var gGroups = new Array();
 			dojo.byId('lgroup').innerHTML ="";
+			var gSites = new Array();
+			dojo.byId('lsite').innerHTML ="";
 			for (var i = 0; i < items.length; i++) {
 				var item = items[i];
 				var table = document.createElement("table");
@@ -1928,6 +1930,7 @@ function showUser(id,fname,lname){
 					tr.appendChild(td2);					
  					table.appendChild(tr);
 					list1.appendChild(table);
+					gSites.push(userStore.getValue(item, "unit").toString());// DIAG-Site:CEDI
 					//gGroups.push(userStore.getValue(item, "unit").toString());// DEFIDIAG pas encore
 				}								
 				if (userStore.getValue(item, "site")) {
@@ -2031,6 +2034,9 @@ function showUser(id,fname,lname){
 			}
 			if (gGroups.toString().search("DIAG")>=0 || gGroups.toString().search("BONEOME")>=0) {
 				dojo.byId('lgroup').innerHTML =gGroups.toString();
+				if (gSites.toString().search("CEDI")>=0) {
+					dojo.byId('lsite').innerHTML =gSites.toString();
+				}
 			}
 			standbyHide();
 		}
@@ -2064,6 +2070,7 @@ function chgLog(){
 	}
 
 	var g_group = document.getElementById("lgroup").innerHTML;
+	var g_site = document.getElementById("lsite").innerHTML;
 	if (g_group) {
 		var sp_btcloseinitcode=dojo.byId("bt_close_initcode");
 		var btcloseinitcode=dijit.byId("id_bt_closeinitcode");

@@ -111,10 +111,10 @@ sub getPwFromUserId {
 }
 
 sub newUserData {
-	my ($dbh,$firstname,$lastname,$email,$login,$pw,$teamid,$hgmd) = @_;
+	my ($dbh,$firstname,$lastname,$email,$login,$pw,$teamid,$hgmd,$exp_date) = @_;
  	my $query = qq{    
- 		insert into bipd_users.`USER` (prenom_u,nom_responsable,email,login,password_txt,equipe_id,creation_date,pw,hgmd) 
- 		values ('$firstname','$lastname','$email','$login',PASSWORD('$pw'),'$teamid',now(),'$pw','$hgmd');
+ 		insert into bipd_users.`USER` (prenom_u,nom_responsable,email,login,password_txt,equipe_id,creation_date,pw,hgmd,pw_date) 
+ 		values ('$firstname','$lastname','$email','$login',PASSWORD('$pw'),'$teamid',now(),'$pw','$hgmd','$exp_date');
   	};
  	$dbh->do($query);
 	my $sql = qq{    
@@ -178,8 +178,6 @@ sub upUserPWData {
 	};
 	return ($dbh->do($sql));
 }
-
-
 
 sub upInactivatePW {
 	my ($dbh,$userid,$value) = @_;

@@ -395,6 +395,22 @@ sub newUserSection {
 	my $control_login = queryUser::getUserIdFromLogin($buffer->dbh,$Mlogin);
 	my $control_pw = queryUser::getUserIdFromPw($buffer->dbh,$Mpw);
 	my $control_grp = queryUser::getGroupFromName($buffer->dbh,$Mgroup);
+
+	my $o_datec= POSIX::strftime('%Y-%m-%d %H:%M:%S', localtime);
+	my @sp_datec=split(" ",$o_datec);
+	my @sp_date=split("-",$sp_datec[0]);
+	my $year=$sp_date[0]+1;
+	my $month=$sp_date[1];
+	my $day=$sp_date[2];
+	if ($month eq "02" && $day eq "29") {$day="28"};
+	my $expiry_date="$year-$month-$day $sp_datec[1]";	
+
+	my $team_info = queryUser::getTeamInfo($buffer->dbh,$Mteamid);
+	my $unitId=$team_info->[0]->{unite_id};
+	my $unit_info = queryUser::getUnitInfo($buffer->dbh,$unitId);
+	my $lab_code=$unit_info->[0]->{unit};
+	my $instute=$unit_info->[0]->{organisme};
+
 	if (exists $control_name ->{userId}) {
 		sendError("User name: " . $Mfirstname ." ".uc($Mlastname)."....". " already in User database");
 	} elsif (exists $control_login ->{userId}) {
@@ -402,7 +418,13 @@ sub newUserSection {
 	}	 elsif (exists $control_pw ->{userId}) {
 		sendError("password: " . $Mpw ."....". " already exists in User database");
 	} else 	{
-		my $last_userid = queryUser::newUserData($buffer->dbh,$Mfirstname,uc($Mlastname),$Memail,$Mlogin,$Mpw,$Mteamid,$Mhgmd);
+		if ($instute eq "APHP" &&  $lab_code eq "CEDI" ) {
+			my $rand=getRandomChar();
+			$Mpw=$Mpw.$rand;
+		} else {
+			$expiry_date=undef;
+		}
+		my $last_userid = queryUser::newUserData($buffer->dbh,$Mfirstname,uc($Mlastname),$Memail,$Mlogin,$Mpw,$Mteamid,$Mhgmd,$expiry_date);
 		my $newuserid= $last_userid->{'LAST_INSERT_ID()'} if defined $last_userid;
 		my $message="";
 		if ($control_grp) {
@@ -411,7 +433,11 @@ sub newUserSection {
 		}
 ### End Autocommit dbh ###########
 		$dbh->commit();
-		sendOK("OK: New User created: ". $Mfirstname ." ".uc($Mlastname).$message);	
+		if ($expiry_date) {
+			sendOK("User created: ".$newuserid." ". $Mfirstname ." ".uc($Mlastname)."<br><b>Email: </b>".$Memail."<br><b>Login: </b>".$Mlogin."<br><b>PW: </b>".$Mpw."<br><b>Expiry Date: </b>".$expiry_date."<br>".$message);
+		} else {
+			sendOK("User created: ".$newuserid." ". $Mfirstname ." ".uc($Mlastname)."<br><b>Email: </b>".$Memail."<br><b>Login: </b>".$Mlogin."<br><b>PW: </b>".$Mpw."<br>".$message);
+		}
 	}
 	exit(0);
 }
@@ -521,7 +547,8 @@ sub getRandomChar {
 	my $i=10;
 	my $char;
 	while (1) {
-		$char=substr('*!$%,:', rand()*9+1, 1);
+		#$char=substr('*!$%,:', rand()*9+1, 1);
+		$char=substr('!$%,:', rand()*9+1, 1);
 		return $char if $char;		
 	}
 }
