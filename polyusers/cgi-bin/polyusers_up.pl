@@ -248,7 +248,6 @@ sub upUnitSection {
 }
 
 ###### Team ###################################################################
-
 sub getTeamSection {
 	my $teamList = queryUser::getTeamId($buffer->dbh);
 	my @data;

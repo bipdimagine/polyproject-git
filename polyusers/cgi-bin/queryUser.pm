@@ -133,11 +133,9 @@ sub upUserData {
 		set prenom_u=?, nom_responsable=?, email=?, equipe_id=?, hgmd=?
 		where user_id ='$userid'
  	};
-	my $sth= $dbh->prepare($sql);
-				
+	my $sth= $dbh->prepare($sql);				
 	$sth->execute($firstname,$lastname,$email,$teamid,$hgmd);
 	$sth->finish;
-
 	return;
 }
 
