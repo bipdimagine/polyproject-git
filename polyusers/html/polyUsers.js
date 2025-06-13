@@ -16,7 +16,6 @@ require(["dijit/Dialog","dojo/data/ItemFileReadStore","dojo/data/ItemFileWriteSt
 "dojo/_base/declare","dojo/aspect","dojo/_base/lang",
 "dijit/form/CurrencyTextBox","dojox/widget/Standby","dojo/date/locale",
 "dojo/store/Observable"
-
 ]);
 
 var layoutUsers;
