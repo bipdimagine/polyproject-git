@@ -421,21 +421,27 @@ sub newUserSection {
 			my $rand=getRandomChar();
 			$Mpw=$Mpw.$rand;
 		} else {
-			$expiry_date=undef;
+			#$expiry_date=undef;
+			$expiry_date="0000-00-00 00:00:00";
 		}
+		warn Dumper $expiry_date;
 		my $last_userid = queryUser::newUserData($buffer->dbh,$Mfirstname,uc($Mlastname),$Memail,$Mlogin,$Mpw,$Mteamid,$Mhgmd,$expiry_date);
 		my $newuserid= $last_userid->{'LAST_INSERT_ID()'} if defined $last_userid;
 		my $message="";
-		if ($control_grp) {
+		if ($control_grp ne "0000-00-00 00:00:00") {
+			warn "titi";
 			$message=" with the User Group: $Mgroup";
 			queryUser::addGroup2User($buffer->dbh, $control_grp->{UGROUP_ID}, $newuserid) if defined $last_userid;
 		}
 ### End Autocommit dbh ###########
 		$dbh->commit();
-		if ($expiry_date) {
+#		if ($expiry_date) {
+		if ($expiry_date ne "0000-00-00 00:00:00") {
+			warn "titi";
 			sendOK("User created: ".$newuserid." ". $Mfirstname ." ".uc($Mlastname)."<br><b>Email: </b>".$Memail."<br><b>Login: </b>".$Mlogin."<br><b>PW: </b>".$Mpw."<br><b>Expiry Date: </b>".$expiry_date."<br>".$message);
 		} else {
 			sendOK("User created: ".$newuserid." ". $Mfirstname ." ".uc($Mlastname)."<br><b>Email: </b>".$Memail."<br><b>Login: </b>".$Mlogin."<br><b>PW: </b>".$Mpw."<br>".$message);
+			warn "toti";
 		}
 	}
 	exit(0);
