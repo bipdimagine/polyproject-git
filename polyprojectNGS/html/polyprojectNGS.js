@@ -5334,6 +5334,16 @@ function addUser(id,name){
 	});
 }
 
+function UserExpiryDate() {
+	var url_insert = url_path + "/searchUsersExpiryDate.pl";
+	var res=sendData_noStatusTextStandby(url_insert);
+	res.addCallback(
+		function(response) {
+			console.log(response);
+		}
+	);
+}
+
 function addUserProject() {
 	var ProjSelected = document.getElementById("projname").innerHTML;
 	var ProjId = document.getElementById("projid").innerHTML;

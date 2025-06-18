@@ -274,6 +274,22 @@ function sendData_noStatusText(url){
 	return deferred;
 }
 
+function sendData_noStatusTextStandby(url){
+	var xhrArgs = {
+       		url: url,
+ 		handleAs: "text",
+       		load: function(data, ioargs){
+		},
+		error: function(error){
+			console.log("error");
+			console.log(error);
+		}
+		
+	}
+	var deferred = dojo.xhrGet(xhrArgs);
+	return deferred;
+}
+
 function getLocation_v2(url){
 	myStandby.show(); 
  	standby.show(); 

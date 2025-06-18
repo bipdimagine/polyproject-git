@@ -281,11 +281,11 @@ data-dojo-props= 'minimum:1,value:1,maximum:8,discreteValues:8,showButtons:false
 							<TD VALIGN="TOP" align="center">
 							<div dojoType="dijit.form.Button" iconClass="UserGroupIcon"
 							id="buttonGroupDB" style="color:white;margin-top:-10px"
-							onClick='AddRemUserGroup()' showLabel="true">Group</div>
+							onClick='AddRemUserGroup();UserExpiryDate();' showLabel="true">Group</div>
 
 							<div dojoType="dijit.form.Button" iconClass="plusUserIcon"
 							id="buttonAddProjUser" style="color:white;margin-top:-10px"
-							onClick='AddRemUser()' showLabel="true">User</div>
+							onClick='AddRemUser();UserExpiryDate();' showLabel="true">User</div>
 
 							<div dojoType="dijit.form.Button" id="bt_unAssigned"
 							style="color:white;margin-top:-10px" iconClass="btwarnIcon" onClick='unaProjDisplay();'
