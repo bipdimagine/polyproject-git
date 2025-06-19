@@ -547,7 +547,8 @@ sub getRandomChar {
 	my $char;
 	while (1) {
 		#$char=substr('*!$%,:', rand()*9+1, 1);
-		$char=substr('!$%,:', rand()*9+1, 1);
+		#$char=substr('!$%,:', rand()*9+1, 1);
+		$char=substr('!$,:', rand()*9+1, 1);
 		return $char if $char;		
 	}
 }
