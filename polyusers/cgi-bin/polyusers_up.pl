@@ -548,8 +548,7 @@ sub getRandomChar {
 	while (1) {
 		#$char=substr('*!$%,:', rand()*9+1, 1);
 		#$char=substr('!$%,:', rand()*9+1, 1); 
-		#$char=substr('!$,:', rand()*9+1, 1);Ok
-		$char=substr('!$+', rand()*9+1, 1); #OK a faire sur litzler
+		$char=substr('!$,:', rand()*9+1, 1);#Ok
 		return $char if $char;		
 	}
 }
