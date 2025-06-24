@@ -27,6 +27,7 @@ use Data::Dumper;
 use Carp;
 use JSON;
 use queryStat;
+use export_data;
 
 my $cgi = new CGI;
 
@@ -85,7 +86,7 @@ sub patAnaSection {
 
 sub patAnaPltSection {
 	my $cyear = $cgi->param('year');
-	my $plateform = $cgi->param('plateform');
+	my $plateform = $cgi->param('platform');
 	my @listYearNbPat;
 	@listYearNbPat = sort (split(/,/,$cyear));
 	my $analyse = $cgi->param('analyse');
@@ -123,7 +124,6 @@ sub patAnaUnitSection {
 	my $cunit = $cgi->param('unit');
 	my @listUnit;
 	@listUnit = sort (split(/,/,$cunit));
-	my $cyear = $cgi->param('year');
 	my @listYearNbPat;
 	@listYearNbPat = sort (split(/,/,$cyear));
 	my $analyse = $cgi->param('analyse');

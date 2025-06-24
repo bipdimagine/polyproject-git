@@ -3240,6 +3240,9 @@ sub CaptureValAnalyseSection {
 			push(@capNoTargetListId,$c) unless $seenA{$c->{capAnalyse}}++;
 		}
 	}
+	my @capTarget;# for target analysis
+	my %htab=('capAnalyse' => 'target','capVs' => 1,'capDes' => '','capFile' => '','captureId' => 9999,'capMeth' => '','capFilePrimers' => '','capName' => '','capType' => '','capValidation' => '');
+	push(@capTarget,\%htab);
 	my @capTargetListId;
 	my %seenB;
 	foreach my $c (@$captureListAllId){
@@ -3248,8 +3251,9 @@ sub CaptureValAnalyseSection {
 			push(@capTargetListId,$c) unless $seenB{$c->{capAnalyse}}++;
 		}
 	}
-	my @sorted_capTargetListId=sort { uc($a->{capAnalyse}) cmp uc($b->{capAnalyse}) } @capTargetListId;	
+	my @sorted_capTargetListId=sort { uc($a->{capAnalyse}) cmp uc($b->{capAnalyse}) } @capTargetListId;
 	my @join_captureListId=@capNoTargetListId;
+	push(@join_captureListId,@capTarget);
 	push(@join_captureListId,@sorted_capTargetListId);
 	my @data;
 	my %hdata;
@@ -3269,6 +3273,8 @@ sub CaptureValAnalyseSection {
 			$s{label} = "<a style='background:#F18973'>".$c->{capAnalyse}."</a>";			
 		} elsif ($c->{capAnalyse}  =~ m/(other)/) {
 			$s{label} = "<a style='background:#618685'>".$c->{capAnalyse}."</a>";			
+		} elsif ($c->{capAnalyse}  =~ m/(target)/) {
+			$s{label} = "<a style='background:#009966'>".$c->{capAnalyse}."</a>";			
 		} else {
 			$s{label} = $c->{capAnalyse};
 		}

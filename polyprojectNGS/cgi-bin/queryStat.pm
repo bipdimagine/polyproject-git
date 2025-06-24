@@ -23,32 +23,56 @@ sub getYearsFromPatient {
 sub countPatAnalyseYear {
 	my ($dbh,$cyear,$analyse,$not) = @_;
 	my $query2;
-	$query2 = qq {cs.analyse in ($analyse)} unless $not;
-	$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	if ($analyse =~ "target") {
+		my $s_analyse=$analyse;
+		$s_analyse =~ s/\'//g;
+		if ($s_analyse eq "target") {
+			$query2 = qq {cs.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} unless $not;
+			$query2 = qq {cs.analyse in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $not;
+		} else {
+			$query2 = qq {cs.analyse in ("")};
+		}
+	} else {
+		$query2 = qq {cs.analyse in ($analyse)} unless $not;
+		$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	}
 	my $query = qq{
 		SELECT 
-		count(distinct if (a.name!="",a.name,null)) as 'nbPat'
+--   	count(distinct if (a.name!="",a.name,null)) as 'nbPat'
+		count(distinct if (a.patient_id!=0,a.patient_id,null)) as 'nbPat'
 		FROM PolyprojectNGS.patient a
 		LEFT JOIN PolyprojectNGS.capture_systems cs
 		ON a.capture_id = cs.capture_id
 		WHERE
 		$query2
 		AND a.run_id!=0		
+		AND a.project_id!=0		
 		AND a.creation_date regexp '$cyear';
 	};
 	return $dbh->selectrow_array($query);
 }
 
-#--		AND up.user_id in ($user) OR uu.user_id in ($user)
 sub countPatAnalyseUser {
 	my ($dbh,$cyear,$analyse,$user,$not) = @_;
 	my $query2;
-	$query2 = qq {cs.analyse in ($analyse)} unless $not;
-	$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	if ($analyse =~ "target") {
+		my $s_analyse=$analyse;
+		$s_analyse =~ s/\'//g;
+		if ($s_analyse eq "target") {
+			$query2 = qq {cs.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} unless $not;
+			$query2 = qq {cs.analyse in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $not;
+		} else {
+			$query2 = qq {cs.analyse in ("")};
+		}
+	} else {
+		$query2 = qq {cs.analyse in ($analyse)} unless $not;
+		$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	}
 	$user="''" unless $user;
 	my $query = qq{
 		SELECT 
-		count(distinct if (a.name!="",a.name,null)) as 'nbPat'
+--		count(distinct if (a.name!="",a.name,null)) as 'nbPat'
+		count(distinct if (a.patient_id!=0,a.patient_id,null)) as 'nbPat'
 		FROM PolyprojectNGS.patient a
 		LEFT JOIN PolyprojectNGS.capture_systems cs
 		ON a.capture_id = cs.capture_id
@@ -71,67 +95,8 @@ sub countPatAnalyseUser {
 		WHERE
 		$query2
 		AND a.run_id!=0		
+		AND a.project_id!=0		
 		AND U.user_id in ($user)
- 		AND a.creation_date regexp '$cyear';
-	};
-	return $dbh->selectrow_array($query);
-}
-
-sub countPatAnalyseUserOld {
-	my ($dbh,$cyear,$analyse,$user,$not) = @_;
-	my $query2;
-	$query2 = qq {cs.analyse in ($analyse)} unless $not;
-	$query2 = qq {cs.analyse not in ($analyse)} if $not;
-	$user="''" unless $user;
-	my $query = qq{
-		SELECT 
-		count(distinct if (a.name!="",a.name,null)) as 'nbPat'
-		FROM PolyprojectNGS.patient a
-		LEFT JOIN PolyprojectNGS.capture_systems cs
-		ON a.capture_id = cs.capture_id
-		LEFT JOIN PolyprojectNGS.projects p
-		ON p.project_id = a.project_id
-        LEFT JOIN PolyprojectNGS.user_projects up
-        ON p.project_id = up.project_id
-        LEFT JOIN bipd_users.`USER` U
-        ON up.user_id=U.user_id
-		WHERE
-		$query2
-		AND a.run_id!=0		
-		AND up.user_id in ($user)
- 		AND a.creation_date regexp '$cyear';
-	};
-	warn Dumper $query;
-	return $dbh->selectrow_array($query);
-}
-
-
-
-
-
-
-
-sub countPatAnalyseUserOld {
-	my ($dbh,$cyear,$analyse,$user,$not) = @_;
-	my $query2;
-	$query2 = qq {cs.analyse in ($analyse)} unless $not;
-	$query2 = qq {cs.analyse not in ($analyse)} if $not;
-	my $query = qq{
-		SELECT 
-		count(distinct if (a.name!="",a.name,null)) as 'nbPat'
-		FROM PolyprojectNGS.patient a
-		LEFT JOIN PolyprojectNGS.capture_systems cs
-		ON a.capture_id = cs.capture_id
-		LEFT JOIN PolyprojectNGS.projects p
-		ON p.project_id = a.project_id
-        LEFT JOIN PolyprojectNGS.user_projects up
-        ON p.project_id = up.project_id
-        LEFT JOIN bipd_users.`USER` U
-        ON up.user_id=U.user_id
-		WHERE
-		$query2
-		AND a.run_id!=0		
-		AND up.user_id in ($user)
  		AND a.creation_date regexp '$cyear';
 	};
 	return $dbh->selectrow_array($query);
@@ -140,11 +105,23 @@ sub countPatAnalyseUserOld {
 sub countPatAnalysePlateformYear {
 	my ($dbh,$cyear,$analyse,$plateform,$not) = @_;
 	my $query2;
-	$query2 = qq {cs.analyse in ($analyse)} unless $not;
-	$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	if ($analyse =~ "target") {
+		my $s_analyse=$analyse;
+		$s_analyse =~ s/\'//g;
+		if ($s_analyse eq "target") {
+			$query2 = qq {cs.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} unless $not;
+			$query2 = qq {cs.analyse in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $not;
+		} else {
+			$query2 = qq {cs.analyse in ("")};
+		}
+	} else {
+		$query2 = qq {cs.analyse in ($analyse)} unless $not;
+		$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	}
 	my $query = qq{
         Select
-		count(distinct if (a.name!="",a.name,null)) as 'nbPat'
+--		count(distinct if (a.name!="",a.name,null)) as 'nbPat'
+		count(distinct if (a.patient_id!=0,a.patient_id,null)) as 'nbPat'
 		FROM PolyprojectNGS.patient a
 		LEFT JOIN PolyprojectNGS.capture_systems cs
 		ON a.capture_id = cs.capture_id
@@ -157,6 +134,7 @@ sub countPatAnalysePlateformYear {
 		WHERE
 		$query2
 		AND a.run_id!=0		
+		AND a.project_id!=0		
         AND f.name = '$plateform'		
 		AND a.creation_date regexp '$cyear';
 	};
@@ -166,11 +144,23 @@ sub countPatAnalysePlateformYear {
 sub countPatAnalyseByPlateformYear {
 	my ($dbh,$cyear,$analyse,$not) = @_;
 	my $query2;
-	$query2 = qq {cs.analyse in ($analyse)} unless $not;
-	$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	if ($analyse =~ "target") {
+		my $s_analyse=$analyse;
+		$s_analyse =~ s/\'//g;
+		if ($s_analyse eq "target") {
+			$query2 = qq {cs.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} unless $not;
+			$query2 = qq {cs.analyse in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $not;
+		} else {
+			$query2 = qq {cs.analyse in ("")};
+		}
+	} else {
+		$query2 = qq {cs.analyse in ($analyse)} unless $not;
+		$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	}
 	my $query = qq{
         Select
-        f.name, count(distinct if (a.name!="",a.name,null)) as 'nbPat'
+ --   	f.name, count(distinct if (a.name!="",a.name,null)) as 'nbPat'
+        f.name, count(distinct if (a.patient_id!=0,a.patient_id,null)) as 'nbPat'
 		FROM PolyprojectNGS.patient a
 		LEFT JOIN PolyprojectNGS.capture_systems cs
 		ON a.capture_id = cs.capture_id
@@ -183,6 +173,7 @@ sub countPatAnalyseByPlateformYear {
 		WHERE
 		$query2
 		AND a.run_id!=0		
+		AND a.project_id!=0		
  		AND a.creation_date regexp '$cyear'
  		GROUP BY f.name;
 	};
@@ -198,15 +189,27 @@ sub countPatAnalyseByPlateformYear {
 sub countPatAnalyseByTeamYear {
 	my ($dbh,$cyear,$analyse,$unit,$not) = @_;
 	my $query2;
-	$query2 = qq {cs.analyse in ($analyse)} unless $not;
-	$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	if ($analyse =~ "target") {
+		my $s_analyse=$analyse;
+		$s_analyse =~ s/\'//g;
+		if ($s_analyse eq "target") {
+			$query2 = qq {cs.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} unless $not;
+			$query2 = qq {cs.analyse in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $not;
+		} else {
+			$query2 = qq {cs.analyse in ("")};
+		}
+	} else {
+		$query2 = qq {cs.analyse in ($analyse)} unless $not;
+		$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	}
 	my $query3;
 	$query3 = qq {AND E.unite_id in ($unit)};
 	
 	my $query = qq{
 		Select
  		E.equipe_id,E.libelle,E.responsables,
-		count(distinct if (a.name!="",a.name,null)) as 'nbPat'
+--		count(distinct if (a.name!="",a.name,null)) as 'nbPat'
+		count(distinct if (a.patient_id!=0,a.patient_id,null)) as 'nbPat'
 		FROM PolyprojectNGS.patient a
 		LEFT JOIN PolyprojectNGS.capture_systems cs
 		ON a.capture_id = cs.capture_id
@@ -224,6 +227,7 @@ sub countPatAnalyseByTeamYear {
 		$query2
 		$query3
  		AND a.run_id!=0		
+  		AND a.project_id!=0		
  		AND a.creation_date regexp '$cyear'
   		GROUP BY E.equipe_id;
  
@@ -240,12 +244,24 @@ sub countPatAnalyseByTeamYear {
 sub countPatAnalyseUnitYear {
 	my ($dbh,$cyear,$analyse,$unit,$not) = @_;
 	my $query2;
-	$query2 = qq {cs.analyse in ($analyse)} unless $not;
-	$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	if ($analyse =~ "target") {
+		my $s_analyse=$analyse;
+		$s_analyse =~ s/\'//g;
+		if ($s_analyse eq "target") {
+			$query2 = qq {cs.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} unless $not;
+			$query2 = qq {cs.analyse in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $not;
+		} else {
+			$query2 = qq {cs.analyse in ("")};
+		}
+	} else {
+		$query2 = qq {cs.analyse in ($analyse)} unless $not;
+		$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	}
 	$unit="''" unless $unit;
 	my $query = qq{
 		SELECT 
-		count(distinct if (a.name!="",a.name,null)) as 'nbPat'
+#		count(distinct if (a.name!="",a.name,null)) as 'nbPat'
+		count(distinct if (a.patient_id!=0,a.patient_id,null)) as 'nbPat'
 		FROM PolyprojectNGS.patient a
 		LEFT JOIN PolyprojectNGS.capture_systems cs
 		ON a.capture_id = cs.capture_id
@@ -262,11 +278,13 @@ sub countPatAnalyseUnitYear {
 		WHERE
 		$query2
 		AND a.run_id!=0		
+		AND a.project_id!=0		
 		AND E.unite_id in ($unit)
  		AND a.creation_date regexp '$cyear';
 	};
 
 	return $dbh->selectrow_array($query);
 }
+
 
 1;
