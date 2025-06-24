@@ -277,7 +277,7 @@ function initStat(serial) {
 		launch_valmonoselectUnit(unitNameStore, divMono="sunitSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year);
 	}	
 }
-//toto
+
 var layoutFilterUser = [
 	{field: 'Name',name: 'Last Name',width: '12em'},
 	{field: 'Firstname',name: 'First Name',width: '8em'},
@@ -429,7 +429,7 @@ function launch_valmonoselect(Store,divMono,ind,prog_name,dbana,colorfill,filter
 			onChange: function(item) {
 				valPlt=item.toString();
 				if (valPlt) {
-					prog_param="&analyse="+valAnalyse+"&plateform="+valPlt;
+					prog_param="&analyse="+valAnalyse+"&platform="+valPlt;
 					if(dbana) {
 						prog_param=prog_param +"&not="+"1";
 					}
@@ -564,7 +564,7 @@ function launch_valmultiselect(Store,divMulti,ind,prog_name,prog_param,dbana,col
 								}
 							}
 							if(prog_name=="patAnaPlt") {
-								prog_param=prog_param+"&plateform="+valPlt;
+								prog_param=prog_param+"&platform="+valPlt;
 							}							
 							if(prog_name=="patAnaUnit") {
 								prog_param=prog_param+"&unit=" +valUnit;
@@ -600,7 +600,7 @@ function launch_valmultiselect(Store,divMulti,ind,prog_name,prog_param,dbana,col
 			}
 
 			if(prog_name=="patAnaPlt") {
-				prog_param=prog_param+"&plateform="+valPlt;
+				prog_param=prog_param+"&platform="+valPlt;
 			}
 			if(prog_name=="patAnaUnit") {
 				prog_param=prog_param+"&unit=" +valUnit;
