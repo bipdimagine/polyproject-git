@@ -52,15 +52,12 @@ var stat_52Store;
 var stat_52Grid;
 var stat_52Dial;
 
-
 var stat_6Store;
 var stat_6Grid;
 var stat_6Dial;
 var stat_62Store;
 var stat_62Grid;
 var stat_562Dial;
-
-
 
 var valAnalyse;
 var valPlt;
