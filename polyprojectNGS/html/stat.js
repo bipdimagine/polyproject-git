@@ -52,12 +52,15 @@ var stat_52Store;
 var stat_52Grid;
 var stat_52Dial;
 
+
 var stat_6Store;
 var stat_6Grid;
 var stat_6Dial;
 var stat_62Store;
 var stat_62Grid;
 var stat_562Dial;
+
+
 
 var valAnalyse;
 var valPlt;
@@ -737,9 +740,9 @@ function launch_stat(libchart,colorfill,Store,prog_name,prog_param,dbana,filter_
 				}
 				var serie_legend;
 				if(prog_name=="patAnaUser") {
-					serie_legend="Number of '" + lib_valAnalyse + "' per year" +" <small>(<b title='Cumulative Total'>"+total+"</b>) #Users (<b>" + arr_userid.length + "</b>)</small>";
+					serie_legend="Number of Patients '" + lib_valAnalyse + "' per year" +" <small>(<b title='Cumulative Total'>"+total+"</b>) #Users (<b>" + arr_userid.length + "</b>)</small>";
 				} else {
-					serie_legend="Number of '" + lib_valAnalyse + "' per year" +" <small>(<b title='Cumulative Total'>"+total+"</b>)</small>";
+					serie_legend="Number of Patients '" + lib_valAnalyse + "' per year" +" <small>(<b title='Cumulative Total'>"+total+"</b>)</small>";
 				}
 				chart.addSeries(serie_legend,arrayNBpat,{stroke: {color: colorfill[0],width:4},fill: colorfill[0]});
 				var anim4b = new dojox.charting.action2d.Tooltip(chart, 'default',{
@@ -1093,9 +1096,9 @@ function launch_ButtonGrid(button_grid,Store,prog_name,lib_valAnalyse,total,ctot
 			}
 		},cp);
 		var spPrint="&nbsp;<span id="+"Print" + button_grid +"><img src='icons/table_save.png'></span>";
-		var serie_legend="Number of '" + lib_valAnalyse + "' per year";
+		var serie_legend="Number of Patients '" + lib_valAnalyse + "' per year";
 		if (ctotal) {total=ctotal;}
-		serie_legend="Number off '" + lib_valAnalyse + "' per year"+" <small>(<b title='Cumulative Total'>"+total+"</b>)</small>";
+		serie_legend="Number of Patients '" + lib_valAnalyse + "' per year"+" <small>(<b title='Cumulative Total'>"+total+"</b>)</small>";
 		Dial = new dijit.Dialog({
        			title:serie_legend+spPrint,
 			style:"width:25em;height:40em",
