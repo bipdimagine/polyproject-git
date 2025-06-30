@@ -680,11 +680,19 @@ var showRowTooltip = function(e) {
 			tmp = e.grid.store.getValue(item, e.cell.field);
 			if (tmp) {
 				var value_sp=tmp.split(",");
+				var cpt=1;
 				for(var i=0; i<value_sp.length; i++) {
 					var concat_value="";
+					var cpt=1;
 					for(var i=0; i<value_sp.length; i++) {
 						var value_sp2=value_sp[i].split(":");
-						concat_value += value_sp2[0] + " ";
+						concat_value += value_sp2[0];					
+						if((cpt%5 == 0) && (cpt >0)) {
+							concat_value +=  "<br>";
+						} else {
+							concat_value +=  " ";
+						}
+						cpt++;					
 					}
 				}
 				msg=concat_value;
