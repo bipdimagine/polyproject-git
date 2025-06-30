@@ -26,6 +26,7 @@ use queryValidationDB;
 use Data::Dumper;
 use Carp;
 use JSON;
+use export_data;
 use Bio::DB::HTS::Tabix;
 =mod 	
 #use feature qw/switch/; 
@@ -103,9 +104,11 @@ sub CaptureSection {
 		$s{nbTr}=queryPolyproject::countTranscriptFromCaptureBundle($buffer->dbh,$c->{captureId});
 		$s{nbTr} ="" if $s{nbTr} eq "0";
 		$s{nbBun}=queryPolyproject::countBundleFromCaptureBundle($buffer->dbh,$c->{captureId});
-		$s{nbBun} ="" if $s{nbBun} eq "0";		
-		$s{bunName} = $c->{bunName};
-		$s{bunName} ="" unless  $c->{bunName};		
+		$s{nbBun} ="" if $s{nbBun} eq "0";
+		$s{bunName} ="";		
+		$s{bunName} =up_RedundantBun($c->{bunName}) if $c->{bunName};
+		#$s{bunName} = $c->{bunName};
+		#$s{bunName} ="" unless  $c->{bunName};		
 		my @datec = split(/ /,$c->{cDate});
 		my ($YY, $MM, $DD) = split("-", $datec[0]);
 		my $mydate = sprintf("%02d/%02d/%4d",$DD, $MM, $YY);
@@ -122,7 +125,20 @@ sub CaptureSection {
 	$hdata{items}=\@result_sorted;
 	printJson(\%hdata);
 }
-
+ #redondance
+ sub up_RedundantBun {
+	my ($namerel) = @_;
+	my %max_values;
+	for my $entry (split ' ', $namerel) {
+		my ($name, $value) = split /:/, $entry;
+		$max_values{$name} = $value if !exists $max_values{$name} || $value > $max_values{$name};
+	}
+	my $namerel_mod = join ' ', map { "$_:$max_values{$_}" } sort {
+		index($namerel, "$a:") <=> index($namerel, "$b:")
+	} keys %max_values;
+	return $namerel_mod;
+}
+ 
 #not used
 sub CaptureRefSection {
 	my $numAnalyse = $cgi->param('numAnalyse');
