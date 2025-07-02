@@ -808,12 +808,10 @@ function colorField(value,idx,cell,row) {
 	return value;
 }
 
-
 function colorFieldAnalyse(value,idx,cell,row) {
-	var value_sp="";
-	if (value) {
-		value_sp=value.toLowerCase().split(" ");
-	}
+	if (!value) {value=""};
+	var value_sp=value.toLowerCase().split(" ");
+	var v_color="";
 	if (value_sp != "") {
 		if (value_sp.length> 1) {
 			var newTable = document.createElement('table');
@@ -825,7 +823,15 @@ function colorFieldAnalyse(value,idx,cell,row) {
 				concat_value += value_sp[i].substring(0,1).toUpperCase()+" ";
 			}
 			concat_value = concat_value.slice(0, -1);
-			value=concat_value;	
+			value=concat_value;
+			var sp_val=value.split(" ");
+			var f_value=sp_val.filter((e, i, a) => a.indexOf(e) === i);
+			var sp_concat_value="";
+			for(var i=0; i<f_value.length; i++) {
+				var sp_color=getColorAnalyse(f_value[i]);
+				sp_concat_value += "<span style='background-color:"+sp_color+";display:block;'>" + f_value[i] +"</span>";
+			}
+			value=sp_concat_value;	
 		} else {
 			if (value_sp != "exome" && value_sp != "genome" && value_sp != "rnaseq" && value_sp != "singlecell" && value_sp != "amplicon" && value_sp != "other") {
 				value="T";
@@ -833,57 +839,116 @@ function colorFieldAnalyse(value,idx,cell,row) {
 			value=value.substring(0,1).toUpperCase();
 		}
 	} else { value="0"}
-	var uval=value.split(' ').unique();
-	if (uval.length>=1) {
-		value=uval.join(' ');
-	}
+
 	if(value == "0") {
 		value="";
 	} else if(value == "R") {
-		cell.customStyles.push("background: #6666FF");//purple
+		v_color=getColorAnalyse(value);
+		cell.customStyles.push("background: "+v_color);
 	} else if(value == "S") {
-		cell.customStyles.push("background: #33CCFF");//blue
+		v_color=getColorAnalyse(value);
+		cell.customStyles.push("background: "+v_color);
 	} else if(value == "T") {
-		cell.customStyles.push("background: #009966");//dark green
+		v_color=getColorAnalyse(value);
+		cell.customStyles.push("background: "+v_color);
 	} else if(value == "E") {
-		cell.customStyles.push("background: #66CC00");//light green
+		v_color=getColorAnalyse(value);
+		cell.customStyles.push("background: "+v_color);
 	} else if(value == "G") {
-		cell.customStyles.push("background: #FFFF00");//yellow
+		v_color=getColorAnalyse(value);
+		cell.customStyles.push("background: "+v_color);
 	} else if(value == "A") {
-		cell.customStyles.push("background: #f18973");//amplicon#d64161
+		v_color=getColorAnalyse(value);
+		cell.customStyles.push("background: "+v_color);
 	} else if(value == "O") {
-		cell.customStyles.push("background: #618685");//other
+		v_color=getColorAnalyse(value);
+		cell.customStyles.push("background: "+v_color);
 	} else {
+		cell.customStyles.push("background: orange");//mixte
+	}
+	return value;
+}
+
+function getColorAnalyse(value) {
+	var color="";
+	if(value == "R") {color="#6666FF"} //purple
+	if(value == "S") {color="#33CCFF"} //blue
+	if(value == "T") {color="#009966"} //dark green
+	if(value == "E") {color="#66CC00"} //light green
+	if(value == "G") {color="#FFFF00"} //yellow
+	if(value == "A") {color="#f18973"} //amplicon#d64161
+	if(value == "O") {color="#618685"} //other
+	return color;
+}
+
+function colorFieldSpecies(value,idx,cell,row) {
+	var v_color="";
+	if( value == null ) {value=""}
+	if(value == "HS") {
+		//cell.customStyles.push("background: #A0DAA9");//Green Ash
+		v_color=getColorSpecies(value);
+		cell.customStyles.push("background: "+v_color);
+	} else if(value == "UN") {
+		v_color=getColorSpecies(value);
+		cell.customStyles.push("background: "+v_color);
+	} else if(value == "MM") {
+		v_color=getColorSpecies(value);
+		cell.customStyles.push("background: "+v_color);
+	} else if(value == "RN") {
+		v_color=getColorSpecies(value);
+		cell.customStyles.push("background: "+v_color);
+	} else if(value == "DR") {
+		v_color=getColorSpecies(value);
+		cell.customStyles.push("background: "+v_color);
+	} else if(value == "FC") {
+		v_color=getColorSpecies(value);
+		cell.customStyles.push("background: "+v_color);
+	} else if(value == "GG") {
+		v_color=getColorSpecies(value);
+		cell.customStyles.push("background: "+v_color);
+	} else if(value == "VI") {
+		v_color=getColorSpecies(value);
+		cell.customStyles.push("background: "+v_color);
+	} else if(value == "SY") {
+		v_color=getColorSpecies(value);
+		cell.customStyles.push("background: "+v_color);
+	} else if(value == "CF") {
+		v_color=getColorSpecies(value);
+		cell.customStyles.push("background: "+v_color);
+	} else if(value == "") {
+		v_color=getColorSpecies(value);
+		cell.customStyles.push("background: "+v_color);
+	} else {
+	var value_sp=value.split(" ");
+		if (value_sp != "") {
+			if (value_sp.length> 1) {
+				var sp_concat_value="";
+				for(var i=0; i<value_sp.length; i++) {
+					var sp_color=getColorSpecies(value_sp[i]);
+					sp_concat_value += "<span style='background-color:"+sp_color+";padding:2px 1px 2px 1px;'>" + value_sp[i] +"</span>";
+				}
+				value=sp_concat_value;	
+			}
+		}
 		cell.customStyles.push("background: orange");
 	}
 	return value;
 }
 
-function colorFieldSpecies(value,idx,cell,row) {
-	if(value == "HS") {
-		cell.customStyles.push("background: #A0DAA9");//Green Ash
-	} else if(value == "UN") {
-		cell.customStyles.push("background: #BDB76B");//DarkKhaki  #B0C4DE
-	} else if(value == "MM") {
-		cell.customStyles.push("background: #B0C4DE");//LightSteelBlue 
-	} else if(value == "RN") {
-		cell.customStyles.push("background: #FFEBCD");//
-	} else if(value == "DR") {
-		cell.customStyles.push("background: #DEB887");//
-	} else if(value == "FC") {
-		cell.customStyles.push("background: #B8860B");//
-	} else if(value == "GG") {
-		cell.customStyles.push("background: #b2ad7f");//
-	} else if(value == "VI") {
-		cell.customStyles.push("background: #FFF0F5");//
-	} else if(value == "SY") {
-		cell.customStyles.push("background: #E0FFFF");//
-	} else if(value == "CF") {
-		cell.customStyles.push("background: #e6e2d3");//
-	} else {
-		cell.customStyles.push("background: orange");
-	}
-	return value;
+function getColorSpecies(value) {
+	var color="";
+	if(value == "HS") {color="#A0DAA9"}//Green Ash
+	if(value == "UN") {color="#BDB76B"}//DarkKhaki  #B0C4DE
+	if(value == "MM") {color="#B0C4DE"}//LightSteelBlue 
+	if(value == "RN") {color="#FFEBCD"}
+	if(value == "DR") {color="#DEB887"}
+	if(value == "FC") {color="#B8860B"}
+	if(value == "GG") {color="#b2ad7f"}
+	if(value == "VI") {color="#FFF0F5"}
+	if(value == "SY") {color="#E0FFFF"}
+	if(value == "CF") {color="#e6e2d3"}
+	if(value == "") {color="white"}
+	return color;
 }
 
 function newPerson(value,idx,cell,row) {
