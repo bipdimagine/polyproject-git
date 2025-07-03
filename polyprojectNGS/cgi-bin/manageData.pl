@@ -2148,6 +2148,8 @@ sub genomicRunPatientSection {
 		$s{ProjectNameDest} = queryPolyproject::getProjectName($buffer->dbh,$c->{project_id_dest}) if $c->{project_id_dest};
 		my $cap = queryPolyproject::getCaptureName($buffer->dbh,$s{CaptureId});		
 		$s{capName} = $cap->[0]->{capName};
+		my $c_res = queryPolyproject::getCaptureId($buffer->dbh,$s{CaptureId});
+		$s{capAnalyse}=$c_res->[0]->{capAnalyse};	
 		my $caprel = queryPolyproject::getReleaseNameFromCapture($buffer->dbh,$s{CaptureId});
 		$s{capRel}=join(" ",map{$_->{name}}@$caprel) if defined $caprel ;
 		$s{patientName} = $c->{name};

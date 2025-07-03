@@ -6409,6 +6409,7 @@ function showRun(rid,somatic,capRel,capAnalyse){
 		type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.ComboBox',
 		widgetProps:{store:groupNameStore,ignoreCase: false}},
 		{ field: "control",name: "PC",width: '1.5',styles:"text-align:center;",formatter:inactiveRadioButtonView},
+		{ field: "capAnalyse", name: "Ana", width: '2',styles: 'text-align: center;font-weight:bold;',formatter:colorFieldAnalyse},
 		{ field: "sp",name: "SP", width: '2',styles: 'text-align: center;font-weight:bold;',formatter:colorFieldSpecies},
 		{ field: "p_personName",name: "Person", width: '10em', editable: true,formatter:colorPerson,
 		type:'dojox.grid.cells._Widget',
@@ -6705,10 +6706,12 @@ type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect',widgetP
 				//var nd23 = dojo.query('td[idx="23"]'  /* <= put column index here-> for phenotype */, row.node)[0];
 				//nd13.style.backgroundColor = "#CCCC99";
 				//nd23.style.backgroundColor = "#CCCC99";
-				var nd15 = dojo.query('td[idx="15"]'  /* <= put column index here-> for Status */, row.node)[0];
-				var nd23 = dojo.query('td[idx="23"]'  /* <= put column index here-> for phenotype */, row.node)[0];
-				nd15.style.backgroundColor = "#CCCC99";
-				nd23.style.backgroundColor = "#CCCC99";
+				//var nd15 = dojo.query('td[idx="15"]'  /* <= put column index here-> for Status */, row.node)[0];
+				//var nd23 = dojo.query('td[idx="23"]'  /* <= put column index here-> for phenotype */, row.node)[0];
+				var ndsex = dojo.query('td[idx="14"]'  /* <= put column index here-> for Status */, row.node)[0];
+				var ndphe = dojo.query('td[idx="24"]'  /* <= put column index here-> for phenotype */, row.node)[0];
+				ndsex.style.backgroundColor = "#CCCC99";
+				ndphe.style.backgroundColor = "#CCCC99";
 			}
 		}
 	}
@@ -6758,8 +6761,10 @@ type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect',widgetP
        				//patGrid.structure[9].widgetProps.grid = patGrid;
         			//patGrid.structure[9].widgetProps.grid = patGrid;
        				//patGrid.structure[10].widgetProps.grid = patGrid;
-        			patGrid.structure[10].widgetProps.grid = patGrid;
-       				patGrid.structure[11].widgetProps.grid = patGrid;
+        			//patGrid.structure[10].widgetProps.grid = patGrid;
+       				//patGrid.structure[11].widgetProps.grid = patGrid;
+        			patGrid.structure[11].widgetProps.grid = patGrid;
+       				patGrid.structure[12].widgetProps.grid = patGrid;
 				patGrid.startup();
 				patGrid.setStore(genomicRunPatStore);
 				patGrid.store.fetch({onComplete:standbyHide});
@@ -6778,13 +6783,14 @@ type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect',widgetP
 
 function set_ColVisibility(grid,visibility){
 	grid.beginUpdate();
-	grid.layout.setColumnVisibility(32, visibility);
+//	grid.layout.setColumnVisibility(32, visibility);
 	grid.layout.setColumnVisibility(33, visibility);
 	grid.layout.setColumnVisibility(34, visibility);
 	grid.layout.setColumnVisibility(35, visibility);
 	grid.layout.setColumnVisibility(36, visibility);
 	grid.layout.setColumnVisibility(37, visibility);
 	grid.layout.setColumnVisibility(38, visibility);
+	grid.layout.setColumnVisibility(39, visibility);
 	grid.endUpdate();
 }
 
