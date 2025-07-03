@@ -6824,7 +6824,7 @@ function set_ColVisibility2(grid,visibility){
 	grid.layout.setColumnVisibility(36, visibility);
 	grid.layout.setColumnVisibility(37, visibility);
 	grid.layout.setColumnVisibility(39, visibility);
-//	grid.layout.setColumnVisibility(40, visibility);
+////	grid.layout.setColumnVisibility(40, visibility);
 	grid.endUpdate();
 }
 
