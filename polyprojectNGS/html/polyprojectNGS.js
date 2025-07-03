@@ -6816,15 +6816,14 @@ function chgPerson2(a){
 
 function set_ColVisibility2(grid,visibility){
 	grid.beginUpdate();
-	grid.layout.setColumnVisibility(31, visibility);
+	grid.layout.setColumnVisibility(31, visibility);// pas de User Plt
 	grid.layout.setColumnVisibility(32, visibility);
 	grid.layout.setColumnVisibility(33, visibility);
 	grid.layout.setColumnVisibility(34, visibility);
 	grid.layout.setColumnVisibility(35, visibility);
 	grid.layout.setColumnVisibility(36, visibility);
 	grid.layout.setColumnVisibility(37, visibility);
-	grid.layout.setColumnVisibility(39, visibility);
-////	grid.layout.setColumnVisibility(40, visibility);
+	grid.layout.setColumnVisibility(38, visibility);
 	grid.endUpdate();
 }
 
