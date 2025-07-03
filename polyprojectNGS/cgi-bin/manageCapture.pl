@@ -74,12 +74,21 @@ sub CaptureSection {
 			next unless $caprel eq $rel;
 		}
 		my $speciesid = queryPolyproject::getSpeciesIdFromCapture($buffer->dbh,$c->{captureId});
-		$speciesid = join(" ",map{$_->{species_id}}@$speciesid) if defined $speciesid ;
+		my $sp="";
+		if (defined $speciesid) {
+			foreach my $s (@$speciesid) {
+				my $inf_species=queryPolyproject::getSpecies($buffer->dbh,$s->{species_id});
+				$sp=join(" ",map{$_->{code}}@$inf_species) if $s->{species_id};
+			}
+			$speciesid = join(" ",map{$_->{species_id}}@$speciesid);			
+		}
 		$s{capRelGene}="";
 		my $caprelGene = queryPolyproject::getReleaseGeneNameFromCapture($buffer->dbh,$c->{captureId});
 		$caprelGene=join(" ",map{$_->{name}}@$caprelGene) if defined $caprelGene;
 		$s{rel}=$rel if defined $rel;
 		$s{speciesId}=$speciesid if defined $speciesid;	
+		$s{sp}="" if defined $speciesid;
+		$s{sp}=$sp if $sp;
 		$s{capRelGene}=$caprelGene if defined $caprelGene;
 		$s{captureId} = $c->{captureId};
 		$s{captureId} += 0;

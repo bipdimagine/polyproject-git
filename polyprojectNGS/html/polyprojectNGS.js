@@ -319,6 +319,7 @@ var layoutCaptureData =  [
 		width: '1.5',filterable: false, formatter:bullet},
 	{ field: "captureId",name: "ID",width: '3', editable: false},
 	{ field: 'capAnalyse',name: 'Ana',width: '2',styles: 'text-align: center;font-weight:bold;', formatter:colorFieldAnalyse},
+	{ field: "sp",name: "SP", width: '2',styles: 'text-align: center;font-weight:bold;',formatter:colorFieldSpecies},
 	{ field: "capName",name: "Capture",width: '20', editable: false,formatter:colorField,styles:'font-weight:bold;'},
 	{ field: "capDes",name: "Description",width: '14', editable: false,styles:"text-align:left;white-space:nowrap;"},
 	{ field: "capVs",name: "Vs",width: '2', editable: false},
