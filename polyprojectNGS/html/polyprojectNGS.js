@@ -5581,6 +5581,8 @@ function showProject(id,name,somatic){
 		{ field: "group", name: "Group", width: '6', editable:true,required:true,
 		type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.ComboBox',widgetProps:{store:groupNameStore,ignoreCase: false}},
 		{ field: "control",name: "PC",width: '1.5',styles:"text-align:center;",formatter:inactiveRadioButtonView},
+		{ field: "capAnalyse", name: "Ana", width: '2',styles: 'text-align: center;font-weight:bold;',formatter:colorFieldAnalyse},
+		{ field: "sp",name: "SP", width: '2',styles: 'text-align: center;font-weight:bold;',formatter:colorFieldSpecies},
 		{ field: "p_personName",name: "Person", width: '10em', editable: true,formatter:colorPerson,
 		type:'dojox.grid.cells._Widget',
 		widgetClass: dijit.form.ValidationTextBox, 
@@ -5684,7 +5686,7 @@ function showProject(id,name,somatic){
 //		widgetProps:{required:false,regExp:"^[a-zA-Z0-9-_/]+$"}},
 		{ field: 'Gproject',name: 'Genomic Project',width: '10em'},
 		{ field: 'type',name: 'Type',width: '4em'},
-		{ field: 'species',name: 'Species',width: '6em'},
+//		{ field: 'species',name: 'Species',width: '6em'},
 		{ field: "profile", name: "Profile", width: '15em'},
 		{ field: 'iv',name: 'IV',width: '12em', editable: true,formatter:zero,
 		type:'dojox.grid.cells._Widget',widgetClass:dijit.form.ValidationTextBox,
@@ -5842,10 +5844,10 @@ function showProject(id,name,somatic){
 		var itemR=patientprojectGrid.getItem(row.index);
 		if (itemR) {
 			if (itemR.Status==2 && itemR.phenotype.toString()!= "") {
- 				var nd10 = dojo.query('td[idx="10"]'  /* <= put column index here-> for Status */, row.node)[0];
-				var nd20 = dojo.query('td[idx="20"]'  /* <= put column index here-> for phenotype */, row.node)[0];
-				nd10.style.backgroundColor = "#CCCC99";
-				nd20.style.backgroundColor = "#CCCC99";
+ 				var ndsex = dojo.query('td[idx="11"]'  /* <= put column index here-> for Status */, row.node)[0];
+				var ndphe = dojo.query('td[idx="21"]'  /* <= put column index here-> for phenotype */, row.node)[0];
+				ndsex.style.backgroundColor = "#CCCC99";
+				ndphe.style.backgroundColor = "#CCCC99";
 			}
 		}
 	}
@@ -5881,8 +5883,10 @@ function showProject(id,name,somatic){
 			dojo.connect(patientprojectGrid, "onMouseOut", hideTooltip);	
 			patientprojectGrid.layout.setColumnVisibility(2,false);
 			if (somatic==1) {patientprojectGrid.layout.setColumnVisibility(2,true)};
-	       		patientprojectGrid.structure[6].widgetProps.grid = patientprojectGrid;
-	       		patientprojectGrid.structure[7].widgetProps.grid = patientprojectGrid;
+	       		//patientprojectGrid.structure[6].widgetProps.grid = patientprojectGrid;
+	       		//patientprojectGrid.structure[7].widgetProps.grid = patientprojectGrid;
+	       		patientprojectGrid.structure[8].widgetProps.grid = patientprojectGrid;
+	       		patientprojectGrid.structure[9].widgetProps.grid = patientprojectGrid;
 			patientprojectGrid.startup();			
 			patientprojectGrid.store.close();
 			patientprojectGrid.setStore(patientProjectStore);
@@ -6812,13 +6816,13 @@ function chgPerson2(a){
 
 function set_ColVisibility2(grid,visibility){
 	grid.beginUpdate();
-	grid.layout.setColumnVisibility(31, visibility);
 	grid.layout.setColumnVisibility(32, visibility);
 	grid.layout.setColumnVisibility(33, visibility);
 	grid.layout.setColumnVisibility(34, visibility);
 	grid.layout.setColumnVisibility(35, visibility);
 	grid.layout.setColumnVisibility(36, visibility);
 	grid.layout.setColumnVisibility(37, visibility);
+	grid.layout.setColumnVisibility(39, visibility);
 	grid.endUpdate();
 }
 

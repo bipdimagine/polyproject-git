@@ -4753,6 +4753,8 @@ sub PatientProjectSection {
 		$s{PatId} = $c->{patient_id};
 		my $inf_species= queryPolyproject::getSpecies($buffer->dbh,$c->{species_id});
 		$s{species}=join(" ",map{$_->{name}}@$inf_species) if defined $inf_species;		
+		$s{sp}="";
+		$s{sp}=join(" ",map{$_->{code}}@$inf_species) if defined $inf_species;		
 		$s{ProjectName} = $projname;
 		$s{ProjectIdDest} = $c->{project_id_dest};
 		$s{ProjectNameDest} = "";
