@@ -455,6 +455,7 @@ var layoutMethSeq = [{field: 'def',name: 'def',width: '1.5',styles:"text-align:c
 {field: 'methSeqName',name: 'MethodSeq Name',width: 'auto'}];
 
 var layoutRelease = [{field: 'def',name: 'def',width: '1.5',styles:"text-align:center;",formatter:inactiveRadioButtonView},
+	{ field: "sp",name: "SP", width: '2',styles: 'text-align: center;font-weight:bold;',formatter:colorFieldSpecies},
 	{field: 'relName',name: 'Release Name',width: 'auto'}];
 
 

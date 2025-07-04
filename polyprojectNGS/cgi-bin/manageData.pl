@@ -2863,6 +2863,9 @@ sub ReleaseSection {
 		$s{releaseId} += 0;
 		$s{speciesId} = $c->{species_id};
 		$s{speciesId} += 0;
+		my $inf_species= queryPolyproject::getSpecies($buffer->dbh,$c->{species_id});
+		$s{sp}="";
+		$s{sp}=join(" ",map{$_->{code}}@$inf_species) if defined $inf_species;				
 		$s{relName} = $c->{relName};
 		$s{def} = $c->{def};
 		push(@data,\%s);
