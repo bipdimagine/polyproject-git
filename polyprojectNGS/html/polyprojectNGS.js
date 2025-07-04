@@ -396,6 +396,7 @@ var layoutCapData = [
 	{ field: "Row", name: "Row",get: getRow, width: 3},
 	{field: 'def',name: 'def',width: '1.5',styles:"text-align:center;",formatter:inactiveRadioButtonView},
 	{ field: 'capAnalyse',name: 'Ana',width: '2',styles: 'text-align: center;font-weight:bold;', formatter:colorFieldAnalyse},
+	{ field: "sp",name: "SP", width: '2',styles: 'text-align: center;font-weight:bold;',formatter:colorFieldSpecies},
 	{ field: "capName",name: "Capture",width: '20'},
 	{ field: "rel", name: "Rel", width: '8', filterable: false},
 	{ field: "cDate", name: "Date" , datatype:"date", width: '7'},
