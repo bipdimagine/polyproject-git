@@ -5214,6 +5214,8 @@ function buildLayoutCenter(sub,cpC,grid,store,layout,typeselector){
 	grid.setStore(store);
 	div.appendChild(grid.domNode);
 	grid.startup();
+	dojo.connect(grid, "onMouseOver", showTooltip);
+	dojo.connect(grid, "onMouseOut", hideTooltip); 
 	if (sub=="Capd") {grid.layout.setColumnVisibility(7,false);}
 	return cpC;
 }
