@@ -4619,10 +4619,14 @@ function viewUpdateRelease(){	checkPassword(okfunction);
 	}
 	if(cpRelT) {
 		clearSub(cpRelT,cpRelC);
-	} else if (cpPipeT||cpUmiT||cpMacT||cpMSeqT||cpMAlnT||cpMCallT||cpPltT||cpCapT) {
+	} else if (cpProfT||cpPrepT||cpTechT||cpPersT||cpPipeT||cpUmiT||cpMacT||cpMSeqT||cpMAlnT||cpMCallT||cpPltT||cpCapT) {
+		clearSub(cpProfT,cpProfC);
+		clearSub(cpPrepT,cpPrepC);
+		clearSub(cpTechT,cpTechC);
+		clearSub(cpPersT,cpPersC);
+		clearSub(cpPipeT,cpPipeC);
 		clearSub(cpPipeT,cpPipeC);
 		clearSub(cpUmiT,cpUmiC);
-		clearSub(cpMCallT,cpMCallC);
 		clearSub(cpPltT,cpPltC);
 		clearSub(cpMSeqT,cpMSeqC);
 		clearSub(cpMAlnT,cpMAlnC);
@@ -4632,6 +4636,10 @@ function viewUpdateRelease(){	checkPassword(okfunction);
 		BC =  new dijit.layout.BorderContainer({
 		}, "appSub");
 	}
+	cpProfT="";
+	cpPrepT="";
+	cpTechT="";
+	cpPersT="";
 	cpPipeT="";
 	cpUmiT="";
 	cpPltT="";
@@ -4702,7 +4710,11 @@ function viewUpdateCapture(){
 	}
 	if(cpCapT) {
 		clearSub(cpCapT,cpCapC);
-	} else if (cpPipeT||cpUmiT||cpMacT||cpMSeqT||cpMAlnT||cpMCallT||cpPltT||cpRelT) {
+	} else if (cpProfT||cpPrepT||cpTechT||cpPersT||cpPipeT||cpUmiT||cpMacT||cpMSeqT||cpMAlnT||cpMCallT||cpPltT||cpRelT) {
+		clearSub(cpProfT,cpProfC);
+		clearSub(cpPrepT,cpPrepC);
+		clearSub(cpTechT,cpTechC);
+		clearSub(cpPersT,cpPersC);
 		clearSub(cpPipeT,cpPipeC);
 		clearSub(cpUmiT,cpUmiC);
 		clearSub(cpMCallT,cpMCallC);
@@ -4715,6 +4727,10 @@ function viewUpdateCapture(){
 		BC =  new dijit.layout.BorderContainer({
 		}, "appSub");
 	}
+	cpProfT="";
+	cpPrepT="";
+	cpTechT="";
+	cpPersT="";
 	cpPipeT="";
 	cpUmiT="";
 	cpPltT="";
