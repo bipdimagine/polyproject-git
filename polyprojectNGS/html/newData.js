@@ -85,6 +85,7 @@ dojo.require("dijit.form.HorizontalRuleLabels");
 dojo.require("dijit.form.ToggleButton");
 dojo.require("dojox/mobile/Switch");
 dojo.require("dojo.on");
+dojo.require("dojo/dom-construct");
 
 var BC;
 /*########################################################################
@@ -1384,7 +1385,7 @@ function initUndesignTr(){
 		var itemR=captureUnTrGrid.getItem(row.index);
 		if (itemR) {
 			if (itemR.gene.toString() != "") {
-				//column idx=5 ==> #occ="" whene Gene
+				//column idx=5 ==> #occ="" when Gene
  				var nd5 = dojo.query('td[idx="5"]', row.node)[0];
 				nd5.innerHTML="";
 			}
@@ -2651,14 +2652,6 @@ function addTranscript(){
 		}
 	}
 
-/*	var url_insert = url_path + "/manageData.pl?option=addTranscripts" +
-				"&relgene="+ bunFormvalue.bunRelGene +
-				"&Tmod="+ Tmod +
-				"&BTmod="+ BTmod +
-				"&BunSel="  + selBun +
-				"&transcript=" + TranscriptGroups +
-				"&transmission=" + TransmissionGroups;
-*/
 	var prog_url=url_path + "/manageData.pl?";
 	var options="option=addTranscripts" +
 				"&relgene="+ bunFormvalue.bunRelGene +
@@ -2668,9 +2661,6 @@ function addTranscript(){
 				"&transcript=" + TranscriptGroups +
 				"&transmission=" + TransmissionGroups;
 
-	console.log(prog_url);
-	console.log(options);
-//	var res=sendData_v2(url_insert);
 	var res=sendDataPost(prog_url,options);
 	res.addCallback(
 		function(response) {
@@ -2813,6 +2803,45 @@ function refreshCaptureBundleTransList(save) {
 };
 
 /*########################################################################
+##################### Init : New DATA
+##########################################################################*/
+var LineAll="cpMacT||cpProfT||cpPrepT||cpTechT||cpPersT||cpPipeT||cpUmiT||cpPltT|| cpMSeqT||cpMAlnT||cpMCallT||cpRelT||cpCapT";
+const initBlock = `
+cpMacT="";
+cpProfT="";
+cpPrepT="";
+cpTechT="";
+cpPersT="";
+cpPipeT="";
+cpUmiT="";
+cpPltT="";
+cpMSeqT=""
+cpMAlnT="";
+cpMCallT="";
+cpRelT="";
+cpCapT="";
+`;
+
+function removeItemFromLine(line, itemToRemove) {
+  return line
+    .split('||')
+    .map(s => s.trim())
+    .filter(item => item !== itemToRemove)
+    .join('||');
+}
+
+function removeVariableInitializations(codeBlock, varsToRemove) {
+  const varsSet = Array.isArray(varsToRemove) ? new Set(varsToRemove) : new Set([varsToRemove]);
+  return codeBlock
+    .split('\n')                                   // Sépare les lignes
+    .filter(line => {
+      const match = line.trim().match(/^([a-zA-Z_][\w]*)\s*=/);  // Match variable name
+      return !match || !varsSet.has(match[1]);     // Garde la ligne si la variable n?est pas à retirer
+    })
+    .join('\n');
+}
+
+/*########################################################################
 ##################### Plateform : New DATA
 ##########################################################################*/
 var plateformDGrid;
@@ -2824,37 +2853,22 @@ function viewNewPlateform(){
 	if(! logged) {
 		return
 	}
-	if(cpPltT) {
+	var LineAll_mod = removeItemFromLine(LineAll, "cpPltT");
+	if(eval(cpPltT)) {
 		clearSub(cpPltT,cpPltC);
-	} else if (cpProfT||cpPrepT||cpTechT||cpPersT||cpPipeT||cpUmiT||cpMacT||cpMSeqT||cpMAlnT||cpMCallT||cpRelT||cpCapT) {
-		clearSub(cpProfT,cpProfC);
-		clearSub(cpPrepT,cpPrepC);
-		clearSub(cpTechT,cpTechC);
-		clearSub(cpPersT,cpPersC);
-		clearSub(cpPipeT,cpPipeC);
-		clearSub(cpUmiT,cpUmiC);
-		clearSub(cpMacT,cpMacC);
-		clearSub(cpMSeqT,cpMSeqC);
-		clearSub(cpMAlnT,cpMAlnC);
-		clearSub(cpMCallT,cpMCallC);
-		clearSub(cpRelT,cpRelC);
-		clearSub(cpCapT,cpCapC);
+	} else if (eval(LineAll_mod)) {
+		var l_line=LineAll_mod.split("||");
+		for(var i=0; i<l_line.length; i++) {
+			if (eval(l_line[i])) {
+				clearSub(eval(l_line[i]),eval(l_line[i].slice(0, -1)+"C"));
+			}
+		}
 	} else {
 		BC =  new dijit.layout.BorderContainer({
 		}, "appSub");
 	}
-	cpProfT="";
-	cpPrepT="";
-	cpTechT="";
-	cpPersT="";
-	cpPipeT="";
-	cpUmiT="";
-	cpMacT="";
-	cpMSeqT=""
-	cpMAlnT="";
-	cpMCallT="";
-	cpRelT="";
-	cpCapT="";
+	const cleanedBlock = removeVariableInitializations(initBlock, "cpPltT");
+	eval(cleanedBlock);
 	cpPltT=buildLayoutTop("Plt","Plateform",cpPltT,"default");
 	cpPltC=buildLayoutCenter("Plt",cpPltC,plateformDGrid,plateformStore,layoutPlateform,"multiple");
 }
@@ -2947,46 +2961,29 @@ function refreshPlateformList() {
 ##################### Machine : New DATA
 ##########################################################################*/
 var machineDGrid;
-
 var cpMacT;
 var cpMacC;
-
 function viewNewMachine(){
 	checkPassword(okfunction);
 	if(! logged) {
 		return
 	}
-	if(cpMacT) {
+	var LineAll_mod = removeItemFromLine(LineAll, "cpMacT");
+	if(eval(cpMacT)) {
 		clearSub(cpMacT,cpMacC);
-	} else if (cpProfT||cpPrepT||cpTechT||cpPersT||cpPipeT||cpUmiT||cpPltT|| cpMSeqT||cpMAlnT||cpMCallT||cpRelT||cpCapT) {
-		clearSub(cpProfT,cpProfC);
-		clearSub(cpPrepT,cpPrepC);
-		clearSub(cpTechT,cpTechC);
-		clearSub(cpPersT,cpPersC);
-		clearSub(cpPipeT,cpPipeC);
-		clearSub(cpUmiT,cpUmiC);
-		clearSub(cpPltT,cpPltC);
-		clearSub(cpMSeqT,cpMSeqC);
-		clearSub(cpMAlnT,cpMAlnC);
-		clearSub(cpMCallT,cpMCallC);
-		clearSub(cpRelT,cpRelC);
-		clearSub(cpCapT,cpCapC);
+	} else if (eval(LineAll_mod)) {
+		var l_line=LineAll_mod.split("||");
+		for(var i=0; i<l_line.length; i++) {
+			if (eval(l_line[i])) {
+				clearSub(eval(l_line[i]),eval(l_line[i].slice(0, -1)+"C"));
+			}
+		}
 	} else {
 		BC =  new dijit.layout.BorderContainer({
 		}, "appSub");
 	}
-	cpProfT="";
-	cpPrepT="";
-	cpTechT="";
-	cpPersT="";
-	cpPipeT="";
-	cpUmiT="";
-	cpPltT="";
-	cpMSeqT=""
-	cpMAlnT="";
-	cpMCallT="";
-	cpRelT="";
-	cpCapT="";
+	const cleanedBlock = removeVariableInitializations(initBlock, "cpMacT");
+	eval(cleanedBlock);
 	cpMacT=buildLayoutTop("Mac","Machine",cpMacT,"default");
 	cpMacC=buildLayoutCenter("Mac",cpMacC,machineDGrid,macStore,layoutMachine,"multiple");
 }
@@ -3095,46 +3092,29 @@ function refreshMachineList() {
 ##################### Sequencing Method : New DATA
 ##########################################################################*/
 var MethSeqDGrid;
-
 var cpMSeqT;
 var cpMSeqC;
-
 function viewNewMethSeq(){
 	checkPassword(okfunction);
 	if(! logged) {
 		return
 	}
-	if(cpMSeqT) {
+	var LineAll_mod = removeItemFromLine(LineAll, "cpMSeqT");
+	if(eval(cpMSeqT)) {
 		clearSub(cpMSeqT,cpMSeqC);
-	} else if (cpProfT||cpPrepT||cpTechT||cpPersT||cpPipeT||cpUmiT||cpPltT||cpMacT||cpMAlnT||cpMCallT||cpRelT||cpCapT) {
-		clearSub(cpProfT,cpProfC);
-		clearSub(cpPrepT,cpPrepC);
-		clearSub(cpTechT,cpTechC);
-		clearSub(cpPersT,cpPersC);
-		clearSub(cpPipeT,cpPipeC);
-		clearSub(cpUmiT,cpUmiC);
-		clearSub(cpPltT,cpPltC);
-		clearSub(cpMacT,cpMacC);
-		clearSub(cpMAlnT,cpMAlnC);
-		clearSub(cpMCallT,cpMCallC);
-		clearSub(cpRelT,cpRelC);
-		clearSub(cpCapT,cpCapC);
+	} else if (eval(LineAll_mod)) {
+		var l_line=LineAll_mod.split("||");
+		for(var i=0; i<l_line.length; i++) {
+			if (eval(l_line[i])) {
+				clearSub(eval(l_line[i]),eval(l_line[i].slice(0, -1)+"C"));
+			}
+		}
 	} else {
 		BC =  new dijit.layout.BorderContainer({
 		}, "appSub");
 	}
-	cpProfT="";
-	cpPrepT="";
-	cpTechT="";
-	cpPersT="";
-	cpPipeT="";
-	cpUmiT="";
-	cpPltT="";
-	cpMacT="";
-	cpMAlnT="";
-	cpMCallT="";
-	cpRelT="";
-	cpCapT="";
+	const cleanedBlock = removeVariableInitializations(initBlock, "cpMSeqT");
+	eval(cleanedBlock);
 	cpMSeqT=buildLayoutTop("MSeq","Sequencing Method",cpMSeqT,"default");
 	cpMSeqC=buildLayoutCenter("MSeq",cpMSeqC,MethSeqDGrid,methSeqStore,layoutMethSeq,"multiple");
 }
@@ -3237,7 +3217,6 @@ function refreshSeqMethodList() {
 ##################### Alignment Method : New DATA
 ##########################################################################*/
 var AlnDGrid;
-
 var cpMAlnT;
 var cpMAlnC;
 
@@ -3246,37 +3225,22 @@ function viewNewMethAlign(){
 	if(! logged) {
 		return
 	}
-	if(cpMAlnT) {
+	var LineAll_mod = removeItemFromLine(LineAll, "cpMAlnT");
+	if(eval(cpMAlnT)) {
 		clearSub(cpMAlnT,cpMAlnC);
-	} else if (cpProfT||cpPrepT||cpTechT||cpPersT||cpPipeT||cpUmiT||cpPltT||cpMacT||cpMSeqT||cpMCallT||cpRelT||cpCapT) {
-		clearSub(cpProfT,cpProfC);
-		clearSub(cpPrepT,cpPrepC);
-		clearSub(cpTechT,cpTechC);
-		clearSub(cpPersT,cpPersC);
-		clearSub(cpPipeT,cpPipeC);
-		clearSub(cpUmiT,cpUmiC);
-		clearSub(cpPltT,cpPltC);
-		clearSub(cpMacT,cpMacC);
-		clearSub(cpMSeqT,cpMSeqC);
-		clearSub(cpMCallT,cpMCallC);
-		clearSub(cpCapT,cpCapC);
-		clearSub(cpRelT,cpRelC);
+	} else if (eval(LineAll_mod)) {
+		var l_line=LineAll_mod.split("||");
+		for(var i=0; i<l_line.length; i++) {
+			if (eval(l_line[i])) {
+				clearSub(eval(l_line[i]),eval(l_line[i].slice(0, -1)+"C"));
+			}
+		}
 	} else {
 		BC =  new dijit.layout.BorderContainer({
 		}, "appSub");
 	}
-	cpProfT="";
-	cpPrepT="";
-	cpTechT="";
-	cpPersT="";
-	cpPipeT="";
-	cpUmiT="";
-	cpPltT="";
-	cpMacT="";
-	cpMSeqT="";
-	cpMCallT="";
-	cpRelT="";
-	cpCapT="";
+	const cleanedBlock = removeVariableInitializations(initBlock, "cpMAlnT");
+	eval(cleanedBlock);
 	cpMAlnT=buildLayoutTop("MAln","Alignment Method",cpMAlnT,"default","extractDef");
 	cpMAlnC=buildLayoutCenter("MAln",cpMAlnC,AlnDGrid,AlnStore,layoutMeth,"multiple");
 }
@@ -3372,10 +3336,8 @@ function refreshAlnMethodList() {
 ##################### Calling Method : New DATA
 ##########################################################################*/
 var CallDGrid;
-
 var cpMCallT;
 var cpMCallC;
-
 var toolbar_MethCallTop;
 var toolbar_MCall;
 
@@ -3384,37 +3346,22 @@ function viewNewMethCall(){
 	if(! logged) {
 		return
 	}
-	if(cpMCallT) {
+	var LineAll_mod = removeItemFromLine(LineAll, "cpMCallT");
+	if(eval(cpMCallT)) {
 		clearSub(cpMCallT,cpMCallC);
-	} else if (cpProfT||cpPrepT||cpTechT||cpPersT||cpPipeT||cpUmiT||cpPltT||cpMacT||cpMAlnT||cpMSeqT||cpRelT||cpCapT) {
-		clearSub(cpProfT,cpProfC);
-		clearSub(cpPrepT,cpPrepC);
-		clearSub(cpTechT,cpTechC);
-		clearSub(cpPersT,cpPersC);
-		clearSub(cpPipeT,cpPipeC);
-		clearSub(cpUmiT,cpUmiC);
-		clearSub(cpPltT,cpPltC);
-		clearSub(cpMacT,cpMacC);
-		clearSub(cpMSeqT,cpMSeqC);
-		clearSub(cpMAlnT,cpMAlnC);
-		clearSub(cpRelT,cpRelC);
-		clearSub(cpCapT,cpCapC);
+	} else if (eval(LineAll_mod)) {
+		var l_line=LineAll_mod.split("||");
+		for(var i=0; i<l_line.length; i++) {
+			if (eval(l_line[i])) {
+				clearSub(eval(l_line[i]),eval(l_line[i].slice(0, -1)+"C"));
+			}
+		}
 	} else {
 		BC =  new dijit.layout.BorderContainer({
 		}, "appSub");
 	}
-	cpProfT="";
-	cpPrepT="";
-	cpTechT="";
-	cpPersT="";
-	cpPipeT="";
-	cpUmiT="";
-	cpPltT="";
-	cpMacT="";
-	cpMSeqT="";
-	cpMAlnT="";
-	cpRelT="";
-	cpCapT="";
+	const cleanedBlock = removeVariableInitializations(initBlock, "cpMCallT");
+	eval(cleanedBlock);
 	cpMCallT=buildLayoutTop("MCall","Calling Method",cpMCallT,"default","extractDef");
 	cpMCallC=buildLayoutCenter("MCall",cpMCallC,CallDGrid,CallStore,layoutMeth,"multiple");
 }
@@ -3517,37 +3464,22 @@ function viewNewUMI(){
 	if(! logged) {
 		return
 	}
-	if(cpUmiT) {
+	var LineAll_mod = removeItemFromLine(LineAll, "cpUmiT");
+	if(eval(cpUmiT)) {
 		clearSub(cpUmiT,cpUmiC);
-	} else if (cpProfT||cpPrepT||cpTechT||cpPersT||cpPipeT||cpMacT||cpPltT|| cpMSeqT||cpMAlnT||cpMCallT||cpRelT||cpCapT) {
-		clearSub(cpProfT,cpProfC);
-		clearSub(cpPrepT,cpPrepC);
-		clearSub(cpTechT,cpTechC);
-		clearSub(cpPersT,cpPersC);
-		clearSub(cpPipeT,cpPipeC);
-		clearSub(cpMacT,cpMacC);
-		clearSub(cpPltT,cpPltC);
-		clearSub(cpMSeqT,cpMSeqC);
-		clearSub(cpMAlnT,cpMAlnC);
-		clearSub(cpMCallT,cpMCallC);
-		clearSub(cpRelT,cpRelC);
-		clearSub(cpCapT,cpCapC);
+	} else if (eval(LineAll_mod)) {
+		var l_line=LineAll_mod.split("||");
+		for(var i=0; i<l_line.length; i++) {
+			if (eval(l_line[i])) {
+				clearSub(eval(l_line[i]),eval(l_line[i].slice(0, -1)+"C"));
+			}
+		}
 	} else {
 		BC =  new dijit.layout.BorderContainer({
 		}, "appSub");
 	}
-	cpProfT="";
-	cpPrepT="";
-	cpTechT="";
-	cpPersT="";
-	cpPipeT="";
-	cpMacT="";
-	cpPltT="";
-	cpMSeqT=""
-	cpMAlnT="";
-	cpMCallT="";
-	cpRelT="";
-	cpCapT="";
+	const cleanedBlock = removeVariableInitializations(initBlock, "cpUmiT");
+	eval(cleanedBlock);
 	cpUmiT=buildLayoutTop("Umi","UMI",cpUmiT);
 	cpUmiC=buildLayoutCenter("Umi",cpUmiC,umiDGrid,umiStore,layoutUMI,"single");
 }
@@ -3631,38 +3563,23 @@ function viewNewPIPE(){
 	if(! logged) {
 		return
 	}
-	if(cpPipeT) {
+	var LineAll_mod = removeItemFromLine(LineAll, "cpPipeT");
+	if(eval(cpPipeT)) {
 		clearSub(cpPipeT,cpPipeC);
-	} else if (cpProfT||cpPrepT||cpTechT||cpPersT||cpUmiT||cpMacT||cpPltT||cpMSeqT||cpMAlnT||cpMCallT||cpRelT||cpCapT) {
-		clearSub(cpProfT,cpProfC);
-		clearSub(cpPrepT,cpPrepC);
-		clearSub(cpTechT,cpTechC);
-		clearSub(cpPersT,cpPersC);
-		clearSub(cpUmiT,cpUmiC);
-		clearSub(cpMacT,cpMacC);
-		clearSub(cpPltT,cpPltC);
-		clearSub(cpMSeqT,cpMSeqC);
-		clearSub(cpMAlnT,cpMAlnC);
-		clearSub(cpMCallT,cpMCallC);
-		clearSub(cpRelT,cpRelC);
-		clearSub(cpCapT,cpCapC);
+	} else if (eval(LineAll_mod)) {
+		var l_line=LineAll_mod.split("||");
+		for(var i=0; i<l_line.length; i++) {
+			if (eval(l_line[i])) {
+				clearSub(eval(l_line[i]),eval(l_line[i].slice(0, -1)+"C"));
+			}
+		}
 	} else {
 		BC =  new dijit.layout.BorderContainer({
 		}, "appSub");
 	}
-	cpProfT="";
-	cpPrepT="";
-	cpTechT="";
-	cpPersT="";
-	cpUmiT="";
-	cpMacT="";
-	cpPltT="";
-	cpMSeqT=""
-	cpMAlnT="";
-	cpMCallT="";
-	cpRelT="";
-	cpCapT="";
-	cpPipeT=buildLayoutTop("Pipe","Pipeline Methods",cpUmiT);
+	const cleanedBlock = removeVariableInitializations(initBlock, "cpPipeT");
+	eval(cleanedBlock);
+	cpPipeT=buildLayoutTop("Pipe","Pipeline Methods",cpPipeT);
 //	cpPipeC=buildLayoutCenter("Pipeline",cpPipeC,pipelineDGrid,pipelineStore,layoutPIPE,"none");## Fait Planter??
 	cpPipeC=buildLayoutCenter("Pipeline",cpPipeC,pipelineDGrid,pipelineStore,layoutPIPE,"single");
 }
@@ -3901,37 +3818,22 @@ function viewNewPERS(){
 	if(! logged) {
 		return
 	}
-	if(cpPersT) {
+	var LineAll_mod = removeItemFromLine(LineAll, "cpPersT");
+	if(eval(cpPersT)) {
 		clearSub(cpPersT,cpPersC);
-	} else if (cpProfT||cpPrepT||cpTechT||cpUmiT||cpPipeT||cpMacT||cpPltT|| cpMSeqT||cpMAlnT||cpMCallT||cpRelT||cpCapT) {
-		clearSub(cpProfT,cpProfC);
-		clearSub(cpPrepT,cpPrepC);
-		clearSub(cpTechT,cpTechC);
-		clearSub(cpUmiT,cpUmiC);
-		clearSub(cpPipeT,cpPipeC);
-		clearSub(cpMacT,cpMacC);
-		clearSub(cpPltT,cpPltC);
-		clearSub(cpMSeqT,cpMSeqC);
-		clearSub(cpMAlnT,cpMAlnC);
-		clearSub(cpMCallT,cpMCallC);
-		clearSub(cpRelT,cpRelC);
-		clearSub(cpCapT,cpCapC);
+	} else if (eval(LineAll_mod)) {
+		var l_line=LineAll_mod.split("||");
+		for(var i=0; i<l_line.length; i++) {
+			if (eval(l_line[i])) {
+				clearSub(eval(l_line[i]),eval(l_line[i].slice(0, -1)+"C"));
+			}
+		}
 	} else {
 		BC =  new dijit.layout.BorderContainer({
 		}, "appSub");
 	}
-	cpProfT="";
-	cpPrepT="";
-	cpTechT="";
-	cpUmiT="";
-	cpPipeT="";
-	cpMacT="";
-	cpPltT="";
-	cpMSeqT=""
-	cpMAlnT="";
-	cpMCallT="";
-	cpRelT="";
-	cpCapT="";
+	const cleanedBlock = removeVariableInitializations(initBlock, "cpPersT");
+	eval(cleanedBlock);
 	cpPersT=buildLayoutTop("Pers","Perspective",cpPersT);
 	cpPersC=buildLayoutCenter("Pers",cpPersC,perspectiveGrid,perspectiveStore,layoutPERS,"single");
 }
@@ -3993,37 +3895,22 @@ function viewNewTECH(){
 	if(! logged) {
 		return
 	}
-	if(cpTechT) {
+	var LineAll_mod = removeItemFromLine(LineAll, "cpTechT");
+	if(eval(cpTechT)) {
 		clearSub(cpTechT,cpTechC);
-	} else if (cpProfT||cpPrepT||cpPersT||cpUmiT||cpPipeT||cpMacT||cpPltT|| cpMSeqT||cpMAlnT||cpMCallT||cpRelT||cpCapT) {
-		clearSub(cpProfT,cpProfC);
-		clearSub(cpPrepT,cpPrepC);
-		clearSub(cpPersT,cpPersC);
-		clearSub(cpUmiT,cpUmiC);
-		clearSub(cpPipeT,cpPipeC);
-		clearSub(cpMacT,cpMacC);
-		clearSub(cpPltT,cpPltC);
-		clearSub(cpMSeqT,cpMSeqC);
-		clearSub(cpMAlnT,cpMAlnC);
-		clearSub(cpMCallT,cpMCallC);
-		clearSub(cpRelT,cpRelC);
-		clearSub(cpCapT,cpCapC);
+	} else if (eval(LineAll_mod)) {
+		var l_line=LineAll_mod.split("||");
+		for(var i=0; i<l_line.length; i++) {
+			if (eval(l_line[i])) {
+				clearSub(eval(l_line[i]),eval(l_line[i].slice(0, -1)+"C"));
+			}
+		}
 	} else {
 		BC =  new dijit.layout.BorderContainer({
 		}, "appSub");
 	}
-	cpProfT="";
-	cpPrepT="";
-	cpPersT="";
-	cpUmiT="";
-	cpPipeT="";
-	cpMacT="";
-	cpPltT="";
-	cpMSeqT=""
-	cpMAlnT="";
-	cpMCallT="";
-	cpRelT="";
-	cpCapT="";
+	const cleanedBlock = removeVariableInitializations(initBlock, "cpTechT");
+	eval(cleanedBlock);
 	cpTechT=buildLayoutTop("Tech","Technology",cpTechT);
 	cpTechC=buildLayoutCenter("Tech",cpTechC,technologyGrid,technologyStore,layoutTECH,"single");
 }
@@ -4084,37 +3971,22 @@ function viewNewPREP(){
 	if(! logged) {
 		return
 	}
-	if(cpPrepT) {
+	var LineAll_mod = removeItemFromLine(LineAll, "cpPrepT");
+	if(eval(cpPrepT)) {
 		clearSub(cpPrepT,cpPrepC);
-	} else if (cpProfT||cpTechT||cpPersT||cpUmiT||cpPipeT||cpMacT||cpPltT|| cpMSeqT||cpMAlnT||cpMCallT||cpRelT||cpCapT) {
-		clearSub(cpProfT,cpProfC);
-		clearSub(cpPersT,cpPersC);
-		clearSub(cpTechT,cpTechC);
-		clearSub(cpUmiT,cpUmiC);
-		clearSub(cpPipeT,cpPipeC);
-		clearSub(cpMacT,cpMacC);
-		clearSub(cpPltT,cpPltC);
-		clearSub(cpMSeqT,cpMSeqC);
-		clearSub(cpMAlnT,cpMAlnC);
-		clearSub(cpMCallT,cpMCallC);
-		clearSub(cpRelT,cpRelC);
-		clearSub(cpCapT,cpCapC);
+	} else if (eval(LineAll_mod)) {
+		var l_line=LineAll_mod.split("||");
+		for(var i=0; i<l_line.length; i++) {
+			if (eval(l_line[i])) {
+				clearSub(eval(l_line[i]),eval(l_line[i].slice(0, -1)+"C"));
+			}
+		}
 	} else {
 		BC =  new dijit.layout.BorderContainer({
 		}, "appSub");
 	}
-	cpProfT="";
-	cpTechT="";
-	cpPersT="";
-	cpUmiT="";
-	cpPipeT="";
-	cpMacT="";
-	cpPltT="";
-	cpMSeqT=""
-	cpMAlnT="";
-	cpMCallT="";
-	cpRelT="";
-	cpCapT="";
+	const cleanedBlock = removeVariableInitializations(initBlock, "cpPrepT");
+	eval(cleanedBlock);
 	cpPrepT=buildLayoutTop("Prep","Preparation",cpPrepT);
 	cpPrepC=buildLayoutCenter("Prep",cpPrepC,preparationGrid,preparationStore,layoutPREP,"single");
 }
@@ -4324,37 +4196,22 @@ function viewNewPROF(){
 	if(! logged) {
 		return
 	}
-	if(cpProfT) {
+	var LineAll_mod = removeItemFromLine(LineAll, "cpProfT");
+	if(eval(cpProfT)) {
 		clearSub(cpProfT,cpProfC);
-	} else if (cpPrepT||cpTechT||cpPersT||cpUmiT||cpPipeT||cpMacT||cpPltT|| cpMSeqT||cpMAlnT||cpMCallT||cpRelT||cpCapT) {
-		clearSub(cpPrepT,cpPrepC);
-		clearSub(cpTechT,cpTechC);
-		clearSub(cpPersT,cpPersC);
-		clearSub(cpUmiT,cpUmiC);
-		clearSub(cpPipeT,cpPipeC);
-		clearSub(cpMacT,cpMacC);
-		clearSub(cpPltT,cpPltC);
-		clearSub(cpMSeqT,cpMSeqC);
-		clearSub(cpMAlnT,cpMAlnC);
-		clearSub(cpMCallT,cpMCallC);
-		clearSub(cpRelT,cpRelC);
-		clearSub(cpCapT,cpCapC);
+	} else if (eval(LineAll_mod)) {
+		var l_line=LineAll_mod.split("||");
+		for(var i=0; i<l_line.length; i++) {
+			if (eval(l_line[i])) {
+				clearSub(eval(l_line[i]),eval(l_line[i].slice(0, -1)+"C"));
+			}
+		}
 	} else {
 		BC =  new dijit.layout.BorderContainer({
 		}, "appSub");
 	}
-	cpPrepT="";
-	cpTechT="";
-	cpPersT="";
-	cpUmiT="";
-	cpPipeT="";
-	cpMacT="";
-	cpPltT="";
-	cpMSeqT=""
-	cpMAlnT="";
-	cpMCallT="";
-	cpRelT="";
-	cpCapT="";
+	const cleanedBlock = removeVariableInitializations(initBlock, "cpProfT");
+	eval(cleanedBlock);
 	cpProfT=buildLayoutTop("Prof","Profile",cpProfT);
 	cpProfC=buildLayoutCenter("Prof",cpProfC,profiledataGrid,profiledataStore,layoutPROF,"single");
 }
@@ -4617,37 +4474,22 @@ function viewUpdateRelease(){	checkPassword(okfunction);
 	if(! logged) {
 		return
 	}
-	if(cpRelT) {
+	var LineAll_mod = removeItemFromLine(LineAll, "cpRelT");
+	if(eval(cpRelT)) {
 		clearSub(cpRelT,cpRelC);
-	} else if (cpProfT||cpPrepT||cpTechT||cpPersT||cpPipeT||cpUmiT||cpMacT||cpMSeqT||cpMAlnT||cpMCallT||cpPltT||cpCapT) {
-		clearSub(cpProfT,cpProfC);
-		clearSub(cpPrepT,cpPrepC);
-		clearSub(cpTechT,cpTechC);
-		clearSub(cpPersT,cpPersC);
-		clearSub(cpPipeT,cpPipeC);
-		clearSub(cpPipeT,cpPipeC);
-		clearSub(cpUmiT,cpUmiC);
-		clearSub(cpPltT,cpPltC);
-		clearSub(cpMSeqT,cpMSeqC);
-		clearSub(cpMAlnT,cpMAlnC);
-		clearSub(cpMCallT,cpMCallC);
-		clearSub(cpCapT,cpCapC);
+	} else if (eval(LineAll_mod)) {
+		var l_line=LineAll_mod.split("||");
+		for(var i=0; i<l_line.length; i++) {
+			if (eval(l_line[i])) {
+				clearSub(eval(l_line[i]),eval(l_line[i].slice(0, -1)+"C"));
+			}
+		}
 	} else {
 		BC =  new dijit.layout.BorderContainer({
 		}, "appSub");
 	}
-	cpProfT="";
-	cpPrepT="";
-	cpTechT="";
-	cpPersT="";
-	cpPipeT="";
-	cpUmiT="";
-	cpPltT="";
-	cpMacT="";
-	cpMSeqT=""
-	cpMAlnT="";
-	cpMCallT="";
-	cpCapT="";
+	const cleanedBlock = removeVariableInitializations(initBlock, "cpRelT");
+	eval(cleanedBlock);
 	cpRelT=buildLayoutTop("Rel","Release",cpRelT,"default");
 	cpRelC=buildLayoutCenter("Rel",cpRelC,releaseDGrid,relStore,layoutRelease,"multiple");
 }
@@ -4708,37 +4550,22 @@ function viewUpdateCapture(){
 	if(! logged) {
 		return
 	}
-	if(cpCapT) {
+	var LineAll_mod = removeItemFromLine(LineAll, "cpCapT");
+	if(eval(cpCapT)) {
 		clearSub(cpCapT,cpCapC);
-	} else if (cpProfT||cpPrepT||cpTechT||cpPersT||cpPipeT||cpUmiT||cpMacT||cpMSeqT||cpMAlnT||cpMCallT||cpPltT||cpRelT) {
-		clearSub(cpProfT,cpProfC);
-		clearSub(cpPrepT,cpPrepC);
-		clearSub(cpTechT,cpTechC);
-		clearSub(cpPersT,cpPersC);
-		clearSub(cpPipeT,cpPipeC);
-		clearSub(cpUmiT,cpUmiC);
-		clearSub(cpMCallT,cpMCallC);
-		clearSub(cpPltT,cpPltC);
-		clearSub(cpMSeqT,cpMSeqC);
-		clearSub(cpMAlnT,cpMAlnC);
-		clearSub(cpMCallT,cpMCallC);
-		clearSub(cpRelT,cpRelC);
+	} else if (eval(LineAll_mod)) {
+		var l_line=LineAll_mod.split("||");
+		for(var i=0; i<l_line.length; i++) {
+			if (eval(l_line[i])) {
+				clearSub(eval(l_line[i]),eval(l_line[i].slice(0, -1)+"C"));
+			}
+		}
 	} else {
 		BC =  new dijit.layout.BorderContainer({
 		}, "appSub");
 	}
-	cpProfT="";
-	cpPrepT="";
-	cpTechT="";
-	cpPersT="";
-	cpPipeT="";
-	cpUmiT="";
-	cpPltT="";
-	cpMacT="";
-	cpMSeqT=""
-	cpMAlnT="";
-	cpMCallT="";
-	cpRelT="";
+	const cleanedBlock = removeVariableInitializations(initBlock, "cpCapT");
+	eval(cleanedBlock);
 	cpCapT=buildLayoutTop("Capd","Capture",cpCapT,"default","extractDef");
 	cpCapC=buildLayoutCenter("Capd",cpCapC,capDataDGrid,captureStore,layoutCapData,"multiple");
 }
@@ -5283,7 +5110,6 @@ function clearSub(cpSubT,cpSubC){
 
 		BC.removeChild(cpSubC);
 		cpSubC.destroyRecursive();
-
 	}
 }
 
