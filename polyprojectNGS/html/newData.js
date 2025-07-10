@@ -4775,7 +4775,7 @@ function buildLayoutTop(sub,title,cpT,use_default,use_extractDef){
 			toolbar_Top.addChild(new dijit.form.Button({
 				showLabel: true,
 				iconClass:"settingIcon",
-				style:"",
+				style:"display:none",// hidden : not to used
  				label : "Default Grouping",
 				onclick:"extractDef_"+sub+"();",
 			}));
