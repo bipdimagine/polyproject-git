@@ -105,6 +105,8 @@ if ( $option eq "schemas" ) {
 	CaptureValAnalyseSection();
 } elsif ( $option eq "captureName" ) {
 	CaptureNameSection();
+} elsif ( $option eq "captureByAnalyse" ) {
+	captureByAnalyseSection();
 } elsif ( $option eq "captureInfo" ) {
 	#not used
 	CaptureInfoSection();
@@ -3393,6 +3395,35 @@ sub CaptureInfoSection {
 		push(@data,\%s);
 	}
 	$hdata{items}=\@data;
+	printJson(\%hdata);
+}
+
+sub captureByAnalyseSection {
+	my $analyse = $cgi->param('analyse');
+	my $species = $cgi->param('species');
+	my $capList;
+	my $def=1;
+	$capList = queryPolyproject::get_Capture($buffer->dbh,$def,$analyse,$species);
+	my @data;
+	my %hdata;
+	$hdata{label}="name";
+	$hdata{identifier}="value";
+	foreach my $c (@$capList){
+		my %s;
+		$s{captureId} = $c->{capture_id};
+		$s{captureId} += 0;
+		$s{caprel}= $c->{capRel};
+		$s{species}= $c->{Species};
+		$s{umi}= "";
+		$s{umi}= "UMI: ".$c->{UMI}." |" if $c->{UMI};
+		$s{value} = $c->{capture_id};
+#		$s{name} = $c->{Capture}." | ".$s{species}." | ".$s{caprel}." | ".$s{umi};
+		$s{name} = $c->{capture_id}." | ".$c->{Capture}." | ".$s{species}." | ".$s{caprel}." | ".$s{umi};
+		$s{hidename} = $c->{Capture};
+		push(@data,\%s);
+	}
+	my @result_sorted=sort { "\L$a->{hidename}" cmp "\L$b->{hidename}"} @data;
+	$hdata{items}=\@result_sorted;
 	printJson(\%hdata);
 }
 

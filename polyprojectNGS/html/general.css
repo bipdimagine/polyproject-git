@@ -1062,7 +1062,7 @@ span.cl_block_left {
 
 }
 
-td.dijitMenuItemIconCell {
+.dojoxCheckedMultiSelectMenu td.dijitMenuItemIconCell {
     width: 16px;
     background-position: center center;
     background-repeat: no-repeat;
@@ -1072,6 +1072,10 @@ background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAIA
 tr.dojoxCheckedMultiSelectMenuItemChecked td.dijitMenuItemIconCell {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAIAAAC0tAIdAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAM5JREFUKFNjKJt7gHjEAFT6nzgAVAlVXbflOX4ENBBF9aab/w8+BKGbb6EIwgWKAw1CVz359P9Z5/4vuPh/yeX/y66AyJmnf0HcWLHuMbrqvhP/kVHHYahSoLrcJbfwqUZWGth7AYtquIrGvd/ggeTVfjp/9XMsLqne/hEtJCFKgaZg8SVQNdBSNFOBSoGewaIaKAE0CWgeUAPcVIi/saheeOn/rDO/6jc/z15wE0gC2UARCMKiGhKXQA8VrboHJNGiFiUEiUkp0JgnPg0CABclD+QoawMBAAAAAElFTkSuQmCC);
 } 
+
+.dijitMenu td.dijitMenuItemIconCell:empty {
+    display: none;
+}
 
 /*
 .dojoxCheckedMultiSelectWrapper {

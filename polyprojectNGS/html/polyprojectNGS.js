@@ -5493,52 +5493,7 @@ function editProject(itemProj) {
 		return
 	}
 	var selPcapRel = grid.store.getValue(itemProj, "capRel");
-
-	var sp_btDropDownCapture_Project=dojo.byId("dropDownProjectCapture_bt");
-	var btbuttonDDC=dijit.byId("id_buttonDDC2");
-	if (btbuttonDDC) {
-		sp_btDropDownCapture_Project.removeChild(btbuttonDDC.domNode);
-		btbuttonDDC.destroyRecursive();
-	}
-
-        var menuDDC = new dijit.DropDownMenu({ style: "display: none;"});
-        var buttonDDC2 = new dijit.form.DropDownButton({
-		label: "Capture",
-		name: "Capture",
-		id:"id_buttonDDC2",
-		dropDown: menuDDC,
-		iconClass:"captureIcon",
-        });
-	captureMenuStore = new dojox.data.AndOrWriteStore({
-	        url: url_path + "/manageData.pl?option=captureName",
-		clearOnClose: true,
-	});
-
-	var gotCaptureList = function(items, request){
-		dojo.forEach(items, function(i){
-			var nameC= captureMenuStore.getValue(i,"name").split("|")[0].trim();
-			//var nameC=nameCinit.split("|")[0].trim();
-			menuDDC.addChild(new dijit.MenuItem({
-					label: nameC,
-					onClick: function(){ 
-							updateCapture(nameC);
-					 }
-        			})
-			);
-		});
-	}
-	var gotCaptureError = function(error, request){
-  		alert("Failed Capture Menu Store " +  error);
-	}
-	captureMenuStore.fetch({
-		query: { name: "*", caprel: selPcapRel },
- 		onComplete: gotCaptureList,
-  		onError: gotCaptureError
-	});
-	sp_btDropDownCapture_Project.appendChild(buttonDDC2.domNode);
-	buttonDDC2.startup();
-	buttonDDC2.placeAt(sp_btDropDownCapture_Project);
-
+	initMenuDropDownCapture();
 	var selProjId = grid.store.getValue(itemProj, "id");
 	var selProjName = grid.store.getValue(itemProj, "name");
 	var selProjSom = grid.store.getValue(itemProj, "somatic");
@@ -6228,68 +6183,7 @@ function insertPedigree() {
 ##########################################################################*/
 function editOneRun(itemRun) {
 	var selRcapRel = gridRundoc.store.getValue(itemRun, "capRel");
-
-	var sp_btDropDownCapture_Run=dojo.byId("dropDownRunCapture_bt");
-	var btbuttonDDC=dijit.byId("id_buttonDDC");
-	if (btbuttonDDC) {
-		sp_btDropDownCapture_Run.removeChild(btbuttonDDC.domNode);
-		btbuttonDDC.destroyRecursive();
-	}
-
-        var menuDDC = new dijit.DropDownMenu({ style: "display: none;"});
-        var buttonDDC = new dijit.form.DropDownButton({
-		label: "Capture",
-		name: "Capture",
-		id:"id_buttonDDC",
-		dropDown: menuDDC,
-		iconClass:"captureIcon",
-        });
-	captureMenuStore = new dojox.data.AndOrWriteStore({
-	        url: url_path + "/manageData.pl?option=captureName",
-		clearOnClose: true,
-	});
-
-	var gotCaptureList = function(items, request){
-		dojo.forEach(items, function(i){
-			//var nameC= captureMenuStore.getValue(i,"name").split("|")[0].trim();//ori
-			// sort name with no case sensitive
-      			items.sort(function(a, b) {
-       				var nameA = captureMenuStore.getValue(a, "value").toLowerCase();
-        			var nameB = captureMenuStore.getValue(b, "value").toLowerCase();
-        			if (nameA < nameB) return -1;
-        			if (nameA > nameB) return 1;
-        			return 0;
-      			});
-			var nameC= captureMenuStore.getValue(i,"name").split("|")[0].trim();
-
-			var lng_nameC= captureMenuStore.getValue(i,"name");
-			menuDDC.addChild(new dijit.MenuItem({
-					label: lng_nameC,
-					onClick: function(){ 
-							updateCapture(nameC);
-					 }
-        			})
-			);
-		});
-	}
-	var gotCaptureError = function(error, request){
-  		alert("Failed Capture Menu Store " +  error);
-	}
-	var capRel=selRcapRel.toString().split(" ");
-	var query_line="";
-	for(var i=0; i<capRel.length; i++) {
-		if (i==0) {query_line="caprel:" + capRel[i];} else {query_line+=" OR caprel:" + capRel[i];}
-	}
-	captureMenuStore.fetch({
-		query: {complexQuery:query_line},
-		onComplete: gotCaptureList,
-  		onError: gotCaptureError
-	});
-
-	sp_btDropDownCapture_Run.appendChild(buttonDDC.domNode);
-	buttonDDC.startup();
-	buttonDDC.placeAt(sp_btDropDownCapture_Run);
-
+	initMenuDropDownCapture();
 	checkPassword(okfunction);
 	if(! logged) {
 		return
@@ -6298,6 +6192,335 @@ function editOneRun(itemRun) {
 	var selRSomatic = gridRundoc.store.getValue(itemRun, "somatic");
 	var selRcapAnalyse = gridRundoc.store.getValue(itemRun, "CaptureAnalyse");
 	showRun(selRunId,selRSomatic,selRcapRel,selRcapAnalyse);
+}
+
+function initMenuDropDownCapture() {	
+	require([ "dojo/dom","dojo/on","dijit/registry","dojo/data/ItemFileWriteStore","dijit/DropDownMenu","dijit/form/DropDownButton","dijit/Menu","dijit/MenuItem","dijit/PopupMenuItem","dijit/Tooltip"],
+	function(dom,on,registry,ItemFileWriteStore,DropDownMenu,DropDownButton,Menu,MenuItem,PopupMenuItem,Tooltip) {
+//################# Init Capture exome, rnaseq, singlecell, target, amplicon #############################
+		exomeCapStore = new ItemFileWriteStore({
+	        	url: url_path + "/manageData.pl?option=captureByAnalyse" + "&analyse=" + "exome",
+			clearOnClose: true,
+		});
+		genomeCapStore = new ItemFileWriteStore({
+	        	url: url_path + "/manageData.pl?option=captureByAnalyse" + "&analyse=" + "genome",
+			clearOnClose: true,
+		});
+		rnaCapStore = new ItemFileWriteStore({
+	        	url: url_path + "/manageData.pl?option=captureByAnalyse" + "&analyse=" + "rnaseq",
+			clearOnClose: true,
+		});
+		singleCapStore = new ItemFileWriteStore({
+	        	url: url_path + "/manageData.pl?option=captureByAnalyse" + "&analyse=" + "singlecell",
+			clearOnClose: true,
+		});
+		targetCapStore = new ItemFileWriteStore({
+	        	url: url_path + "/manageData.pl?option=captureByAnalyse" + "&analyse=" + "target",
+			clearOnClose: true,
+		});
+		ampliconCapStore = new ItemFileWriteStore({
+	        	url: url_path + "/manageData.pl?option=captureByAnalyse" + "&analyse=" + "amplicon",
+			clearOnClose: true,
+		});
+		otherCapStore = new ItemFileWriteStore({
+	        	url: url_path + "/manageData.pl?option=captureByAnalyse" + "&analyse=" + "other",
+			clearOnClose: true,
+		});
+//from Run
+		var sp_buttonDDC=dom.byId("dropDownRunCapture_bt");
+		var id_buttonDDC=registry.byId("id_buttonDDC");
+		if (id_buttonDDC) {
+			id_buttonDDC.destroyRecursive();
+		}
+//from Project
+		var sp_buttonPDC=dom.byId("dropDownProjectCapture_bt");
+		var id_buttonPDC=registry.byId("id_buttonPDC");
+		if (id_buttonPDC) {
+			id_buttonPDC.destroyRecursive();
+		}
+// Exome
+		var subMenuE = new DropDownMenu();
+		var subMenuPE = new DropDownMenu();
+		var gotExomeCapList = function(items, request){
+			dojo.forEach(items, function(i){
+				var nameE= exomeCapStore.getValue(i,"name");
+				var idCap= exomeCapStore.getValue(i,"captureId");
+				subMenuE.addChild(new MenuItem({
+						label: nameE,
+						onClick: function(){ 
+							ChangeCapture_forUpatePatient("Capture",nameE,idCap);
+					 	}
+        				})
+				);
+				subMenuPE.addChild(new MenuItem({
+						label: nameE,
+						onClick: function(){
+							ChangeCapture_forUpatePatient("Capture",nameE,idCap);
+					 	}
+        				})
+				);
+			});
+		}
+
+		var gotExomeCapError = function(error, request){
+  			alert("Failed ExomeCap Menu Store " +  error);
+		}
+		exomeCapStore.fetch({
+  			onComplete: gotExomeCapList,
+  			onError: gotExomeCapError
+		});
+
+// Genome
+		var subMenuG = new DropDownMenu();
+		var subMenuPG = new DropDownMenu();
+		var gotGenomeCapList = function(items, request){
+			dojo.forEach(items, function(i){
+				var nameG= genomeCapStore.getValue(i,"name");
+				var idCap= genomeCapStore.getValue(i,"captureId");
+				subMenuG.addChild(new MenuItem({
+						label: nameG,
+						onClick: function(){ 
+							ChangeCapture_forUpatePatient("Capture",nameG,idCap);
+					 	}
+        				})
+				);
+				subMenuPG.addChild(new MenuItem({
+						label: nameG,
+						onClick: function(){ 
+							ChangeCapture_forUpatePatient("Capture",nameG,idCap);
+					 	}
+        				})
+				);
+			});
+		}
+		var gotGenomeCapError = function(error, request){
+  			alert("Failed GenomeCap Menu Store " +  error);
+		}
+		genomeCapStore.fetch({
+  			onComplete: gotGenomeCapList,
+  			onError: gotGenomeCapError
+		});
+
+//Rnaseq
+		var subMenuR = new DropDownMenu();
+		var subMenuPR = new DropDownMenu();
+		var gotRnaseqCapList = function(items, request){
+			dojo.forEach(items, function(i){
+				var nameR= rnaCapStore.getValue(i,"name");
+				var idCap= rnaCapStore.getValue(i,"captureId");
+				subMenuR.addChild(new MenuItem({
+						label: nameR,
+						onClick: function(){ 
+							ChangeCapture_forUpatePatient("Capture",nameR,idCap);
+					 	}
+        				})
+				);
+				subMenuPR.addChild(new MenuItem({
+						label: nameR,
+						onClick: function(){ 
+							ChangeCapture_forUpatePatient("Capture",nameR,idCap);
+					 	}
+        				})
+				);
+			});
+		}
+		var gotRnaseqCapError = function(error, request){
+  			alert("Failed RnaseqCap Menu Store " +  error);
+		}
+		rnaCapStore.fetch({
+  			onComplete: gotRnaseqCapList,
+  			onError: gotRnaseqCapError
+		});
+
+//SingleCell
+		var subMenuS = new DropDownMenu();
+		var subMenuPS = new DropDownMenu();
+		var gotSinglecellCapList = function(items, request){
+			dojo.forEach(items, function(i){
+				var nameS= singleCapStore.getValue(i,"name");
+				var idCap= singleCapStore.getValue(i,"captureId");
+				subMenuS.addChild(new MenuItem({
+						label: nameS,
+						onClick: function(){ 
+							ChangeCapture_forUpatePatient("Capture",nameS,idCap);
+					 	}
+        				})
+				);
+				subMenuPS.addChild(new MenuItem({
+						label: nameS,
+						onClick: function(){ 
+							ChangeCapture_forUpatePatient("Capture",nameS,idCap);
+					 	}
+        				})
+				);
+			});
+		}
+		var gotSinglecellCapError = function(error, request){
+  			alert("Failed Singlecell Menu Store " +  error);
+		}
+		singleCapStore.fetch({
+  			onComplete: gotSinglecellCapList,
+  			onError: gotSinglecellCapError
+		});
+
+// Target
+		var subMenuT = new DropDownMenu();
+		var subMenuPT = new DropDownMenu();
+		var gotTargetCapList = function(items, request){
+			dojo.forEach(items, function(i){
+				var nameT= targetCapStore.getValue(i,"name");
+				var idCap= targetCapStore.getValue(i,"captureId");
+				subMenuT.addChild(new MenuItem({
+						label: nameT,
+						onClick: function(){ 
+							ChangeCapture_forUpatePatient("Capture",nameT,idCap);
+					 	}
+        				})
+				);
+				subMenuPT.addChild(new MenuItem({
+						label: nameT,
+						onClick: function(){ 
+							ChangeCapture_forUpatePatient("Capture",nameT,idCap);
+					 	}
+        				})
+				);
+			});
+		}
+		var gotTargetCapError = function(error, request){
+  			alert("Failed Target Menu Store " +  error);
+		}
+		targetCapStore.fetch({
+  			onComplete: gotTargetCapList,
+  			onError: gotTargetCapError
+		});
+
+// Amplicon
+		var subMenuA = new DropDownMenu();
+		var subMenuPA = new DropDownMenu();
+		var gotAmpliconCapList = function(items, request){
+			dojo.forEach(items, function(i){
+				var nameA= ampliconCapStore.getValue(i,"name");
+				var idCap= ampliconCapStore.getValue(i,"captureId");
+				subMenuA.addChild(new MenuItem({
+						label: nameA,
+						onClick: function(){ 
+							ChangeCapture_forUpatePatient("Capture",nameA,idCap);
+					 	}
+        				})
+				);
+				subMenuPA.addChild(new MenuItem({
+						label: nameA,
+						onClick: function(){ 
+							ChangeCapture_forUpatePatient("Capture",nameA,idCap);
+					 	}
+        				})
+				);
+			});
+		}
+		var gotAmpliconCapError = function(error, request){
+  			alert("Failed Amplicon Menu Store " +  error);
+		}
+		ampliconCapStore.fetch({
+  			onComplete: gotAmpliconCapList,
+  			onError: gotAmpliconCapError
+		});
+
+// Other
+		var subMenuO = new DropDownMenu();
+		var subMenuPO = new DropDownMenu();
+		var gotOtherCapList = function(items, request){
+			dojo.forEach(items, function(i){
+				var nameO= otherCapStore.getValue(i,"name");
+				var idCap= otherCapStore.getValue(i,"captureId");
+				subMenuO.addChild(new MenuItem({
+						label: nameO,
+						onClick: function(){ 
+							ChangeCapture_forUpatePatient("Capture",nameO,idCap);
+					 	}
+        				})
+				);
+				subMenuPO.addChild(new MenuItem({
+						label: nameO,
+						onClick: function(){ 
+							ChangeCapture_forUpatePatient("Capture",nameO,idCap);
+					 	}
+        				})
+				);
+			});
+		}
+		var gotOtherCapError = function(error, request){
+  			alert("Failed Other Menu Store " +  error);
+		}
+		otherCapStore.fetch({
+  			onComplete: gotOtherCapList,
+  			onError: gotOtherCapError
+		});
+
+// button
+		function createStyledPopupMenuItem(label1, label2, color, popupMenu) {
+			var item = new PopupMenuItem({
+				label: "",       // vide car on injectera du HTML
+				popup: popupMenu
+			});
+			var table = dojo.create("table", {
+				innerHTML: "<tr>" +
+				"<td style='width:5em;'>" + label1 + "</td>" +
+				"<td style='width:1.5em;text-align:center;background-color: " + color + "; padding: 2px 6px;'>" + label2 + "</td>" +
+				"</tr>"
+			});
+			dojo.empty(item.containerNode);
+			dojo.place(table, item.containerNode);
+			return item;
+		}
+// Add submenu to the main menu
+		var mainMenu = new DropDownMenu();
+		//mainMenu.addChild(new PopupMenuItem({
+		//	popup: subMenuE
+		//}),);
+		mainMenu.addChild(createStyledPopupMenuItem("Exome", "E", "#66CC00", subMenuE));
+		mainMenu.addChild(createStyledPopupMenuItem("Genome", "G", "#FFFF00", subMenuG));
+		mainMenu.addChild(createStyledPopupMenuItem("RnaSeq", "R", "#6666FF", subMenuR));
+		mainMenu.addChild(createStyledPopupMenuItem("SingleCell", "S", "#33CCFF", subMenuS));
+		mainMenu.addChild(createStyledPopupMenuItem("Target", "T", "#009966", subMenuT));
+		mainMenu.addChild(createStyledPopupMenuItem("Amplicon", "A", "#f18973", subMenuA));
+		mainMenu.addChild(createStyledPopupMenuItem("Other", "O", "#618685", subMenuO));
+
+            // Create DropDownButton with the main menu 
+		var buttonDDC = new DropDownButton({
+			label: 'Capture',
+			id:"id_buttonDDC",
+			iconClass:"captureIcon",
+			dropDown: mainMenu
+		});
+		buttonDDC.startup();
+		buttonDDC.placeAt(sp_buttonDDC);
+//Project
+		var mainPMenu = new DropDownMenu();
+		mainPMenu.addChild(createStyledPopupMenuItem("Exome", "E", "#66CC00", subMenuPE));
+		mainPMenu.addChild(createStyledPopupMenuItem("Genome", "G", "#FFFF00", subMenuPG));
+		mainPMenu.addChild(createStyledPopupMenuItem("RnaSeq", "R", "#6666FF", subMenuPR));
+		mainPMenu.addChild(createStyledPopupMenuItem("SingleCell", "S", "#33CCFF", subMenuPS));
+		mainPMenu.addChild(createStyledPopupMenuItem("Target", "T", "#009966", subMenuPT));
+		mainPMenu.addChild(createStyledPopupMenuItem("Amplicon", "A", "#f18973", subMenuPA));
+		mainPMenu.addChild(createStyledPopupMenuItem("Other", "O", "#618685", subMenuO));
+
+		var buttonPDC = new DropDownButton({
+			label: '<b>C</b>apture',
+			id:"id_buttonPDC",
+			iconClass:"renameIcon",
+			dropDown: mainPMenu
+		});
+		buttonPDC.startup();
+		buttonPDC.placeAt(sp_buttonPDC);
+	});
+}
+
+function ChangeCapture_forUpatePatient(field,name,id) {
+	require(["dojo/dom","dijit/registry"],
+		function(dom,registry) {
+		var sp_capturename=name.split("|")[1].trim();			
+		updateCapture(sp_capturename);
+	});
 }
 
 function updateCapture(name) {
@@ -6312,6 +6535,7 @@ function updateCapture(name) {
 		upCapturePatient(fromProject,patGrid,name);
 	}
 }
+
 function upCapturePatient(fromproject,grid,name) {
 	var item = grid.selection.getSelected();
 	var PatIdGroups = new Array();

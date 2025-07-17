@@ -881,7 +881,6 @@ sub delPatGroup {
 
 ############ End Group #####################
 ############ Capture #######################
-
 sub getCaptureId{
         my ($dbh,$capid)=@_;
 		my $query2 = qq {where C.capture_id='$capid'};
@@ -904,6 +903,44 @@ sub getCaptureId{
                 push(@res,$id);
         }
         return \@res;
+}
+
+sub get_Capture {
+	my ($dbh,$def,$analyse,$species) = @_;
+	my $sql2;
+#	$sql2 = qq {where c.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other") and c.plt='1'} if $analyse eq "target";
+#	$sql2 = qq {where c.analyse='$analyse' and (c.def='$def' or c.plt='1')} unless $analyse eq "target";
+	$sql2 = qq {where c.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other") and c.def='$def'} if $analyse eq "target";
+	$sql2 = qq {where c.analyse='$analyse' and c.def='$def'} unless $analyse eq "target";
+	$sql2 = "" unless $analyse;
+	my $sql3 = qq {and sp.name='$species'};
+	$sql3 = "" unless $species;
+	my $sql = qq{
+	SELECT distinct
+		c.capture_id,c.name as Capture,c.analyse,
+		c.creation_date as cDate,
+		-- c.release_id,c.umi_id,
+		c.def,
+		u.name as UMI,R.name as capRel,
+		sp.name as Species
+	FROM PolyprojectNGS.capture_systems c
+        LEFT JOIN PolyprojectNGS.releases R
+        ON c.release_id=R.release_id
+		LEFT JOIN PolyprojectNGS.umi u
+		ON c.umi_id=u.umi_id
+        LEFT JOIN PolyprojectNGS.species sp
+        ON R.species_id = sp.species_id
+
+		$sql2
+		$sql3
+	};
+	my @res;
+	my $sth = $dbh->prepare($sql);
+	$sth->execute();
+	while (my $id = $sth->fetchrow_hashref ) {
+		push(@res,$id);
+	}
+	return \@res;
 }
 
 sub upCapture_default {
