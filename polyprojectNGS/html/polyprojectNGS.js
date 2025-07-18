@@ -2353,18 +2353,35 @@ initRadioRunRelCap(dojo.byId("relRadioCap"),e_radio.id,checkDefRel,checkDefCapd,
 	        url: url_path + "/manageData.pl?option=speciesName",
 		clearOnClose: true,
 	});
+// button
+	function createStyledMenuItem(label1, label2, color) {
+		var item = new dijit.MenuItem({
+				label: "",       // vide car on injectera du HTML
+				onClick: function(){ 
+					updateSpecies(label1);
+				}
+		});
+		var table = dojo.create("table", {
+				innerHTML: "<tr>" +
+				"<td style='width:5em;'>" + label1 + "</td>" +
+				"<td style='width:1.5em;text-align:center;background-color: " + color + ";'>" + label2 + "</td>" +
+				"</tr>",
+				style: "border-collapse:collapse;border:0;margin:0;padding:0;white-space:nowrap;"
+		});
+		dojo.empty(item.containerNode);
+		dojo.place(table, item.containerNode);
+		return item;
+	}
+
 	var gotSpeciesList = function(items, request){
 		dojo.forEach(items, function(i){
 			var nameS= speciesMenuStore.getValue(i,"name");
-			menuDDS.addChild(new dijit.MenuItem({
-					label: nameS,
-					onClick: function(){ 
-							updateSpecies(nameS);
-					 }
-        			})
-			);
+			var codeS= speciesMenuStore.getValue(i,"code");
+			var colorS=getColorSpecies(codeS);
+			menuDDS.addChild(createStyledMenuItem(nameS, codeS, colorS));
 		});
 	}
+
 	var gotSpeciesError = function(error, request){
   		alert("Failed Species Menu Store " +  error);
 	}
@@ -6465,8 +6482,9 @@ function initMenuDropDownCapture() {
 			var table = dojo.create("table", {
 				innerHTML: "<tr>" +
 				"<td style='width:5em;'>" + label1 + "</td>" +
-				"<td style='width:1.5em;text-align:center;background-color: " + color + "; padding: 2px 6px;'>" + label2 + "</td>" +
-				"</tr>"
+				"<td style='width:1.5em;text-align:center;background-color: " + color + ";'>" + label2 + "</td>" +
+				"</tr>",
+				style: "border-collapse:collapse;border:0;margin:0;padding:0;white-space:nowrap;"
 			});
 			dojo.empty(item.containerNode);
 			dojo.place(table, item.containerNode);

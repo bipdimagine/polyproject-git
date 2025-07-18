@@ -5748,7 +5748,7 @@ sub speciesNameSection {
 		$s{value} = $c->{species_id};
 		$s{name} = $c->{name};
 		$s{latin} = $c->{latin};
-		
+		$s{code} = $c->{code};		
 		push(@data,\%s);
 	}
 	$hdata{items}=\@data;
