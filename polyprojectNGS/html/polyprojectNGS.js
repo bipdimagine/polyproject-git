@@ -6850,8 +6850,14 @@ type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect',widgetP
 
 //##############################
 	var sp_btclosepatrun=dojo.byId("bt_close_patrun");
+	var btclosepatrun=dijit.byId("id_bt_closepatrun");
+	if (btclosepatrun) {
+		sp_btclosepatrun.removeChild(btclosepatrun.domNode);
+		btclosepatrun.destroyRecursive();
+	}
 	var buttonformclose_patrun= new dijit.form.Button({
 		showLabel: false,
+		id:"id_bt_closepatrun",
 		iconClass:"closeIcon",
 		style:"color:white",
 		onclick:"dijit.byId('showrunDialog').reset();dijit.byId('showrunDialog').hide();"
