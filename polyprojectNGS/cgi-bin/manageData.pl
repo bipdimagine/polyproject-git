@@ -3403,7 +3403,7 @@ sub captureByAnalyseSection {
 	my $species = $cgi->param('species');
 	my $capList;
 	my $def=1;
-	$capList = queryPolyproject::get_Capture($buffer->dbh,$def,$analyse,$species);
+	$capList = queryPolyproject::get_Capture($buffer->dbh,$analyse,$species);
 	my @data;
 	my %hdata;
 	$hdata{label}="name";
@@ -3417,9 +3417,9 @@ sub captureByAnalyseSection {
 		$s{umi}= "";
 		$s{umi}= "UMI: ".$c->{UMI}." |" if $c->{UMI};
 		$s{value} = $c->{capture_id};
-#		$s{name} = $c->{Capture}." | ".$s{species}." | ".$s{caprel}." | ".$s{umi};
 		$s{name} = $c->{capture_id}." | ".$c->{Capture}." | ".$s{species}." | ".$s{caprel}." | ".$s{umi};
 		$s{hidename} = $c->{Capture};
+		$s{def} =  $c->{def};
 		push(@data,\%s);
 	}
 	my @result_sorted=sort { "\L$a->{hidename}" cmp "\L$b->{hidename}"} @data;

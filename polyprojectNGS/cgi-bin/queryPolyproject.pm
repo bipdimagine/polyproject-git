@@ -906,12 +906,12 @@ sub getCaptureId{
 }
 
 sub get_Capture {
-	my ($dbh,$def,$analyse,$species) = @_;
+	my ($dbh,$analyse,$species) = @_;
 	my $sql2;
 #	$sql2 = qq {where c.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other") and c.plt='1'} if $analyse eq "target";
 #	$sql2 = qq {where c.analyse='$analyse' and (c.def='$def' or c.plt='1')} unless $analyse eq "target";
-	$sql2 = qq {where c.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other") and c.def='$def'} if $analyse eq "target";
-	$sql2 = qq {where c.analyse='$analyse' and c.def='$def'} unless $analyse eq "target";
+	$sql2 = qq {where c.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $analyse eq "target";
+	$sql2 = qq {where c.analyse='$analyse'} unless $analyse eq "target";
 	$sql2 = "" unless $analyse;
 	my $sql3 = qq {and sp.name='$species'};
 	$sql3 = "" unless $species;

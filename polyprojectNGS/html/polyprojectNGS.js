@@ -2397,9 +2397,40 @@ initRadioRunRelCap(dojo.byId("relRadioCap"),e_radio.id,checkDefRel,checkDefCapd,
 	sp_btDropDownSpecies_Project.appendChild(buttonDDS2.domNode);
 	buttonDDS2.startup();
 	buttonDDS2.placeAt(sp_btDropDownSpecies_Project);
+//################# DropDown Menu Capture  #############################
+	changeRunDDCapture();
+	changeProjectDDCapture();
 //################# Init Unassigned Projects #############################
 	unaProjDisplay(fromRun=1);
 }// End init()
+
+function changeRunDDCapture() {	
+	require([
+		"dijit/registry","dojo/on","dojo/domReady!"],
+	function(registry, on) {
+		var checkboxWidget = registry.byId("rcap_defbox");
+		on(checkboxWidget.domNode, "click", function() {
+			var isChecked = checkboxWidget.get("checked");
+			var checkDD=1;
+			if (isChecked) {checkDD=1;} else {checkDD=0;}
+			initMenuDropDownCapture(from="R",checkDD);
+    		});
+	});
+}
+
+function changeProjectDDCapture() {	
+	require([
+		"dijit/registry","dojo/on","dojo/domReady!"],
+	function(registry, on) {
+		var checkboxWidget = registry.byId("pcap_defbox");
+		on(checkboxWidget.domNode, "click", function() {
+			var isChecked = checkboxWidget.get("checked");
+			var checkDD=1;
+			if (isChecked) {checkDD=1;} else {checkDD=0;}
+			initMenuDropDownCapture(from="P",checkDD);
+    		});
+	});
+}
 
 function filterDefGrid(table,grid,val) {
 	if (table=="Plt") {
@@ -5510,7 +5541,8 @@ function editProject(itemProj) {
 		return
 	}
 	var selPcapRel = grid.store.getValue(itemProj, "capRel");
-	initMenuDropDownCapture();
+	var checkdefDDCapture=1;
+	initMenuDropDownCapture(from="P",checkdefDDCapture);
 	var selProjId = grid.store.getValue(itemProj, "id");
 	var selProjName = grid.store.getValue(itemProj, "name");
 	var selProjSom = grid.store.getValue(itemProj, "somatic");
@@ -6200,7 +6232,8 @@ function insertPedigree() {
 ##########################################################################*/
 function editOneRun(itemRun) {
 	var selRcapRel = gridRundoc.store.getValue(itemRun, "capRel");
-	initMenuDropDownCapture();
+	var checkdefDDCapture=1;
+	initMenuDropDownCapture(from="R",checkdefDDCapture);
 	checkPassword(okfunction);
 	if(! logged) {
 		return
@@ -6211,9 +6244,14 @@ function editOneRun(itemRun) {
 	showRun(selRunId,selRSomatic,selRcapRel,selRcapAnalyse);
 }
 
-function initMenuDropDownCapture() {	
+function initMenuDropDownCapture(from,checkDD) {	
 	require([ "dojo/dom","dojo/on","dijit/registry","dojo/data/ItemFileWriteStore","dijit/DropDownMenu","dijit/form/DropDownButton","dijit/Menu","dijit/MenuItem","dijit/PopupMenuItem","dijit/Tooltip"],
 	function(dom,on,registry,ItemFileWriteStore,DropDownMenu,DropDownButton,Menu,MenuItem,PopupMenuItem,Tooltip) {
+		if (checkDD) {registry.byId("rcap_defbox").set('checked', true);registry.byId("pcap_defbox").set('checked', true);} 
+		else {registry.byId("rcap_defbox").set('checked', false);registry.byId("pcap_defbox").set('checked', false);}
+		if (checkDD==0) {
+			checkDD="*";
+		}
 //################# Init Capture exome, rnaseq, singlecell, target, amplicon #############################
 		exomeCapStore = new ItemFileWriteStore({
 	        	url: url_path + "/manageData.pl?option=captureByAnalyse" + "&analyse=" + "exome",
@@ -6243,6 +6281,7 @@ function initMenuDropDownCapture() {
 	        	url: url_path + "/manageData.pl?option=captureByAnalyse" + "&analyse=" + "other",
 			clearOnClose: true,
 		});
+
 //from Run
 		var sp_buttonDDC=dom.byId("dropDownRunCapture_bt");
 		var id_buttonDDC=registry.byId("id_buttonDDC");
@@ -6283,6 +6322,7 @@ function initMenuDropDownCapture() {
   			alert("Failed ExomeCap Menu Store " +  error);
 		}
 		exomeCapStore.fetch({
+			query:{def:checkDD},
   			onComplete: gotExomeCapList,
   			onError: gotExomeCapError
 		});
@@ -6314,7 +6354,8 @@ function initMenuDropDownCapture() {
   			alert("Failed GenomeCap Menu Store " +  error);
 		}
 		genomeCapStore.fetch({
-  			onComplete: gotGenomeCapList,
+ 			query:{def:checkDD},
+ 			onComplete: gotGenomeCapList,
   			onError: gotGenomeCapError
 		});
 
@@ -6345,7 +6386,8 @@ function initMenuDropDownCapture() {
   			alert("Failed RnaseqCap Menu Store " +  error);
 		}
 		rnaCapStore.fetch({
-  			onComplete: gotRnaseqCapList,
+ 			query:{def:checkDD},
+ 			onComplete: gotRnaseqCapList,
   			onError: gotRnaseqCapError
 		});
 
@@ -6376,7 +6418,8 @@ function initMenuDropDownCapture() {
   			alert("Failed Singlecell Menu Store " +  error);
 		}
 		singleCapStore.fetch({
-  			onComplete: gotSinglecellCapList,
+ 			query:{def:checkDD},
+ 			onComplete: gotSinglecellCapList,
   			onError: gotSinglecellCapError
 		});
 
@@ -6407,7 +6450,8 @@ function initMenuDropDownCapture() {
   			alert("Failed Target Menu Store " +  error);
 		}
 		targetCapStore.fetch({
-  			onComplete: gotTargetCapList,
+ 			query:{def:checkDD},
+ 			onComplete: gotTargetCapList,
   			onError: gotTargetCapError
 		});
 
@@ -6438,7 +6482,8 @@ function initMenuDropDownCapture() {
   			alert("Failed Amplicon Menu Store " +  error);
 		}
 		ampliconCapStore.fetch({
-  			onComplete: gotAmpliconCapList,
+ 			query:{def:checkDD},
+ 			onComplete: gotAmpliconCapList,
   			onError: gotAmpliconCapError
 		});
 
@@ -6469,7 +6514,8 @@ function initMenuDropDownCapture() {
   			alert("Failed Other Menu Store " +  error);
 		}
 		otherCapStore.fetch({
-  			onComplete: gotOtherCapList,
+ 			query:{def:checkDD},
+ 			onComplete: gotOtherCapList,
   			onError: gotOtherCapError
 		});
 
