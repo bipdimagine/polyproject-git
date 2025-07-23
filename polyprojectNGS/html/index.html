@@ -1316,18 +1316,18 @@ style="float:center;border-radius:10px;background:linear-gradient(brown,#510303)
 
 									<TD width=5></TD>
 									<TD style="border: 1px solid green">
-									<div dojoType="dijit.form.Button"
+									<div dojoType="dijit.form.Button" id="bt_cproject"
 									iconClass="" showLabel="true"
 								style="float: center; background-color: #5B6D13;margin:0;padding:0;white-space:nowrap;"
 								onClick="SearchAndNewProject(tproject=1);">
-									Current Project</div>
+									C. Project</div>
 									</TD>
 									<TD style="border: 1px solid green">
-									<div dojoType="dijit.form.Button"
+									<div dojoType="dijit.form.Button"  id="bt_tproject"
 									iconClass="" showLabel="true"
 								style="float: center; background-color: #5B6D13;margin:0;padding:0;white-space:nowrap;"
 								onClick="SearchAndNewProject(tproject=0);">
-									Target Project</div>
+									T. Project</div>
 									</TD>
 									<TD width=5></TD>
 									<TD>
@@ -1401,6 +1401,18 @@ style="height:16;width:auto;margin:0;padding:0;white-space:nowrap;float: top; bo
 									</TD>
 									</TR>
 								</TABLE>
+							</div>
+							<div data-dojo-type="dijit.Tooltip" 
+								data-dojo-props="connectId:'bt_cproject',position:['above']">
+								<label class="tooltip">
+								<b>Current Project<b>
+								</label>
+							</div>
+							<div data-dojo-type="dijit.Tooltip" 
+								data-dojo-props="connectId:'bt_tproject',position:['above']">
+								<label class="tooltip">
+								<b>Target Project<b>
+								</label>
 							</div>
 							<div id="runGridDiv" jsId="runGridDiv_jsId"></div>
 						</div>
