@@ -5754,6 +5754,9 @@ function showProject(id,name,somatic){
 	buttonformclose_proj.placeAt(sp_btcloseproj);
 	show_bt_Project();
 	viewProj.show();
+	setTimeout(function () {
+   	 	dijit.byId("viewProj").resize();
+	}, 0);
 //---------------------------- Fetch Data Grid User Project -------------------------------
 	standbyShow();
 	var userProjectStore = new dojo.data.ItemFileWriteStore({
@@ -6945,6 +6948,9 @@ type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect',widgetP
 	}
 
 	showrunDialog.show();
+	setTimeout(function () {
+ 	  	 dijit.byId("showrunDialog").resize();
+	}, 0);
 	standbyHide();
 	standbyShow();
 
