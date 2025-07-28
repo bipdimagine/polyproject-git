@@ -166,8 +166,12 @@
 	max-height: none !important;
 	margin: 0 !important;
 	padding: 0 !important;
+	white-space:nowrap;
+	overflow: hidden !important;
+/*
+	overflow: hidden !important;
 	overflow: visible !important;
-/*	overflow: hidden !important;*/
+*/
 }
 
 .dijitDialog.showRun .dijitDialogPaneContent,
@@ -180,8 +184,11 @@
 	padding: 0 !important;
 	margin: 0 !important;
 	box-sizing: border-box;
- 	overflow: auto !important;  ou visible, selon votre cas 
-/*	overflow: hidden;  ou auto si vous avez du scroll */
+ 	overflow: visible !important;  auto ou visible, selon votre cas 
+/*
+	overflow: visible;  ou auto si vous avez du scroll
+	overflow: auto;  ou auto si vous avez du scroll 
+*/
 }
 
 .showBun {
@@ -291,8 +298,12 @@
 	max-height: none !important;
 	margin: 0 !important;
 	padding: 0 !important;
+	white-space:nowrap;
+	overflow: hidden !important;
+/*
+	overflow: hidden !important;
 	overflow: visible !important;
-/*	overflow: hidden !important;*/
+*/
 }
 
 .dijitDialog.projEdit .dijitDialogPaneContent,
@@ -305,8 +316,11 @@
 	padding: 0 !important;
 	margin: 0 !important;
 	box-sizing: border-box;
- 	overflow: auto !important;  ou visible, selon votre cas 
-/*	overflow: hidden;  ou auto si vous avez du scroll */
+ 	overflow: visible !important;  auto ou visible, selon votre cas 
+/*
+	overflow: visible;  ou auto si vous avez du scroll
+	overflow: auto;  ou auto si vous avez du scroll 
+*/
 }
 
 .projUserAll .dijitDialogTitleBar,
@@ -461,8 +475,8 @@
 }
 
 #patientprojectGridDiv {
-	width: 100%;
-	height: 93%;
+	width: 98%;
+	height: 88%;
 	margin: 0 auto;
 }
 
@@ -499,8 +513,8 @@
 }
 
 #runGridDiv {
-	width: 98.5%;
-	height: 96%;
+	width: 99%;
+	height: 88%;
 	padding:0;
 	margin: 0;
 	border:0;
