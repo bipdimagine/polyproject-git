@@ -858,24 +858,15 @@
 	padding: 0;
 }
 
-.Onco {
-	width:18em;
-	height:4em;
-	background: url(icons/Oncology.png) no-repeat center left;
-	position: absolute;
-	padding:0;
-	border:0;
-	top:-14;
-}
-
 .rOnco {
-	width:18em;
-	height:4em;
+	width:16em;
+	height:3em;
 	background: url(icons/Oncology.png) no-repeat center left;
+	background-size: contain; /* <-- ajout important */
 	position: absolute;
 	padding:0;
 	border:0;
-	top:-10;
+	top:-14px;
 }
 
 .tundra .dijitAccordionArrow {

@@ -359,7 +359,7 @@ function viewPltRun(value,idx,cell) {
 }
 
 var layoutOneDoc = [
-		{ field: "FileName", name: "Document", width: '25',filterable: false},
+		{ field: "FileName", name: "Document", width: '30',filterable: false},
 		{ field: "FileType", name: "ext", width: '3',filterable: false},
 		{ field: "icon",name: "icon", width: 3, formatter:extension,filterable: false}
 ];
@@ -5730,7 +5730,7 @@ function showProject(id,name,somatic){
 	];
 	var spOnco = dojo.byId("projOnco");
 	if (somatic==1) {
-		spOnco.innerHTML= "<span class='Onco'></span>";
+		spOnco.innerHTML= "<span class='rOnco'></span>";
 		document.getElementById("depositOnco").style.display = "block";
 	} else {
 		spOnco.innerHTML= "<span></span>";
