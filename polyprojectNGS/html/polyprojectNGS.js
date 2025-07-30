@@ -5918,7 +5918,7 @@ function showProject(id,name,somatic){
 	});
 
 	layoutOneProject = [
-		{ field: "name",name: "Name",width: '8'},
+		{ field: "name",name: "Name",width: '10'},
 		{ field: "id",name: "ID",width: '4'},
 		{ field: "dejaVu",name: "Vu",width: '2',styles:"text-align:center;",formatter:activeRadioButtonView,
 			type: 'dojox.grid.cells.CheckBox', editable: true},
