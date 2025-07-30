@@ -4894,6 +4894,24 @@ sub getProjectNameFromId {
 	return $s;
 }
 
+sub getValidationProject { 
+	my ($dbh)=@_;
+	my $query = qq{	  	
+		SELECT Distinct
+		validation_db
+		FROM PolyprojectNGS.projects
+		where validation_db != ""
+		;
+	};
+	my @res;
+	my $sth = $dbh->prepare($query);
+	$sth->execute();
+	while (my $id = $sth->fetchrow_hashref ) {
+		 push(@res,$id);
+	}
+	return \@res if \@res;
+}
+
 sub getLastProject {
 	my ($dbh) = @_;
 	my $query = qq{
@@ -4924,6 +4942,7 @@ sub getProjectAll {
 	p.description,
 	p.dejaVu,p.somatic,
 	p.creation_date as cDate,
+	p.validation_db,
 	po.name as dbname,
     r.name as relname,
 	GROUP_CONCAT(DISTINCT pp.version_id ORDER BY pp.version_id  SEPARATOR ' ') as 'ppversionid',
@@ -5247,10 +5266,10 @@ sub getRunfromProjectIdDest {
 }
 
 sub upProject {
-        my ($dbh,$pid,$description,$dejavu,$somatic) = @_;
+        my ($dbh,$pid,$description,$dejavu,$somatic,$validation) = @_;
  		my $sql = qq{
  			UPDATE PolyprojectNGS.projects
- 			SET description='$description', dejaVu='$dejavu', somatic='$somatic'
+ 			SET description='$description', dejaVu='$dejavu', somatic='$somatic',validation_db='$validation'
 			WHERE project_id='$pid';
  		};
  		return ($dbh->do($sql));

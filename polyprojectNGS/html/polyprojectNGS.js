@@ -141,6 +141,7 @@ var layoutProject = [
 	{ field: "runId", name: "runId", width: '13'},
 	{ field: "capName", name: "Capture", width: '14'},
 	{ field: "capValidation", name: "Validation", width: '6'},
+	{ field: "projValidation", name: "ValidationP", width: '7'},
 	{ field: "plateform", name: "Plateform", width: '8'},
 	{ field: "macName", name: "Machine", width: '10'},
 	{ field: "MethAln", name: "Alignment", width: '10'},
@@ -536,7 +537,7 @@ var motherStore;
 var initfatherStore;
 var initmotherStore;
 var groupNameStore;
-
+var validationNameProjectStore;
 var memo1Store;
 var memo2Store;
 
@@ -1903,6 +1904,8 @@ initRadioRunRelCap(dojo.byId("relRadioCap"),e_radio.id,checkDefRel,checkDefCapd,
            }
         });
 
+  //################# init Validation Project #######################################
+	initValidationNameProject();
   //################# init Phenotype #######################################
     	dojo.xhrGet({
             url: url_path + "/manageData.pl?option=phenotype",
@@ -2403,6 +2406,16 @@ initRadioRunRelCap(dojo.byId("relRadioCap"),e_radio.id,checkDefRel,checkDefCapd,
 //################# Init Unassigned Projects #############################
 	unaProjDisplay(fromRun=1);
 }// End init()
+
+function initValidationNameProject() {
+    	dojo.xhrGet({
+            url: url_path + "/manageData.pl?option=validationNameProject",
+            handleAs: "json",
+            load: function (res) {
+ 		validationNameProjectStore = new dojo.store.Memory({data: res});
+           }
+        });
+}
 
 function changeRunDDCapture() {	
 	require([
@@ -5914,6 +5927,8 @@ function showProject(id,name,somatic){
 		{ field: "phenotype", name: "Phenotype", width: '15', editable:true,type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect',
 			widgetProps:{store:phenotypeNameStore,required:false}},
 		{ field: "Rel", name: "Rel", width: '5'},
+		{ field: "projValidation", name: "Validation", width: '7', editable:true,type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.ComboBox',
+			widgetProps:{store:validationNameProjectStore,required:false}},
 		{ field: "cDate", name: "Date", datatype:"date", width: '8'},
 		{ field: "nbPat", name: "#Pat", width: '3'},
 		{ field: "nbRun", name: "#Run", width: '3'},
@@ -5954,6 +5969,7 @@ function saveProject(){
 	var selprojDes;
 	var selprojAna;
 	var selprojPhe
+	var selprojVal;
 	dojo.forEach(oneprojGrid._by_idx, function(item, index){
 		var selectedItem = oneprojGrid.getItem(index);
 		dojo.forEach(oneprojGrid.store.getAttributes(selectedItem), function(attribute) {
@@ -5962,8 +5978,10 @@ function saveProject(){
  				selprojDes = Pvalue;
 			} else if (attribute == "capAnalyse") {
 				selprojAna = Pvalue;
-			}  else if (attribute == "phenotype") {
+			} else if (attribute == "phenotype") {
 				selprojPhe = Pvalue;
+			} else if (attribute == "projValidation") {
+				selprojVal = Pvalue;
 			}
 		});
 	});
@@ -5982,11 +6000,12 @@ function saveProject(){
 						"&description=" + selprojDes +
 						"&dejaVu=" + seldejaVu +
 						"&somatic=" + selSomatic;
-	url_insert=url_insert + "&phenotype=" + selprojPhe;
+	url_insert=url_insert + "&phenotype=" + selprojPhe + "&validation=" + selprojVal;
 	var res=sendData_v2(url_insert);
 	res.addCallback(
 		function(response) {
 			if(response.status=="OK"){
+				initValidationNameProject();
 				oneprojStore = QuerydependProjSlider(ProjSel);
 				oneprojGrid.setStore(oneprojStore);
 				oneprojGrid.store.close();

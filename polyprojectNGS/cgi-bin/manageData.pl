@@ -243,6 +243,8 @@ if ( $option eq "schemas" ) {
 	removePatientProjSection();
 } elsif ( $option eq "Project" ) {
 	ProjectSection();
+} elsif ( $option eq "validationNameProject" ) {
+	validationNameProjectSection();
 } elsif ( $option eq "saveProject" ) {
 	saveProjectSection();
 } elsif ( $option eq "delProject" ) {
@@ -5074,6 +5076,22 @@ sub ProjectSection	{
 	export_data::print(undef,$cgi,\@result_sorted);
 }
 
+sub validationNameProjectSection {
+	my $validationName = queryPolyproject::getValidationProject($buffer->dbh);
+	my @data;
+	my %hdata;
+	$hdata{identifier}="name";
+	$hdata{label}="value";
+	foreach my $c (@$validationName){
+		my %s;
+		$s{value} = $c->{validation_db};
+		$s{name} = $c->{validation_db};
+		push(@data,\%s);
+	}
+	$hdata{items}=\@data;
+	printJson(\%hdata);
+}
+
 sub saveProjectSection {
 ### Autocommit dbh ###########
 	my $dbh = $buffer->dbh;
@@ -5084,9 +5102,11 @@ sub saveProjectSection {
 	my $dejavu = $cgi->param('dejaVu');
 	my $somatic = $cgi->param('somatic');
 	my $phenotype = $cgi->param('phenotype');
+	my $validation = $cgi->param('validation');
 	my $name = queryPolyproject::getProjectName($buffer->dbh,$projectid);
 	#dejaVu & somatic update Project
-	queryPolyproject::upProject($buffer->dbh,$projectid,$description,$dejavu,$somatic);
+#	queryPolyproject::upProject($buffer->dbh,$projectid,$description,$dejavu,$somatic);
+	queryPolyproject::upProject($buffer->dbh,$projectid,$description,$dejavu,$somatic,$validation);
 	my $message_phe;
 	if ($phenotype) {
 		if ($phenotype eq "No Phenotype") {
