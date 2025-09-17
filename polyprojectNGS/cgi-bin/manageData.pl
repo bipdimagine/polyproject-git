@@ -2845,12 +2845,14 @@ sub ReleaseSection {
 		next unless ($c->{relName} =~ m/(HG18)|(HG19)|(HG38)/) ;
 		push(@rel_19_38,$c);
 	}
+	@rel_19_38=sort { "\L$a->{relName}" cmp "\L$b->{relName}"}@rel_19_38;	
 	my @relOther;
 	foreach my $c (@$relListAll) {
 		next unless ($c->{relName} !~ m/(HG18)|(HG19)|(HG38)/) ;
 		push(@relOther,$c);
 	}
-	my @result_sortedOther=sort { $b->{releaseId} <=> $a->{releaseId}}@relOther;
+#	my @result_sortedOther=sort { $b->{releaseId} <=> $a->{releaseId}}@relOther;
+	my @result_sortedOther=sort { "\L$a->{relName}" cmp "\L$b->{relName}"}@relOther;
 	my @join_relList=@rel_19_38;
 	push(@join_relList,@result_sortedOther);
 	my @data;
