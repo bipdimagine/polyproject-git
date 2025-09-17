@@ -113,7 +113,7 @@ var layoutSmallProject = [
 	{ field: "dejaVu",name: "Vu",width: '1.5',styles:"text-align:center;",formatter:inactiveRadioButtonView},
 	{ field: "somatic",name: "So",width: '1.5',
 		styles:"text-align:center;",formatter:activeRadioButtonView},
-	{ field: "users", name: "Users", width: '15'},
+//	{ field: "users", name: "Users", width: '15'},
 	{ field: "RunId", name: "Run", width: '8'},
 	{ field: "phenotype", name: "Phenotype", width: '15'},
 ];
