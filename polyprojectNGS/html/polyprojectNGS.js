@@ -273,7 +273,7 @@ var layoutRun = [
 		{ field: "statRun",name: "<img align='middle' src='icons/exclamation.png'>",width: '1.5',
 		styles:"white-space:nowrap;margin:0;padding:0;",
 		formatter:bullet,filterable: false},
-		{ field: "Rapport", name: "#L/T", width: '4.5',filterable: false},
+		{ field: "Rapport", name: "#L/T", width: '5',filterable: false},
 		{ field: "RunId",name: "Run",width: '3',formatter:colorField,styles:'text-align:center;font-weight:bold;'},
 		{ field: 'CaptureAnalyse',name: 'Ana',width: '2',styles: 'text-align: center;font-weight:bold;',formatter:colorFieldAnalyse},
 		{ field: "sp",name: "SP", width: '2',styles: 'text-align: center;font-weight:bold;',formatter:colorFieldSpecies},
