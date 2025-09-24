@@ -585,6 +585,7 @@ var showTooltip = function(e) {
 			"<tr><td style='background:#FFF0F5;width:2em'></td><td><b>VI</b></td><td>Virus</td></tr>"+
 			"<tr><td style='background:#E0FFFF;width:2em'></td><td><b>SY</b></td><td>Synthetic</td></tr>"+
 			"<tr><td style='background:#e6e2d3;width:2em'></td><td><b>CF</b></td><td>Canis Familiaris (Dog)</td></tr>"+
+			"<tr><td style='background:#f7cac9;width:2em'></td><td><b>SS</b></td><td>Sus Scrofa (Pig)</td></tr>"+
 			"<tr><td style='background:orange;width:2em'></td><td><b></b></td><td>Multiple Species</td></tr>"+
 			"</table>"
 			 , e.cellNode,['above']);		
