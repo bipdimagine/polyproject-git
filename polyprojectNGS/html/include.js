@@ -915,6 +915,9 @@ function colorFieldSpecies(value,idx,cell,row) {
 	} else if(value == "CF") {
 		v_color=getColorSpecies(value);
 		cell.customStyles.push("background: "+v_color);
+	} else if(value == "SS") {
+		v_color=getColorSpecies(value);
+		cell.customStyles.push("background: "+v_color);
 	} else if(value == "") {
 		v_color=getColorSpecies(value);
 		cell.customStyles.push("background: "+v_color);
@@ -947,6 +950,7 @@ function getColorSpecies(value) {
 	if(value == "VI") {color="#FFF0F5"}
 	if(value == "SY") {color="#E0FFFF"}
 	if(value == "CF") {color="#e6e2d3"}
+	if(value == "SS") {color="#f7cac9"}
 	if(value == "") {color="white"}
 	return color;
 }
@@ -1049,22 +1053,6 @@ function IconStatus(value) {
 	else if(value == "0") {
 		return "<img align='top' src='icons/Unknown_1.png'>";
 	} 
-}
-
-function getColorSpecies(value) {
-	var color="";
-	if(value == "HS") {color="#A0DAA9"}//Green Ash
-	if(value == "UN") {color="#BDB76B"}//DarkKhaki  #B0C4DE
-	if(value == "MM") {color="#B0C4DE"}//LightSteelBlue 
-	if(value == "RN") {color="#FFEBCD"}
-	if(value == "DR") {color="#DEB887"}
-	if(value == "FC") {color="#B8860B"}
-	if(value == "GG") {color="#b2ad7f"}
-	if(value == "VI") {color="#FFF0F5"}
-	if(value == "SY") {color="#E0FFFF"}
-	if(value == "CF") {color="#e6e2d3"}
-	if(value == "") {color="white"}
-	return color;
 }
 
 function linkRunName(value,idx,cell) {
