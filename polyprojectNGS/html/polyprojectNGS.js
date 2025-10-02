@@ -1512,10 +1512,6 @@ function init(){
 	umiStore = new dojo.data.ItemFileReadStore({
 		url: url_path + "/manageData.pl?option=umi"
 	});
-	//################# Init Perspective
-	//perspectiveStore = new dojo.data.ItemFileWriteStore({
-	//	url: url_path + "/manageData.pl?option=perspective"
-	//});
 	//################# Init Technology
 	technologyStore = new dojo.data.ItemFileWriteStore({
 		url: url_path + "/manageData.pl?option=technology"

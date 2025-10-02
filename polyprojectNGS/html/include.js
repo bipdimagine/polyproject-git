@@ -1461,7 +1461,6 @@ function exportAllExon(grid){
     			this._deferred.cancel();
 		}
 		this._deferred=dojo.io.iframe.send({
-//			url: url_path + "/CSVexport.php",
 			url: url_path + "/XLSexport.pl",
  			form: form,
  			method: "POST",
