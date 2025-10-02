@@ -6322,6 +6322,71 @@ function initMenuDropDownCapture(from,checkDD) {
 		var gotExomeCapList = function(items, request){
 			dojo.forEach(items, function(i){
 				var nameE= exomeCapStore.getValue(i,"name");
+      				 // Découper le nameE
+				var parts = nameE.split("|");
+				var i_id = parts[0] ? parts[0].trim() : "";
+				var i_captureName = parts[1] ? parts[1].trim() : "";
+				var i_species = parts[2] ? parts[2].trim().toLowerCase() : "";
+      				var i_rel = parts[3] ? parts[3].trim() : "";
+				// Appel de la fonction de couleur
+				//var bgColor = getSpeciesColor(i_species);
+				var bgColor = getColorSpecies(i_species);
+				var idCap= exomeCapStore.getValue(i,"captureId");
+        			// Création du MenuItem
+        			var itemE = new MenuItem({
+					label: "",
+					onClick: function(){ 
+						createOptions_forUpatePatient("R", "Capture", nameE, idCap);
+					}
+				});
+        			var itemPE = new MenuItem({
+					label: "",
+					onClick: function(){ 
+						createOptions_forUpatePatient("A", "Capture", nameE, idCap);
+					}
+				});
+				// Table HTML avec couleur appliquée sur toute la ligne
+				var tableE = dojo.create("table", {
+					innerHTML: "<tr>" +
+						"<td style='padding: 2px 6px;'>" + i_id + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_captureName + "</td>" +
+ 						"<td style='background-color:" + bgColor + "; padding: 2px 6px;'>" + i_species + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_rel + "</td>" +
+						"</tr>"
+				});
+				var tablePE = dojo.create("table", {
+					innerHTML: "<tr>" +
+						"<td style='padding: 2px 6px;'>" + i_id + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_captureName + "</td>" +
+ 						"<td style='background-color:" + bgColor + "; padding: 2px 6px;'>" + i_species + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_rel + "</td>" +
+						"</tr>"
+				});
+
+        			dojo.empty(itemE.containerNode);
+        			dojo.place(tableE, itemE.containerNode);
+        			dojo.empty(itemPE.containerNode);
+        			dojo.place(tablePE, itemPE.containerNode);
+
+        			subMenuE.addChild(itemE);
+       				subMenuPE.addChild(itemPE);
+			});
+		}
+
+		var gotExomeCapError = function(error, request){
+  			alert("Failed ExomeCap Menu Store " +  error);
+		}
+		exomeCapStore.fetch({
+			query:{def:checkDD},
+  			onComplete: gotExomeCapList,
+  			onError: gotExomeCapError
+		});
+/*
+		var subMenuE = new DropDownMenu();
+		var subMenuPE = new DropDownMenu();
+		var gotExomeCapList = function(items, request){
+			dojo.forEach(items, function(i){
+				var nameE= exomeCapStore.getValue(i,"name");
 				var idCap= exomeCapStore.getValue(i,"captureId");
 				subMenuE.addChild(new MenuItem({
 						label: nameE,
@@ -6349,27 +6414,58 @@ function initMenuDropDownCapture(from,checkDD) {
   			onError: gotExomeCapError
 		});
 
+*/
 // Genome
 		var subMenuG = new DropDownMenu();
 		var subMenuPG = new DropDownMenu();
 		var gotGenomeCapList = function(items, request){
 			dojo.forEach(items, function(i){
 				var nameG= genomeCapStore.getValue(i,"name");
+				var parts = nameG.split("|");
+				var i_id = parts[0] ? parts[0].trim() : "";
+				var i_captureName = parts[1] ? parts[1].trim() : "";
+				var i_species = parts[2] ? parts[2].trim().toLowerCase() : "";
+       				var i_rel = parts[3] ? parts[3].trim() : "";
+				var bgColor = getColorSpecies(i_species);
 				var idCap= genomeCapStore.getValue(i,"captureId");
-				subMenuG.addChild(new MenuItem({
-						label: nameG,
-						onClick: function(){ 
-							ChangeCapture_forUpatePatient("Capture",nameG,idCap);
-					 	}
-        				})
-				);
-				subMenuPG.addChild(new MenuItem({
-						label: nameG,
-						onClick: function(){ 
-							ChangeCapture_forUpatePatient("Capture",nameG,idCap);
-					 	}
-        				})
-				);
+       			// Création du MenuItem
+        			var itemG = new MenuItem({
+					label: "",
+					onClick: function(){ 
+						createOptions_forUpatePatient("R", "Capture", nameG, idCap);
+					}
+				});
+        			var itemPG = new MenuItem({
+					label: "",
+					onClick: function(){ 
+						createOptions_forUpatePatient("A", "Capture", nameG, idCap);
+					}
+				});
+				// Table HTML avec couleur appliquée sur toute la ligne
+				var tableG = dojo.create("table", {
+					innerHTML: "<tr>" +
+						"<td style='padding: 2px 6px;'>" + i_id + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_captureName + "</td>" +
+ 						"<td style='background-color:" + bgColor + "; padding: 2px 6px;'>" + i_species + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_rel + "</td>" +
+						"</tr>"
+				});
+				var tablePG = dojo.create("table", {
+					innerHTML: "<tr>" +
+						"<td style='padding: 2px 6px;'>" + i_id + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_captureName + "</td>" +
+ 						"<td style='background-color:" + bgColor + "; padding: 2px 6px;'>" + i_species + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_rel + "</td>" +
+						"</tr>"
+				});
+
+        			dojo.empty(itemG.containerNode);
+        			dojo.place(tableG, itemG.containerNode);
+        			dojo.empty(itemPG.containerNode);
+        			dojo.place(tablePG, itemPG.containerNode);
+
+        			subMenuG.addChild(itemG);
+       				subMenuPG.addChild(itemPG);
 			});
 		}
 		var gotGenomeCapError = function(error, request){
@@ -6380,28 +6476,57 @@ function initMenuDropDownCapture(from,checkDD) {
  			onComplete: gotGenomeCapList,
   			onError: gotGenomeCapError
 		});
-
 //Rnaseq
 		var subMenuR = new DropDownMenu();
 		var subMenuPR = new DropDownMenu();
 		var gotRnaseqCapList = function(items, request){
 			dojo.forEach(items, function(i){
 				var nameR= rnaCapStore.getValue(i,"name");
+				var parts = nameR.split("|");
+				var i_id = parts[0] ? parts[0].trim() : "";
+				var i_captureName = parts[1] ? parts[1].trim() : "";
+				var i_species = parts[2] ? parts[2].trim().toLowerCase() : "";
+       				var i_rel = parts[3] ? parts[3].trim() : "";
+				var bgColor = getColorSpecies(i_species);
 				var idCap= rnaCapStore.getValue(i,"captureId");
-				subMenuR.addChild(new MenuItem({
-						label: nameR,
-						onClick: function(){ 
-							ChangeCapture_forUpatePatient("Capture",nameR,idCap);
-					 	}
-        				})
-				);
-				subMenuPR.addChild(new MenuItem({
-						label: nameR,
-						onClick: function(){ 
-							ChangeCapture_forUpatePatient("Capture",nameR,idCap);
-					 	}
-        				})
-				);
+       			// Création du MenuItem
+        			var itemR = new MenuItem({
+					label: "",
+					onClick: function(){ 
+						createOptions_forUpatePatient("R", "Capture", nameR, idCap);
+					}
+				});
+        			var itemPR = new MenuItem({
+					label: "",
+					onClick: function(){ 
+						createOptions_forUpatePatient("A", "Capture", nameR, idCap);
+					}
+				});
+				// Table HTML avec couleur appliquée sur toute la ligne
+				var tableR = dojo.create("table", {
+					innerHTML: "<tr>" +
+						"<td style='padding: 2px 6px;'>" + i_id + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_captureName + "</td>" +
+ 						"<td style='background-color:" + bgColor + "; padding: 2px 6px;'>" + i_species + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_rel + "</td>" +
+						"</tr>"
+				});
+				var tablePR = dojo.create("table", {
+					innerHTML: "<tr>" +
+						"<td style='padding: 2px 6px;'>" + i_id + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_captureName + "</td>" +
+ 						"<td style='background-color:" + bgColor + "; padding: 2px 6px;'>" + i_species + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_rel + "</td>" +
+						"</tr>"
+				});
+
+        			dojo.empty(itemR.containerNode);
+        			dojo.place(tableR, itemR.containerNode);
+        			dojo.empty(itemPR.containerNode);
+        			dojo.place(tablePR, itemPR.containerNode);
+
+        			subMenuR.addChild(itemR);
+       				subMenuPR.addChild(itemPR);
 			});
 		}
 		var gotRnaseqCapError = function(error, request){
@@ -6412,28 +6537,57 @@ function initMenuDropDownCapture(from,checkDD) {
  			onComplete: gotRnaseqCapList,
   			onError: gotRnaseqCapError
 		});
-
 //SingleCell
 		var subMenuS = new DropDownMenu();
 		var subMenuPS = new DropDownMenu();
 		var gotSinglecellCapList = function(items, request){
 			dojo.forEach(items, function(i){
 				var nameS= singleCapStore.getValue(i,"name");
+				var parts = nameS.split("|");
+				var i_id = parts[0] ? parts[0].trim() : "";
+				var i_captureName = parts[1] ? parts[1].trim() : "";
+				var i_species = parts[2] ? parts[2].trim().toLowerCase() : "";
+       				var i_rel = parts[3] ? parts[3].trim() : "";
+				var bgColor = getColorSpecies(i_species);
 				var idCap= singleCapStore.getValue(i,"captureId");
-				subMenuS.addChild(new MenuItem({
-						label: nameS,
-						onClick: function(){ 
-							ChangeCapture_forUpatePatient("Capture",nameS,idCap);
-					 	}
-        				})
-				);
-				subMenuPS.addChild(new MenuItem({
-						label: nameS,
-						onClick: function(){ 
-							ChangeCapture_forUpatePatient("Capture",nameS,idCap);
-					 	}
-        				})
-				);
+       			// Création du MenuItem
+        			var itemS = new MenuItem({
+					label: "",
+					onClick: function(){ 
+						createOptions_forUpatePatient("R", "Capture", nameS, idCap);
+					}
+				});
+        			var itemPS = new MenuItem({
+					label: "",
+					onClick: function(){ 
+						createOptions_forUpatePatient("A", "Capture", nameS, idCap);
+					}
+				});
+				// Table HTML avec couleur appliquée sur toute la ligne
+				var tableS = dojo.create("table", {
+					innerHTML: "<tr>" +
+						"<td style='padding: 2px 6px;'>" + i_id + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_captureName + "</td>" +
+ 						"<td style='background-color:" + bgColor + "; padding: 2px 6px;'>" + i_species + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_rel + "</td>" +
+						"</tr>"
+				});
+				var tablePS = dojo.create("table", {
+					innerHTML: "<tr>" +
+						"<td style='padding: 2px 6px;'>" + i_id + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_captureName + "</td>" +
+ 						"<td style='background-color:" + bgColor + "; padding: 2px 6px;'>" + i_species + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_rel + "</td>" +
+						"</tr>"
+				});
+
+        			dojo.empty(itemS.containerNode);
+        			dojo.place(tableS, itemS.containerNode);
+        			dojo.empty(itemPS.containerNode);
+        			dojo.place(tablePS, itemPS.containerNode);
+
+        			subMenuS.addChild(itemS);
+       				subMenuPS.addChild(itemPS);
 			});
 		}
 		var gotSinglecellCapError = function(error, request){
@@ -6444,28 +6598,57 @@ function initMenuDropDownCapture(from,checkDD) {
  			onComplete: gotSinglecellCapList,
   			onError: gotSinglecellCapError
 		});
-
 // Target
 		var subMenuT = new DropDownMenu();
 		var subMenuPT = new DropDownMenu();
 		var gotTargetCapList = function(items, request){
 			dojo.forEach(items, function(i){
 				var nameT= targetCapStore.getValue(i,"name");
+				var parts = nameT.split("|");
+				var i_id = parts[0] ? parts[0].trim() : "";
+				var i_captureName = parts[1] ? parts[1].trim() : "";
+				var i_species = parts[2] ? parts[2].trim().toLowerCase() : "";
+       				var i_rel = parts[3] ? parts[3].trim() : "";
+				var bgColor = getColorSpecies(i_species);
 				var idCap= targetCapStore.getValue(i,"captureId");
-				subMenuT.addChild(new MenuItem({
-						label: nameT,
-						onClick: function(){ 
-							ChangeCapture_forUpatePatient("Capture",nameT,idCap);
-					 	}
-        				})
-				);
-				subMenuPT.addChild(new MenuItem({
-						label: nameT,
-						onClick: function(){ 
-							ChangeCapture_forUpatePatient("Capture",nameT,idCap);
-					 	}
-        				})
-				);
+       			// Création du MenuItem
+        			var itemT = new MenuItem({
+					label: "",
+					onClick: function(){ 
+						createOptions_forUpatePatient("R", "Capture", nameT, idCap);
+					}
+				});
+        			var itemPT = new MenuItem({
+					label: "",
+					onClick: function(){ 
+						createOptions_forUpatePatient("A", "Capture", nameT, idCap);
+					}
+				});
+				// Table HTML avec couleur appliquée sur toute la ligne
+				var tableT = dojo.create("table", {
+					innerHTML: "<tr>" +
+						"<td style='padding: 2px 6px;'>" + i_id + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_captureName + "</td>" +
+ 						"<td style='background-color:" + bgColor + "; padding: 2px 6px;'>" + i_species + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_rel + "</td>" +
+						"</tr>"
+				});
+				var tablePT = dojo.create("table", {
+					innerHTML: "<tr>" +
+						"<td style='padding: 2px 6px;'>" + i_id + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_captureName + "</td>" +
+ 						"<td style='background-color:" + bgColor + "; padding: 2px 6px;'>" + i_species + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_rel + "</td>" +
+						"</tr>"
+				});
+
+        			dojo.empty(itemT.containerNode);
+        			dojo.place(tableT, itemT.containerNode);
+        			dojo.empty(itemPT.containerNode);
+        			dojo.place(tablePT, itemPT.containerNode);
+
+        			subMenuT.addChild(itemT);
+       				subMenuPT.addChild(itemPT);
 			});
 		}
 		var gotTargetCapError = function(error, request){
@@ -6476,28 +6659,57 @@ function initMenuDropDownCapture(from,checkDD) {
  			onComplete: gotTargetCapList,
   			onError: gotTargetCapError
 		});
-
 // Amplicon
 		var subMenuA = new DropDownMenu();
 		var subMenuPA = new DropDownMenu();
 		var gotAmpliconCapList = function(items, request){
 			dojo.forEach(items, function(i){
 				var nameA= ampliconCapStore.getValue(i,"name");
+				var parts = nameA.split("|");
+				var i_id = parts[0] ? parts[0].trim() : "";
+				var i_captureName = parts[1] ? parts[1].trim() : "";
+				var i_species = parts[2] ? parts[2].trim().toLowerCase() : "";
+       				var i_rel = parts[3] ? parts[3].trim() : "";
+				var bgColor = getColorSpecies(i_species);
 				var idCap= ampliconCapStore.getValue(i,"captureId");
-				subMenuA.addChild(new MenuItem({
-						label: nameA,
-						onClick: function(){ 
-							ChangeCapture_forUpatePatient("Capture",nameA,idCap);
-					 	}
-        				})
-				);
-				subMenuPA.addChild(new MenuItem({
-						label: nameA,
-						onClick: function(){ 
-							ChangeCapture_forUpatePatient("Capture",nameA,idCap);
-					 	}
-        				})
-				);
+       			// Création du MenuItem
+        			var itemA = new MenuItem({
+					label: "",
+					onClick: function(){ 
+						createOptions_forUpatePatient("R", "Capture", nameA, idCap);
+					}
+				});
+        			var itemPA = new MenuItem({
+					label: "",
+					onClick: function(){ 
+						createOptions_forUpatePatient("A", "Capture", nameA, idCap);
+					}
+				});
+				// Table HTML avec couleur appliquée sur toute la ligne
+				var tableA = dojo.create("table", {
+					innerHTML: "<tr>" +
+						"<td style='padding: 2px 6px;'>" + i_id + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_captureName + "</td>" +
+ 						"<td style='background-color:" + bgColor + "; padding: 2px 6px;'>" + i_species + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_rel + "</td>" +
+						"</tr>"
+				});
+				var tablePA = dojo.create("table", {
+					innerHTML: "<tr>" +
+						"<td style='padding: 2px 6px;'>" + i_id + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_captureName + "</td>" +
+ 						"<td style='background-color:" + bgColor + "; padding: 2px 6px;'>" + i_species + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_rel + "</td>" +
+						"</tr>"
+				});
+
+        			dojo.empty(itemA.containerNode);
+        			dojo.place(tableA, itemA.containerNode);
+        			dojo.empty(itemPA.containerNode);
+        			dojo.place(tablePA, itemPA.containerNode);
+
+        			subMenuA.addChild(itemA);
+       				subMenuPA.addChild(itemPA);
 			});
 		}
 		var gotAmpliconCapError = function(error, request){
@@ -6508,28 +6720,57 @@ function initMenuDropDownCapture(from,checkDD) {
  			onComplete: gotAmpliconCapList,
   			onError: gotAmpliconCapError
 		});
-
 // Other
 		var subMenuO = new DropDownMenu();
 		var subMenuPO = new DropDownMenu();
 		var gotOtherCapList = function(items, request){
 			dojo.forEach(items, function(i){
 				var nameO= otherCapStore.getValue(i,"name");
+				var parts = nameO.split("|");
+				var i_id = parts[0] ? parts[0].trim() : "";
+				var i_captureName = parts[1] ? parts[1].trim() : "";
+				var i_species = parts[2] ? parts[2].trim().toLowerCase() : "";
+       				var i_rel = parts[3] ? parts[3].trim() : "";
+				var bgColor = getColorSpecies(i_species);
 				var idCap= otherCapStore.getValue(i,"captureId");
-				subMenuO.addChild(new MenuItem({
-						label: nameO,
-						onClick: function(){ 
-							ChangeCapture_forUpatePatient("Capture",nameO,idCap);
-					 	}
-        				})
-				);
-				subMenuPO.addChild(new MenuItem({
-						label: nameO,
-						onClick: function(){ 
-							ChangeCapture_forUpatePatient("Capture",nameO,idCap);
-					 	}
-        				})
-				);
+       			// Création du MenuItem
+        			var itemO = new MenuItem({
+					label: "",
+					onClick: function(){ 
+						createOptions_forUpatePatient("R", "Capture", nameO, idCap);
+					}
+				});
+        			var itemPO = new MenuItem({
+					label: "",
+					onClick: function(){ 
+						createOptions_forUpatePatient("A", "Capture", nameO, idCap);
+					}
+				});
+				// Table HTML avec couleur appliquée sur toute la ligne
+				var tableO = dojo.create("table", {
+					innerHTML: "<tr>" +
+						"<td style='padding: 2px 6px;'>" + i_id + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_captureName + "</td>" +
+ 						"<td style='background-color:" + bgColor + "; padding: 2px 6px;'>" + i_species + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_rel + "</td>" +
+						"</tr>"
+				});
+				var tablePO = dojo.create("table", {
+					innerHTML: "<tr>" +
+						"<td style='padding: 2px 6px;'>" + i_id + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_captureName + "</td>" +
+ 						"<td style='background-color:" + bgColor + "; padding: 2px 6px;'>" + i_species + "</td>" +
+						"<td style='padding: 2px 6px;'>" + i_rel + "</td>" +
+						"</tr>"
+				});
+
+        			dojo.empty(itemO.containerNode);
+        			dojo.place(tableO, itemO.containerNode);
+        			dojo.empty(itemPO.containerNode);
+        			dojo.place(tablePO, itemPO.containerNode);
+
+        			subMenuO.addChild(itemO);
+       				subMenuPO.addChild(itemPO);
 			});
 		}
 		var gotOtherCapError = function(error, request){
@@ -6540,7 +6781,6 @@ function initMenuDropDownCapture(from,checkDD) {
  			onComplete: gotOtherCapList,
   			onError: gotOtherCapError
 		});
-
 // button
 		function createStyledPopupMenuItem(label1, label2, color, popupMenu) {
 			var item = new PopupMenuItem({

@@ -941,17 +941,17 @@ function colorFieldSpecies(value,idx,cell,row) {
 
 function getColorSpecies(value) {
 	var color="";
-	if(value == "HS") {color="#A0DAA9"}//Green Ash
-	if(value == "UN") {color="#BDB76B"}//DarkKhaki  #B0C4DE
-	if(value == "MM") {color="#B0C4DE"}//LightSteelBlue 
-	if(value == "RN") {color="#FFEBCD"}
-	if(value == "DR") {color="#DEB887"}
-	if(value == "FC") {color="#B8860B"}
-	if(value == "GG") {color="#b2ad7f"}
-	if(value == "VI") {color="#FFF0F5"}
-	if(value == "SY") {color="#E0FFFF"}
-	if(value == "CF") {color="#e6e2d3"}
-	if(value == "SS") {color="#f7cac9"}
+	if (["HS", "human"].includes(value)) {color="#A0DAA9"}//Green Ash
+	if (["UN", "unknown"].includes(value)) {color="#BDB76B"}//DarkKhaki  #B0C4DE
+	if (["MM", "mouse"].includes(value)) {color="#B0C4DE"}//LightSteelBlue 
+	if (["RN", "rat"].includes(value)) {color="#FFEBCD"}
+	if (["DR", "zebrafish"].includes(value)) {color="#DEB887"}
+	if (["FC", "cat"].includes(value)) {color="#B8860B"}
+	if (["GG", "chicken"].includes(value)) {color="#b2ad7f"}
+	if (["VI", "virus", "covid"].includes(value)) {color="#FFF0F5"}
+	if (["SY", "crispr", "synthetic"].includes(value)) {color="#E0FFFF"}
+	if (["CF", "dog"].includes(value)) {color="#e6e2d3"}
+	if (["SS", "pig"].includes(value)) {color="#f7cac9"}
 	if(value == "") {color="white"}
 	return color;
 }
