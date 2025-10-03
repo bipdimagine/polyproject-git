@@ -3,8 +3,8 @@
 ###### sc_ManagePatient.pl #################################################
 #./sc_newCumulProject_Patient.pl< /data-isilon/bipd-src/plaza/poly-disk/tmp/data_dev/inDocker_project_patient
 #./sc_newCumulProject_Patient.pl -rel="HG_MT"< /data-isilon/bipd-src/plaza/poly-disk/tmp/data_dev/inDocker_project_patient
-#./new_polyproject.pl opt=newPoly golden_path=HG19_MT description=test database=Polyexome dejaVu=1 somatic=0
-
+# NGS2024_8550 (9821) genome_hg19_cng REL=HG19_CNG
+#./sc_newCumulProject_Patient.pl -oldproject=NGS2024_8550 -rel=HG38_CNG -capture=genome_hg38
 ########################################################################
 #use CGI qw/:standard :html3/;
 use strict;
@@ -49,6 +49,7 @@ my $methods;
 my $tproject; #target Project (not new Project)
 my $oldproject; # old project
 my $profile;
+my $capture;
 
 my $message ="Usage :
 	$0	-h or -help 
@@ -65,6 +66,7 @@ my $message ="Usage :
   						  		use quoted \"<description>\" if spaces are used
   		-methods=<method1,method2>			Methods: calling, alignment or others methods
   		-profile=<Profile Name>
+   		-capture=<Capture Name>
   		
   	File In: No Header, Tabulated lines with NGSProject, Patient Name [Optionally third column: Status case/control] 
   	NGS<Year>_<.....>	Patient1	case
@@ -85,6 +87,7 @@ GetOptions(
 	'tproject=s' => \$tproject,
 	'oldproject=s' => \$oldproject,
 	'profile=s' => \$profile,
+	'capture=s' => \$capture,
 ) or confess($message);
 
 if ($h|$help) {
@@ -120,6 +123,18 @@ if ($profile) {
 	die("$message Error: Unknown Profile Name : $profile\n") unless $i_profile->{profile_id};
 	$i_profileid=$i_profile->{profile_id};		
 }
+my $i_cap;
+my $i_captureid;
+if ($capture) {
+	$i_cap = queryPolyproject::getCaptureFromName($buffer->dbh,$capture);
+	die("$message Error: Unknown Capture Name : $capture\n") unless $i_cap->{captureId};
+	#warn Dumper $i_cap;
+	$i_captureid=$i_cap->{captureId};
+	#warn Dumper $i_captureid;
+	print "Capture: $i_cap->{captureId} $i_cap->{capName}\n" ;
+}
+
+
 
 if ($oldproject) {
 	if (!-t STDIN) {
@@ -279,16 +294,20 @@ if ($insert && $ok) {
 		my $r_profileid="";
 		$r_profileid=$r->{profile_id} if $r->{profile_id};
 		$r_profileid=$i_profileid unless $r->{profile_id};
+		my $r_captureid=$r->{capture_id};
+		$r_captureid=$i_captureid if $capture;
 		my $last_patient_id;
 		my $newpatient_id;
 		if ($tproject) {			
-			$last_patient_id=newPatient($buffer->dbh,$r->{name},$r->{name},$tprojectid,$r->{run_id},$r->{capture_id},$r->{family},$r->{flowcell},$r->{bar_code},$r->{bar_code2},$r->{identity_vigilance},$r->{father},$r->{mother},$r->{sex},$r_status,$r->{type},$r->{species_id},$r_profileid,$r->{lane},$r->{control},$r->{description},$r->{g_project},$r->{identity_vigilance_vcf},$r->{patient_id},$r->{demultiplex_only});
+#			$last_patient_id=newPatient($buffer->dbh,$r->{name},$r->{name},$tprojectid,$r->{run_id},$r->{capture_id},$r->{family},$r->{flowcell},$r->{bar_code},$r->{bar_code2},$r->{identity_vigilance},$r->{father},$r->{mother},$r->{sex},$r_status,$r->{type},$r->{species_id},$r_profileid,$r->{lane},$r->{control},$r->{description},$r->{g_project},$r->{identity_vigilance_vcf},$r->{patient_id},$r->{demultiplex_only});
+			$last_patient_id=newPatient($buffer->dbh,$r->{name},$r->{name},$tprojectid,$r->{run_id},$r_captureid,$r->{family},$r->{flowcell},$r->{bar_code},$r->{bar_code2},$r->{identity_vigilance},$r->{father},$r->{mother},$r->{sex},$r_status,$r->{type},$r->{species_id},$r_profileid,$r->{lane},$r->{control},$r->{description},$r->{g_project},$r->{identity_vigilance_vcf},$r->{patient_id},$r->{demultiplex_only});
 			$newpatient_id=$last_patient_id->{'LAST_INSERT_ID()'};
 			print "$cpt Target Project: $tprojectid $tproject - New Patient: $newpatient_id $r->{name} $r->{name} (old patId:$r->{patient_id}) - PersonId: $personId Status: $r_status\n" if $okstat;
 			print "$cpt Target Project: $tprojectid $tproject - New Patient: $newpatient_id $r->{name} $r->{name} (old patId:$r->{patient_id}) - PersonId: $personId\n" unless $okstat;
 			
 		} else {
-			$last_patient_id=newPatient($buffer->dbh,$r->{name},$r->{name},$newprojectid,$r->{run_id},$r->{capture_id},$r->{family},$r->{flowcell},$r->{bar_code},$r->{bar_code2},$r->{identity_vigilance},$r->{father},$r->{mother},$r->{sex},$r_status,$r->{type},$r->{species_id},$r_profileid,$r->{lane},$r->{control},$r->{description},$r->{g_project},$r->{identity_vigilance_vcf},$r->{patient_id},$r->{demultiplex_only});
+#			$last_patient_id=newPatient($buffer->dbh,$r->{name},$r->{name},$newprojectid,$r->{run_id},$r->{capture_id},$r->{family},$r->{flowcell},$r->{bar_code},$r->{bar_code2},$r->{identity_vigilance},$r->{father},$r->{mother},$r->{sex},$r_status,$r->{type},$r->{species_id},$r_profileid,$r->{lane},$r->{control},$r->{description},$r->{g_project},$r->{identity_vigilance_vcf},$r->{patient_id},$r->{demultiplex_only});
+			$last_patient_id=newPatient($buffer->dbh,$r->{name},$r->{name},$newprojectid,$r->{run_id},$r_captureid,$r->{family},$r->{flowcell},$r->{bar_code},$r->{bar_code2},$r->{identity_vigilance},$r->{father},$r->{mother},$r->{sex},$r_status,$r->{type},$r->{species_id},$r_profileid,$r->{lane},$r->{control},$r->{description},$r->{g_project},$r->{identity_vigilance_vcf},$r->{patient_id},$r->{demultiplex_only});
 			$newpatient_id=$last_patient_id->{'LAST_INSERT_ID()'};
 			print "$cpt Old Project: $projectId $projectName - New Project: $newprojectid $newprojectname - New Patient: $newpatient_id $r->{name} $r->{name} (old patId:$r->{patient_id}) - PersonId: $personId Status: $r_status\n" if $okstat;
 			print "$cpt Old Project: $projectId $projectName - New Project: $newprojectid $newprojectname - New Patient: $newpatient_id $r->{name} $r->{name} (old patId:$r->{patient_id}) - PersonId: $personId\n" unless $okstat;
