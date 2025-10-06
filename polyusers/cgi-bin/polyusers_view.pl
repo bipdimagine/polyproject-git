@@ -8,9 +8,18 @@ use strict;
 use FindBin qw($Bin);
 
 use lib "$Bin/../../polymorphism-cgi/packages/export";
+use lib "$Bin/GenBo";
+use lib "$Bin/GenBo/lib/GenBoDB";
+use lib "$Bin/GenBo/lib/obj-nodb";
+use lib "$Bin/GenBo/lib/GenBoDB/writeDB";
+use lib "$Bin/packages"; 
+
+
+#use lib "$Bin/../../polymorphism-cgi/packages/export";
 use lib "$Bin/../../GenBo";
 use lib "$Bin/../../GenBo/lib/GenBoDB";
 use lib "$Bin/../../GenBo/lib/obj-nodb";
+use lib "$Bin/GenBo/../polymorphism-cgi/packages/export";
 
 use Time::Local;
 use connect;
