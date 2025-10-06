@@ -48,6 +48,14 @@ var showTooltipField = function(e) {
 			dijit.showTooltip(classmsg + 
 			"When <b>Toggled</b>, view on <b>The Human Gene Mutation Database</b> permitted"+"</i>", e.cellNode,['above']);		
 		} 
+		if(msgfield=="active") {
+			dijit.showTooltip(classmsg + 
+			"When <b>Toggled</b>, The User Account is active"+"</i>", e.cellNode,['above']);		
+		} 
+		if(msgfield=="ukey") {
+			dijit.showTooltip(classmsg + 
+			"When <b>Toggled</b>, The Dual Authentication is activated "+"</i>", e.cellNode,['above']);		
+		} 
 	}
 }; 
 
