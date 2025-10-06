@@ -1883,6 +1883,70 @@ function showUser(id,fname,lname){
  					table.appendChild(tr);
 					list1.appendChild(table);
 				}
+				if (userStore.getValue(item, "active")) {
+					// Création de la checkbox
+					var checkbox = document.createElement('input');
+					checkbox.type = 'checkbox';
+					var tr = document.createElement("tr");
+					var td1 = document.createElement('td');
+					td1.width = d1width;
+					td1.setAttribute('style','font-weight: bold;');
+					if (userStore.getValue(item, "active") == 1) {
+						checkbox.checked = true;
+						td1.setAttribute('style','font-weight: bold;background: #bccad6;');
+					}
+					checkbox.disabled = true;
+					var td2 = document.createElement('td');
+					td2.width = d2width;
+					td1.appendChild(document.createTextNode('Active'));
+					td2.appendChild(checkbox);
+					tr.appendChild(td1);
+					tr.appendChild(td2);					
+ 					table.appendChild(tr);
+					list1.appendChild(table);
+				}								
+				if (userStore.getValue(item, "ukey")) {
+					var checkbox = document.createElement('input');
+					checkbox.type = 'checkbox';
+					var tr = document.createElement("tr");
+					var td1 = document.createElement('td');
+					td1.width = d1width;
+					td1.setAttribute('style','font-weight: bold;');
+					if (userStore.getValue(item, "ukey") == 1) {
+						checkbox.checked = true;
+						td1.setAttribute('style','font-weight: bold;background: #8d9db6');
+					}
+					checkbox.disabled = true;
+					var td2 = document.createElement('td');
+					td2.width = d2width;
+					td1.appendChild(document.createTextNode('Key'));
+					td2.appendChild(checkbox);
+					tr.appendChild(td1);
+					tr.appendChild(td2);					
+ 					table.appendChild(tr);
+					list1.appendChild(table);
+				}								
+				if (userStore.getValue(item, "hgmd")) {
+					var checkbox = document.createElement('input');
+					checkbox.type = 'checkbox';
+					var tr = document.createElement("tr");
+					var td1 = document.createElement('td');
+					td1.width = d1width;
+					td1.setAttribute('style','font-weight: bold;');
+					if (userStore.getValue(item, "hgmd") == 1) {
+						checkbox.checked = true;
+						td1.setAttribute('style','font-weight: bold;background: #667292;');
+					}
+					checkbox.disabled = true;
+					var td2 = document.createElement('td');
+					td2.width = d2width;
+					td1.appendChild(document.createTextNode('HGMD'));
+					td2.appendChild(checkbox);
+					tr.appendChild(td1);
+					tr.appendChild(td2);					
+ 					table.appendChild(tr);
+					list1.appendChild(table);
+				}								
 				if (userStore.getValue(item, "email")) {
 					var tr = document.createElement("tr");
 					var td1 = document.createElement('td');
