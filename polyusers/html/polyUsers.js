@@ -16,6 +16,7 @@ require(["dijit/Dialog","dojo/data/ItemFileReadStore","dojo/data/ItemFileWriteSt
 "dojo/_base/declare","dojo/aspect","dojo/_base/lang",
 "dijit/form/CurrencyTextBox","dojox/widget/Standby","dojo/date/locale",
 "dojo/store/Observable"
+
 ]);
 
 var layoutUsers;
@@ -215,6 +216,7 @@ function reloadMemGroupStore(sc) {
 }
 
 var selhgmd;
+// a faire
 function activeRadioButtonView(value,idx,cell) {
 	var Cbutton;	
 	if (cell.field == "hgmd") {
@@ -228,12 +230,40 @@ function activeRadioButtonView(value,idx,cell) {
 		});
 		
 		if (value==1) {
-			cell.customStyles.push("background: grey;");	
+			cell.customStyles.push("background: #667292;");	
 			Cbutton.attr('checked', true);
 			Cbutton.set('checked', true);
 			selhgmd="1";
 		} else {selhgmd="0";Cbutton.attr('checked', false);Cbutton.set('checked', false);}
 	}
+	if (cell.field == "active") {
+		Cbutton = new dijit.form.CheckBox({
+			style:"border:0;margin: 0; padding: 0;text-align:center;",
+			checked:false,
+			value:0,
+			disabled:true,
+			
+		});
+		
+		if (value==1) {
+			cell.customStyles.push("background:  #bccad6;");	
+			Cbutton.attr('checked', true);
+		}
+	}	
+	if (cell.field == "ukey") {
+		Cbutton = new dijit.form.CheckBox({
+			style:"border:0;margin: 0; padding: 0;text-align:center;",
+			checked:false,
+			value:0,
+			disabled:true,
+			
+		});
+		
+		if (value==1) {
+			cell.customStyles.push("background: #8d9db6;");	
+			Cbutton.attr('checked', true);
+		}
+	}	
 	return Cbutton;
 }
 
@@ -258,6 +288,12 @@ function init(){
 		widgetProps:{store:groupNameStore,searchAttr: 'name',required:false},formatter:userColorGroup
 	},
 	{field: "email",name: "Email",width: '18',styles: 'text-align:center;', editable: true},
+	{field: "active",name: "Active",width: '3',styles: 'text-align:center;',
+		type: 'dojox.grid.cells.CheckBox',
+		formatter:activeRadioButtonView},
+	{field: "ukey",name: "Key",width: '3',styles: 'text-align:center;',
+		type: 'dojox.grid.cells.CheckBox',
+		formatter:activeRadioButtonView},
 	{ field: "hgmd",name: "HGMD",width: '3',styles:"text-align:center;",
 		type: 'dojox.grid.cells.CheckBox',
 		formatter:activeRadioButtonView,

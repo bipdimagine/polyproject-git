@@ -13,6 +13,8 @@ sub getUserInfo {
 		SELECT u.nom_responsable as name,
 		u.prenom_u as Firstname,
 		u.email as Email,
+		if (u.PASSWORD_TXT='X',0,1) as 'active',
+		u.ukey,	
 		u.hgmd,
 		u.creation_date as cDate,
 		u.equipe_id
@@ -136,6 +138,7 @@ sub upUserData {
 	my $sth= $dbh->prepare($sql);				
 	$sth->execute($firstname,$lastname,$email,$teamid,$hgmd);
 	$sth->finish;
+
 	return;
 }
 

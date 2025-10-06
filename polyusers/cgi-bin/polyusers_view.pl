@@ -11,7 +11,7 @@ use lib "$Bin/../../polymorphism-cgi/packages/export";
 use lib "$Bin/../../GenBo";
 use lib "$Bin/../../GenBo/lib/GenBoDB";
 use lib "$Bin/../../GenBo/lib/obj-nodb";
-use lib "$Bin/GenBo/../polymorphism-cgi/packages/export";
+
 use Time::Local;
 use connect;
 use export_data;
@@ -50,6 +50,7 @@ foreach my $id (sort keys %$res){
 	my $mydate = sprintf("%02d/%02d/%4d",$DD, $MM, $YY);
 	$item->{cDate} = $mydate;
 	my $tid=join(" ",map{$_->{equipe_id}}@$user_info);
+	$item->{ukey} = join(" ",map{$_->{ukey}}@$user_info);
 	$item->{hgmd} = join(" ",map{$_->{hgmd}}@$user_info);
 	my $team_info = queryUser::getTeamInfo($buffer->dbh,$tid);
 	$item->{team} = join(" ",map{$_->{Team}}@$team_info);
@@ -59,7 +60,9 @@ foreach my $id (sort keys %$res){
 	$item->{unit} = join(" ",map{$_->{unit}}@$unit_info);
 	$item->{organisme} = join(" ",map{$_->{organisme}}@$unit_info);
 	$item->{site} = join(" ",map{$_->{site}}@$unit_info);
-	$item->{director} = join(" ",map{$_->{director}}@$unit_info);	
+	$item->{director} = join(" ",map{$_->{director}}@$unit_info);
+	$item->{active} = join(" ",map{$_->{active}}@$user_info);
+	
 	my $log= queryUser::getLoginFromUserId($buffer->dbh,$id);
 	$item->{login} = $log->{login};
 	my $pass= queryUser::getPwFromUserId($buffer->dbh,$id);
