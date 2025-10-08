@@ -69,7 +69,6 @@ dojo.addOnLoad(function() {
 	checkPassword(okfunction);
 });
 
-
 function relog(logname,spid){
 	var myHtml=spid.outerHTML;
 	var exp=/(?:^|\s)id=\"(\w+)/;
@@ -216,7 +215,6 @@ function reloadMemGroupStore(sc) {
 }
 
 var selhgmd;
-// a faire
 function activeRadioButtonView(value,idx,cell) {
 	var Cbutton;	
 	if (cell.field == "hgmd") {
@@ -267,7 +265,6 @@ function activeRadioButtonView(value,idx,cell) {
 	return Cbutton;
 }
 
-//reloadMemStore(sc="true");
 function init(){
 	reloadMemStore(sc="true");
 	reloadMemGroupStore(sc="false");
@@ -341,7 +338,6 @@ function init(){
 	menusObjectS.selectedRegionMenu.addChild(new dijit.MenuItem({label: "Export Selected", iconClass:"excelIcon", onclick:"exportSelected(gridUser);"}));
 	menusObjectS.selectedRegionMenu.startup();
 
-//	if(!gridUser) {
 	jsonStore.fetch({
 		onBegin: clearOldUserList,
 		onError: fetchFailed,
@@ -503,7 +499,6 @@ function init(){
 	});
 	formTeamDlg = dijit.byId("teamDialog");
 	dojo.connect(dijit.byId("viewTeam"), "onClick", function(e) {
-
 		var layoutTeam = [
 		{name: "Row",get: getRow,width: 3,styles: 'text-align:center;'},
 		{field: "teamId",name: "ID",width: 3,styles: 'text-align:center;'},
@@ -605,6 +600,7 @@ function init(){
 	});
 	formUserDBDlg = dijit.byId("divUserDB");
 	dojo.connect(dijit.byId("buttonAddUserDB"), "onClick", function(e) {
+		dijit.byId("saveTeamDB").set("disabled",true);
 		spid_btlog = dojo.byId("btlog_1");
 		relog(logname,spid_btlog);
 		checkPassword(okfunction);
@@ -741,6 +737,7 @@ function init(){
 				dojo.byId("gridTUDiv").appendChild(gridTU.domNode);
 				gridTU.startup();
 				gridTU.store.fetch({onComplete:standbyHide});
+				enableButton(gridTU,"saveTeamDB");
 			}
 		});
 		} else {
@@ -795,7 +792,6 @@ function init(){
 			}
 		}
 		if(!unitGrid) {
-
 		unitStore.fetch({
 			onBegin: clearOldunitGridList,
 			onError: fetchFailed,
@@ -909,8 +905,18 @@ function init(){
 		sitefilterSelect.startup();
 		formUnitDBDlg.show();
 	});
+}//End dojo.addOnLoad(init);
+
+function enableButton(grid,location) {
+	dojo.connect(grid.selection, "onSelected", function(rowIndex){
+		var selectedRows= grid.selection.getSelected();
+		if (selectedRows.length>0) {dijit.byId(location).set("disabled",false);}
+	});
+	dojo.connect(grid.selection, "onDeselected", function(rowIndex){
+		var selectedRows= grid.selection.getSelected();
+		if (selectedRows.length==0) {dijit.byId(location).set("disabled",true);}
+ 	});
 }
-//dojo.addOnLoad(init);
 
 function AddRemUserGroup() {
 	spid_btlog = dojo.byId("btlog_3");
@@ -925,7 +931,6 @@ function AddRemUserGroup() {
 	var FUserGroups = new Array();
 	var LUserGroups = new Array();
 	var GroupGroups = new Array();
-
 	if (itemUser.length) {
 		dojo.forEach(itemUser, function(selectedItem) {
 			if (selectedItem !== null) {
@@ -1261,6 +1266,8 @@ function viewNewTeam() {
 	var subTab=dijit.byId("CPNewTeam");
 	mainTab.selectChild(subTab);
 	dijit.byId("button_adduser").set("disabled",true);
+	dijit.byId("saveUnitDB").set("disabled",true);
+	enableButton(unitGrid,"saveUnitDB");
 }
 
 function onClickNewTeam(){
@@ -1455,6 +1462,7 @@ function upUnit() {
 		function(response) {
 			if(response.status=="OK"){
 				reloadMemStore(sc="false");
+				dijit.byId("saveUnitDB").set("disabled",true);
 				refreshUnitList();
 				refreshTeamUnitList();
 				refreshUserList();
@@ -1474,6 +1482,7 @@ function newTeam() {
 	var check_desl1 = leaderFormvalue.lleaders1;
 	var check_desf2 = leaderFormvalue.fleaders2;
 	var check_desl2 = leaderFormvalue.lleaders2;
+	var check_name = teamFormvalue.name;
 
 	if (check_desf1.search(alphanum) == -1 || check_desl1.search(alphanum) == -1 || 
 	check_desf2.search(alphanum) == -1 || check_desl2.search(alphanum) == -1) {
@@ -1494,9 +1503,19 @@ function newTeam() {
 	if (leaderFormvalue.fleaders2.replace(/ /g,"").length ==0 && leaderFormvalue.lleaders2.replace(/ /g,"").length ==0){
 		Leaders=Leaders.replace(/,/g,"");
 	}
+	if (check_name.search(alphanum) == -1) {
+		textError.setContent("Team Name: No accent please or other special character");
+		myError.show();
+		return;
+	}
 
 	//Unit code Lab Id
 	var itemUnit = unitGrid.selection.getSelected();
+	if (itemUnit.length>1) {
+		textError.setContent("Only Select one Unit");
+		myError.show();
+		return;
+	}	
 	var UnitGroups = new Array(); 
 	if (itemUnit.length) {
 		dojo.forEach(itemUnit, function(selectedItem) {
@@ -1516,7 +1535,6 @@ function newTeam() {
 	} 
 	var url_insert = url_path + "/polyusers_up.pl?option=Newteam"+"&name="+teamFormvalue.name
 	+"&leaders="+Leaders + "&unit=" + UnitGroups;
-
 	var res=sendData(url_insert);
 	res.addCallback(
 		function(response) {
@@ -1558,7 +1576,7 @@ function upTeam() {
 			} 
 		});
 	} else {
-		textError.setContent("Please Select One Team");
+		textError.setContent("Please Only Select One Team");
 		myError.show();
 		return;
 	}
@@ -1579,6 +1597,7 @@ function upTeam() {
 		function(response) {
 			if(response.status=="OK"){
 				reloadMemStore(sc="false");
+				dijit.byId("saveTeamDB").set("disabled",true);
 				gridTU.selection.clear();
 				refreshTeamUnitList();
 				refreshUserList();
@@ -1849,7 +1868,6 @@ function showUser(id,fname,lname){
 	standbyShow();
 
 //---------------------------- Fetch Data Grid User -----------------------------------
-
 	var userStore = new dojo.data.ItemFileReadStore({
 		 url: url_path+"/polyusers_view.pl?"+"&UserId="+ id
 	});
@@ -2194,10 +2212,6 @@ function chgLog(){
 		var newpass = dijit.byId("initpassword");
 		newlog.attr("value",suglog);
 		newpass.attr("value",sugpass);
-
-
-
-		//newlog.attr("value",suglog);
 	} else {
 		var sp_btclosenewcode=dojo.byId("bt_close_newcode");
 		var btclosenewcode=dijit.byId("id_bt_closenewcode");
