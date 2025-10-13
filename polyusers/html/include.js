@@ -90,8 +90,6 @@ function ButtonUserGroup(value,idx,cell) {
 			label:"<span class='userButton'><img src='icons/user.png'></span>",
 			baseClass:"userButton2",
 			onClick: function(e){
-				console.log(sp_val[0].toString());
-				console.log(sp_val[1].toString());
 				usersInGroupStore = new dojo.data.ItemFileWriteStore({
 					url: url_path + "/polyusers_up.pl?option=usersInGroup"+"&GrpSel="+ sp_val[0].toString()
 				});
