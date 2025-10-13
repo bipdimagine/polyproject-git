@@ -586,6 +586,41 @@ sub getUserGroupInfoFromUsers {
 	}
 	return \@res if \@res;
 }
+############### ugroup_user ##################
+sub getUserGroupInfoFromUgroup {
+	my ($dbh,$grpid,$super) = @_;
+	my $query2 = qq {and uu.ugroup_id!='$super'};
+	$query2 = "" unless $super;
+	my $query = qq{
+		SELECT DISTINCT
+		uu.user_id,
+		uu.ugroup_id,
+		u.nom_responsable as name,
+		u.prenom_u as Firstname,
+		g.name as 'group',
+		T.code_unite as unit ,T.organisme as organisme , T.site as site,
+		E.libelle as Team
+		FROM bipd_users.UGROUP_USER uu
+		LEFT JOIN bipd_users.USER u
+		ON uu.user_id=u.user_id
+		LEFT JOIN bipd_users.UGROUP g
+		ON uu.ugroup_id=g.ugroup_id
+		LEFT JOIN bipd_users.EQUIPE E
+		ON u.equipe_id = E.equipe_id
+		LEFT JOIN bipd_users.UNITE T
+		ON E.unite_id = T.unite_id
+		where uu.ugroup_id='$grpid'
+		$query2
+		;
+	};
+	my @res;
+	my $sth = $dbh->prepare($query);
+	$sth->execute();
+	while (my $id = $sth->fetchrow_hashref ) {
+		 push(@res,$id);
+	}
+	return \@res if \@res;
+}
 
 sub isGroupUser {
 	my ($dbh,$groupid,$userid) = @_;

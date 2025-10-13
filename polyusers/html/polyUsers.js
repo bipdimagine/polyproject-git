@@ -41,8 +41,9 @@ var groupNameStore;
 var gridT;
 var gridTU;
 var unitGrid;
-var gridUser;
+var gridUser
 
+var usersInGroupGrid;
 var lastId;
 var lastIdnext;
 	
@@ -1027,7 +1028,8 @@ function showUserGroup(id,fname,lname,group) {
 	var groupStore = new dojo.data.ItemFileWriteStore({
 		url: url_path + "/polyusers_up.pl?option=group"
 	});
-	var layoutGroup = [{field: 'group',name: "Group",width: '12em'}
+	var layoutGroup = [{field: 'group',name: "Group",width: '12em'},
+		{field: 'bt',name: "<b>&nbsp;&nbsp;</b>",width: '2.5em',formatter:ButtonUserGroup},
 	];
 
 	function fetchFailedGroup(error, request) {
@@ -1065,6 +1067,49 @@ function showUserGroup(id,fname,lname,group) {
 			},document.createElement('div'));
 			dojo.byId("gridGroupDiv").appendChild(groupGrid.domNode);
 			groupGrid.startup();		
+		}
+	});
+	//Grid of Users in Group
+	var usersInGroupStore = new dojo.data.ItemFileWriteStore({
+		url: url_path + "/polyusers_up.pl?option=usersInGroup"+"&GrpSel="
+	});
+
+	var layoutUsersInGroup = [
+				{field: 'Name',name: "Last Name",width: '12em'},
+				{field: 'Firstname',name: "First Name",width: '10em'},
+				{field: 'Site',name: 'Site',width: '10em'},
+				{field: 'Code',name: 'Lab Code',width: '10em'},
+				{field: 'Team',name: 'Team',width: '26em',styles:"text-align:left;white-space:nowrap;"}
+	];
+	function fetchFailedUserUgroup(error, request) {
+		alert("lookup failed User InUgroup.");
+		alert(error);
+	}
+
+	function clearOldUserUGroupList(size, request) {
+                    var listGUser = dojo.byId("usersInGroupGridDiv");
+                    if (listGUser) {
+                        while (listGUser.firstChild) {
+                           listGUser.removeChild(listGUser.firstChild);
+                        }
+                    }
+	}
+	usersInGroupStore.fetch({
+		onBegin: clearOldUserUGroupList,
+		onError: fetchFailedUserUgroup,
+		onComplete: function(items){
+			usersInGroupGrid = new dojox.grid.EnhancedGrid({
+				query: {Name: '*'},
+				store: usersInGroupStore,
+				rowSelector: "0.4em",
+				structure: layoutUsersInGroup,
+				plugins: {
+					nestedSorting: true,
+					dnd: true
+				}
+			},document.createElement('div'));
+			dojo.byId("usersInGroupGridDiv").appendChild(usersInGroupGrid.domNode);
+			usersInGroupGrid.startup();		
 		}
 	});
 }

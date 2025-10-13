@@ -700,7 +700,6 @@ title="
 <!-- ############################################################################################## -->
 <!-- GROUP USER -->
 <!-- ############################################################################################## -->
-
 <div data-dojo-type="dijit/Dialog" id="userDialog" jsId="userDialog" data-dojo-props="closable:false" class="groupUser"
 title="
 <span style='width:12%;font-size:125%;' class='cl_block_left'><b>Group User</b></span>
@@ -720,66 +719,82 @@ title="
 					iconClass="plusIcon" howLabel="true">Add User</div>
 				<div dojoType="dijit.form.Button" onClick='removeUserGroup();'
 					iconClass="delIcon" showLabel="true">Remove User</div>
+				<div dojoType="dijit.Tooltip" connectId="GRF" position="above">
+					<label class="tooltip">
+					Click on <b>User icon</b> to get all users of the group<br>
+					</label>
+				</div>
 			</div>
 		</div>
-		<div dojoType="dijit.layout.ContentPane" region="left" style="width: 55%;">
+		<div dojoType="dijit.layout.ContentPane" region="left" style="width: 26%;">
 			<B>User's Group</B>
 				<div id="userGroupGridDiv" style="height: 96%;"></div>
 		</div>
-		<div dojoType="dijit.layout.ContentPane" region="center" style="width: 20%;">
-			<B>List of Groups</B>&nbsp;&nbsp;
+		<div dojoType="dijit.layout.ContentPane" region="center" style="width: 14%;">
+			<B>List of Groups</B><img id="GRF" src="icons/information.png">
 			<div id="gridGroupDiv" style="height: 96%;"></div>
 		</div>
-		<div dojoType="dijit.layout.ContentPane" region="right" 
-		style="width: 25%;margin:0;padding:0;white-space:nowrap;border: 1px solid #696B43;">
-			<div dojoType="dijit.layout.BorderContainer" id="NewGroupTab" 
-			style="margin:0;padding:0;border:0;white-space:nowrap;visibility:hidden">
-				<div dojoType="dijit.layout.ContentPane" region="top" align="center" onShow=""
-				style="margin:0;padding:0;border:0;white-space:nowrap;">
-					<div dojoType="dijit.Toolbar">
-						<table width="100%">
-						<TR><TD width="95%" align="center">
-						<div dojoType="dijit.form.Button" iconClass="validIcon"
-						style="color:white;"
-						onClick="createNewGroup();" showLabel="true">
-						Submit
+
+    		<div id="rightBC" data-dojo-type="dijit/layout/BorderContainer"
+		data-dojo-props="region:'right', design:'sidebar', gutters:true" style="width: 58%;">
+			<div dojoType="dijit.layout.ContentPane" region="right" 
+			style="width: 34%;margin:0;padding:0;white-space:nowrap;border: 1px solid #696B43;">
+				<div dojoType="dijit.layout.BorderContainer" id="NewGroupTab" 
+				style="margin:0;padding:0;border:0;white-space:nowrap;visibility:hidden">
+					<div dojoType="dijit.layout.ContentPane" region="top" align="center" onShow=""
+					style="margin:0;padding:0;border:0;white-space:nowrap;">
+						<div dojoType="dijit.Toolbar">
+							<table width="100%">
+							<TR><TD width="95%" align="center">
+							<div dojoType="dijit.form.Button" iconClass="validIcon"
+								style="color:white;"
+								onClick="createNewGroup();" showLabel="true">
+								Submit
+							</div>
+							</TD>
+							<TD width="5%" align="right">
+							<div dojoType="dijit.form.Button" iconClass="closeIcon"
+								showLabel="false" style="text-align:right;"
+								onClick="dojo.style('NewGroupTab','visibility','hidden');">
+								Close
+							</div>
+							</TD></TR>
+							</TABLE>
 						</div>
-						</TD>
-						<TD width="5%" align="right">
-						<div dojoType="dijit.form.Button" iconClass="closeIcon"
-						showLabel="false" style="text-align:right;"
-						onClick="dojo.style('NewGroupTab','visibility','hidden');">
-						Close
-						</div>
-						</TD></TR>
-						</TABLE>
-					</div>
-					<table style="border:0;margin:0;padding:0;white-space:nowrap;"
+						<table style="border:0;margin:0;padding:0;white-space:nowrap;"
 						width="92%">
-					<tr>
-					<td align="center" height="100%"
+						<tr>
+						<td align="center" height="100%"
 						style="border: 5px solid grey; margin: 0; padding: 0;">
 								<B>NEW Group</B>
-					</td>
-					</tr>
-					</table>
-				</div>
-				<div dojoType="dijit.layout.ContentPane" region="center">
-					<div dojoType="dijit.form.Form" id="newGroupForm" jsId="newGroupForm">
-						<table style="width: 95%;">
-						<tr><td align="center">
-						<label for="groupName"><b>Group Name</b><br>
-						<i align="center" class='warnIcon'><small>no space, no accent, no apostrophe</small></i>
-						</label>
-						</TD></tr>
-						<tr><td align="left">
-						<textarea id="groupNameId" name="groupName"
-						dojoType="dijit.form.SimpleTextarea" rows="2" cols="33"
-						style="width: auto;" value=""></textarea>
-						</TD></tr>
+						</td>
+						</tr>
 						</table>
 					</div>
+					<div dojoType="dijit.layout.ContentPane" region="center">
+						<div dojoType="dijit.form.Form" id="newGroupForm" jsId="newGroupForm">
+							<table style="width: 95%;">
+							<tr><td align="center">
+							<label for="groupName"><b>Group Name</b><br>
+							<i align="center" class='warnIcon'><small>no space, no accent, no apostrophe</small></i>
+							</label>
+							</TD></tr>
+							<tr><td align="left">
+							<textarea id="groupNameId" name="groupName"
+							dojoType="dijit.form.SimpleTextarea" rows="2" cols="33"
+							style="width: auto;" value=""></textarea>
+							</TD></tr>
+							</table>
+						</div>
+					</div>
 				</div>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="left" 
+			style="width: 66%;margin:0;padding:0;white-space:nowrap;border: 1px solid #696B43;">
+				<b>List of Users in a Group</b>
+				<span id='gusergroup' jsId='gusergroup' 
+				style='width:auto;background:#6D7741;color:white;border-radius: 5px;margin:10px;'></span>
+				<div id="usersInGroupGridDiv" style="height: 96%;"></div>
 			</div>
 		</div>
 	</div>

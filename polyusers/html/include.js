@@ -81,4 +81,35 @@ function userColorGroup(value,idx,cell,row) {
 	return value;
 }
 
+function ButtonUserGroup(value,idx,cell) {
+	var sp_val=value.toString().split("#");
+	var Cbutton;
+	if (cell.field == "bt") {
+		Cbutton = new dijit.form.Button({
+			style:"background:transparent;",
+			label:"<span class='userButton'><img src='icons/user.png'></span>",
+			baseClass:"userButton2",
+			onClick: function(e){
+				console.log(sp_val[0].toString());
+				console.log(sp_val[1].toString());
+				usersInGroupStore = new dojo.data.ItemFileWriteStore({
+					url: url_path + "/polyusers_up.pl?option=usersInGroup"+"&GrpSel="+ sp_val[0].toString()
+				});
+				usersInGroupGrid.setStore(usersInGroupStore);
+				usersInGroupGrid.store.close();
+				dojo.style(dojo.byId('gusergroup'), "padding", "0 1px 0 1px");
+				var j_ug = dojo.byId("gusergroup");
+				j_ug.innerHTML= sp_val[1].toString();
+			} 
+		});
+	}
+	return Cbutton;
+}
+
+
+
+
+
+
+
 

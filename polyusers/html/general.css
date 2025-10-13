@@ -195,15 +195,25 @@
     margin-top:-1px;
 }
 
-.groupUser {
-	width: 50%;
-	min-width: 91em;
-	height: 60%;
-	margin: 0;
-	padding:0;
-	border:0;
+.dijitDialog.groupUser {
+	width: 90vw !important;
+	height: 90vh !important;
+	max-width: none !important;
+	max-height: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
 	white-space:nowrap;
-	overflow: hidden;
+	overflow: hidden !important;
+/*
+	overflow: hidden !important;
+	overflow: visible !important;
+*/
+}
+
+.userButton2 .dijitButtonNode {
+	border: 1px solid red;
+	border-radius: 12px;
+	background: yellow;
 }
 
 #borderContainerRemUser,

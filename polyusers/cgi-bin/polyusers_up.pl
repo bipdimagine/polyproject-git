@@ -66,6 +66,8 @@ if ( $option eq "unit" ) {
 	hideUserSection();
 } elsif ( $option eq "userGroup" ) {
 	userGroupSection();
+} elsif ( $option eq "usersInGroup" ) {
+	usersInGroupSection();
 } elsif ( $option eq "group" ) {
 	groupSection();
 } elsif ( $option eq "groupName" ) {
@@ -248,6 +250,7 @@ sub upUnitSection {
 }
 
 ###### Team ###################################################################
+
 sub getTeamSection {
 	my $teamList = queryUser::getTeamId($buffer->dbh);
 	my @data;
@@ -421,7 +424,7 @@ sub newUserSection {
 			my $rand=getRandomChar();
 			$Mpw=$Mpw.$rand;
 		} else {
-			$expiry_date="0000-00-00 00:00:00";
+			$expiry_date="0000-00-00 00:00:00";			
 		}
 		my $last_userid = queryUser::newUserData($buffer->dbh,$Mfirstname,uc($Mlastname),$Memail,$Mlogin,$Mpw,$Mteamid,$Mhgmd,$expiry_date);
 		my $newuserid= $last_userid->{'LAST_INSERT_ID()'} if defined $last_userid;
@@ -547,8 +550,8 @@ sub getRandomChar {
 	my $char;
 	while (1) {
 		#$char=substr('*!$%,:', rand()*9+1, 1);
-		#$char=substr('!$%,:', rand()*9+1, 1); 
-		$char=substr('!$,:', rand()*9+1, 1);#Ok
+		#$char=substr('!$%,:', rand()*9+1, 1);
+		$char=substr('!$,:', rand()*9+1, 1); #OK
 		return $char if $char;		
 	}
 }
@@ -593,6 +596,38 @@ sub userGroupSection {
 	$hdata{items}=\@data;
 	printJson(\%hdata);
 }
+
+sub usersInGroupSection {
+	my $ugroupId = $cgi->param('GrpSel');
+	my $usergroupList = queryUser::getUserGroupInfoFromUgroup($buffer->dbh,$ugroupId);
+	my @data;
+	my %hdata;
+	my $row=1;
+	$hdata{identifier}="Row";
+	$hdata{label}="Row";
+	foreach my $c (@$usergroupList){
+		my %s;
+		$s{Row} = $row++;
+		$s{UserId} = $c->{user_id};
+		$s{UserId} += 0;
+		$s{Name} = $c->{name};
+		$s{Firstname} = $c->{Firstname};
+		$s{Group} = $c->{group};
+		$s{GroupId} = $c->{ugroup_id};
+		$s{GroupId} += 0;
+		$s{Code} = $c->{unit};
+		$s{Organisme} = $c->{organisme};
+		$s{Site} = $c->{site};
+		$s{Team} = $c->{Team};
+		push(@data,\%s);
+	}
+	$hdata{items}=\@data;
+	printJson(\%hdata);
+}
+
+
+
+
 
 sub lastGroupSection {
 	my $lastGroupId = queryUser::getLastGroup($buffer->dbh);
@@ -699,6 +734,7 @@ sub groupSection {
 		$s{groupId} = $c->{UGROUP_ID};
 		$s{groupId} += 0;
 		$s{group} = $c->{NAME};
+		$s{bt} = $s{groupId}."#".$s{group};
 		push(@data,\%s);
 	}
 	my @data_sorted=sort { $a->{group} cmp $b->{group}} @data;
