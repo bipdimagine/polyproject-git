@@ -962,6 +962,7 @@ function showUserGroup(id,fname,lname,group) {
 	su.innerHTML= id;
 	var ju = dojo.byId("gusername");
 	ju.innerHTML= lname;
+
 	var sp_btclosegroup=dojo.byId("bt_close_group");
 	var btclosegroup=dijit.byId("id_bt_closegroup");
 	if (btclosegroup) {
@@ -1094,6 +1095,16 @@ function showUserGroup(id,fname,lname,group) {
                         }
                     }
 	}
+	var menusObjectUG = {
+		cellMenu: new dijit.Menu(),
+		selectedRegionMenu: new dijit.Menu()
+	};
+	menusObjectUG.cellMenu.addChild(new dijit.MenuItem({label: "Preview - Save", iconClass:"dijitEditorIcon dijitEditorIconCopy",style:"background-color: #495569", disabled:true}));
+	menusObjectUG.cellMenu.addChild(new dijit.MenuSeparator());	
+	menusObjectUG.cellMenu.addChild(new dijit.MenuItem({label: "Preview All", iconClass:"htmlIcon", onclick:"previewAll(usersInGroupGrid);"}));
+	menusObjectUG.cellMenu.addChild(new dijit.MenuItem({label: "Export All", iconClass:"excelIcon", onclick:"exportAll(usersInGroupGrid);"}));
+	menusObjectUG.cellMenu.startup();
+
 	usersInGroupStore.fetch({
 		onBegin: clearOldUserUGroupList,
 		onError: fetchFailedUserUgroup,
@@ -1105,7 +1116,10 @@ function showUserGroup(id,fname,lname,group) {
 				structure: layoutUsersInGroup,
 				plugins: {
 					nestedSorting: true,
-					dnd: true
+					dnd: true,
+					exporter: true,
+					printer:true,
+					menus:menusObjectUG
 				}
 			},document.createElement('div'));
 			dojo.byId("usersInGroupGridDiv").appendChild(usersInGroupGrid.domNode);
@@ -2404,112 +2418,6 @@ function hideUser(){
 
 function getRow(inRowIndex){
 	return ' ' + (inRowIndex+1);
-}
-
-function previewAll(grid){
-	var gPat=dijit.byId(grid);
-	gPat.exportToHTML({
-		title: "Grid View - All",
-		cssFiles: cssFiles
-	}, function(str){
-			var win = window.open();
-			win.document.open();
-			win.document.write(str);
-			gPat.normalizePrintedGrid(win.document);
-			win.document.close();
-	});
-}
-
-function previewSelected(grid){
-	var gPat=dijit.byId(grid);
-	gPat.exportSelectedToHTML({
-		title: "Grid View - Selected",
-		cssFiles: cssFiles
-	}, function(str){
-			var win = window.open();
-			win.document.open();
-			win.document.write(str);
-			gPat.normalizePrintedGrid(win.document);
-			win.document.close();
-	});
-}
-
-function exportAll(grid){
-	dijit.byId(grid).exportGrid("csv",{writerArgs: {separator: ";"}}, function(str){
-		var reg=new RegExp('"',"g");
-		var reg1=new RegExp("'","g");
-		var reg2=new RegExp("<br>","g");
-		var reg3=new RegExp("NaN","g");
-		var reg4=new RegExp("<img .*.png>","g");
-		var reg5=new RegExp("<center></center>","g");
-		var reg6=new RegExp(",","g");
-		str=str.replace(reg,'');
-		str=str.replace(reg1,'');
-		str=str.replace(reg2,'');
-		str=str.replace(reg3,'');
-		str=str.replace(reg4,'');
-		str=str.replace(reg5,'');
-		str=str.replace(reg6,'');
-		var form = document.createElement('form');
-		dojo.attr(form, 'method', 'POST');
-		var f_input=document.createElement('input');
-		f_input.type="hidden";
-		f_input.name="my_input";
-		f_input.value=str;
-		form.appendChild(f_input);
-		document.body.appendChild(form);
-		dojo.io.iframe._currentDfd = null;
-		if (this._deferred) {
-    			this._deferred.cancel();
-		}
-		this._deferred=dojo.io.iframe.send({
-			url: url_path + "/XLSexport.pl",
- 			form: form,
- 			method: "POST",
-			handleAs: "text",
-			content: {exp: str},
-		});
-		document.body.removeChild(form);
-	});
-}
-
-function exportSelected(grid){
-	dijit.byId(grid).exportSelected("csv",{writerArgs: {separator: ";"}}, function(str){
-		var reg=new RegExp('"',"g");
-		var reg1=new RegExp("'","g");
-		var reg2=new RegExp("<br>","g");
-		var reg3=new RegExp("NaN","g");
-		var reg4=new RegExp("<img .*.png>","g");
-		var reg5=new RegExp("<center></center>","g");
-		var reg6=new RegExp(",","g");
-		str=str.replace(reg,'');
-		str=str.replace(reg1,'');
-		str=str.replace(reg2,'');
-		str=str.replace(reg3,'');
-		str=str.replace(reg4,'');
-		str=str.replace(reg5,'');
-		str=str.replace(reg6,';');
-		var form = document.createElement('form');
-		dojo.attr(form, 'method', 'POST');
-		var f_input=document.createElement('input');
-		f_input.type="hidden";
-		f_input.name="my_input";
-		f_input.value=str;
-		form.appendChild(f_input);
-		document.body.appendChild(form);
-		dojo.io.iframe._currentDfd = null;
-		if (this._deferred) {
-    			this._deferred.cancel();
-		}
-		this._deferred=dojo.io.iframe.send({
-			url: url_path + "/XLSexport.pl",
- 			form: form,
- 			method: "POST",
-			handleAs: "text",
-			content: {exp: str},
-		});
-		document.body.removeChild(form);
-	});
 }
 
 function standbyShow() {

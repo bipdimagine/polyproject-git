@@ -563,12 +563,24 @@ sub hideUserSection {
 ##############################
 	my $Mlogin = $cgi->param('login');
 	my $userId = $cgi->param('userid');
-#	queryPolyproject::upInactivatePW($buffer->dbh,$s_u->{USER_ID},"X") if $remove;
 	queryUser::upInactivatePW($buffer->dbh,$userId,"X");
+	my $usergroupList = queryUser::getUserGroupInfoFromUsers($buffer->dbh,$userId);	
+	my $rem_group="";
+	my $rem_user="";
+	foreach my $c (@$usergroupList){
+		$rem_group.=$c->{group} . " ";
+		$rem_user=$c->{name};
+		queryUser::delGroup2User($buffer->dbh, $c->{ugroup_id}, $userId);
+	}
+	chop($rem_group);
 #	queryUser::upUserCData($buffer->dbh,$userId,$Mlogin,$Mpw);
+	my $message_rem="";
+	if (length($rem_group)>0) {
+		$message_rem="<br>User: $rem_user removed from Groups: $rem_group";
+	}
 ### End Autocommit dbh ###########
 	$dbh->commit();
-	sendOK("Ok: User inactivate for Login: ". $Mlogin);	
+	sendOK("Ok: User inactivate for Login: ". $Mlogin.$message_rem);	
 	exit(0);
 }
 
