@@ -78,6 +78,7 @@ foreach my $c (@$projList){
 	$s{UserGroupsId} = $c->{usergroupId} if $c->{usergroupId};	
 	my (@userAll,@unitAll,@siteAll);	
 	my @ugp=split(' ',$s{UserGroupsId});
+	my (%seenUG);
 	foreach my $u (@ugp) {
 		# filtrer staff
 	#	my $usergroupList = queryPolyproject::getUserGroupInfoFromUgroup($buffer->dbh,$u);
@@ -86,7 +87,7 @@ foreach my $c (@$projList){
 		my @usercum;
 		my @user;
 		foreach my $c (@usertmp){
-			push(@usercum,$c.":$u");
+			push(@usercum,$c.":$u") unless $seenUG{$c}++;
 		}
 		@user=join ',',@usercum if scalar @usercum;
 		push(@userAll,@user);
