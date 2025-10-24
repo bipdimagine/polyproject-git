@@ -159,8 +159,6 @@ function sendDataPostV2(prog,parameters){
 }
 
 function replaceSpecialChar(str){
-console.log("str i");
-console.log(str);
 // a compléter avec tous les accents
 //	var reg0 =new RegExp(",","g");
 	var reg01 =new RegExp(";","g");
@@ -206,8 +204,6 @@ console.log(str);
 	str=str.replace(reg14,'');
 	str=str.replace(reg99A,'a');
 //	str=str.replace(reg98A,'\t');
-console.log("str e");
-console.log(str);
 
 	return str;
 }
