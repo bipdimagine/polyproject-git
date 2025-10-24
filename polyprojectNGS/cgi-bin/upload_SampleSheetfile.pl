@@ -45,6 +45,8 @@ my $publicdir = $buffer->config()->{public_data}->{root};
 
 my @dir_sp = split(/public-data/,$publicdir);
 my $sampledir=$dir_sp[0]."sequencing/SampleSheet/";
+warn "RRRRRRRRR";
+warn Dumper $sampledir;
 
 if ( $opt eq "insert" ) {
 	InsertSection();
