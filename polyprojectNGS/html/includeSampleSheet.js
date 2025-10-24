@@ -68,6 +68,7 @@ function sendData(url){
 // Method POST
 function sendDataPost(){
 	var folderFormvalue= dijit.byId("folderForm").getValues();
+	//console.log(folderFormvalue.CopyPasteF);
 	var cum=0;
 	var cCum=dijit.byId("cumul_input");
 	if (cCum.checked) {
@@ -158,6 +159,8 @@ function sendDataPostV2(prog,parameters){
 }
 
 function replaceSpecialChar(str){
+console.log("str i");
+console.log(str);
 // a compléter avec tous les accents
 //	var reg0 =new RegExp(",","g");
 	var reg01 =new RegExp(";","g");
@@ -173,13 +176,14 @@ function replaceSpecialChar(str){
 	var reg7 =new RegExp("ê","g");
 	var reg7A =new RegExp("Ãª","g");//UTF8
 	var reg8 =new RegExp("#","g");
-	var reg9 =new RegExp("'","g");
+//	var reg9 =new RegExp("'","g");
 	var reg10 =new RegExp("%","g");
 	var reg11 =new RegExp("œ","g");
 	var reg12 =new RegExp("Œ","g");
 	var reg13 =new RegExp("Å","g");//UTF8
 	var reg14 =new RegExp("&","g");
 	var reg99A =new RegExp("Ã","g");//UTF8
+//	var reg98A =new RegExp("\t\t","g");//UTF8
 //	str=str.replace(reg0,',');
 	str=str.replace(reg01,' ');
 	str=str.replace(reg1,'e');
@@ -194,13 +198,16 @@ function replaceSpecialChar(str){
 	str=str.replace(reg7,'e');
 	str=str.replace(reg7A,'e');
 	str=str.replace(reg8,'_');
-	str=str.replace(reg9,' ');
+//	str=str.replace(reg9,' ');
 	str=str.replace(reg10,'');
 	str=str.replace(reg11,'oe');
 	str=str.replace(reg12,'OE');
 	str=str.replace(reg13,'oe');
 	str=str.replace(reg14,'');
 	str=str.replace(reg99A,'a');
+//	str=str.replace(reg98A,'\t');
+console.log("str e");
+console.log(str);
 
 	return str;
 }
