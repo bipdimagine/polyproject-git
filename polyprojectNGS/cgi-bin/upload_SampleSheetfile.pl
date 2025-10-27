@@ -45,7 +45,7 @@ my $opt = $cgi->param('opt');
 my $publicdir;
 warn "zzzzzzzzzzzzzzzzzzzzzzzzzzz";
 if (exists $buffer->config()->{root}->{project_data}) {
-	warn "EXISTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT"
+	warn "EXISTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
 	$publicdir = $buffer->config()->{root}->{project_data};
 	warn "RRRRRRRRR0";
 	warn Dumper $publicdir;
