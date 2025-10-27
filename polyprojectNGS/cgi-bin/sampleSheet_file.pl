@@ -32,6 +32,7 @@ use queryPolyproject;
 use Data::Dumper;
 use Carp;
 use JSON;
+use export_data;
 use Getopt::Long;
 #use warnings;
 
@@ -92,10 +93,30 @@ sub createSection {
 	$dbh->{AutoCommit} = 0;
 	##############################
 	
-	my $publicdir = $buffer->config()->{public_data}->{root};
-	my @dir_sp = split(/public-data/,$publicdir);
-	my $sampledir=$dir_sp[0]."sequencing/SampleSheet/";
+#	my $publicdir = $buffer->config()->{public_data}->{root};
+#	my @dir_sp = split(/public-data/,$publicdir);
+#	my $sampledir=$dir_sp[0]."sequencing/SampleSheet/";
 #	my $sampledir="/data-xfs/sequencing/SampleSheet/";
+my $publicdir;
+my @dir_sp;
+my $sampledir;
+if (exists $buffer->config()->{public_data}->{root}) {
+	warn "Docker";
+	$publicdir = $buffer->config()->{public_data}->{root};
+	@dir_sp = split(/public-data/,$publicdir);
+	$sampledir=$dir_sp[0]."sequencing/SampleSheet/";
+}
+else {
+	warn "Not Docker";
+	$publicdir = $buffer->hash_config_path()->{root}->{project_data};
+	@dir_sp = split(/public-data/,$publicdir);
+	$sampledir=$dir_sp[0]."/SampleSheet/";
+}
+
+warn Dumper $sampledir;
+warn "fcid";
+warn Dumper $fcId;
+
 	my $file_out;
 	if (-d $sampledir.$fcId) {
 		$file_out=$sampledir.$fcId."/"."SampleSheet_".$fcId.".csv";		
