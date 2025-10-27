@@ -41,9 +41,16 @@ my $buffer = GBuffer->new;
 my $opt = $cgi->param('opt');
 
 
-my $publicdir = $buffer->config()->{public_data}->{root};
+#my $publicdir = $buffer->config()->{public_data}->{root};
+my $publicdir;
+if (exists $buffer->config()->{root}->{project_data}) {
+	$publicdir = $buffer->config()->{root}->{project_data};
+}
+else {
+	$publicdir = $buffer->config()->{public_data}->{root};
+}
+
 warn "RRRRRRRRR0";
-warn Dumper $publicdir;
 
 my @dir_sp = split(/public-data/,$publicdir);
 my $sampledir=$dir_sp[0]."sequencing/SampleSheet/";
