@@ -15,8 +15,7 @@ use lib "$Bin/GenBo/script/ngs_exome/last_script/packages";
 use lib "$Bin/packages"; 
 
 use lib "$Bin/../../polymorphism-cgi/packages/export";
-use lib "$Bin/GenBo/script/ngs_exome/last_script/packages";
-use lib "$Bin/packages"; 
+use lib "$Bin/GenBo/../polymorphism-cgi/packages/export";
 
 #use util_file qw(readXmlVariations);
 #use insert;
