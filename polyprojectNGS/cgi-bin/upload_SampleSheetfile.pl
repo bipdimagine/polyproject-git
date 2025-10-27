@@ -45,29 +45,16 @@ my $opt = $cgi->param('opt');
 my $publicdir;
 my @dir_sp;
 my $sampledir;
-warn "zzzzzzzzzzzzzzzzBzzzzzzzzzzz";
-
 if (exists $buffer->config()->{public_data}->{root}) {
-	warn "NO  EXISTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
-	
 	$publicdir = $buffer->config()->{public_data}->{root};
 	@dir_sp = split(/public-data/,$publicdir);
 	$sampledir=$dir_sp[0]."sequencing/SampleSheet/";
-	
-	
-	
 }
 else {
-	warn "EXISTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
 	$publicdir = $buffer->hash_config_path()->{root}->{project_data};
-	warn "RRRRRRRRR0";
-	warn Dumper $publicdir;
 	@dir_sp = split(/public-data/,$publicdir);
 	$sampledir=$dir_sp[0]."/SampleSheet/";
 }
-
-
-
 =mod
 if (exists $buffer->hash_config_path()->{root}->{project_data}) {
 	warn "EXISTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
@@ -85,10 +72,6 @@ else {
 	$sampledir=$dir_sp[0]."sequencing/SampleSheet/";
 }
 =cut
-
-warn "RRRRRRRRR";
-warn Dumper $sampledir;
-
 if ( $opt eq "insert" ) {
 	InsertSection();
 } elsif ($opt eq "findFile") {
