@@ -55,9 +55,10 @@ else {
 
 my @dir_sp = split(/public-data/,$publicdir);
 warn Dumper @dir_sp;
-my $sampledir=$dir_sp[0]."sequencing/SampleSheet/";
+#my $sampledir=$dir_sp[0]."sequencing/SampleSheet/";
+my $sampledir=$dir_sp[0]."/SampleSheet/";
 warn Dumper $sampledir;
-die;
+#die;
 
 if ( $opt eq "insert" ) {
 	InsertSection();
