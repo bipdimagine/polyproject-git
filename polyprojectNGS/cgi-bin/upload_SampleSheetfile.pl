@@ -44,7 +44,9 @@ my $opt = $cgi->param('opt');
 #my $publicdir = $buffer->config()->{public_data}->{root};
 my $publicdir;
 if (exists $buffer->hash_config_path()->{root}->{project_data}) {
+	warn "TTTTTT";
 	$publicdir = $buffer->hash_config_path()->{root}->{project_data};
+	warn Dumper $publicdir;
 }
 else {
 	$publicdir = $buffer->config()->{public_data}->{root};
