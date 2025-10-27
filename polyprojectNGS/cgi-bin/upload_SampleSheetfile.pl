@@ -43,22 +43,51 @@ my $opt = $cgi->param('opt');
 
 #my $publicdir = $buffer->config()->{public_data}->{root};
 my $publicdir;
-if (exists $buffer->hash_config_path()->{root}->{project_data}) {
-	warn "TTTTTT";
-	$publicdir = $buffer->hash_config_path()->{root}->{project_data};
-	warn Dumper $publicdir;
+my @dir_sp;
+my $sampledir;
+warn "zzzzzzzzzzzzzzzzBzzzzzzzzzzz";
+
+if (exists $buffer->config()->{public_data}->{root}) {
+	warn "NO  EXISTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
+	
+	$publicdir = $buffer->config()->{public_data}->{root};
+	@dir_sp = split(/public-data/,$publicdir);
+	$sampledir=$dir_sp[0]."sequencing/SampleSheet/";
+	
+	
+	
 }
 else {
-	$publicdir = $buffer->config()->{public_data}->{root};
+	warn "EXISTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
+	$publicdir = $buffer->hash_config_path()->{root}->{project_data};
+	warn "RRRRRRRRR0";
+	warn Dumper $publicdir;
+	@dir_sp = split(/public-data/,$publicdir);
+	$sampledir=$dir_sp[0]."/SampleSheet/";
 }
 
 
-my @dir_sp = split(/public-data/,$publicdir);
-warn Dumper @dir_sp;
-#my $sampledir=$dir_sp[0]."sequencing/SampleSheet/";
-my $sampledir=$dir_sp[0]."/SampleSheet/";
+
+=mod
+if (exists $buffer->hash_config_path()->{root}->{project_data}) {
+	warn "EXISTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
+	$publicdir = $buffer->hash_config_path()->{root}->{project_data};
+	warn "RRRRRRRRR0";
+	warn Dumper $publicdir;
+	@dir_sp = split(/public-data/,$publicdir);
+	$sampledir=$dir_sp[0]."/SampleSheet/";
+}
+else {
+	warn "NO  EXISTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
+	
+	$publicdir = $buffer->config()->{public_data}->{root};
+	@dir_sp = split(/public-data/,$publicdir);
+	$sampledir=$dir_sp[0]."sequencing/SampleSheet/";
+}
+=cut
+
+warn "RRRRRRRRR";
 warn Dumper $sampledir;
-#die;
 
 if ( $opt eq "insert" ) {
 	InsertSection();
