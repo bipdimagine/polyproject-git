@@ -69,7 +69,13 @@ sub InsertTranscriptSection {
 	my $enddir_t=$listdir[1];#capture==> capture/agilent
 	my @enddir_sp=split("/",$enddir_t);	
 	my $enddir=$enddir_sp[0]."/".$version."/".$enddir_sp[1];#capture==> capture/version/agilent
-	my $publicdir = $buffer->config()->{public_data}->{root}.$enddir."/";
+#	my $publicdir = $buffer->config()->{public_data}->{root}.$enddir."/";
+	my $publicdir;
+	if (exists $buffer->config()->{public_data}->{root}) {
+		$publicdir = $buffer->config()->{public_data}->{root}.$enddir."/";
+	} else {
+		$publicdir = $buffer->hash_config_path()->{root}->{public_data}.$enddir."/";		
+	}	
 	my ( $name, $path, $extension ) = fileparse( $filename, '\..*' );
 	$name =~ s/\\/_/g;
 	$filename = $name . $extension;
@@ -208,7 +214,13 @@ sub InsertSection {
 	$version="HG38" if ($version =~ /^HG38/);
 	my $enddir=$enddir_sp[0]."/".$version."/".$enddir_sp[1];#capture==> capture/version/agilent
 	
-	my $publicdir = $buffer->config()->{public_data}->{root}.$enddir."/";
+#	my $publicdir = $buffer->config()->{public_data}->{root}.$enddir."/";
+	my $publicdir;
+	if (exists $buffer->config()->{public_data}->{root}) {
+		$publicdir = $buffer->config()->{public_data}->{root}.$enddir."/";
+	} else {
+		$publicdir = $buffer->hash_config_path()->{root}->{public_data}.$enddir."/";		
+	}
 	my ( $name, $path, $extension ) = fileparse( $filename, '\..*' );
 	$name =~ s/\\/_/g;
 	$filename = $name . $extension;
@@ -351,28 +363,9 @@ sub InsertPasteSection {
 	my $publicdir;
 	if (exists $buffer->config()->{public_data}->{root}) {
 		$publicdir = $buffer->config()->{public_data}->{root}.$enddir."/";
-		warn "XXXXXXXXXXXXXXXXXXXXXXX0 Old";
 	} else {
 		$publicdir = $buffer->hash_config_path()->{root}->{public_data}.$enddir."/";		
-		warn "XXXXXXXXXXXXXXXXXXXXXXX0 new";
 	}	
-	warn Dumper $publicdir;	
-
-
-=mod
-	if (exists $buffer->hash_config_path()->{root}->{public_data}) {
-		$publicdir = $buffer->hash_config_path()->{root}->{public_data}.$enddir."/";		
-		warn "XXXXXXXXXXXXXXXXXXXXXXX0 new";
-	} else {
-		$publicdir = $buffer->config()->{public_data}->{root}.$enddir."/";
-		warn "XXXXXXXXXXXXXXXXXXXXXXX0 Old";
-	}	
-	warn Dumper $publicdir;	
-
-=cut	
-	
-	
-	
 	my ($name_o, $path_o, $extension_o) = fileparse( $publicdir."/".$filename, '\..*' );
 
 	chop($path_o);
@@ -611,10 +604,19 @@ sub getloadFileSection {
 	my $filebed = $cgi->param("file_name");
 	my $folderdir = $cgi->param("folder_dir");
    
-	my $filename=fileparse( $filebed, '\..*' );	
+	my $filename=fileparse( $filebed, '\..*' );
 	my $captureInfo= queryPolyproject::getCaptureFromName($buffer->dbh,$filename);	
-	my $publicdir = $buffer->config()->{public_data}->{root};
-	my $beddir = $buffer->config()->{public_data}->{root}.$folderdir;
+#	my $publicdir = $buffer->config()->{public_data}->{root};
+#	my $beddir = $buffer->config()->{public_data}->{root}.$folderdir;
+	my $publicdir;
+	my $beddir;
+	if (exists $buffer->config()->{public_data}->{root}) {
+		$publicdir = $buffer->config()->{public_data}->{root};
+		$beddir = $buffer->config()->{public_data}->{root}.$folderdir;
+	} else {
+		$publicdir = $buffer->hash_config_path()->{root}->{public_data};
+		$beddir = $buffer->hash_config_path()->{root}->{public_data}.$folderdir;
+	}	
 	my $level = 3 ;
 	my @files;
 	@files = File::Find::Rule->extras({ follow => 1, follow_skip => 2 })
