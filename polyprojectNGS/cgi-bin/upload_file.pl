@@ -357,6 +357,9 @@ sub InsertPasteSection {
 	my $rpublicdir = $buffer->hash_config_path()->{root}->{public_data};
 	warn "XXXXXXXXXXXXXXXXXXXXXXX2 config path";
 	warn Dumper $rpublicdir;
+	my $publicdir = $buffer->hash_config_path()->{root}->{public_data}.$enddir."/";
+	warn "XXXXXXXXXXXXXXXXXXXXXXXmod 222 with enddir";
+	warn Dumper $publicdir;
 	my ($name_o, $path_o, $extension_o) = fileparse( $publicdir."/".$filename, '\..*' );
 
 	chop($path_o);
