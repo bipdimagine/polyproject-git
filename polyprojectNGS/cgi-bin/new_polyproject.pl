@@ -530,9 +530,21 @@ sub genomicRunSection {
 # genomic plateform: update field step: 1 => not validate ; 0 => validate
 	queryPolyproject::upStep2run($buffer->dbh,$runid,1);
 # update sample sheet file	
-	my $publicdir = $buffer->config()->{public_data}->{root};
-	my @dir_sp = split(/public-data/,$publicdir);
-	my $tempdir=$dir_sp[0]."sequencing/Temp/";
+	#my $publicdir = $buffer->config()->{public_data}->{root};
+	#my @dir_sp = split(/public-data/,$publicdir);
+	#my $tempdir=$dir_sp[0]."sequencing/Temp/";
+	my $publicdir;
+	my @dir_sp;
+	my $tempdir;
+	if (exists $buffer->config()->{public_data}->{root}) {
+		$publicdir = $buffer->config()->{public_data}->{root};
+		@dir_sp = split(/public-data/,$publicdir);
+		$tempdir=$dir_sp[0]."sequencing/Temp/";
+	} else {
+		$publicdir = $buffer->hash_config_path()->{root}->{project_data};
+		@dir_sp = split(/public-data/,$publicdir);
+		$tempdir=$dir_sp[0]."sequencing/Temp/";
+	}
 	my $pre_Indir=$tempdir.$name;
 	my $Indir=$pre_Indir."/".$pltname;
 	my $level = 3 ;
