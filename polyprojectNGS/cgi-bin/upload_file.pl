@@ -349,6 +349,8 @@ sub InsertPasteSection {
 	$version="HG38" if ($version =~ /^HG38/);
 	my $enddir=$enddir_sp[0]."/".$version."/".$enddir_sp[1];#capture==> capture/version/agilent
 	my $publicdir = $buffer->config()->{public_data}->{root}.$enddir."/";
+	warn "XXXXXXXXXXXXXXXXXXXXXXX0 with enddir";
+	warn Dumper $publicdir;
 	my ($name_o, $path_o, $extension_o) = fileparse( $publicdir."/".$filename, '\..*' );
 
 	chop($path_o);
