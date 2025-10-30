@@ -118,9 +118,21 @@ sub SampleDocumentSection {
 		sendFormError("Error: File $filename is not uploaded, <b>Run Name</b> and <b>Plateform Run Name</b> are required");			
 	}
 		
-	my $publicdir = $buffer->config()->{public_data}->{root};
-	my @dir_sp = split(/public-data/,$publicdir);
-	my $tempdir=$dir_sp[0]."sequencing/Temp/";	
+	#my $publicdir = $buffer->config()->{public_data}->{root};
+	#my @dir_sp = split(/public-data/,$publicdir);
+	#my $tempdir=$dir_sp[0]."sequencing/Temp/";
+	my $publicdir;
+	my @dir_sp;
+	my $tempdir;
+	if (exists $buffer->config()->{public_data}->{root}) {
+		$publicdir = $buffer->config()->{public_data}->{root};
+		@dir_sp = split(/public-data/,$publicdir);
+		$tempdir=$dir_sp[0]."sequencing/Temp/";
+	} else {
+		$publicdir = $buffer->hash_config_path()->{root}->{project_data};
+		@dir_sp = split(/public-data/,$publicdir);
+		$tempdir=$dir_sp[0]."sequencing/Temp/";
+	}
 	my $Indir=$tempdir.$runname;
  	system("rm -rf $Indir");
 	makedir($Indir);
