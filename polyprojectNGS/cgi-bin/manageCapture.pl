@@ -345,13 +345,13 @@ sub TranscriptsCaptureSection {
 	my $widePos = $cgi->param('widePos');
 	my $matched = $cgi->param('matched');
 	my $version=$rel;
-	my $publicdir = $buffer->config()->{public_data}->{root}."/capture/";
-#	my $publicdir;
-#	if (exists $buffer->config()->{public_data}->{root}) {
-#		$publicdir = $buffer->config()->{public_data}->{root}."/capture/";
-#	} else {
-#		$publicdir = $buffer->hash_config_path()->{root}->{public_data}."/capture/";
-#	}	
+#	my $publicdir = $buffer->config()->{public_data}->{root}."/capture/";
+	my $publicdir;
+	if (exists $buffer->config()->{public_data}->{root}) {
+		$publicdir = $buffer->config()->{public_data}->{root}."/capture/";
+	} else {
+		$publicdir = $buffer->hash_config_path()->{root}->{public_data}."/capture/";
+	}	
     my $cap = queryPolyproject::getCaptureName($buffer->dbh,$capid);
 	my $captureInfo= queryPolyproject::getCaptureFromName($buffer->dbh,$cap->[0]->{capName});
 	my $captureDir=$publicdir.$version."/".$captureInfo ->{capType};
