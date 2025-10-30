@@ -354,9 +354,9 @@ sub InsertPasteSection {
 	my $cpublicdir = $buffer->config()->{public_data}->{root};
 	warn "XXXXXXXXXXXXXXXXXXXXXXX1 no enddir";
 	warn Dumper $cpublicdir;
-	#my $rpublicdir = $buffer->hash_config_path()->{root}->{public_data};
-	#warn "XXXXXXXXXXXXXXXXXXXXXXX1 no enddir";
-	#warn Dumper $rpublicdir;
+	my $rpublicdir = $buffer->hash_config_path()->{root}->{public_data};
+	warn "XXXXXXXXXXXXXXXXXXXXXXX1 no enddir";
+	warn Dumper $rpublicdir;
 	my ($name_o, $path_o, $extension_o) = fileparse( $publicdir."/".$filename, '\..*' );
 
 	chop($path_o);
