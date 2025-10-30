@@ -341,25 +341,38 @@ sub InsertPasteSection {
 #	my $enddir=$listdir[1];#capture
 	my $enddir_t=$listdir[1];#capture==> capture/agilent
 	my @enddir_sp=split("/",$enddir_t);	
+	my $enddir=$enddir_sp[0]."/".$version."/".$enddir_sp[1];#capture==> capture/version/agilent
 	
 #	my $g_analyse = $buffer->config()->{public_data}->{root}."/genome/".$version."/fasta/all.fa.fai";
 #	my @file_ctrl=get_chrFile($g_analyse);
 	
 	$version="HG19" if ($version =~ /^HG19/);
 	$version="HG38" if ($version =~ /^HG38/);
-	my $enddir=$enddir_sp[0]."/".$version."/".$enddir_sp[1];#capture==> capture/version/agilent
-	my $publicdir = $buffer->config()->{public_data}->{root}.$enddir."/";
-	warn "XXXXXXXXXXXXXXXXXXXXXXX0 with enddir";
-	warn Dumper $publicdir;
-	my $cpublicdir = $buffer->config()->{public_data}->{root};
-	warn "XXXXXXXXXXXXXXXXXXXXXXX1 no enddir";
-	warn Dumper $cpublicdir;
-	my $rpublicdir = $buffer->hash_config_path()->{root}->{public_data};
-	warn "XXXXXXXXXXXXXXXXXXXXXXX2 config path";
-	warn Dumper $rpublicdir;
-	my $publicdir = $buffer->hash_config_path()->{root}->{public_data}.$enddir."/";
-	warn "XXXXXXXXXXXXXXXXXXXXXXXmod 222 with enddir";
-	warn Dumper $publicdir;
+	my $publicdir;
+	if (exists $buffer->config()->{public_data}->{root}) {
+		$publicdir = $buffer->config()->{public_data}->{root}.$enddir."/";
+		warn "XXXXXXXXXXXXXXXXXXXXXXX0 Old";
+	} else {
+		$publicdir = $buffer->hash_config_path()->{root}->{public_data}.$enddir."/";		
+		warn "XXXXXXXXXXXXXXXXXXXXXXX0 new";
+	}	
+	warn Dumper $publicdir;	
+
+
+=mod
+	if (exists $buffer->hash_config_path()->{root}->{public_data}) {
+		$publicdir = $buffer->hash_config_path()->{root}->{public_data}.$enddir."/";		
+		warn "XXXXXXXXXXXXXXXXXXXXXXX0 new";
+	} else {
+		$publicdir = $buffer->config()->{public_data}->{root}.$enddir."/";
+		warn "XXXXXXXXXXXXXXXXXXXXXXX0 Old";
+	}	
+	warn Dumper $publicdir;	
+
+=cut	
+	
+	
+	
 	my ($name_o, $path_o, $extension_o) = fileparse( $publicdir."/".$filename, '\..*' );
 
 	chop($path_o);
