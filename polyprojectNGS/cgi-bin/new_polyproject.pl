@@ -543,7 +543,8 @@ sub genomicRunSection {
 	} else {
 		$publicdir = $buffer->hash_config_path()->{root}->{project_data};
 		@dir_sp = split(/public-data/,$publicdir);
-		$tempdir=$dir_sp[0]."sequencing/Temp/";
+#		$tempdir=$dir_sp[0]."sequencing/Temp/";
+		$tempdir=$dir_sp[0]."/Temp/";
 	}
 	my $pre_Indir=$tempdir.$name;
 	my $Indir=$pre_Indir."/".$pltname;

@@ -131,7 +131,8 @@ sub SampleDocumentSection {
 	} else {
 		$publicdir = $buffer->hash_config_path()->{root}->{project_data};
 		@dir_sp = split(/public-data/,$publicdir);
-		$tempdir=$dir_sp[0]."sequencing/Temp/";
+		#$tempdir=$dir_sp[0]."sequencing/Temp/";
+		$tempdir=$dir_sp[0]."/Temp/";
 	}
 	my $Indir=$tempdir.$runname;
  	system("rm -rf $Indir");
