@@ -571,7 +571,7 @@ sub genomicRunSection {
 		close MYFILE;		
 #		my $file_type=$o_extension;
 		my @parts = split /\./,$o_extension;
-		my $file_type = $parts[-1];  # last element
+		my $file_type = $parts[-1];  # last element of array
 		queryPolyproject::upRunDocument($buffer->dbh, $runid,$samplefile,$file_type,$blob_file);
 		system("rm -rf $pre_Indir");
 	}
