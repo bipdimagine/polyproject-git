@@ -544,7 +544,7 @@ sub genomicRunSection {
 		$publicdir = $buffer->hash_config_path()->{root}->{project_data};
 		@dir_sp = split(/public-data/,$publicdir);
 #		$tempdir=$dir_sp[0]."sequencing/Temp/";
-		$tempdir=$dir_sp[0]."/Temp/";
+		$tempdir=$dir_sp[0]."Temp/";
 	}
 	my $pre_Indir=$tempdir.$name;
 	my $Indir=$pre_Indir."/".$pltname;
@@ -566,10 +566,12 @@ sub genomicRunSection {
 
 		# Read in the contents
 		while (<MYFILE>) {
-    		$blob_file .= $_;
-    	}
-		close MYFILE;
-		my $file_type=$o_extension;
+			$blob_file .= $_;
+		}
+		close MYFILE;		
+#		my $file_type=$o_extension;
+		my @parts = split /\./,$o_extension;
+		my $file_type = $parts[-1];  # last element
 		queryPolyproject::upRunDocument($buffer->dbh, $runid,$samplefile,$file_type,$blob_file);
 		system("rm -rf $pre_Indir");
 	}
