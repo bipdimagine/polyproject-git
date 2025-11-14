@@ -3761,7 +3761,7 @@ sub getAuthentificationForUser {
 sub getDirectorInfo {
 	my ($dbh)=@_;
 	my $query = qq{	  	
-		SELECT T.unite_id,T.directeur,T.code_unite,T.site
+		SELECT T.unite_id,T.directeur,T.code_unite,T.site,T.organisme
 		FROM bipd_users.UNITE T;
 	};
 	my @res;

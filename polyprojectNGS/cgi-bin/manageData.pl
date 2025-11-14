@@ -4707,15 +4707,17 @@ sub DirectorNameSection {
 	foreach my $c (@$DirectorList){
 		my %s;
 		$s{value} = $c->{unite_id} += 0;
-		$s{label} = "$c->{directeur}($c->{code_unite}) | $c->{site}";
+#		$s{label} = "$c->{directeur}($c->{code_unite}) | $c->{site}";
+		$s{label} = "$c->{code_unite} | $c->{organisme} | $c->{site}  | $c->{directeur}";
 		$s{site} = $c->{site};
 		$s{directeur} = $c->{directeur};
+		$s{unit} = $c->{code_unite};
 		push(@data,\%s);
 	}
-	my @result_sorted=sort {$a->{site} cmp $b->{site}||lc($a->{directeur}) cmp lc($b->{directeur})} @data;
+#	my @result_sorted=sort {$a->{site} cmp $b->{site}||lc($a->{directeur}) cmp lc($b->{directeur})} @data;
+	my @result_sorted=sort {$a->{unit} cmp $b->{unit}} @data;
 	$hdata{items}=\@result_sorted;
-	printJson(\%hdata);
-	
+	printJson(\%hdata);	
 }
 
 sub UnitNameSection {
