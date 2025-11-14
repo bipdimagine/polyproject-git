@@ -1,4 +1,5 @@
 <body class="tundra">
+
 <div dojoType="dijit/layout/AccordionContainer" id="AccStat" class="patcov" style="height:100%">
 	<div dojoType="dijit/layout/ContentPane" id="Graph_1" onShow="initStat(serial=1);" selected="true">
 		<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true">
@@ -100,7 +101,7 @@
 			</div>
 		</div>
 	</div>
-  	<div dojoType="dijit/layout/ContentPane" id="Graph_2" title="<B>Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse & Platform</span></B>" 
+  	<div dojoType="dijit/layout/ContentPane" id="Graph_2" title="<B>Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse & Platform</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_project'>Project List</span></B>" 
 onShow="initStat(serial=2);">
 		<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true">
 			<div dojoType="dijit.layout.ContentPane" region="left" style="width:50%;">
@@ -126,6 +127,7 @@ onShow="initStat(serial=2);">
 					<tr>
 					<td><span id="legend_2"></span></td>
 					<td><span id="button_2"></span></td>
+					<td>Project List <span id='nbrproj_2_P' style='font-family: Arial, sans-serif;font-size:8pt;font-weight: bold;'></span> <span id="button_2_P"></span></td>
 					</tr>
 				</table>
 			</div>
@@ -152,12 +154,13 @@ onShow="initStat(serial=2);">
 					<tr>
 					<td><span id="legend_22"></span></td>
 					<td><span id="button_22"></span></td>
+					<td>Project List <span id='nbrproj_22_P' style='font-family: Arial, sans-serif;font-size:8pt;font-weight: bold;'></span> <span id="button_22_P"></span></td>
 					</tr>
 				</table>
 			</div>
 		</div>
 	</div>
-  	<div dojoType="dijit/layout/ContentPane" id="Graph_3" title="<B>Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse & Unit</span></B>" 
+  	<div dojoType="dijit/layout/ContentPane" id="Graph_3" title="<B>Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse & Unit</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_project'>Project List</span></B>" 
 onShow="initStat(serial=3);">
 		<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true">
 			<div dojoType="dijit.layout.ContentPane" region="left" style="width:50%;">
@@ -190,6 +193,7 @@ onShow="initStat(serial=3);">
 					<tr>
 					<td><span id="legend_3"></span></td>
 					<td><span id="button_3"></span></td>
+					<td>Project List <span id='nbrproj_3_P' style='font-family: Arial, sans-serif;font-size:8pt;font-weight: bold;'></span> <span id="button_3_P"></span></td>
 					</tr>
 				</table>
 			</div>
@@ -223,13 +227,14 @@ onShow="initStat(serial=3);">
 					<tr>
 					<td><span id="legend_32"></span></td>
 					<td><span id="button_32"></span></td>
+					<td>Project List <span id='nbrproj_32_P' style='font-family: Arial, sans-serif;font-size:8pt;font-weight: bold;'></span> <span id="button_32_P"></span></td>
 					</tr>
 				</table>
 			</div>
 		</div>
 	</div>
 	<div dojoType="dijit/layout/ContentPane" id="Graph_5" onShow="initStat(serial=5);"
-	title="<B>Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse & User</span></B>">
+	title="<B>Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse & User</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_project'>Project List</span></B>">
 		<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true">
 			<div dojoType="dijit.layout.ContentPane" region="left" style="height:100%;width:38.8%;">
 				<span id="bt_clearUser"></span>
@@ -259,6 +264,7 @@ onShow="initStat(serial=3);">
 							<tr>
 							<td><span id="legend_5"></span></td>
 							<td><span id="button_5"></span></td>
+							<td>Project List <span id='nbrproj_5_P' style='font-family: Arial, sans-serif;font-size:8pt;font-weight: bold;'></span> <span id="button_5_P"></span></td>
 							</tr>
 						</table>
 					</div>
@@ -282,6 +288,7 @@ onShow="initStat(serial=3);">
 							<tr>
 							<td><span id="legend_52"></span></td>
 							<td><span id="button_52"></span></td>
+							<td>Project List <span id='nbrproj_52_P' style='font-family: Arial, sans-serif;font-size:8pt;font-weight: bold;'></span> <span id="button_52_P"></span></td>
 							</tr>
 						</table>
 					</div>
@@ -347,6 +354,78 @@ onShow="initStat(serial=6);">
 			</div>
 		</div>
 	</div>
-
+  	<div dojoType="dijit/layout/ContentPane" id="Graph_7" title="<B>Samples/Year and Phenotype&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse & Phenotype</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_project'>Project List</span></B>" 
+onShow="initStat(serial=7);">
+		<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true">
+			<div dojoType="dijit.layout.ContentPane" region="left" style="width:50%;">
+				<div dojoType="dijit.form.Form" id="stat7Form" jsId="stat7Form">
+					<table width="100%" align="center">
+					<tr>
+					<td width="5%"></td>
+					<td id="appSlider_7" width="auto"></td>
+					</tr>	
+					</table>
+					<table>
+					<tr>
+					<td><label for="qanalyseSelect_7"><b>Analyse in&nbsp;</b></td>
+					<td><select id="qanalyseSelect_7"></td>
+					</tr>
+					</table>
+					<table>
+					<tr>
+					<td><span id="bt_clearUser_7"></span>
+					<I class='multipleIcon' title='Multiple Selection'></I>
+					<label for="qphenotypeSelect_7"><b>Phenotype in&nbsp;</b></td>
+					</tr>
+					<tr>
+					<td><select id="qphenotypeSelect_7"></td>
+					</tr>
+					</table>
+				</div>
+				<div id="stat_7" style="width:100%;height:80%;margin:0;" ></div>
+				<table>
+					<tr>
+					<td><span id="legend_7"></span></td>
+					<td><span id="button_7"></span></td>
+					<td>Project List <span id='nbrproj_7_P' style='font-family: Arial, sans-serif;font-size:8pt;font-weight: bold;'></span> <span id="button_7_P"></span></td>
+					</tr>
+				</table>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="right" style="width:50%;">
+				<div dojoType="dijit.form.Form" id="stat72Form" jsId="stat72Form">
+					<table width="100%" align="center">
+					<tr>
+					<td width="5%"></td>
+					<td id="appSlider_72" width="auto"></td>
+					</tr>	
+					</table>
+					<table>
+					<tr>
+					<td><label for="qanalyseSelect_72"><b>Analyse not in&nbsp;</b></td>
+					<td><select id="qanalyseSelect_72"></td>
+					</tr>
+					</table>
+					<table>
+					<tr>
+					<td><span id="bt_clearUser_72"></span>
+					<I class='multipleIcon' title='Multiple Selection'></I>
+					<label for="qphenotypeSelect_72"><b>Phenotype in&nbsp;</b></td>
+					</tr>
+					<tr>
+					<td><select id="qphenotypeSelect_72"></td>
+					</tr>
+					</table>
+				</div>
+				<div id="stat_72" style="width:100%;height:80%;margin:0;" ></div>
+				<table>
+					<tr>
+					<td><span id="legend_72"></span></td>
+					<td><span id="button_72"></span></td>
+					<td>Project List <span id='nbrproj_72_P' style='font-family: Arial, sans-serif;font-size:8pt;font-weight: bold;'></span> <span id="button_72_P"></span></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
 </body>

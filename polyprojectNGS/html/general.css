@@ -121,8 +121,6 @@
 	overflow: hidden;
 }
 
-
-/*background: -moz-linear-gradient(#510303, brown);*/
 .showRun .dijitDialogTitleBar {
 	background: linear-gradient(#510303, brown);
 	color:white;
@@ -923,6 +921,12 @@
 	margin:2;padding:2
 }
 
+.cl_project {
+	background:#FF7F50;
+	border-radius: 5px 5px 5px 5px;
+	margin:2;padding:2
+}
+
 .cl_button_span {
 	display: inline-block;
 	background: transparent;
@@ -1129,25 +1133,6 @@ tr.dojoxCheckedMultiSelectMenuItemChecked td.dijitMenuItemIconCell {
     display: none;
 }
 
-/*
-.dojoxCheckedMultiSelectWrapper {
-    width: 20em;
-background:green;
-}
-
-.scroll .dojoxCheckedMultiSelectWrapper {
-    height: 20em;
-    overflow-y: scroll;
-background:green;
-}
-.dojoxCheckedMultiSelectWrapper {
-    height: 20em;
-	background:green;
-    overflow-y: scroll;
-}
-*/
-
-
 .sl_Analyse {
 	border-radius: 4px;
 	color:black;
@@ -1263,9 +1248,9 @@ background:green;
 }
 
 .scrolltable {
- 	display: inline-block;
-   max-height:4em;
-    overflow-y:auto;
+	display: inline-block;
+	max-height:4em;
+	overflow-y:auto;
 }
 
 
