@@ -2775,7 +2775,9 @@ sub MachineNameSection {
 		$s{name} = $c->{macName}." | type: ".$c->{macType};
 		push(@data,\%s);
 	}
-	$hdata{items}=\@data;
+	my @result_sorted=sort { lc($a->{macName}) cmp lc($b->{macName}) } @data;
+#	$hdata{items}=\@data;
+	$hdata{items}=\@result_sorted;
 	printJson(\%hdata);
 }
 
