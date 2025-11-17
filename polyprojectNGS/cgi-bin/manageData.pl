@@ -2773,7 +2773,7 @@ sub MachineNameSection {
 		$s{macName} = $c->{macName};
 		$s{macType} = $c->{macType};
 		$s{name} = $c->{macName}." | type: ".$c->{macType};
-		$s{label} = $c->{macName}." | type: ".$c->{macType};# for 
+		$s{label} = $c->{macName}." | type: ".$c->{macType};# for stat.pl
 		push(@data,\%s);
 	}
 	my @result_sorted=sort { lc($a->{macName}) cmp lc($b->{macName}) } @data;
