@@ -11,6 +11,7 @@ require([
 "dojox/charting/plot2d/Columns","dojox/gfx/filters","dojox/gfx/svgext",
 "dojox/charting/plot2d/Grid","dojox/charting/themes/MiamiNice",
 "dojo/NodeList-traverse","dojo/ready",
+"dojox/form/CheckedMultiSelect",
 "dojox/form/RangeSlider","dijit/form/HorizontalSlider","dijit/form/HorizontalRule",
 "dojox/charting/widget/SelectableLegend",
 "dijit/form/HorizontalRuleLabels"
@@ -40,6 +41,7 @@ var valPlt;
 var valUnit;
 var valUnitEYU;
 var valPhe;
+var valMac;
 
 var MyCheckedMultiSelect;
 var qanalyseMultiSelect;
@@ -73,6 +75,15 @@ var layoutProjPheGrid = [
 	{ field: "project", name: "Project", width: '8'},
 	{ field: "analyse",name: "Analyse",width: '5'},
 	{ field: "phenotype",name: "Phenotype",width: '15'},
+	{ field: "year",name: "Year",width: '5'},
+];
+
+var layoutProjMacGrid = [
+	{ field: "Row", name: "Row",get: getRow, width: '2.5'},
+	{ field: "project", name: "Project", width: '8'},
+	{ field: "analyse",name: "Analyse",width: '5'},
+	{ field: "machine",name: "Machine",width: '15'},
+	{ field: "type",name: "Type",width: '15'},
 	{ field: "year",name: "Year",width: '5'},
 ];
 
@@ -163,7 +174,7 @@ var arr_userid=[];
 var prog_param;
 
 function initStat(serial) {
-	dijit.byId('Graph_1').set('title', "<span style='width:90%'><B>Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse</span></B></span><span id='btlog_9' style='width:10%' class='cl_log_span2'></span>");
+	dijit.byId('Graph_1').set('title', "<span style='width:90%'><B>Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse & Machine</span></B></span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_project'>Project List</span></B><span id='btlog_9' style='width:10%' class='cl_log_span2'></span>");
 	relog(logname,dojo.byId("btlog_9"));
 	checkPassword(okfunction);
 
@@ -175,17 +186,21 @@ function initStat(serial) {
 		filter_year = [];
 		sl_year = [];
 		sl_value = [];
+		valMac="";
 		colorfill=["#80B0FF"];
 		var ind="1";
-		var prog_name="patAna";
+		var prog_name="patAnaMac";
+		var prog_name_P="proAnaMac";
 		var dbana=0;
 		create_divSlider(ind);
 		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
+		launch_dirmultiselect_data(machineStore, divMulti="qmachineSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year);
 		colorfill=["#809DCC"];
 		ind="12";
 		dbana=1;
 		create_divSlider(ind);
 		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
+		launch_dirmultiselect_data(machineStore, divMulti="qmachineSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year);
 	}
 // Number of Samples/Year and Plateform Filter:Analyse
 	if(serial==4) {
@@ -509,7 +524,7 @@ function launch_valmonoselect_data(Store,divMono,ind,prog_name,dbana,colorfill,f
 	}
 }
 
-// phenotype director (unit) store
+// phenotype director (unit) machine store
 function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill,filter_year){
 	require([
     		"dojo/_base/declare","dojo/_base/lang","dojo/_base/array","dojo/on","dojo/dom",
@@ -556,12 +571,27 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
 							valPhe=item.toString();
 							if (valPhe) {
 								valAnalyse=dijit.byId("idanaMultiSelect_"+ind).value;
-								prog_param="&analyse="+valAnalyse;//toto
+								prog_param="&analyse="+valAnalyse;
 								if(dbana) {
 									prog_param=prog_param +"&not="+"1";
 								}
 								if(prog_name=="patAnaPhe" || prog_name_p=="proAnaPhe") {
 									prog_param=prog_param+"&phe=" +valPhe;
+								}
+								launch_stat_data(libchart="stat_"+ind, colorfill, data["stat_"+ind+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+								launch_query_data(libquery="query_" + ind, data["stat_"+ind+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+							}
+						}
+						if (divMulti.includes(["qmachineSelect"])) {
+							valMac=item.toString();
+							if (valMac) {
+								valAnalyse=dijit.byId("idanaMultiSelect_"+ind).value;
+								prog_param="&analyse="+valAnalyse;
+								if(dbana) {
+									prog_param=prog_param +"&not="+"1";
+								}
+								if(prog_name=="patAnaMac" || prog_name_p=="proAnaMac") {
+									prog_param=prog_param+"&machine=" +valMac;
 								}
 								launch_stat_data(libchart="stat_"+ind, colorfill, data["stat_"+ind+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 								launch_query_data(libquery="query_" + ind, data["stat_"+ind+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
@@ -608,6 +638,14 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
 					if(prog_name=="patAnaPhe") {
 						valPhe=0;
 						prog_param=prog_param+"&phe=" +valPhe;
+					}
+					if(dbana && prog_name!="patAnaMac") {
+						valMac="";
+						prog_param=prog_param +"&not="+"1";
+					}
+					if(prog_name=="patAnaMac") {
+						valMac="";
+						prog_param=prog_param+"&machine=" +valMac;
 					}
 					launch_stat_data(libchart="stat_"+ind, colorfill, data["stat_"+ind+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 					launch_query_data(libquery="query_" + ind, data["query_"+ind+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
@@ -667,13 +705,13 @@ function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,dban
 								valUnit=dijit.byId("idDirMultiSelect_"+ind).get("value");
 								prog_param=prog_param+"&unit=" +valUnit;
 							}
-
 							if(prog_name=="patAnaPhe") {
-
-// tester : valAnalyse=dijit.byId("idanaMultiSelect_"+ind[1]).get("value") 
-// C'est pas bon ???? 
 								valPhe=dijit.byId("idDirMultiSelect_"+ind).get("value");
 								prog_param=prog_param+"&phe=" +valPhe;
+							}
+							if(prog_name=="patAnaMac") {
+								valMac=dijit.byId("idDirMultiSelect_"+ind).get("value");
+								prog_param=prog_param+"&machine=" +valMac;
 							}
 
 							if(prog_name=="EYpatDetail"|| prog_name=="EYUpatDetail") {
@@ -717,6 +755,11 @@ function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,dban
 				prog_name_p="proAnaPhe";
 				
 			}
+			if(prog_name=="patAnaMac") {
+				prog_param=prog_param+"&machine=" +valMac;
+				prog_name_p="proAnaMac";
+				
+			}
 			if(dbana) {
 				prog_param=prog_param +"&not="+"1";
 			}
@@ -755,6 +798,7 @@ function launch_stat_data(libchart,colorfill,Store,prog_name,prog_param,dbana,fi
 	} else {
 		url_stat="/stat.pl?opt="+prog_name + prog_param ;
 	}
+	//console.log(url_stat);
 	showProgressDlg("Loading Graph... ",true,libchart,"LI");
 	var xhrArgsEx={
 		url: url_path + url_stat,
@@ -909,6 +953,7 @@ function launch_query_data(libquery,Store,prog_name,prog_param,dbana,filter_year
 		} else {
 			url_stat="/stat.pl?opt="+prog_name + prog_param ;
 		}
+		//console.log(url_stat);
 		var xhrArgsP={
 			url: url_path + url_stat,
 			handleAs: "json",
@@ -925,7 +970,7 @@ function launch_query_data(libquery,Store,prog_name,prog_param,dbana,filter_year
 					lib_valAnalyse = valAnalyse;
 					if(prog_name=="proAnaUser") {lib_valAnalyse = pvalana0;}
 				}
-				if (["proAnaPhe","proAnaUser","proAnaPlt","proAnaUnit"].includes(prog_name)) {
+				if (["proAnaPhe","proAnaUser","proAnaPlt","proAnaUnit","proAnaMac"].includes(prog_name)) {
 					var gotList = function(items, request){
 						var NBPROJ = 0;
 						dojo.forEach(items, function(i){
@@ -938,7 +983,7 @@ function launch_query_data(libquery,Store,prog_name,prog_param,dbana,filter_year
   						onComplete: gotList,
  					});
 				}
-				launch_ButtonGrid_P(button_grid_P,Store,prog_name,lib_valAnalyse);
+				launch_ButtonGrid_P(button_grid_P,Store,prog_name,lib_valAnalyse,ind[1]);
 			}
 		}
 		var defferedP = dojo.xhrGet(xhrArgsP);
@@ -958,6 +1003,7 @@ function launch_Cluster_data(libchart,colorfill,Store,prog_name,prog_param,dbana
 	} else {
 		url_stat=url_stat + prog_param ;
 	}
+	//console.log(url_stat);
 	showProgressDlg("Loading Graph... ",true,libchart,"LI");
 	var xhrArgsEx={
 		url: url_path + url_stat,
@@ -1276,7 +1322,7 @@ function launch_ButtonGrid(button_grid,Store,prog_name,lib_valAnalyse,total,ctot
 	}
 }
 
-function launch_ButtonGrid_P(button_grid,Store,prog_name,lib_valAnalyse){
+function launch_ButtonGrid_P(button_grid,Store,prog_name,lib_valAnalyse,ind){
 	dijit.byId("bip"+button_grid) && dijit.byId("bip"+button_grid).destroyRecursive();
 	dojo.place(
 		new dijit.form.Button({
@@ -1304,6 +1350,7 @@ function launch_ButtonGrid_P(button_grid,Store,prog_name,lib_valAnalyse){
 
 		var val_layoutGrid;
 		if(prog_name=="proAnaPhe") {val_layoutGrid="layoutProjPheGrid"}
+		if(prog_name=="proAnaMac") {val_layoutGrid="layoutProjMacGrid"}
 		if(prog_name=="proAnaPlt") {val_layoutGrid="layoutProjPltGrid"}
 		if(prog_name=="proAnaUnit") {val_layoutGrid="layoutProjUnitGrid"}
 		if(prog_name=="proAnaUser") {val_layoutGrid="layoutProjUserGrid"}
@@ -1330,21 +1377,67 @@ function launch_ButtonGrid_P(button_grid,Store,prog_name,lib_valAnalyse){
 		var serie_legend="Number of Patients '" + lib_valAnalyse + "' per year";
 		if (button_grid.includes(["_P"])) { serie_legend="Project List '" + lib_valAnalyse + "' per year";}
 
-		if (["proAnaPhe","proAnaUser","proAnaPlt","proAnaUnit"].includes(prog_name)) {
+		if (["proAnaPhe","proAnaUser","proAnaPlt","proAnaUnit","proAnaMac"].includes(prog_name)) {
 			var gotList = function(items, request){
 				var NBPROJ = 0;
 				dojo.forEach(items, function(i){
 					if (Store.getValue(i,"project")) {NBPROJ++}
 				});
-				if (button_grid.includes(["_P"])) {serie_legend+="("+NBPROJ+")"};
+				if (button_grid.includes(["_P"])) {serie_legend+=" ("+NBPROJ+")"};
 			}
 			Store.fetch({
   				onComplete: gotList,
  			});
 		}
+		var style_grid="width:35em;height:48em";
+		var title_dialog=serie_legend+spPrint;
+		if (["proAnaMac"].includes(prog_name)) { // pas bon (phe,autre) car soit numero soit error dijit ex platform
+			var val_DirMulti=dijit.byId("idDirMultiSelect_"+ind).get("value");
+			if (val_DirMulti.length>0) {
+				title_dialog+="<br>Other Filter: "+val_DirMulti.toString();
+			}
+		}
+		if (["proAnaPhe"].includes(prog_name)) {
+			var val_DirMulti;
+			getVal_Multiselect(ind, function(values){
+  				val_DirMulti=values;
+			});
+			if (val_DirMulti.length>0) {
+				title_dialog+="<br>Other Filter: "+val_DirMulti.toString();
+			}
+		}
+		if (["proAnaUnit"].includes(prog_name)) {
+			var val_DirMulti;
+			getVal_Multiselect(ind, function(values){
+  				val_DirMulti=values;
+			});
+			var sp_val=val_DirMulti.toString().split(",");
+			var cum_val="";
+			for(var i = 0; i < sp_val.length; i++){
+				var sp_label=sp_val[i].split(" | ");
+				cum_val+=sp_label[0]+",";
+			}
+			cum_val=cum_val.slice(0,-1);
+			title_dialog+="<br>Other Filter: "+cum_val;
+		}
+		if (["proAnaPlt"].includes(prog_name)) {
+			var Plt=dijit.byId("plateformSelect_"+ind).get("value");
+			title_dialog+="<br>Other Filter: "+Plt;
+		}
+		if (["proAnaUser"].includes(prog_name)) {
+			var items = userstat.selection.getSelected();
+ 			var arr_user=[];
+			dojo.forEach(items, function(item){
+				arr_user.push(userstat.store.getValue(item, "Name"));
+			}, userstat);
+			title_dialog+="<br>Other Filter: "+arr_user.toString();
+		}
+
+		if(prog_name=="proAnaMac") {style_grid="width:48em;height:48em"}
 		Dial = new dijit.Dialog({
-       			title:serie_legend+spPrint,
-			style:"width:35em;height:48em",
+       			title:title_dialog,
+			//style:"width:35em;height:48em",
+			style:style_grid,
 			content:cp.domNode
 		});
 		dojo.place(Grid.domNode,Dial.containerNode,'first');
@@ -1360,6 +1453,26 @@ function launch_ButtonGrid_P(button_grid,Store,prog_name,lib_valAnalyse){
 		Grid.resize();
 	}
 }
+
+function getVal_Multiselect(ind, callback) {
+    require(["dojox/form/CheckedMultiSelect"], function() {
+	var widget = dijit.byId("idDirMultiSelect_" + ind);
+	function getDisplayedLabelsFromOptions(widget){
+		var selected = widget.get ? widget.get('value') : widget.value;
+ 		if(selected == null) return [];
+		if(!Array.isArray(selected)) selected = [selected];
+		var opts = Object.keys(widget.options || {}).map(function(k){ return widget.options[k]; });
+		var labels = selected.map(function(v){
+			var found = opts.find(function(o){ return String(o.value) === String(v); });
+ 			return found ? found.label : null;
+ 		}).filter(Boolean);
+ 		return labels;
+ 	}
+        var labels = getDisplayedLabelsFromOptions(widget);
+        callback(labels);
+    });
+}
+
 
 
 

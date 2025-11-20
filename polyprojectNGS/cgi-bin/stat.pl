@@ -37,8 +37,8 @@ my $buffer = GBuffer->new;
 #paramètre passés au cgi
 my $opt = $cgi->param('opt');
 	
-if ( $opt eq "patAna" ) {
-	patAnaSection();
+if ( $opt eq "patAnaMac" ) {
+	patAnaMacSection();
 } elsif ( $opt eq "patAnaPlt" ) {
 	patAnaPltSection();
 } elsif ( $opt eq "patAnaUnit" ) {
@@ -59,11 +59,16 @@ if ( $opt eq "patAna" ) {
 	proAnaUnitSection();
 } elsif ( $opt eq "proAnaUser" ) {
 	proAnaUserSection();
+} elsif ( $opt eq "proAnaMac" ) {
+	proAnaMacSection();
 }
 
 
-sub patAnaSection {
+sub patAnaMacSection {
 	my $cyear = $cgi->param('year');
+	my $cmac = $cgi->param('machine');
+	my @listMac;
+	@listMac = sort (split(/,/,$cmac));
 	my @listYearNbPat;
 	@listYearNbPat = sort (split(/,/,$cyear));
 	my $analyse = $cgi->param('analyse');
@@ -80,16 +85,70 @@ sub patAnaSection {
 		$StrListAnalyse.="'".$analyse[$i]."'".",";
 	}
 	chop($StrListAnalyse);
+	my $ListMac;
+	for (my $i = 0; $i< scalar(@listMac); $i++) {
+		$ListMac.="'".$listMac[$i]."'".",";
+	}
+	chop($ListMac);
 	my $row=1;
 	my @data;
 	my %hdata;
 	$hdata{label}="year";
 	foreach my $y (@listYearNbPat){
 		my %s;
-		my $nbYearPatList = queryStat::countPatAnalyseYear($buffer->dbh,$y,$StrListAnalyse,$not);
+		$ListMac="" unless defined $ListMac;
+#		my $nbYearPatList = queryStat::countPatAnalyseYear($buffer->dbh,$y,$StrListAnalyse,$not);
+#		my $nbYearPatAnalysPheList = queryStat::countPatAnalysePhenotypeYear($buffer->dbh,$y,$StrListAnalyse,$ListPhe,$not);
+		my $nbYearPatMacList = queryStat::countPatAnalyseMachineYear($buffer->dbh,$y,$StrListAnalyse,$ListMac,$not);
 		$s{year} = $y += 0;
-		$s{nbPat} = $nbYearPatList += 0;
+		$s{nbPat} = $nbYearPatMacList += 0;
 		$s{Row} = $row++;
+		push(@data,\%s);
+	}
+	$hdata{items}=\@data;
+	printJson(\%hdata);
+}
+
+sub proAnaMacSection {
+	my $cyear = $cgi->param('year');
+	my $cmac = $cgi->param('machine');
+	my @listMac;
+	@listMac = sort (split(/,/,$cmac));
+	my @listYearNbPat;
+	@listYearNbPat = sort (split(/,/,$cyear));
+	my $analyse = $cgi->param('analyse');
+	my @analyse = split(/,/,$analyse);
+	my $not;
+	$not= $cgi->param('not');
+	$not=0 unless defined $not;
+	my $db_year= queryStat::getYearsFromPatient($buffer->dbh) unless defined $cyear;
+	my $listdb_year;
+	$listdb_year=join(",",map{$_->{cYear}}@$db_year) unless defined $cyear;
+	$listdb_year=$cyear if defined $cyear;
+
+	my $StrListAnalyse;
+	for (my $i = 0; $i< scalar(@analyse); $i++) {
+		$StrListAnalyse.="'".$analyse[$i]."'".",";
+	}
+	chop($StrListAnalyse);
+	my $ListMac;
+	for (my $i = 0; $i< scalar(@listMac); $i++) {
+		$ListMac.="'".$listMac[$i]."'".",";
+	}
+	chop($ListMac);
+	my $row=1;
+	my @data;
+	my %hdata;
+	my $ListProj = queryStat::getProjectAnalyseMachineYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListMac,$not);	
+	$hdata{label}="project";
+	$hdata{identifier}="project";
+	foreach my $c (@$ListProj){
+		my %s;
+		$s{project} = $c->{project};
+		$s{analyse} = $c->{analyse};
+		$s{machine} = $c->{machine};
+		$s{type} = $c->{type};
+		$s{year} = $c->{year};
 		push(@data,\%s);
 	}
 	$hdata{items}=\@data;

@@ -27,8 +27,8 @@ sub getYearsFromPatient {
 	return \@res if \@res;
 }
 
-sub countPatAnalyseYear {
-	my ($dbh,$cyear,$analyse,$not) = @_;
+sub countPatAnalyseMachineYear {
+	my ($dbh,$cyear,$analyse,$mac,$not) = @_;
 	my $query2;
 	if ($analyse =~ "target") {
 		my $s_analyse=$analyse;
@@ -43,6 +43,9 @@ sub countPatAnalyseYear {
 		$query2 = qq {cs.analyse in ($analyse)} unless $not;
 		$query2 = qq {cs.analyse not in ($analyse)} if $not;
 	}
+	my $queryMac;
+#	$mac="''" unless $mac;
+	$queryMac = qq {AND sm.name in ($mac)} if $mac;
 	my $query = qq{
 		SELECT 
 --   	count(distinct if (a.name!="",a.name,null)) as 'nbPat'
@@ -52,14 +55,85 @@ sub countPatAnalyseYear {
 		ON a.project_id = p.project_id	  #new	
 		LEFT JOIN PolyprojectNGS.capture_systems cs
 		ON a.capture_id = cs.capture_id
+		LEFT JOIN PolyprojectNGS.run r
+		ON a.run_id = r.run_id
+		LEFT JOIN PolyprojectNGS.run_machine rm
+		ON r.run_id = rm.run_id
+		LEFT JOIN PolyprojectNGS.sequencing_machines sm
+		ON rm.machine_id = sm.machine_id
 		WHERE
 		$query2
 		AND a.run_id!=0		
 		AND a.project_id!=0		
+		$queryMac
 		AND p.creation_date regexp '$cyear';#new
 	};
 	return $dbh->selectrow_array($query);
 }
+
+sub getProjectAnalyseMachineYear {
+	my ($dbh,$cyear,$analyse,$mac,$not) = @_;
+	$cyear=~ s/,/|/g;
+	my $query2;
+	if ($analyse =~ "target") {
+		my $s_analyse=$analyse;
+		$s_analyse =~ s/\'//g;
+		if ($s_analyse eq "target") {
+			$query2 = qq {cs.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} unless $not;
+			$query2 = qq {cs.analyse in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $not;
+		} else {
+			$query2 = qq {cs.analyse in ("")};
+		}
+	} else {
+		$query2 = qq {cs.analyse in ($analyse)} unless $not;
+		$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	}
+	my $queryMac;
+#	$mac="''" unless $mac;
+	$queryMac = qq {AND sm.name in ($mac)} if $mac;
+	my $query = qq{
+	SELECT DISTINCT
+		p.name as 'project',
+		cs.analyse as 'analyse',
+		GROUP_CONCAT(DISTINCT sm.name ORDER BY sm.name DESC SEPARATOR ',') as 'machine',
+  		GROUP_CONCAT(DISTINCT sm.type ORDER BY sm.name DESC SEPARATOR ',') as 'type',
+		year(p.creation_date) as 'year'
+
+		FROM PolyprojectNGS.patient a
+		LEFT JOIN PolyprojectNGS.projects p   #new
+		ON a.project_id = p.project_id	  #new	
+		LEFT JOIN PolyprojectNGS.capture_systems cs
+		ON a.capture_id = cs.capture_id
+		LEFT JOIN PolyprojectNGS.run r
+		ON a.run_id = r.run_id
+		LEFT JOIN PolyprojectNGS.run_machine rm
+		ON r.run_id = rm.run_id
+		LEFT JOIN PolyprojectNGS.sequencing_machines sm
+		ON rm.machine_id = sm.machine_id
+ 
+		WHERE
+		$query2
+		AND a.project_id>0
+		AND p.name regexp '^NGS[0-9]{4}_'
+		AND p.creation_date regexp ('$cyear')
+		$queryMac
+ 		GROUP BY p.name
+ 		ORDER BY p.name
+	};
+	my @res;
+	my $sth = $dbh->prepare($query);
+	$sth->execute();
+	while (my $id = $sth->fetchrow_hashref ) {
+		 push(@res,$id);
+	}
+	return \@res;	
+}
+
+
+
+
+
+
 
 sub countPatAnalyseUser {
 	my ($dbh,$cyear,$analyse,$user,$not) = @_;
