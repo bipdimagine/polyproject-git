@@ -863,7 +863,7 @@ function launch_stat_data(libchart,colorfill,Store,prog_name,prog_param,dbana,fi
 				var myLabelFuncX = function(text, value, precision){
 					if(text==0){return " ";}
 				};
-				chart.addAxis('x',{
+  				chart.addAxis('x',{
 					titleFont: "normal normal bold 8pt Arial",
 					natural:true,
 					majorTicks:true,
@@ -891,14 +891,19 @@ function launch_stat_data(libchart,colorfill,Store,prog_name,prog_param,dbana,fi
 				} else {
 					lib_valAnalyse = valAnalyse;
 				}
-
-				chart.addAxis("y", { vertical: true, fixLower: "major", fixUpper: "major",
-					titleFont: "normal normal bold 8pt Arial",
-					title:"Number of '" + lib_valAnalyse + "'"});
-
 				var arrayNBpat=[];
 				for(var i = 0; i < items.length; i++){
 					arrayNBpat.push(+items[i].nbPat);
+				}
+				if (items.length === 1) {
+					chart.addAxis("y", { vertical: true, fixLower: "major", fixUpper: "major",min: 0,max: arrayNBpat[0] * 1.2,
+						titleFont: "normal normal bold 8pt Arial",
+						title:"Number of '" + lib_valAnalyse + "'"});
+
+				} else {
+					chart.addAxis("y", { vertical: true, fixLower: "major", fixUpper: "major",
+						titleFont: "normal normal bold 8pt Arial",
+						title:"Number of '" + lib_valAnalyse + "'"});
 				}
 				var total=0;
 				for(var n = 0; n < arrayNBpat.length; n++){
@@ -910,7 +915,11 @@ function launch_stat_data(libchart,colorfill,Store,prog_name,prog_param,dbana,fi
 				} else {
 					serie_legend="Number of Patients '" + lib_valAnalyse + "' per year" +" <small>(<b title='Cumulative Total'>"+total+"</b>)</small>";
 				}
-				chart.addSeries(serie_legend,arrayNBpat,{stroke: {color: colorfill[0],width:4},fill: colorfill[0]});
+//				chart.addSeries(serie_legend,arrayNBpat,{stroke: {color: colorfill[0],width:4},fill: colorfill[0]});
+				var data = arrayNBpat.map((v,i)=>({x:i+1, y:v}));
+				chart.addSeries(serie_legend, data, {stroke:{color:colorfill[0],width:4}, fill:colorfill[0]});
+
+
 				var anim4b = new dojox.charting.action2d.Tooltip(chart, 'default',{
 					text:function(o) {
 						return("nb: " + dojo.number.format((o.y),{places:0})
