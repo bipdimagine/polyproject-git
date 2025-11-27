@@ -49,7 +49,7 @@ if ( $opt eq "patAnaMac" ) {
 	EachYearpatDetailSection();
 } elsif ( $opt eq "patAnaUser" ) {
 	patAnaUserSection();
-}  elsif ( $opt eq "EYUpatDetail" ) {
+} elsif ( $opt eq "EYUpatDetail" ) {
 	EachYearUnitpatDetailSection();
 } elsif ( $opt eq "proAnaPhe" ) {
 	proAnaPheSection();
@@ -61,6 +61,10 @@ if ( $opt eq "patAnaMac" ) {
 	proAnaUserSection();
 } elsif ( $opt eq "proAnaMac" ) {
 	proAnaMacSection();
+} elsif ( $opt eq "EYproDetail" ) {
+	EachYearproDetailSection();
+} elsif ( $opt eq "EYUproDetail" ) {
+	EachYearUnitproDetailSection();
 }
 
 
@@ -494,6 +498,44 @@ sub EachYearpatDetailSection {
 	printJson(\%hdata);
 }
 
+sub EachYearproDetailSection {
+	my $cyear = $cgi->param('year');
+	my @listYearNbPat;
+	@listYearNbPat = sort (split(/,/,$cyear));
+	my $analyse = $cgi->param('analyse');
+	my @analyse = split(/,/,$analyse);
+	my $not;
+	$not= $cgi->param('not');
+	$not=0 unless defined $not;
+	my $db_year= queryStat::getYearsFromPatient($buffer->dbh) unless defined $cyear;
+	my $listdb_year;
+	$listdb_year=join(",",map{$_->{cYear}}@$db_year) unless defined $cyear;
+	$listdb_year=$cyear if defined $cyear;	
+#	@listYearNbPat=sort(split(/,/, join(",",map{$_->{cYear}}@$db_year))) unless defined $cyear;
+	my $StrListAnalyse;
+	for (my $i = 0; $i< scalar(@analyse); $i++) {
+		$StrListAnalyse.="'".$analyse[$i]."'".",";
+	}
+	chop($StrListAnalyse);
+	warn Dumper $listdb_year;
+	my $ListProj = queryStat::getProjectAnalyseByPlateformYear($buffer->dbh,$listdb_year,$StrListAnalyse,$not);
+	warn Dumper $ListProj;
+	my @data;
+	my %hdata;	
+	$hdata{label}="project";
+	$hdata{identifier}="project";
+	foreach my $c (@$ListProj){
+		my %s;
+		$s{project} = $c->{project};
+		$s{analyse} = $c->{analyse};
+		$s{plateform} = $c->{plateform};
+		$s{year} = $c->{year};
+		push(@data,\%s);
+	}
+	$hdata{items}=\@data;
+	printJson(\%hdata);
+}
+
 sub patAnaUserSection {
 	my $cyear = $cgi->param('year');
 	my @listYearNbPat;
@@ -661,6 +703,56 @@ sub EachYearUnitpatDetailSection {
 	my @result_sorted=sort { $a->{year} <=> $b->{year}} @data;
 	$hdata{items}=\@result_sorted;
 	printJson(\%hdata);
+}
+
+sub EachYearUnitproDetailSection {
+	my $cyear = $cgi->param('year');
+	my @listYearNbPat;
+	@listYearNbPat = sort (split(/,/,$cyear));
+	my $analyse = $cgi->param('analyse');
+	my @analyse = split(/,/,$analyse);
+	my $cunit = $cgi->param('unit');
+	my @listUnit;
+	@listUnit = sort (split(/,/,$cunit));
+	my $not;
+	$not= $cgi->param('not');
+	$not=0 unless defined $not;
+	my $db_year= queryStat::getYearsFromPatient($buffer->dbh) unless defined $cyear;
+	my $listdb_year;
+	$listdb_year=join(",",map{$_->{cYear}}@$db_year) unless defined $cyear;
+	$listdb_year=$cyear if defined $cyear;
+
+	my $StrListAnalyse;
+	for (my $i = 0; $i< scalar(@analyse); $i++) {
+		$StrListAnalyse.="'".$analyse[$i]."'".",";
+	}
+	chop($StrListAnalyse);
+	warn Dumper $cunit;
+	my $ListUnit;
+	for (my $i = 0; $i< scalar(@listUnit); $i++) {
+		$ListUnit.="'".$listUnit[$i]."'".",";
+	}
+	chop($ListUnit);
+	my $row=1;
+	my @data;
+	my %hdata;
+#countPatAnalyseByTeamYear
+	my $ListProj = queryStat::getProjectAnalyseByTeamUnitYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListUnit,$not);
+	$hdata{label}="project";
+	$hdata{identifier}="project";
+	foreach my $c (@$ListProj){
+		my %s;
+		$s{project} = $c->{project};
+		$s{analyse} = $c->{analyse};
+		$s{analyse} = "target" if $analyse eq "target";
+		$s{team} = $c->{team};		
+		$s{unit} = $c->{unit};
+		$s{year} = $c->{year};
+		push(@data,\%s);
+	}
+	$hdata{items}=\@data;
+	printJson(\%hdata);
+	
 }
 
 ###################################################################################
