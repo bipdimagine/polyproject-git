@@ -1671,7 +1671,7 @@ function launch_ButtonGrid_P(button_grid,Store,prog_name,lib_valAnalyse,ind){
 		},cp);
 		var spPrint="&nbsp;<span id="+"Print" + button_grid +"><img src='icons/table_save.png'></span>";
 		var serie_legend="Number of Patients '" + lib_valAnalyse + "' per year";
-		if (button_grid.includes(["_P"])) { serie_legend="Project List '" + lib_valAnalyse + "' per year";}
+		if (button_grid.includes(["_P"])) { serie_legend="NGS Project List '" + lib_valAnalyse + "' per year";}
 
 		if (["proAnaPhe","proAnaUser","proAnaGroup","proAnaPlt","proAnaUnit","proAnaMac","EYproDetail","EYUproDetail"].includes(prog_name)) {
 			var gotList = function(items, request){
