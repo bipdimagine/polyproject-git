@@ -20,7 +20,7 @@ require([
 
 
 const data = {};
-for (let i = 1; i <= 7; i++) {
+for (let i = 1; i <= 8; i++) {
   data[`stat_${i}Store`] = "Store" + i;
   data[`stat_${i}Grid`] = "Grid" + i;
   data[`stat_${i}Dial`] = "Dial" + i;
@@ -120,6 +120,39 @@ var layoutProjUserGrid = [
 	{ field: "year",name: "Year",width: '5'},
 ];
 
+var layoutProjGroupGrid = [
+	{ field: "Row", name: "Row",get: getRow, width: '2.5'},
+	{ field: "project", name: "Project", width: '8'},
+	{ field: "analyse",name: "Analyse",width: '5'},
+	{ field: "group",name: "Group",width: '15'},
+	{ field: "year",name: "Year",width: '5'},
+];
+
+
+var layoutFilterUser = [
+	{field: 'Name',name: 'Last Name',width: '12em'},
+	{field: 'Firstname',name: 'First Name',width: '8em'},
+	{field: 'Group',name: 'Group',width: '8em',styles:"text-align:left;white-space:nowrap;"},
+	{field: 'Code',name: 'Lab Code',width: '10em'},
+//	{field: 'Site',name: "Site <span id='bt_clear'></span>",width: 'auto'},
+	{field: 'Site',name: "Site",width: '10em'},
+];
+
+var layoutGroup = [
+	{field: 'group',name: "Group",width: '12em'},
+//	{field: 'bt',name: "BTU",width: '4em',formatter:ButtonUserGroup},
+	{field: 'bt',name: "<b>&nbsp;&nbsp;</b>",width: '2.5em',formatter:ButtonStatUserGroup},
+//	{field: 'bt',name: "<b>&nbsp;&nbsp;</b>",width: '2.5em'},
+];
+
+var layoutDetailedGroup = [
+	{field: 'Name',name: "Last Name",width: '12em'},
+	{field: 'Firstname',name: "First Name",width: '10em'},
+	{field: 'Site',name: 'Site',width: '10em'},
+	{field: 'Code',name: 'Lab Code',width: '10em'},
+	{field: 'Team',name: 'Team',width: '26em',styles:"text-align:left;white-space:nowrap;"}
+];
+
 function isUpperCase(str) {
     return str === str.toUpperCase();
 }
@@ -165,7 +198,6 @@ require([
 });
 
 var unitNameStore;
-
 dojo.addOnLoad(function() {
     	dojo.xhrGet({
             url: url_path + "/manageData.pl?option=unitName",
@@ -174,12 +206,17 @@ dojo.addOnLoad(function() {
 		unitNameStore = new dojo.store.Memory({data: res});
            }
         });
+
+	ugroupStore = new dojo.data.ItemFileWriteStore({
+		url: url_path + "/manageData.pl?option=ugroup"
+	});
 });
 
 var filter_year = [];
 var sl_year = [];
 var sl_value = [];
 var arr_userid=[];
+var arr_groupid=[];
 var prog_param;
 
 function initStat(serial) {
@@ -336,23 +373,35 @@ function initStat(serial) {
 		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
 		launch_dirmultiselect_data(phenotypeStore, divMulti="qphenotypeSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year);
 	}	
+// Number of Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;Filter:Analyse & Group User
+	if(serial==8) {
+		filter_year = [];
+		sl_year = [];
+		sl_value = [];
+		arr_userid=[];
+		var prog_name="patAnaGroup";
+		var prog_name_P="proAnaGroup";
+		//colorfill=["#A6AF82"];
+		colorfill=["#D8BFD8"];
+		var ind="8";
+		launch_gridmultiselect_gridGroup_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, colorfill, filter_year);
+		var dbana=0;
+		create_divSlider(ind);
+		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
+		//colorfill=["#707A43"];
+		colorfill=["#DA70D6"];
+		var ind="82";
+		var dbana=1;
+		create_divSlider(ind);
+		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
+	}
 }
-
-var layoutFilterUser = [
-	{field: 'Name',name: 'Last Name',width: '12em'},
-	{field: 'Firstname',name: 'First Name',width: '8em'},
-	{field: 'Group',name: 'Group',width: '8em',styles:"text-align:left;white-space:nowrap;"},
-	{field: 'Code',name: 'Lab Code',width: '10em'},
-//	{field: 'Site',name: "Site <span id='bt_clearUser'></span>",width: 'auto'},
-	{field: 'Site',name: "Site",width: '10em'},
-];
-
 
 var pvalana0;
 var pvalana1;
 
-// 7 titi
-// for valAnalyse Store
+// for valAnalyse Store + User Store
+var userstatGrip;
 function launch_gridmultiselect_data(Store,divMulti,ind,prog_name,prog_param,colorfill,filter_year){
 	function fetchFailed(error, request) {
 		alert("lookup failed.");
@@ -372,7 +421,7 @@ function launch_gridmultiselect_data(Store,divMulti,ind,prog_name,prog_param,col
 		onBegin: clearOldUserList,
 		onError: fetchFailed,
 		onComplete: function(items){
-			userstat = new dojox.grid.EnhancedGrid({
+			userstatGrip = new dojox.grid.EnhancedGrid({
 				query: {UserId: '*'},
 				store: userStore,
 				rowSelector: "0.4em",
@@ -394,19 +443,19 @@ function launch_gridmultiselect_data(Store,divMulti,ind,prog_name,prog_param,col
 					selector:true,
 				}
 			},document.createElement('div'));
-			dojo.byId("UserDiv").appendChild(userstat.domNode);
-			userstat.startup();
-			dojo.connect(userstat, "onCellMouseOver", showRowTooltip);
-			dojo.connect(userstat, "onCellMouseOut", hideRowTooltip); 
+			dojo.byId("UserDiv").appendChild(userstatGrip.domNode);
+			userstatGrip.startup();
+			dojo.connect(userstatGrip, "onCellMouseOver", showRowTooltip);
+			dojo.connect(userstatGrip, "onCellMouseOut", hideRowTooltip); 
 
-			var sp_btclear=dojo.byId("bt_clearUser");
-			var id_btclear=dijit.byId("id_btclearUser");
+			var sp_btclear=dojo.byId("bt_clear_"+ind);
+			var id_btclear=dijit.byId("id_btclear_"+ind);
 			if (id_btclear) {
 				sp_btclear.removeChild(id_btclear.domNode);
 				id_btclear.destroyRecursive();
 			}
 			var buttonform_clear= new dijit.form.Button({
-				id:"id_btclearUser",
+				id:"id_btclear_"+ind,
 				title:"Clear Selection",
 				showLabel: false,
 				iconClass:"clearIcon",
@@ -418,7 +467,7 @@ function launch_gridmultiselect_data(Store,divMulti,ind,prog_name,prog_param,col
 			function ClearSelectionInGridMulti() {
 				var s_phe0=dijit.byId("idanaMultiSelect_"+ind).value;
 				var s_phe1=dijit.byId("idanaMultiSelect_"+ind+"2").value;
-				userstat.selection.clear();
+				userstatGrip.selection.clear();
 				arr_userid=[];
 
 				dbana=0;
@@ -437,14 +486,14 @@ function launch_gridmultiselect_data(Store,divMulti,ind,prog_name,prog_param,col
 				launch_stat_data(libchart="stat_"+ind+"2", colorfill, data["stat_"+ind+"2"+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 				launch_query_data(libquery="query_" + ind+"2", data["query_"+ind+"2"+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 			}
-			dojo.connect(userstat, "onCellClick", userstat, function(){
+			dojo.connect(userstatGrip, "onCellClick", userstatGrip, function(){
 				var s_phe0=dijit.byId("idanaMultiSelect_"+ind).value;
 				var s_phe1=dijit.byId("idanaMultiSelect_"+ind+"2").value;
-				var items = userstat.selection.getSelected();
+				var items = userstatGrip.selection.getSelected();
  				arr_userid=[];
 				dojo.forEach(items, function(item){
-					arr_userid.push(userstat.store.getValue(item, "UserId"));
-				}, userstat);
+					arr_userid.push(userstatGrip.store.getValue(item, "UserId"));
+				}, userstatGrip);
 				prog_param="&analyse="+valAnalyse;
 
 				dbana=0;
@@ -465,6 +514,189 @@ function launch_gridmultiselect_data(Store,divMulti,ind,prog_name,prog_param,col
 		}
 	});	
 }
+
+
+
+
+// for valAnalyse Store + GroupUser Store toto layoutDetailedGroup
+var groupuserstatGrip;
+function launch_gridmultiselect_gridGroup_data(Store,divMulti,ind,prog_name,prog_param,colorfill,filter_year){
+	var detailedGroupStore = new dojo.data.ItemFileWriteStore({
+		url: url_path + "/manageData.pl?option=userGroup"+"&GrpSel="+ userid
+	});
+
+	function fetchFailedDetailedUgroup(error, request) {
+		alert("lookup failed Detailed Ugroup.");
+		alert(error);
+	}
+
+	function clearOldDetailedGroupList(size, request) {
+                    var listGUser = dojo.byId("detailedGroupGridDiv");
+                    if (listGUser) {
+                        while (listGUser.firstChild) {
+                           listGUser.removeChild(listGUser.firstChild);
+                        }
+                    }
+	}
+	detailedGroupStore.fetch({
+		onBegin: clearOldDetailedGroupList,
+		onError: fetchFailedDetailedUgroup,
+		onComplete: function(items){
+			detailedGroupGrid = new dojox.grid.EnhancedGrid({
+				query: {Name: '*'},
+				store: detailedGroupStore,
+				structure: layoutDetailedGroup,
+			},document.createElement('div'));
+			dojo.byId("detailedGroupGridDiv").appendChild(detailedGroupGrid.domNode);
+			detailedGroupGrid.startup();		
+		}
+	});
+
+	function fetchFailedUserGroup(error, request) {
+		alert("lookup UGroup failed.");
+		alert(error);
+	}
+
+	function clearOldUserGroupList(size, request) {
+                    var listUserGroup = dojo.byId("GroupUserDiv");
+                    if (listUserGroup) {
+                        while (listUserGroup.firstChild) {
+                           listUserGroup.removeChild(listUserGroup.firstChild);
+                        }
+
+                    }
+	}
+	ugroupStore.fetch({
+		onBegin: clearOldUserGroupList,
+		onError: fetchFailedUserGroup,
+		onComplete: function(items){
+			groupuserstatGrip = new dojox.grid.EnhancedGrid({
+				query: {groupId: '*'},
+				store: ugroupStore,
+				rowSelector: "0.4em",
+				structure: layoutGroup,
+				selectionMode:"Multiple",
+				plugins: {
+					filter: {
+						closeFilterbarButton: true,
+						ruleCount: 5,
+						itemsName: "name"
+					},
+					indirectSelection: {
+						headerSelector:false, 
+						width: "2em",
+						styles: "text-align: center;",
+					},
+					nestedSorting: true,
+					dnd: true,
+					selector:true,
+				}
+			},document.createElement('div'));
+			dojo.byId("GroupUserDiv").appendChild(groupuserstatGrip.domNode);
+			groupuserstatGrip.startup();
+			dojo.connect(groupuserstatGrip, "onCellMouseOver", showRowTooltip);
+			dojo.connect(groupuserstatGrip, "onCellMouseOut", hideRowTooltip); 
+
+			var sp_btclear=dojo.byId("bt_clear_"+ind);
+			var id_btclear=dijit.byId("id_btclear_"+ind);
+			if (id_btclear) {
+				sp_btclear.removeChild(id_btclear.domNode);
+				id_btclear.destroyRecursive();
+			}
+			var buttonform_clear= new dijit.form.Button({
+				id:"id_btclear_"+ind,
+				title:"Clear Selection",
+				showLabel: false,
+				iconClass:"clearIcon",
+				style:"color:white",
+				onClick:ClearSelectionInGridMulti,
+			});
+			buttonform_clear.startup();
+			buttonform_clear.placeAt(sp_btclear,"last");
+			function ClearSelectionInGridMulti() {
+				var s_phe0=dijit.byId("idanaMultiSelect_"+ind).value;
+				var s_phe1=dijit.byId("idanaMultiSelect_"+ind+"2").value;
+				groupuserstatGrip.selection.clear();
+				detailedGroupStore = new dojo.data.ItemFileWriteStore({
+					url: url_path + "/manageData.pl?option=userGroup"+"&GrpSel="
+				});
+				detailedGroupGrid.setStore(detailedGroupStore);
+				detailedGroupGrid.store.close();
+				dojo.style(dojo.byId('dgroup'), "padding", "0 0 0 0");
+				var j_ug = dojo.byId("dgroup");
+				j_ug.innerHTML= "";
+				arr_userid=[];
+
+				dbana=0;
+				pvalana0=s_phe0.toString();
+				prog_param="&analyse="+pvalana0;				
+				colorfill=["#A6AF82"];
+				launch_stat_data(libchart="stat_"+ind, colorfill, data["stat_"+ind+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+				launch_query_data(libquery="query_" + ind, data["query_"+ind+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+
+				dbana=1;
+				pvalana1=s_phe1.toString();
+				prog_param="&analyse="+pvalana1;
+				prog_param=prog_param +"&not="+"1";
+				colorfill=["#707A43"];
+				launch_stat_data(libchart="stat_"+ind+"2", colorfill, data["stat_"+ind+"2"+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+				launch_query_data(libquery="query_" + ind+"2", data["query_"+ind+"2"+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+			}
+
+			dojo.connect(groupuserstatGrip, "onCellClick", groupuserstatGrip, function(){
+				var s_phe0=dijit.byId("idanaMultiSelect_"+ind).value;
+				var s_phe1=dijit.byId("idanaMultiSelect_"+ind+"2").value;
+				var items = groupuserstatGrip.selection.getSelected();
+ 				arr_userid=[];
+				dojo.forEach(items, function(item){
+					arr_userid.push(groupuserstatGrip.store.getValue(item, "groupId"));
+				}, groupuserstatGrip);
+				prog_param="&analyse="+valAnalyse;
+
+				dbana=0;
+				colorfill=["#D8BFD8"];
+				pvalana0=s_phe0.toString();
+				prog_param="&analyse="+pvalana0;
+				launch_stat_data(libchart="stat_"+ind, colorfill, data["stat_"+ind+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+				launch_query_data(libquery="query_" + ind, data["query_"+ind+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+
+				dbana=1;
+				pvalana1=s_phe1.toString();
+				prog_param="&analyse="+pvalana1;
+				prog_param=prog_param +"&not="+"1";
+				colorfill=["#DA70D6"];
+				launch_stat_data(libchart="stat_"+ind+"2", colorfill, data["stat_"+ind+"2"+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+				launch_query_data(libquery="query_" + ind+"2", data["query_"+ind+"2"+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+
+			});
+		}
+	});	
+}
+
+//formatter
+function ButtonStatUserGroup(value,idx,cell) {
+	var sp_val=value.toString().split("#");
+	var Cbutton;
+	if (cell.field == "bt") {
+		Cbutton = new dijit.form.Button({
+			style:"background:transparent;",
+			label:"<span class='userButton'><img src='icons/user.png'></span>",
+			baseClass:"userButton2",
+			onClick: function(e){
+				detailedGroupStore = new dojo.data.ItemFileWriteStore({
+					url: url_path + "/manageData.pl?option=userGroup"+"&GrpSel="+ sp_val[0].toString()
+				});
+				detailedGroupGrid.setStore(detailedGroupStore);
+				detailedGroupGrid.store.close();
+				dojo.style(dojo.byId('dgroup'), "padding", "0 1px 0 1px");
+				var j_ug = dojo.byId("dgroup");
+				j_ug.innerHTML= sp_val[1].toString();
+			} 
+		});		
+	}
+	return Cbutton;
+}
+
 
 function create_divSlider(ind){
 	var tab_appSlider=dojo.byId("appSlider_"+ind);
@@ -615,14 +847,14 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
 					}
 				},divMulti);
    				qMultiSelect.startup();
-				var sp_btclear=dom.byId("bt_clearUser_"+ind);
-				var id_btclear=registry.byId("id_btclearUser_"+ind);
+				var sp_btclear=dom.byId("bt_clear_"+ind);
+				var id_btclear=registry.byId("id_btclear_"+ind);
 				if (id_btclear) {
 					sp_btclear.removeChild(id_btclear.domNode);
 					id_btclear.destroyRecursive();
 				}
 				var buttonform_clear= new Button({
-					id:"id_btclearUser_"+ind,
+					id:"id_btclear_"+ind,
 					title:"Clear Selection",
 					showLabel: false,
 					iconClass:"clearIcon",
@@ -705,7 +937,7 @@ function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,dban
 							if(dbana) {
 								prog_param=prog_param +"&not="+"1";
 							}
-							if(prog_name=="patAnaUser") {
+							if(prog_name=="patAnaUser" || prog_name=="patAnaGroup") {
 								if(dbana) {
 									pvalana1=valAnalyse;
 								} else {
@@ -720,8 +952,6 @@ function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,dban
 								valUnit=dijit.byId("idDirMultiSelect_"+ind).get("value");
 								prog_param=prog_param+"&unit=" +valUnit;
 							}
-
-// afaire: pour EYUpatDetail et valUnitEYU=84
 							if(prog_name=="patAnaPhe") {
 								valPhe=dijit.byId("idDirMultiSelect_"+ind).get("value");
 								prog_param=prog_param+"&phe=" +valPhe;
@@ -762,6 +992,14 @@ function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,dban
 					pvalana0=valAnalyse;
 				}
 				prog_name_p="proAnaUser";
+			}
+			if(prog_name=="patAnaGroup") {
+				if(dbana) {
+					pvalana1=valAnalyse;
+				} else {
+					pvalana0=valAnalyse;
+				}
+				prog_name_p="proAnaGroup";
 			}
 
 			if(prog_name=="patAnaPlt") {
@@ -809,7 +1047,7 @@ function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,dban
 function launch_stat_data(libchart,colorfill,Store,prog_name,prog_param,dbana,filter_year,sl_year,sl_value,arr_userid){
 	var ind=libchart.split("_");
 	var button_grid="button_" + ind[1];	
-	if (prog_name=="patAnaUser") {
+	if (prog_name=="patAnaUser" || prog_name=="patAnaGroup") {
 		if (dbana) {
 			prog_param="&analyse="+pvalana1;
 		} else {
@@ -819,8 +1057,14 @@ function launch_stat_data(libchart,colorfill,Store,prog_name,prog_param,dbana,fi
 	if (dbana && prog_name=="patAnaUser") {
 		prog_param=prog_param +"&not="+"1";
 	}
+	if (dbana && prog_name=="patAnaGroup") {
+		prog_param=prog_param +"&not="+"1";
+	}
 	if (arr_userid.length>=1 && prog_name=="patAnaUser") {
 		prog_param=prog_param+"&user="+ arr_userid;
+	}
+	if (arr_userid.length>=1 && prog_name=="patAnaGroup") {
+		prog_param=prog_param+"&group="+ arr_userid;
 	}
 	var url_stat;
 	if (filter_year.length>=1) {
@@ -909,7 +1153,7 @@ function launch_stat_data(libchart,colorfill,Store,prog_name,prog_param,dbana,fi
 				var str_find="not=1";
 				var okmatch=url_stat.match(str_find);
 				var lib_valAnalyse;
-				if (prog_name=="patAnaUser") {
+				if (prog_name=="patAnaUser" || prog_name=="patAnaGroup") {
 					if (dbana) {
 						valAnalyse=pvalana1;
 					} else {
@@ -940,8 +1184,11 @@ function launch_stat_data(libchart,colorfill,Store,prog_name,prog_param,dbana,fi
 					total+=arrayNBpat[n];
 				}
 				var serie_legend;
-				if(prog_name=="patAnaUser") {
+				if(prog_name=="patAnaUser" || prog_name=="patAnaGroup") {
 					serie_legend="Number of Patients '" + lib_valAnalyse + "' per year" +" <small>(<b title='Cumulative Total'>"+total+"</b>) #Users (<b>" + arr_userid.length + "</b>)</small>";
+					if(prog_name=="patAnaGroup") {
+						serie_legend="Number of Patients '" + lib_valAnalyse + "' per year" +" <small>(<b title='Cumulative Total'>"+total+"</b>) #Groups (<b>" + arr_userid.length + "</b>)</small>";
+					}
 				} else {
 					serie_legend="Number of Patients '" + lib_valAnalyse + "' per year" +" <small>(<b title='Cumulative Total'>"+total+"</b>)</small>";
 				}
@@ -986,6 +1233,9 @@ function launch_query_data(libquery,Store,prog_name,prog_param,dbana,filter_year
 		if (arr_userid.length>=1 && prog_name=="proAnaUser") {
 			prog_param=prog_param+"&user="+ arr_userid;
 		}	
+		if (arr_userid.length>=1 && prog_name=="proAnaGroup") {
+			prog_param=prog_param+"&group="+ arr_userid;
+		}	
 		var url_stat;
 		if (filter_year.length>=1) {
 			url_stat="/stat.pl?opt="+prog_name + prog_param +"&year="+ filter_year.toString();
@@ -1004,12 +1254,12 @@ function launch_query_data(libquery,Store,prog_name,prog_param,dbana,filter_year
 				var lib_valAnalyse;
 				if(okmatch) {
 					lib_valAnalyse = "Not " + valAnalyse;
-					if(prog_name=="proAnaUser") {lib_valAnalyse = "Not " + pvalana1;}
+					if(prog_name=="proAnaUser"||prog_name=="proAnaGroup") {lib_valAnalyse = "Not " + pvalana1;}
 				} else {
 					lib_valAnalyse = valAnalyse;
-					if(prog_name=="proAnaUser") {lib_valAnalyse = pvalana0;}
+					if(prog_name=="proAnaUser"||prog_name=="proAnaGroup") {lib_valAnalyse = pvalana0;}
 				}
-				if (["proAnaPhe","proAnaUser","proAnaPlt","proAnaUnit","proAnaMac","EYproDetail","EYUproDetail"].includes(prog_name)) {
+				if (["proAnaPhe","proAnaUser","proAnaGroup","proAnaPlt","proAnaUnit","proAnaMac","EYproDetail","EYUproDetail"].includes(prog_name)) {
 					var gotList = function(items, request){
 						var NBPROJ = 0;
 						dojo.forEach(items, function(i){
@@ -1399,6 +1649,7 @@ function launch_ButtonGrid_P(button_grid,Store,prog_name,lib_valAnalyse,ind){
 		if(prog_name=="EYUproDetail") {val_layoutGrid="layoutProjTeamUnitGrid"}
 		if(prog_name=="proAnaUnit") {val_layoutGrid="layoutProjUnitGrid"}
 		if(prog_name=="proAnaUser") {val_layoutGrid="layoutProjUserGrid"}
+		if(prog_name=="proAnaGroup") {val_layoutGrid="layoutProjGroupGrid"}
 		menusObjectS.cellMenu.addChild(new dijit.MenuItem({label: "Preview - Save", iconClass:"dijitEditorIcon dijitEditorIconCopy",style:"background-color: #495569", disabled:true}));
 		menusObjectS.cellMenu.addChild(new dijit.MenuSeparator());
 		menusObjectS.cellMenu.addChild(new dijit.MenuItem({label: "Preview All", iconClass:"htmlIcon", onclick:"previewAll('Grid"+button_grid+"');"}));
@@ -1422,7 +1673,7 @@ function launch_ButtonGrid_P(button_grid,Store,prog_name,lib_valAnalyse,ind){
 		var serie_legend="Number of Patients '" + lib_valAnalyse + "' per year";
 		if (button_grid.includes(["_P"])) { serie_legend="Project List '" + lib_valAnalyse + "' per year";}
 
-		if (["proAnaPhe","proAnaUser","proAnaPlt","proAnaUnit","proAnaMac","EYproDetail","EYUproDetail"].includes(prog_name)) {
+		if (["proAnaPhe","proAnaUser","proAnaGroup","proAnaPlt","proAnaUnit","proAnaMac","EYproDetail","EYUproDetail"].includes(prog_name)) {
 			var gotList = function(items, request){
 				var NBPROJ = 0;
 				dojo.forEach(items, function(i){
@@ -1470,11 +1721,19 @@ function launch_ButtonGrid_P(button_grid,Store,prog_name,lib_valAnalyse,ind){
 			title_dialog+="<br>Other Filter: "+Plt;
 		}
 		if (["proAnaUser"].includes(prog_name)) {
-			var items = userstat.selection.getSelected();
+			var items = userstatGrip.selection.getSelected();
  			var arr_user=[];
 			dojo.forEach(items, function(item){
-				arr_user.push(userstat.store.getValue(item, "Name"));
-			}, userstat);
+				arr_user.push(userstatGrip.store.getValue(item, "Name"));
+			}, userstatGrip);
+			title_dialog+="<br>Other Filter: "+arr_user.toString();
+		}
+		if (["proAnaGroup"].includes(prog_name)) {
+			var items = groupuserstatGrip.selection.getSelected();
+ 			var arr_user=[];
+			dojo.forEach(items, function(item){
+				arr_user.push(groupuserstatGrip.store.getValue(item, "Name"));
+			}, groupuserstatGrip);
 			title_dialog+="<br>Other Filter: "+arr_user.toString();
 		}
 

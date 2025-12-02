@@ -235,6 +235,106 @@ sub getProjectAnalyseUserYear {
 	return \@res;	
 }
 
+sub countPatAnalyseGroup {
+	my ($dbh,$cyear,$analyse,$group,$not) = @_;
+	my $query2;
+	if ($analyse =~ "target") {
+		my $s_analyse=$analyse;
+		$s_analyse =~ s/\'//g;
+		if ($s_analyse eq "target") {
+			$query2 = qq {cs.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} unless $not;
+			$query2 = qq {cs.analyse in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $not;
+		} else {
+			$query2 = qq {cs.analyse in ("")};
+		}
+	} else {
+		$query2 = qq {cs.analyse in ($analyse)} unless $not;
+		$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	}
+	$group="''" unless $group;
+	my $query = qq{
+		SELECT 
+ 		count(distinct if (a.patient_id!=0,a.patient_id,null)) as 'nbPat'
+--       a.patient_id,ug.name
+		FROM PolyprojectNGS.patient a
+		LEFT JOIN PolyprojectNGS.capture_systems cs
+		ON a.capture_id = cs.capture_id
+		LEFT JOIN PolyprojectNGS.projects p
+		ON a.project_id = p.project_id
+        LEFT JOIN PolyprojectNGS.ugroup_projects gp
+        ON p.project_id = gp.project_id
+        LEFT JOIN bipd_users.UGROUP ug
+		ON gp.ugroup_id=ug.ugroup_id
+
+		WHERE
+		$query2
+		AND a.run_id!=0		
+		AND a.project_id!=0		
+		AND ug.ugroup_id in ($group)
+ 		AND p.creation_date regexp '$cyear';#new
+	};
+	return $dbh->selectrow_array($query);
+}
+
+sub getProjectAnalyseGroupYear {
+	my ($dbh,$cyear,$analyse,$group,$not) = @_;
+	$cyear=~ s/,/|/g;
+	my $query2;
+	if ($analyse =~ "target") {
+		my $s_analyse=$analyse;
+		$s_analyse =~ s/\'//g;
+		if ($s_analyse eq "target") {
+			$query2 = qq {cs.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} unless $not;
+			$query2 = qq {cs.analyse in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $not;
+		} else {
+			$query2 = qq {cs.analyse in ("")};
+		}
+	} else {
+		$query2 = qq {cs.analyse in ($analyse)} unless $not;
+		$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	}
+	$group="''" unless $group;
+	my $queryGroup = qq {AND ug.ugroup_id in ($group)};
+	
+	my $query = qq{
+	SELECT DISTINCT
+		p.name as 'project',
+		cs.analyse as 'analyse',
+#		GROUP_CONCAT(DISTINCT T.code_unite ORDER BY T.code_unite DESC SEPARATOR ',') as 'unit',
+		GROUP_CONCAT(DISTINCT ug.name ORDER BY ug.name DESC SEPARATOR ',') as 'group',
+		year(p.creation_date) as 'year'
+		
+		FROM PolyprojectNGS.patient a
+		LEFT JOIN PolyprojectNGS.capture_systems cs
+		ON a.capture_id = cs.capture_id
+		LEFT JOIN PolyprojectNGS.projects p
+		ON a.project_id = p.project_id
+        LEFT JOIN PolyprojectNGS.ugroup_projects gp
+        ON p.project_id = gp.project_id
+        LEFT JOIN bipd_users.UGROUP ug
+		ON gp.ugroup_id=ug.ugroup_id
+				
+		WHERE
+		$query2
+		AND a.project_id>0
+		AND p.name regexp '^NGS[0-9]{4}_'
+		AND p.creation_date regexp ('$cyear')
+		$queryGroup
+ 		GROUP BY p.name
+ 		ORDER BY p.name
+	};
+	my @res;
+	my $sth = $dbh->prepare($query);
+	$sth->execute();
+	while (my $id = $sth->fetchrow_hashref ) {
+		 push(@res,$id);
+	}
+	return \@res;	
+}
+
+
+
+
 sub countPatAnalysePlateformYear {
 	my ($dbh,$cyear,$analyse,$plateform,$not) = @_;
 	my $query2;

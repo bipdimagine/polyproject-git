@@ -49,6 +49,8 @@ if ( $opt eq "patAnaMac" ) {
 	EachYearpatDetailSection();
 } elsif ( $opt eq "patAnaUser" ) {
 	patAnaUserSection();
+} elsif ( $opt eq "patAnaGroup" ) {
+	patAnaGroupSection();
 } elsif ( $opt eq "EYUpatDetail" ) {
 	EachYearUnitpatDetailSection();
 } elsif ( $opt eq "proAnaPhe" ) {
@@ -65,6 +67,8 @@ if ( $opt eq "patAnaMac" ) {
 	EachYearproDetailSection();
 } elsif ( $opt eq "EYUproDetail" ) {
 	EachYearUnitproDetailSection();
+} elsif ( $opt eq "proAnaGroup" ) {
+	proAnaGroupSection();
 }
 
 
@@ -573,6 +577,93 @@ sub patAnaUserSection {
 		$s{year} = $y += 0;
 		$s{nbPat} = $nbYearPatList += 0;
 		$s{Row} = $row++;
+		push(@data,\%s);
+	}
+	$hdata{items}=\@data;
+	printJson(\%hdata);
+}
+
+sub patAnaGroupSection {
+	my $cyear = $cgi->param('year');
+	my @listYearNbPat;
+	@listYearNbPat = sort (split(/,/,$cyear));
+	my $analyse = $cgi->param('analyse');
+	my @analyse = split(/,/,$analyse);
+	my $cgroup = $cgi->param('group');
+	my @listGroup;
+	@listGroup = sort (split(/,/,$cgroup));
+	my $not;
+	$not= $cgi->param('not');
+	$not=0 unless defined $not;
+	my $db_year= queryStat::getYearsFromPatient($buffer->dbh) unless defined $cyear; 
+	@listYearNbPat=sort(split(/,/, join(",",map{$_->{cYear}}@$db_year))) unless defined $cyear;
+
+	my $StrListAnalyse;
+	for (my $i = 0; $i< scalar(@analyse); $i++) {
+		$StrListAnalyse.="'".$analyse[$i]."'".",";
+	}
+	chop($StrListAnalyse);
+	
+	my $ListGroup;
+	for (my $i = 0; $i< scalar(@listGroup); $i++) {
+		$ListGroup.="'".$listGroup[$i]."'".",";
+	}
+	chop($ListGroup);	
+	my $row=1;
+	my @data;
+	my %hdata;
+	$hdata{label}="year";
+	foreach my $y (@listYearNbPat){
+		my %s;
+		$ListGroup="" unless defined $ListGroup;
+		my $nbYearPatList = queryStat::countPatAnalyseGroup($buffer->dbh,$y,$StrListAnalyse,$ListGroup,$not);
+		$s{year} = $y += 0;
+		$s{nbPat} = $nbYearPatList += 0;
+		$s{Row} = $row++;
+		push(@data,\%s);
+	}
+	$hdata{items}=\@data;
+	printJson(\%hdata);
+}
+
+sub proAnaGroupSection {
+	my $cyear = $cgi->param('year');
+	my @listYearNbPat;
+	@listYearNbPat = sort (split(/,/,$cyear));
+	my $analyse = $cgi->param('analyse');
+	my @analyse = split(/,/,$analyse);
+	my $cgroup = $cgi->param('group');
+	my @listGroup;
+	@listGroup = sort (split(/,/,$cgroup));
+	my $not;
+	$not= $cgi->param('not');
+	$not=0 unless defined $not;
+	my $db_year= queryStat::getYearsFromPatient($buffer->dbh) unless defined $cyear; 
+	my $listdb_year;
+	$listdb_year=join(",",map{$_->{cYear}}@$db_year) unless defined $cyear;
+	$listdb_year=$cyear if defined $cyear;
+	my $StrListAnalyse;
+	for (my $i = 0; $i< scalar(@analyse); $i++) {
+		$StrListAnalyse.="'".$analyse[$i]."'".",";
+	}
+	chop($StrListAnalyse);	
+	my $ListGroup;
+	for (my $i = 0; $i< scalar(@listGroup); $i++) {
+		$ListGroup.="'".$listGroup[$i]."'".",";
+	}
+	chop($ListGroup);	
+	my $row=1;
+	my @data;
+	my %hdata;
+	my $ListProj = queryStat::getProjectAnalyseGroupYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListGroup,$not);
+	$hdata{label}="project";
+	$hdata{identifier}="project";
+	foreach my $c (@$ListProj){
+		my %s;
+		$s{project} = $c->{project};
+		$s{analyse} = $c->{analyse};
+		$s{group} = $c->{group};
+		$s{year} = $c->{year};
 		push(@data,\%s);
 	}
 	$hdata{items}=\@data;
