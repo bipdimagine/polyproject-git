@@ -5813,6 +5813,8 @@ sub profileNameSection {
 		$s{profileId} += 0;
 		$s{value} = $c->{profile_id};
 		$s{name} = $s{profileId}." ".$c->{name};
+		$s{plt}= 0;
+		$s{plt}= 1 if $c->{plt};
 		push(@data,\%s);
 	}
 	$hdata{items}=\@data;
