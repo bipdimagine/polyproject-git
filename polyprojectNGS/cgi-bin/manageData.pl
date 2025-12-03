@@ -5794,6 +5794,8 @@ sub ProfileSection {
 		$s{profId} = $c->{profile_id};
 		$s{profId} += 0;
 		$s{profName} = $c->{name};
+		$s{plt}= 0;
+		$s{plt}= 1 if $c->{plt};
 		push(@data,\%s);
 	}
 	$hdata{items}=\@data;
