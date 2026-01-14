@@ -77,10 +77,10 @@ if ($capInfo->{capName}=~ m/([Hh][Gg]38)/) {
 	print "version: HG38: Done ==> $capInfo->{captureId} $capInfo->{capName} , Bed file: $capInfo->{capFile}\n";
 	exit;
 }
-#warn Dumper $c;
-my $s_plt;
+
+my $s_plt=1;
 $s_plt=0 unless $c->{plt};
-my $s_designid;
+my $s_designid=1;
 $s_designid=0 unless $c->{design_id};
 
 #print "$capNameHG38, $c->{version},$c->{description},$capFileHG38,$c->{type},$c->{umi_id},$c->{method},$c->{release_id},$c->{rel_gene_id},$c->{analyse},$c->{validation_db},$c->{primers_filename},$c->{transcripts},$c->{def},$c->{plt},$c->{design_id}\n";
