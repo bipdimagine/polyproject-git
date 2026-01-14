@@ -62,7 +62,7 @@ die("$message Error: For Project $project, Unknown PatientId : $patientid\n") un
 
 my $c=getCapture_fromCaptureId($buffer->dbh,$p->{capture_id});
 if (($c->{name}=~ m/([Hh][Gg]38)/) || ($c->{release_id}==938)) {
-	print "version1: HG38: Done ==> $c->{capture_id} $c->{name} , Bed file: $c->{filename} ReleaseId: $c->{release_id}\n" ;
+	print "version: HG38: Done ==> $c->{capture_id} $c->{name} , Bed file: $c->{filename} ReleaseId: $c->{release_id}\n" ;
 	exit;
 }
 
@@ -71,7 +71,7 @@ my $relIdHG38="938";
 my $capFileHG38="all_exon.bed";
 my $capInfo= queryPolyproject::getCaptureFromName($buffer->dbh,$capNameHG38);
 if ($capInfo->{capName}=~ m/([Hh][Gg]38)/) {
-	print "version2: HG38: Done ==> $capInfo->{captureId} $capInfo->{capName} , Bed file: $capInfo->{capFile}\n";
+	print "version: HG38: Done ==> $capInfo->{captureId} $capInfo->{capName} , Bed file: $capInfo->{capFile}\n";
 	exit;
 }
 
