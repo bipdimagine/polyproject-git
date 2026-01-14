@@ -61,8 +61,8 @@ my $p=getPatient_byPatientIdProjectId($buffer->dbh,$patientid,$res->{projectId})
 die("$message Error: For Project $project, Unknown PatientId : $patientid\n") unless $p->{patient_id};
 
 my $c=getCapture_fromCaptureId($buffer->dbh,$p->{capture_id});
-if ($c->{name}=~ m/([Hh][Gg]38)/) {
-	print "version: HG38: Done ==> $c->{capture_id} $c->{name} , Bed file: $c->{filename}\n" ;
+if (($c->{name}=~ m/([Hh][Gg]38)/) || ($c->{release_id}==938)) {
+	print "version1: HG38: Done ==> $c->{capture_id} $c->{name} , Bed file: $c->{filename} ReleaseId: $c->{release_id}\n" ;
 	exit;
 }
 
