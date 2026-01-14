@@ -77,9 +77,12 @@ if ($capInfo->{capName}=~ m/([Hh][Gg]38)/) {
 #warn Dumper $c;
 my $s_plt;
 $s_plt=0 unless $c->{plt};
+my $s_designid;
+$s_designid=0 unless $c->{design_id};
+
 #print "$capNameHG38, $c->{version},$c->{description},$capFileHG38,$c->{type},$c->{umi_id},$c->{method},$c->{release_id},$c->{rel_gene_id},$c->{analyse},$c->{validation_db},$c->{primers_filename},$c->{transcripts},$c->{def},$c->{plt},$c->{design_id}\n";
 #my $last_captureid = newCaptureData($buffer->dbh,$capNameHG38,$c->{version},$c->{description},$capFileHG38,$c->{type},$c->{umi_id},$c->{method},$relIdHG38,$c->{rel_gene_id},$c->{analyse},$c->{validation_db},$c->{primers_filename},$c->{transcripts},$c->{def},$c->{plt},$c->{design_id}) if $insert;
-my $last_captureid = newCaptureData($buffer->dbh,$capNameHG38,$c->{version},$c->{description},$capFileHG38,$c->{type},$c->{umi_id},$c->{method},$relIdHG38,$c->{rel_gene_id},$c->{analyse},$c->{validation_db},$c->{primers_filename},$c->{transcripts},$c->{def},$s_plt,$c->{design_id}) if $insert;
+my $last_captureid = newCaptureData($buffer->dbh,$capNameHG38,$c->{version},$c->{description},$capFileHG38,$c->{type},$c->{umi_id},$c->{method},$relIdHG38,$c->{rel_gene_id},$c->{analyse},$c->{validation_db},$c->{primers_filename},$c->{transcripts},$c->{def},$s_plt,$s_designid) if $insert;
 my $captureid=$last_captureid->{'LAST_INSERT_ID()'};
 print "version: HG38: NEW ==> $captureid $capNameHG38 , Bed file: $capFileHG38\n" if $insert;
 print "version: HG38: NEW ==>  Add -insert  for New Capture ($capNameHG38 , Bed file: $capFileHG38)\n" unless  $insert;
