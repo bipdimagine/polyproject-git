@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 ########################################################################
 ###### sc_newCapHG38.pl #################################################
-#./sc_newCapHG38.pl -project=NGS2024_7792 -patientid=133112 -insert
+#./sc_newCapHG38.pl -project=NGS2024_8231 -patient=612201614138_NERLI -insert
 ########################################################################
 #use CGI qw/:standard :html3/;
 use strict;
@@ -33,12 +33,12 @@ my $h;
 my $help;
 my $insert;
 my $project; #
-my $patientid; #
+my $patient; #
 
 my $message ="Usage :
 	$0	-h or -help 
   	$0	-project=<NGS-Project>			# Input NGS Project Name 
-  	$0	-patientid=<PatientId>			# Input PatientId from  NGS Project Name called
+  	$0	-patient=<Patient>			    # Input Patient from  NGS Project Name called
  	$0		 -insert                        # create a New Capture HG38
  \n";
 
@@ -47,7 +47,7 @@ GetOptions(
 	'help'  => \$help,
 	'insert'  => \$insert,
 	'project=s' => \$project,
-	'patientid=s' => \$patientid,
+	'patient=s' => \$patient,
 ) or confess($message);
 
 if ($h|$help) {
@@ -57,8 +57,8 @@ if ($h|$help) {
 my $res = queryPolyproject::getProjectFromName($buffer->dbh,$project);
 die("$message Error: Unknown Project : $project\n") unless $res->{projectId};
 
-my $p=getPatient_byPatientIdProjectId($buffer->dbh,$patientid,$res->{projectId});
-die("$message Error: For Project $project, Unknown PatientId : $patientid\n") unless $p->{patient_id};
+my $p=getPatient_byProjectId($buffer->dbh,$patient,$res->{projectId});
+die("$message Error: For Project $project, Unknown Patient: $patient\n") unless $p->{patient_id};
 
 my $c=getCapture_fromCaptureId($buffer->dbh,$p->{capture_id});
 if (($c->{name}=~ m/([Hh][Gg]38)/) || ($c->{release_id}==938)) {
@@ -96,6 +96,24 @@ sub newCaptureData {
 	my $s = $sth->fetchrow_hashref();
 	return $s;
 }
+
+
+sub getPatient_byProjectId {
+	my ($dbh,$patient,$projid) = @_;
+	my $query = qq{
+		select *
+		FROM PolyprojectNGS.patient a
+		where a.name='$patient'
+		and a.project_id='$projid'
+		;
+			};
+	my $sth = $dbh->prepare($query);
+	$sth->execute();
+	my $s = $sth->fetchrow_hashref();
+	return $s;	
+}
+
+
 
 sub getPatient_byPatientIdProjectId {
 	my ($dbh,$patid,$projid) = @_;
