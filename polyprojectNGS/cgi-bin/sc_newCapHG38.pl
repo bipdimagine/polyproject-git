@@ -34,18 +34,21 @@ my $help;
 my $insert;
 my $project; #
 my $patient; #
+my $fork; #
 
 my $message ="Usage :
 	$0	-h or -help 
   	$0	-project=<NGS-Project>			# Input NGS Project Name 
   	$0	-patient=<Patient>			    # Input Patient from  NGS Project Name called
  	$0		 -insert                        # create a New Capture HG38
+	$0		 -fork                        # 
  \n";
 
 GetOptions(
 	'h'  => \$h,
 	'help'  => \$help,
 	'insert'  => \$insert,
+	'fork'  => \$fork,
 	'project=s' => \$project,
 	'patient=s' => \$patient,
 ) or confess($message);
