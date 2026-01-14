@@ -41,14 +41,14 @@ my $message ="Usage :
   	$0	-project=<NGS-Project>			# Input NGS Project Name 
   	$0	-patient=<Patient>			    # Input Patient from  NGS Project Name called
  	$0		 -insert                        # create a New Capture HG38
-	$0		 -fork                        # 
+	$0		 -fork=<nun>                        # 
  \n";
 
 GetOptions(
 	'h'  => \$h,
 	'help'  => \$help,
 	'insert'  => \$insert,
-	'fork'  => \$fork,
+	'fork=s'  => \$fork,
 	'project=s' => \$project,
 	'patient=s' => \$patient,
 ) or confess($message);
