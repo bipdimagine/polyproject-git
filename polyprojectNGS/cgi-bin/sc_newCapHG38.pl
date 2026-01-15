@@ -51,7 +51,7 @@ GetOptions(
 	'fork=s'  => \$fork,
 	'project=s' => \$project,
 	'patient=s' => \$patient,
-) or confess($message);
+);# or confess($message);
 
 if ($h|$help) {
 	confess ($message);	
@@ -73,22 +73,20 @@ my $capNameHG38=$c->{name}."_HG38";
 my $relIdHG38="938";
 my $capFileHG38="all_exon.bed";
 my $capInfo= queryPolyproject::getCaptureFromName($buffer->dbh,$capNameHG38);
-if ($capInfo->{capName}=~ m/([Hh][Gg]38)/) {
-	print "version: HG38: Done ==> $capInfo->{captureId} $capInfo->{capName} , Bed file: $capInfo->{capFile}\n";
-	exit;
+unless (exists $capInfo->{capName}) {
+	my $s_plt=1;
+	$s_plt=0 unless $c->{plt};
+	my $s_designid=1;
+	$s_designid=0 unless $c->{design_id};
+	my $last_captureid = newCaptureData($buffer->dbh,$capNameHG38,$c->{version},$c->{description},$capFileHG38,$c->{type},$c->{umi_id},$c->{method},$relIdHG38,$c->{rel_gene_id},$c->{analyse},$c->{validation_db},$c->{primers_filename},$c->{transcripts},$c->{def},$s_plt,$s_designid) if $insert;
+	my $captureid=$last_captureid->{'LAST_INSERT_ID()'};
+	print "Creation of New Capture: HG38: NEW ==> $captureid $capNameHG38 , Bed file: $capFileHG38\n";
 }
+$capInfo= queryPolyproject::getCaptureFromName($buffer->dbh,$capNameHG38);
+confess() unless exists $capInfo->{captureId};
+ 
+update_table_patient($buffer->dbh,$capInfo->{captureId},$p->{patient_id});
 
-my $s_plt=1;
-$s_plt=0 unless $c->{plt};
-my $s_designid=1;
-$s_designid=0 unless $c->{design_id};
-
-#print "$capNameHG38, $c->{version},$c->{description},$capFileHG38,$c->{type},$c->{umi_id},$c->{method},$c->{release_id},$c->{rel_gene_id},$c->{analyse},$c->{validation_db},$c->{primers_filename},$c->{transcripts},$c->{def},$c->{plt},$c->{design_id}\n";
-#my $last_captureid = newCaptureData($buffer->dbh,$capNameHG38,$c->{version},$c->{description},$capFileHG38,$c->{type},$c->{umi_id},$c->{method},$relIdHG38,$c->{rel_gene_id},$c->{analyse},$c->{validation_db},$c->{primers_filename},$c->{transcripts},$c->{def},$c->{plt},$c->{design_id}) if $insert;
-my $last_captureid = newCaptureData($buffer->dbh,$capNameHG38,$c->{version},$c->{description},$capFileHG38,$c->{type},$c->{umi_id},$c->{method},$relIdHG38,$c->{rel_gene_id},$c->{analyse},$c->{validation_db},$c->{primers_filename},$c->{transcripts},$c->{def},$s_plt,$s_designid) if $insert;
-my $captureid=$last_captureid->{'LAST_INSERT_ID()'};
-print "version: HG38: NEW ==> $captureid $capNameHG38 , Bed file: $capFileHG38\n" if $insert;
-print "version: HG38: NEW ==>  Add -insert  for New Capture ($capNameHG38 , Bed file: $capFileHG38)\n" unless  $insert;
 
 sub newCaptureData {
 	my ($dbh,$capture,$capVs,$capDes,$capFile,$capType,$capUmi,$capMeth,$releaseid,$caprelgeneid,$capAnalyse,$capValidation,$capFilePrimers,$transcripts,$def,$plt,$design_id) = @_;
@@ -106,7 +104,6 @@ sub newCaptureData {
 	return $s;
 }
 
-
 sub getPatient_byProjectId {
 	my ($dbh,$patient,$projid) = @_;
 	my $query = qq{
@@ -121,8 +118,6 @@ sub getPatient_byProjectId {
 	my $s = $sth->fetchrow_hashref();
 	return $s;	
 }
-
-
 
 sub getPatient_byPatientIdProjectId {
 	my ($dbh,$patid,$projid) = @_;
@@ -153,6 +148,11 @@ sub getCapture_fromCaptureId{
 	return $s;	
 }
 
+sub update_table_patient {
+my ($dbh, $capture_id, $patient_id) = @_;
+warn "UPDATE PolyprojectNGS.patient SET capture_id=$capture_id WHERE patient_id=$patient_id";
+$dbh->do("UPDATE PolyprojectNGS.patient SET capture_id=$capture_id WHERE patient_id=$patient_id");
+}
 
 exit(0);
 
