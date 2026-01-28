@@ -20,7 +20,7 @@ require([
 
 
 const data = {};
-for (let i = 1; i <= 8; i++) {
+for (let i = 1; i <= 9; i++) {
   data[`stat_${i}Store`] = "Store" + i;
   data[`stat_${i}Grid`] = "Grid" + i;
   data[`stat_${i}Dial`] = "Dial" + i;
@@ -77,6 +77,16 @@ var layoutProjPheGrid = [
 	{ field: "phenotype",name: "Phenotype",width: '15'},
 	{ field: "year",name: "Year",width: '5'},
 ];
+
+var layoutProjProfGrid = [
+	{ field: "Row", name: "Row",get: getRow, width: '2.5'},
+	{ field: "project", name: "Project", width: '8'},
+	{ field: "analyse",name: "Analyse",width: '5'},
+//	{ field: "Id",name: "ProfileId",width: '3'},
+	{ field: "profile",name: "Profile",width: '18'},
+	{ field: "year",name: "Year",width: '5'},
+];
+
 
 var layoutProjMacGrid = [
 	{ field: "Row", name: "Row",get: getRow, width: '2.5'},
@@ -394,6 +404,29 @@ function initStat(serial) {
 		var dbana=1;
 		create_divSlider(ind);
 		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
+	}
+// Number of Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;Filter:Analyse & Profile
+	if(serial==9) {
+		filter_year = [];
+		sl_year = [];
+		sl_value = [];
+		arr_userid=[];
+		var prog_name="patAnaProf";
+		var prog_name_P="proAnaProf";
+		//colorfill=["#A6AF82"];
+		colorfill=["#ffeead"];
+		valProf="";
+		var ind="9";
+		var dbana=0;
+		create_divSlider(ind);
+		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
+		launch_dirmultiselect_data(profileLabelStore, divMulti="qprofileSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year);
+		colorfill=["#EEE8AA"];
+		ind="92";
+		dbana=1;
+		create_divSlider(ind);
+		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
+		launch_dirmultiselect_data(profileLabelStore, divMulti="qprofileSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year);
 	}
 }
 
@@ -844,6 +877,21 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
 								launch_query_data(libquery="query_" + ind, data["stat_"+ind+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 							}
 						}
+						if (divMulti.includes(["qprofileSelect"])) {
+							valProf=item.toString();
+							if (valProf) {
+								valAnalyse=dijit.byId("idanaMultiSelect_"+ind).value;
+								prog_param="&analyse="+valAnalyse;
+								if(dbana) {
+									prog_param=prog_param +"&not="+"1";
+								}
+								if(prog_name=="patAnaProf" || prog_name_p=="proAnaProf") {
+									prog_param=prog_param+"&prof=" +valProf;
+								}
+								launch_stat_data(libchart="stat_"+ind, colorfill, data["stat_"+ind+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+								launch_query_data(libquery="query_" + ind, data["stat_"+ind+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+							}
+						}
 					}
 				},divMulti);
    				qMultiSelect.startup();
@@ -885,6 +933,10 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
 					if(prog_name=="patAnaPhe") {
 						valPhe=0;
 						prog_param=prog_param+"&phe=" +valPhe;
+					}
+					if(prog_name=="patAnaProf") {
+						valProf=0;
+						prog_param=prog_param+"&prof=" +valProf;
 					}
 					if(dbana && prog_name!="patAnaMac") {
 						valMac="";
@@ -960,6 +1012,10 @@ function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,dban
 								valMac=dijit.byId("idDirMultiSelect_"+ind).get("value");
 								prog_param=prog_param+"&machine=" +valMac;
 							}
+							if(prog_name=="patAnaProf") {
+								valProf=dijit.byId("idDirMultiSelect_"+ind).get("value");
+								prog_param=prog_param+"&prof=" +valProf;
+							}
 
 							if(prog_name=="EYpatDetail"|| prog_name=="EYUpatDetail" || prog_name_p=="EYproDetail" || prog_name_p=="EYUproDetail") {
 								launch_Cluster_data(libchart="stat_"+ind, colorfill, data["stat_"+ind+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value);
@@ -1013,6 +1069,11 @@ function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,dban
 			if(prog_name=="patAnaPhe") {
 				prog_param=prog_param+"&phe=" +valPhe;
 				prog_name_p="proAnaPhe";
+				
+			}
+			if(prog_name=="patAnaProf") {
+				prog_param=prog_param+"&prof=" +valProf;
+				prog_name_p="proAnaProf";
 				
 			}
 			if(prog_name=="patAnaMac") {
@@ -1072,7 +1133,7 @@ function launch_stat_data(libchart,colorfill,Store,prog_name,prog_param,dbana,fi
 	} else {
 		url_stat="/stat.pl?opt="+prog_name + prog_param ;
 	}
-//	console.log(url_stat);
+	//console.log(url_stat);
 	showProgressDlg("Loading Graph... ",true,libchart,"LI");
 	var xhrArgsEx={
 		url: url_path + url_stat,
@@ -1242,7 +1303,7 @@ function launch_query_data(libquery,Store,prog_name,prog_param,dbana,filter_year
 		} else {
 			url_stat="/stat.pl?opt="+prog_name + prog_param ;
 		}
-//		console.log(url_stat);
+		//console.log(url_stat);
 		var xhrArgsP={
 			url: url_path + url_stat,
 			handleAs: "json",
@@ -1259,7 +1320,7 @@ function launch_query_data(libquery,Store,prog_name,prog_param,dbana,filter_year
 					lib_valAnalyse = valAnalyse;
 					if(prog_name=="proAnaUser"||prog_name=="proAnaGroup") {lib_valAnalyse = pvalana0;}
 				}
-				if (["proAnaPhe","proAnaUser","proAnaGroup","proAnaPlt","proAnaUnit","proAnaMac","EYproDetail","EYUproDetail"].includes(prog_name)) {
+				if (["proAnaProf","proAnaPhe","proAnaUser","proAnaGroup","proAnaPlt","proAnaUnit","proAnaMac","EYproDetail","EYUproDetail"].includes(prog_name)) {
 					var gotList = function(items, request){
 						var NBPROJ = 0;
 						dojo.forEach(items, function(i){
@@ -1292,7 +1353,7 @@ function launch_Cluster_data(libchart,colorfill,Store,prog_name,prog_param,dbana
 	} else {
 		url_stat=url_stat + prog_param ;
 	}
-//	console.log(url_stat);
+	//console.log(url_stat);
 	showProgressDlg("Loading Graph... ",true,libchart,"LI");
 	var xhrArgsEx={
 		url: url_path + url_stat,
@@ -1642,6 +1703,7 @@ function launch_ButtonGrid_P(button_grid,Store,prog_name,lib_valAnalyse,ind){
 		};
 
 		var val_layoutGrid;
+		if(prog_name=="proAnaProf") {val_layoutGrid="layoutProjProfGrid"}
 		if(prog_name=="proAnaPhe") {val_layoutGrid="layoutProjPheGrid"}
 		if(prog_name=="proAnaMac") {val_layoutGrid="layoutProjMacGrid"}
 		if(prog_name=="proAnaPlt") {val_layoutGrid="layoutProjPltGrid"}
@@ -1673,7 +1735,7 @@ function launch_ButtonGrid_P(button_grid,Store,prog_name,lib_valAnalyse,ind){
 		var serie_legend="Number of Patients '" + lib_valAnalyse + "' per year";
 		if (button_grid.includes(["_P"])) { serie_legend="NGS Project List '" + lib_valAnalyse + "' per year";}
 
-		if (["proAnaPhe","proAnaUser","proAnaGroup","proAnaPlt","proAnaUnit","proAnaMac","EYproDetail","EYUproDetail"].includes(prog_name)) {
+		if (["proAnaProf","proAnaPhe","proAnaUser","proAnaGroup","proAnaPlt","proAnaUnit","proAnaMac","EYproDetail","EYUproDetail"].includes(prog_name)) {
 			var gotList = function(items, request){
 				var NBPROJ = 0;
 				dojo.forEach(items, function(i){
@@ -1694,6 +1756,15 @@ function launch_ButtonGrid_P(button_grid,Store,prog_name,lib_valAnalyse,ind){
 			}
 		}
 		if (["proAnaPhe"].includes(prog_name)) {
+			var val_DirMulti;
+			getVal_Multiselect(ind, function(values){
+  				val_DirMulti=values;
+			});
+			if (val_DirMulti.length>0) {
+				title_dialog+="<br>Other Filter: "+val_DirMulti.toString();
+			}
+		}
+		if (["proAnaProf"].includes(prog_name)) {
 			var val_DirMulti;
 			getVal_Multiselect(ind, function(values){
   				val_DirMulti=values;

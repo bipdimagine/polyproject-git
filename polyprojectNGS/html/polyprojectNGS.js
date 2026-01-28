@@ -667,6 +667,7 @@ var checkDefaRel=0;
 var checkDefaCapd=0;
 
 var profileStore;
+var profileLabelStore;
 var profilefilterSelect;
 var a_profilefilterSelect;
 
@@ -1105,6 +1106,14 @@ function init(){
            }
         });
 
+     	dojo.xhrGet({
+            url: url_path + "/manageData.pl?option=profileLabel",
+            handleAs: "json",
+            load: function (res) {
+ 		profileLabelStore = new dojo.store.Memory({data: res});
+           }
+        });
+
 	profilefilterSelect = new dijit.form.FilteringSelect({
 		//id: "value",
 		name: "profileName",
@@ -1512,6 +1521,10 @@ function init(){
 	umiStore = new dojo.data.ItemFileReadStore({
 		url: url_path + "/manageData.pl?option=umi"
 	});
+	//################# Init Perspective
+	//perspectiveStore = new dojo.data.ItemFileWriteStore({
+	//	url: url_path + "/manageData.pl?option=perspective"
+	//});
 	//################# Init Technology
 	technologyStore = new dojo.data.ItemFileWriteStore({
 		url: url_path + "/manageData.pl?option=technology"

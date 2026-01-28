@@ -143,6 +143,10 @@ if ( $option eq "schemas" ) {
 	newPreparationSection();
 } elsif ( $option eq "profile" ) {
 	ProfileSection();
+} elsif ( $option eq "profileName" ) {
+	profileNameSection();
+} elsif ( $option eq "profileLabel" ) {
+	profileLabelSection();
 } elsif ( $option eq "NewUpdateprofile" ) {
 	newupdateProfileSection();
 } elsif ( $option eq "bundle" ) {
@@ -283,8 +287,6 @@ if ( $option eq "schemas" ) {
 	addPhenotypeSection();
 }  elsif ( $option eq "speciesName" ) {
 	speciesNameSection();
-} elsif ( $option eq "profileName" ) {
-	profileNameSection();
 } elsif ( $option eq "pipelineName" ) {
 	pipelineNameSection();
 } elsif ( $option eq "pipelineMeth" ) {
@@ -5817,6 +5819,23 @@ sub profileNameSection {
 		$s{name} = $s{profileId}." ".$c->{name};
 		$s{plt}= 0;
 		$s{plt}= 1 if $c->{plt};
+		push(@data,\%s);
+	}
+	$hdata{items}=\@data;
+	printJson(\%hdata);
+}
+
+sub profileLabelSection {
+	my $profListId = queryPolyproject::getProfile_byId($buffer->dbh);
+	my @data;
+	my %hdata;
+	$hdata{identifier}="value";
+	$hdata{label}="name";
+	foreach my $c (@$profListId){
+		my %s;
+		$s{value} = $c->{profile_id};
+		$s{value} += 0;
+		$s{label} = $c->{profile_id}. " ".$c->{name};
 		push(@data,\%s);
 	}
 	$hdata{items}=\@data;

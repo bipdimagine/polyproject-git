@@ -1,6 +1,7 @@
 <body class="tundra">
 
 <div dojoType="dijit/layout/AccordionContainer" id="AccStat" class="patcov" style="height:100%">
+<!--  Analyse & Machine Graph_1 -->
 	<div dojoType="dijit/layout/ContentPane" id="Graph_1" onShow="initStat(serial=1);" selected="true">
 		<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true">
 			<div dojoType="dijit.layout.ContentPane" region="left" style="width:50%;">
@@ -72,6 +73,7 @@
 			</div>
 		</div>
 	</div>
+<!--  Platform & Analyse Graph_4 -->
 	<div dojoType="dijit/layout/ContentPane" id="Graph_4" onShow="initStat(serial=4);"
 	title="<B>Samples/Year and Platform&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_project'>Project List</span></B>">
 		<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true">
@@ -125,7 +127,74 @@
 			</div>
 		</div>
 	</div>
-  	<div dojoType="dijit/layout/ContentPane" id="Graph_2" title="<B>Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse & Platform</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_project'>Project List</span></B>" 
+<!--  Analyse & Profile Graph_9 -->
+  	<div dojoType="dijit/layout/ContentPane" id="Graph_9" title="<B>Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse & Profile</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_project'>Project List</span></B>" 
+onShow="initStat(serial=9);">
+		<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true">
+			<div dojoType="dijit.layout.ContentPane" region="left" style="width:50%;">
+				<div dojoType="dijit.form.Form" id="stat9Form" jsId="stat9Form">
+					<table width="100%" align="center">
+					<tr>
+					<td width="5%"></td>
+					<td id="appSlider_9" width="auto"></td>
+					</tr>	
+					</table>
+					<table>
+					<tr>
+					<td><label for="qanalyseSelect_9"><b>Analyse in&nbsp;</b></td>
+					<td><select id="qanalyseSelect_9"></td>
+					<td>&nbsp;&nbsp;&nbsp;</td>
+					<td><span id="bt_clear_9"></span>
+					<I class='multipleIcon' title='Multiple Selection'></I>
+
+					<td><label for="qprofileSelect_9"><b>Profile in</b></td>
+					<td><input id="qprofileSelect_9"></td>
+					</tr>
+					</table>
+				</div>
+				<div id="stat_9" style="width:100%;height:80%;margin:0;" ></div>
+				<table>
+					<tr>
+					<td><span id="legend_9"></span></td>
+					<td><span id="button_9"></span></td>
+					<td>Project List <span id='nbrproj_9_P' style='font-family: Arial, sans-serif;font-size:8pt;font-weight: bold;'></span> <span id="button_9_P"></span></td>
+					</tr>
+				</table>
+			</div>
+			<div dojoType="dijit.layout.ContentPane" region="right" style="width:50%;">
+				<div dojoType="dijit.form.Form" id="stat92Form" jsId="stat92Form">
+					<table width="100%" align="center">
+					<tr>
+					<td width="5%"></td>
+					<td id="appSlider_92" width="auto"></td>
+					</tr>	
+					</table>
+					<table>
+					<tr>
+					<td><label for="qanalyseSelect_92"><b>Analyse not in&nbsp;</b></td>
+					<td><select id="qanalyseSelect_92"></td>
+					<td>&nbsp;&nbsp;&nbsp;</td>
+					<td><span id="bt_clear_92"></span>
+					<I class='multipleIcon' title='Multiple Selection'></I>
+
+					<td><label for="qprofileSelect_92"><b>Profile in</b></td>
+					<td><input id="qprofileSelect_92"></td>
+					</tr>
+					</table>
+				</div>
+				<div id="stat_92" style="width:100%;height:80%;margin:0;" ></div>
+				<table>
+					<tr>
+					<td><span id="legend_92"></span></td>
+					<td><span id="button_92"></span></td>
+					<td>Project List <span id='nbrproj_92_P' style='font-family: Arial, sans-serif;font-size:8pt;font-weight: bold;'></span> <span id="button_92_P"></span></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+<!--  Analyse & Platform Graph_2 -->
+   	<div dojoType="dijit/layout/ContentPane" id="Graph_2" title="<B>Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse & Platform</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_project'>Project List</span></B>" 
 onShow="initStat(serial=2);">
 		<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true">
 			<div dojoType="dijit.layout.ContentPane" region="left" style="width:50%;">
@@ -184,6 +253,7 @@ onShow="initStat(serial=2);">
 			</div>
 		</div>
 	</div>
+<!--  Analyse & Unit Graph_3 -->
   	<div dojoType="dijit/layout/ContentPane" id="Graph_3" title="<B>Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse & Unit</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_project'>Project List</span></B>" 
 onShow="initStat(serial=3);">
 		<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true">
@@ -257,7 +327,8 @@ onShow="initStat(serial=3);">
 			</div>
 		</div>
 	</div>
-  	<div dojoType="dijit/layout/ContentPane" id="Graph_6" title="<B>Samples/Year and Team in Unit&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse & Unit</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_project'>Project List</span></B>" 
+ <!--  Team & Analyse & Unit Graph_6 -->
+ 	<div dojoType="dijit/layout/ContentPane" id="Graph_6" title="<B>Samples/Year and Team in Unit&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse & Unit</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_project'>Project List</span></B>" 
 onShow="initStat(serial=6);">
 		<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true">
 			<div dojoType="dijit.layout.ContentPane" region="top" style="height:50%;width:100%;">
@@ -317,6 +388,7 @@ onShow="initStat(serial=6);">
 			</div>
 		</div>
 	</div>
+<!--  Analyse & User Graph_5 -->
 	<div dojoType="dijit/layout/ContentPane" id="Graph_5" onShow="initStat(serial=5);"
 	title="<B>Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse & User</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_project'>Project List</span></B>">
 		<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true">
@@ -380,6 +452,7 @@ onShow="initStat(serial=6);">
 			</div>
 		</div>
 	</div>
+<!--  Analyse & Group Graph_8 -->
 	<div dojoType="dijit/layout/ContentPane" id="Graph_8" onShow="initStat(serial=8);"
 	title="<B>Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse & Group User</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_project'>Project List</span></B>">
 		<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true">
@@ -448,6 +521,7 @@ onShow="initStat(serial=6);">
 			</div>
 		</div>
 	</div>
+<!--  Analyse & Phenotype Graph_7 -->
   	<div dojoType="dijit/layout/ContentPane" id="Graph_7" title="<B>Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse & Phenotype</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_project'>Project List</span></B>" 
 onShow="initStat(serial=7);">
 		<div dojoType="dijit.layout.BorderContainer" data-dojo-props="gutters:true, liveSplitters:true">

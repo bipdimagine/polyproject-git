@@ -848,6 +848,155 @@ sub getProjectAnalysePhenotypeYear {
 	return \@res;	
 }
 
+sub countPatAnalyseProfileYear {
+	my ($dbh,$cyear,$analyse,$prof,$not) = @_;
+	my $query2;
+	if ($analyse =~ "target") {
+		my $s_analyse=$analyse;
+		$s_analyse =~ s/\'//g;
+		if ($s_analyse eq "target") {
+			$query2 = qq {cs.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} unless $not;
+			$query2 = qq {cs.analyse in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $not;
+		} else {
+			$query2 = qq {cs.analyse in ("")};
+		}
+	} else {
+		$query2 = qq {cs.analyse in ($analyse)} unless $not;
+		$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	}
+	$prof="''" unless $prof;
+	my $queryProf = qq {AND f.profile_id in ($prof)};
+	my $query = qq{
+		SELECT 
+		count(distinct if (a.patient_id!=0,a.patient_id,null)) as 'nbPat'
+		FROM PolyprojectNGS.patient a
+		LEFT JOIN PolyprojectNGS.capture_systems cs
+		ON a.capture_id = cs.capture_id
+		LEFT JOIN PolyprojectNGS.projects p
+		ON a.project_id = p.project_id
+		LEFT JOIN PolyprojectNGS.profile f
+		ON a.profile_id = f.profile_id
+		WHERE
+		$query2
+		AND a.run_id!=0		
+		AND a.project_id>0		
+		$queryProf
+ 		AND p.creation_date regexp '$cyear';
+	};
+	return $dbh->selectrow_array($query);
+}
+
+sub getProjectAnalyseProfileYear {
+	my ($dbh,$cyear,$analyse,$prof,$not) = @_;
+	$cyear=~ s/,/|/g;
+	my $query2;
+	if ($analyse =~ "target") {
+		my $s_analyse=$analyse;
+		$s_analyse =~ s/\'//g;
+		if ($s_analyse eq "target") {
+			$query2 = qq {cs.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} unless $not;
+			$query2 = qq {cs.analyse in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $not;
+		} else {
+			$query2 = qq {cs.analyse in ("")};
+		}
+	} else {
+		$query2 = qq {cs.analyse in ($analyse)} unless $not;
+		$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	}
+	$prof="''" unless $prof;
+	my $queryProf = qq {AND f.profile_id in ($prof)};
+	my $query = qq{
+ 		SELECT DISTINCT
+		p.name as 'project',
+		cs.analyse as 'analyse',
+        f.name as 'profile',
+        f.profile_id as 'profileId',
+ 		year(p.creation_date) as 'year'		
+		FROM PolyprojectNGS.patient a
+		LEFT JOIN PolyprojectNGS.capture_systems cs
+		ON a.capture_id = cs.capture_id
+		LEFT JOIN PolyprojectNGS.projects p
+		ON a.project_id = p.project_id
+ 		LEFT JOIN PolyprojectNGS.profile f
+		ON a.profile_id = f.profile_id
+ 		WHERE
+		$query2
+ 		AND a.project_id>0
+		AND p.name regexp '^NGS[0-9]{4}_'
+		AND p.creation_date regexp ('$cyear')
+ 		$queryProf
+  		GROUP BY p.name
+ 		ORDER BY p.name;
+	};
+	my @res;
+	my $sth = $dbh->prepare($query);
+	$sth->execute();
+	while (my $id = $sth->fetchrow_hashref ) {
+		 push(@res,$id);
+	}
+	return \@res;	
+}
+
+
+
+=mod
+sub getProjectAnalysePhenotypeYear {
+	my ($dbh,$cyear,$analyse,$phe,$not) = @_;
+	$cyear=~ s/,/|/g;
+	my $query2;
+	if ($analyse =~ "target") {
+		my $s_analyse=$analyse;
+		$s_analyse =~ s/\'//g;
+		if ($s_analyse eq "target") {
+			$query2 = qq {cs.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} unless $not;
+			$query2 = qq {cs.analyse in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $not;
+		} else {
+			$query2 = qq {cs.analyse in ("")};
+		}
+	} else {
+		$query2 = qq {cs.analyse in ($analyse)} unless $not;
+		$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	}
+	$phe="''" unless $phe;
+	my $queryPhe = qq {AND pp.phenotype_id in ($phe)};
+	if ($phe =~ '999') {
+		$queryPhe = qq {AND pp.phenotype_id is null}
+	}
+	my $query = qq{
+	SELECT DISTINCT
+		p.name as 'project',
+		cs.analyse as 'analyse',
+		GROUP_CONCAT(DISTINCT phe.name ORDER BY phe.name DESC SEPARATOR ',') as 'phenotype',
+		year(p.creation_date) as 'year'
+		FROM PolyprojectNGS.patient a
+		LEFT JOIN PolyprojectNGS.capture_systems cs
+		ON a.capture_id = cs.capture_id
+		LEFT JOIN PolyprojectNGS.projects p
+		ON a.project_id = p.project_id
+		LEFT JOIN PolyPhenotypeDB.phenotype_project pp
+		ON a.project_id=pp.project_id
+		LEFT JOIN PolyPhenotypeDB.`phenotype` phe
+		ON pp.phenotype_id=phe.phenotype_id
+ 
+		WHERE
+		$query2
+		AND a.project_id>0
+		AND p.name regexp '^NGS[0-9]{4}_'
+		AND p.creation_date regexp ('$cyear')
+		$queryPhe
+ 		GROUP BY p.name
+ 		ORDER BY p.name
+	};
+	my @res;
+	my $sth = $dbh->prepare($query);
+	$sth->execute();
+	while (my $id = $sth->fetchrow_hashref ) {
+		 push(@res,$id);
+	}
+	return \@res;	
+}
+=cut
+
 sub getPlateformFromName {
 	my ($dbh,$name) = @_;
 	my $query = qq{
