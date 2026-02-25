@@ -248,12 +248,11 @@ sub copypasteSection {
 				
 		my $colBC2=$row[2];#BC2
 		if ($colBC2) {
-		if ($controlbc =~ m/(uniq)|(multiple)/) {
-			my $r_c2=controlBC($colBC2);
-			sendError("Error: Uniq or Multiple BC ==> Bar Code <b>BC i5</b> Not Valid in line $cpt... Rules: [ATGC], length=8 or 10") if  $r_c2;
-		}		
-		push(@dupBC2,$colBC2);
-			
+			if ($controlbc =~ m/(uniq)|(multiple)/) {
+				my $r_c2=controlBC($colBC2);
+				sendError("Error: Uniq or Multiple BC ==> Bar Code <b>BC i5</b> Not Valid in line $cpt... Rules: [ATGC], length=8 or 10") if  $r_c2;
+			}
+			push(@dupBC2,$colBC2);
 		}
 
 		my $colProj = $row[3];#Project
@@ -262,24 +261,30 @@ sub copypasteSection {
 		}
 
 #		#Lane
-#		$row[4]=~ s/\.//m;
-		
+#		$row[4]=~ s/\.//m;		
 		print $FHSHO join(",",@row),"\n";       #each data row
 		$nbsample++ if $row[0];#Patient
-		push(@BCdup,$colBC1."-".$colBC2.";".$row[0]) if $colBC2;
-		#$f->{$colPat}=1 if $seenLP{$colPat."-".$row[4]}++;
-		$dupLanePat=$colPat.";". $row[4] if $seenLP{$colPat."-".$row[4]}++;
-			
+		if ($colBC2) {
+			my @rowf=$row[4]=~ /(\d+)/g;
+			if (scalar @rowf==2) {$row[4]=$rowf[0]."-".$rowf[1];};
+			my $l_lane=getFromNumSpecialRange($row[4]);
+			my @sp_lane = split( /,/, $l_lane);
+			for (my $i = 0; $i< scalar(@sp_lane); $i++) {
+				push(@BCdup,$colBC1."-".$colBC2.";".$sp_lane[$i].";".$row[0]);
+			}
+		}
+		$dupLanePat=$colPat.";". $row[4] if $seenLP{$colPat."-".$row[4]}++;			
 		$cpt++;
 	}
 	if ($dupLanePat) {
 		my @a_dupLanePat = split(/;/,$dupLanePat);
 		sendError("Error: Patient $a_dupLanePat[0] Duplicated in same Lane $a_dupLanePat[1] ...");
 	}
-	my $r_bcpat=lookforDuplicateBCpat(@BCdup);
+#	my $r_bcpat=lookforDuplicateBCpat(@BCdup);
+	my $r_bcpat=lookforDuplicateBClane(@BCdup);
 	if ($r_bcpat) {
 		my @a_bcpat = split(/;/,$r_bcpat);
-		sendError("Error: For <b>BC i7 - BCi5 </b>, Patient: $a_bcpat[1] ==> Duplicated Bar Code: $a_bcpat[0] ...");
+		sendError("Error: For <b>BC i7 - BCi5 </b>, Patient: $a_bcpat[2] ==> Lane: $a_bcpat[1] Duplicated Bar Code: $a_bcpat[0] ...");
 		
 	}
 #		if ($controlbc =~ m/(uniq)|(multiple)/) {
@@ -354,6 +359,33 @@ sub copypasteSection {
 	close $FHINFOI;
 	system("chmod -R 777 $Indir");
 	sendComplexOK("OK: ".$stype."_resume_".$filename." is uploaded",$sheet,$info);
+}
+
+sub getFromNumSpecialRange {
+	my ($range) = @_;
+	my @sp_range;
+	@sp_range = split( /-/, $range) if ($range =~ "-");
+	@sp_range = split( //, $range) unless ($range =~ "-");
+	my $numlist;
+	for (my $i = $sp_range[0]; $i< $sp_range[1]+1; $i++) {
+		$numlist.=$i.",";
+	}
+	chop($numlist);
+	return $numlist;
+}
+
+sub lookforDuplicateBClane {
+	my (@bc) = @_;
+	my $invalid;
+	my %seen;
+	foreach my $string (@bc) {
+		my @s_string = split(/;/,$string);
+   		next unless $seen{$s_string[1]}++;
+   		$invalid.=$string.",";
+  	}
+	chop($invalid);
+	return $invalid if $invalid;
+	return 0;	
 }
 
 sub lookforDuplicateBCpat {
