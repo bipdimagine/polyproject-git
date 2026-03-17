@@ -3619,7 +3619,24 @@ sub capProjectSection {
 		} else {
 			$s{capAnalyse} = $c->{analyse};
 		}
-		$s{label} = $c->{capName}."|".$s{capAnalyse};		
+		if ($s{capAnalyse}=~ m/(exome)/) {
+			$s{label} = $c->{capName}."&nbsp;&nbsp;"."<a style='background:#66CC00'>".$s{capAnalyse}."</a>";					
+		} elsif ($s{capAnalyse}=~ m/(genome)/) {		
+			$s{label} = $c->{capName}."&nbsp;&nbsp;"."<a style='background:#FFFF00'>".$s{capAnalyse}."</a>";					
+		} elsif ($s{capAnalyse}=~ m/(rnaseq)/) {		
+			$s{label} = $c->{capName}."&nbsp;&nbsp;"."<a style='background:#6666FF'>".$s{capAnalyse}."</a>";					
+		} elsif ($s{capAnalyse}=~ m/(singlecell)/) {		
+			$s{label} = $c->{capName}."&nbsp;&nbsp;"."<a style='background:#33CCFF'>".$s{capAnalyse}."</a>";					
+		} elsif ($s{capAnalyse}=~ m/(amplicon)/) {		
+			$s{label} = $c->{capName}."&nbsp;&nbsp;"."<a style='background:#F18973'>".$s{capAnalyse}."</a>";					
+		} elsif ($s{capAnalyse}=~ m/(other)/) {		
+			$s{label} = $c->{capName}."&nbsp;&nbsp;"."<a style='background:#618685'>".$s{capAnalyse}."</a>";					
+		} elsif ($s{capAnalyse}=~ m/(target)/) {		
+			$s{label} = $c->{capName}."&nbsp;&nbsp;"."<a style='background:#009966'>".$s{capAnalyse}."</a>";					
+		}
+		else {
+			$s{label} = $c->{capName}."|".$s{capAnalyse};		
+		}
 		my @datec = split(/ /,$c->{creation_date});
 		my ($YY, $MM, $DD) = split("-", $datec[0]);
 		my $mydate = sprintf("%02d/%02d/%4d",$DD, $MM, $YY);
