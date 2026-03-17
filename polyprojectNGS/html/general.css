@@ -124,7 +124,7 @@
 .showRun .dijitDialogTitleBar {
 	background: linear-gradient(#510303, brown);
 	color:white;
-	height: 4.5%;
+/*	height: 4.5%;*/
 	margin: 0;
 	padding:0;
 	white-space:nowrap;
@@ -145,7 +145,6 @@
 	margin: 0;
 	padding:0;
 }
-
 /*
 .showRun {
 	width: 100%;
@@ -921,6 +920,12 @@
 	margin:2;padding:2
 }
 
+.cl_option {
+	background: #674d3c;
+	border-radius: 5px 5px 5px 5px;
+	margin:2;padding:2
+}
+
 .cl_project {
 	background:#FF7F50;
 	border-radius: 5px 5px 5px 5px;
@@ -1029,6 +1034,13 @@ span.cl_block_left {
 .roundedButton .dijitButtonNode:hover {
 	background: transparent;
 	background-color: transparent;
+}
+
+.buttonWhiteHover {
+	color: white;
+}
+.buttonWhiteHover:hover {
+	color: white;
 }
 
 #button_newuser .dijitButtonNode {

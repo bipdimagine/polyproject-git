@@ -121,6 +121,8 @@ if ( $option eq "schemas" ) {
 	CaptureTypeSection();
 } elsif ( $option eq "captureProject" ) {
 	captureProjectSection();
+} elsif ( $option eq "capProject" ) {
+	capProjectSection();
 } elsif ( $option eq "lastCapture" ) {
 	lastCaptureSection();
 } elsif ( $option eq "umi" ) {
@@ -1394,7 +1396,7 @@ sub isUniqPatient {
 }
 
 sub updatePatientRunSection {
-### Autocommit dbh ###########toto
+### Autocommit dbh ###########
 	my $dbh = $buffer->dbh;
 	$dbh->{AutoCommit} = 0;
 ##############################
@@ -3592,6 +3594,41 @@ sub captureProjectSection {
 		}
 	}						
 	$hdata{items}=\@data;
+	printJson(\%hdata);
+}
+
+sub capProjectSection {
+	my $analyse = $cgi->param('analyse');
+	my $not;
+	$not= $cgi->param('not');
+	$not=0 unless defined $not;
+	my $capList = queryPolyproject::get_CaptureWithProject($buffer->dbh,$analyse,$not);
+	#die;
+	my @data;
+	my %hdata;
+	$hdata{identifier}="value";
+	$hdata{label}="name";
+	foreach my $c (@$capList){	
+		my %s;
+		$s{value} = $c->{capture_id} += 0;
+		$s{captureId} = $c->{capture_id};
+		$s{captureId} += 0;
+		$s{capName} = $c->{capName};
+		if ($c->{analyse}  !~ m/(exome)|(genome)|(rnaseq)|(singlecell)|(amplicon)|(other)/) {
+			$s{capAnalyse} ="target";
+		} else {
+			$s{capAnalyse} = $c->{analyse};
+		}
+		$s{label} = $c->{capName}."|".$s{capAnalyse};		
+		my @datec = split(/ /,$c->{creation_date});
+		my ($YY, $MM, $DD) = split("-", $datec[0]);
+		my $mydate = sprintf("%02d/%02d/%4d",$DD, $MM, $YY);
+		$s{cDate} = ""; 
+		$s{cDate} = $mydate unless ($mydate =~ "00/00/   0");	
+		push(@data,\%s);
+	}						
+	my @result_sorted=sort { "\L$a->{capAnalyse}" cmp "\L$b->{capAnalyse}" || $b->{capName} <=> $a->{capName}} @data;
+	$hdata{items}=\@result_sorted;
 	printJson(\%hdata);
 }
 
@@ -5817,6 +5854,7 @@ sub profileNameSection {
 		$s{profileId} += 0;
 		$s{value} = $c->{profile_id};
 		$s{name} = $s{profileId}." ".$c->{name};
+		$s{profileName} = $c->{name};
 		$s{plt}= 0;
 		$s{plt}= 1 if $c->{plt};
 		push(@data,\%s);

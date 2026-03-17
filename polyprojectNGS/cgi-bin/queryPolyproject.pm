@@ -943,6 +943,53 @@ sub get_Capture {
 	return \@res;
 }
 
+sub get_CaptureWithProject {
+	my ($dbh,$analyse,$not) = @_;
+	my $sql2;
+	$sql2 = "" unless $analyse;
+	if ($analyse =~ "target") {
+		$sql2 = qq {and cs.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} unless $not;
+		$sql2 = qq {and cs.analyse in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $not;
+	} else {
+		$sql2 = qq {and cs.analyse ='$analyse'} unless $not;
+		$sql2 = qq {and cs.analyse !='$analyse'} if $not;
+	}
+	my $sql = qq{
+		SELECT DISTINCT
+		cs.capture_id, 
+		cs.name as 'capName',
+-- a.project_id,
+-- a.patient_id,
+-- a.capture_id,
+-- pr.project_id,
+-- p.project_id,
+		cs.analyse,
+		cs.creation_date
+-- r.name as 'rel'
+	FROM 
+	PolyprojectNGS.capture_systems cs
+		LEFT JOIN PolyprojectNGS.patient a
+		ON cs.capture_id=a.capture_id
+		LEFT JOIN PolyprojectNGS.projects p
+		ON a.project_id=p.project_id
+ -- 		LEFT JOIN PolyprojectNGS.project_release pr
+-- 		ON a.project_id=pr.project_id
+ 		-- LEFT JOIN PolyprojectNGS.releases r
+		-- ON pr.release_id=r.release_id
+		
+ 		where p.project_id>0
+ 		$sql2
+        order by cs.name;
+	};
+	my @res;
+	my $sth = $dbh->prepare($sql);
+	$sth->execute();
+	while (my $id = $sth->fetchrow_hashref ) {
+		push(@res,$id);
+	}
+	return \@res;
+}
+
 sub upCapture_default {
 	my ($dbh,$captureid,$default) = @_;
 	my $query = qq{
@@ -2652,7 +2699,6 @@ sub upPatientSpecies {
         return ($dbh->do($sql));
 }
 
-
 sub remPatientProject {
         my ($dbh,$patid,$pid) = @_;
         my $sql = qq{
@@ -3635,7 +3681,6 @@ sub upRunDocument {
 	my ($dbh,$rid,$filename,$filetype,$data) = @_;
 	my $data2 =undef;
 	$data2 = connect::compressData($data) if $data;
-	warn "zzzzdata2" if $data;
 	my $sql = qq{
 		update PolyprojectNGS.run
 		set file_name=?, file_type=?, document=?

@@ -27,7 +27,55 @@ sub getYearsFromPatient {
 	return \@res if \@res;
 }
 
-sub countPatAnalyseMachineYear {
+sub countPatAnalyseYearMacCap {
+	my ($dbh,$cyear,$analyse,$mac,$cap,$not) = @_;
+	my $query2;
+	if ($analyse =~ "target") {
+		my $s_analyse=$analyse;
+		$s_analyse =~ s/\'//g;
+		if ($s_analyse eq "target") {
+			$query2 = qq {cs.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} unless $not;
+			$query2 = qq {cs.analyse in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $not;
+		} else {
+			$query2 = qq {cs.analyse in ("")};
+		}
+	} else {
+		$query2 = qq {cs.analyse in ($analyse)} unless $not;
+		$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	}
+	
+	my $queryMac;
+	$queryMac = qq {AND sm.name in ($mac)} if $mac;
+	my $queryCap;	
+	$queryCap = qq {AND cs.capture_id in ($cap)} if $cap;
+		
+	my $query = qq{
+		SELECT 
+--   	count(distinct if (a.name!="",a.name,null)) as 'nbPat'
+		count(distinct if (a.patient_id!=0,a.patient_id,null)) as 'nbPat'
+		FROM PolyprojectNGS.patient a
+		LEFT JOIN PolyprojectNGS.projects p   #new
+		ON a.project_id = p.project_id	  #new	
+		LEFT JOIN PolyprojectNGS.capture_systems cs
+		ON a.capture_id = cs.capture_id
+		LEFT JOIN PolyprojectNGS.run r
+		ON a.run_id = r.run_id
+		LEFT JOIN PolyprojectNGS.run_machine rm
+		ON r.run_id = rm.run_id
+		LEFT JOIN PolyprojectNGS.sequencing_machines sm
+		ON rm.machine_id = sm.machine_id
+		WHERE
+		$query2
+		AND a.run_id!=0		
+		AND a.project_id!=0		
+		$queryMac
+		$queryCap
+		AND p.creation_date regexp '$cyear';
+	};
+	return $dbh->selectrow_array($query);
+}
+
+sub countPatAnalyseMachineYearOld {
 	my ($dbh,$cyear,$analyse,$mac,$not) = @_;
 	my $query2;
 	if ($analyse =~ "target") {
@@ -69,6 +117,69 @@ sub countPatAnalyseMachineYear {
 		AND p.creation_date regexp '$cyear';#new
 	};
 	return $dbh->selectrow_array($query);
+}
+
+sub getProjectAnalyseMacCapYear {
+	my ($dbh,$cyear,$analyse,$mac,$cap,$not) = @_;
+	$cyear=~ s/,/|/g;
+	my $query2;
+	if ($analyse =~ "target") {
+		my $s_analyse=$analyse;
+		$s_analyse =~ s/\'//g;
+		if ($s_analyse eq "target") {
+			$query2 = qq {cs.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} unless $not;
+			$query2 = qq {cs.analyse in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $not;
+		} else {
+			$query2 = qq {cs.analyse in ("")};
+		}
+	} else {
+		$query2 = qq {cs.analyse in ($analyse)} unless $not;
+		$query2 = qq {cs.analyse not in ($analyse)} if $not;
+	}
+	my $queryMac;
+	$queryMac = qq {AND sm.name in ($mac)} if $mac;
+	my $queryCap;
+	$queryCap = qq {AND cs.capture_id in ($cap)} if $cap;
+	
+	my $query = qq{
+	SELECT DISTINCT
+		p.name as 'project',
+		cs.analyse as 'analyse',
+		#cs.name as 'capture',
+		GROUP_CONCAT(DISTINCT cs.name ORDER BY cs.name DESC SEPARATOR ',') as 'capture',
+		GROUP_CONCAT(DISTINCT sm.name ORDER BY sm.name DESC SEPARATOR ',') as 'machine',
+  		GROUP_CONCAT(DISTINCT sm.type ORDER BY sm.name DESC SEPARATOR ',') as 'type',
+		year(p.creation_date) as 'year'
+
+		FROM PolyprojectNGS.patient a
+		LEFT JOIN PolyprojectNGS.projects p   #new
+		ON a.project_id = p.project_id	  #new	
+		LEFT JOIN PolyprojectNGS.capture_systems cs
+		ON a.capture_id = cs.capture_id
+		LEFT JOIN PolyprojectNGS.run r
+		ON a.run_id = r.run_id
+		LEFT JOIN PolyprojectNGS.run_machine rm
+		ON r.run_id = rm.run_id
+		LEFT JOIN PolyprojectNGS.sequencing_machines sm
+		ON rm.machine_id = sm.machine_id
+ 
+		WHERE
+		$query2
+		AND a.project_id>0
+		AND p.name regexp '^NGS[0-9]{4}_'
+		AND p.creation_date regexp ('$cyear')
+		$queryMac
+ 		$queryCap
+ 		GROUP BY p.name
+ 		ORDER BY p.name
+	};
+	my @res;
+	my $sth = $dbh->prepare($query);
+	$sth->execute();
+	while (my $id = $sth->fetchrow_hashref ) {
+		 push(@res,$id);
+	}
+	return \@res;	
 }
 
 sub getProjectAnalyseMachineYear {
