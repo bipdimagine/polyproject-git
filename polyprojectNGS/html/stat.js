@@ -184,24 +184,29 @@ require([
 			this.inherited(arguments);                
 			if(this.dropDown && this.dropDownButton){
 				var label = "";
+				const regex_label = /^<a /;
 				array.forEach(this.options, function(option){
 					if(option.selected){
 						var okmatch=option.label.match(/[|]/);
 						if(okmatch) {
-							//var sp_label=option.label.split(" | ");
 							var sp_label=option.label.split("|");
 							var str_label=sp_label[0].split(" ").filter(function(e){return e});
 							var final_label="";
 							for(var i = 0; i < str_label.length; i++){
-								//if(isUpperCase(str_label[i])) {
-									final_label+=str_label[i].toString();
-								//}
+								final_label+=str_label[i].toString();
 							}
-							//label += (label.length ? ", " : "") + final_label;
-							label += (label.length ? ", " : "") + final_label.substring(0,12);
+							if (regex_label.test(final_label)) {
+								label += (label.length ? ", " : "") + final_label;
+							} else {
+								label += (label.length ? ", " : "") + final_label.substring(0,12);
+							}
 						} else {
-							//label += (label.length ? ", " : "") + option.label;
-							label += (label.length ? ", " : "") + option.label.substring(0,12);
+							if (regex_label.test(option.label)) {
+								label += (label.length ? ", " : "") + option.label;
+							} else {
+								var mod_option_label = option.label.replace(/&nbsp;&nbsp;<a[\s\S]*?<\/a>/g, "");
+								label += (label.length ? ", " : "") + mod_option_label.substring(0,12);
+							}
 						}
 					}
 				});
