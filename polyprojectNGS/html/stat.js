@@ -188,17 +188,20 @@ require([
 					if(option.selected){
 						var okmatch=option.label.match(/[|]/);
 						if(okmatch) {
-							var sp_label=option.label.split(" | ");
+							//var sp_label=option.label.split(" | ");
+							var sp_label=option.label.split("|");
 							var str_label=sp_label[0].split(" ").filter(function(e){return e});
 							var final_label="";
 							for(var i = 0; i < str_label.length; i++){
-								if(isUpperCase(str_label[i])) {
+								//if(isUpperCase(str_label[i])) {
 									final_label+=str_label[i].toString();
-								}
+								//}
 							}
-							label += (label.length ? ", " : "") + final_label;
+							//label += (label.length ? ", " : "") + final_label;
+							label += (label.length ? ", " : "") + final_label.substring(0,12);
 						} else {
-							label += (label.length ? ", " : "") + option.label;
+							//label += (label.length ? ", " : "") + option.label;
+							label += (label.length ? ", " : "") + option.label.substring(0,12);
 						}
 					}
 				});
