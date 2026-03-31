@@ -560,6 +560,14 @@ var captureUnGeneStore;
 var filterCapStore;
 var yearStore;
 
+var exomeCapStore;
+var genomeCapStore;
+var rnaCapStore;
+var singleCapStore;
+var targetCapStore;
+var ampliconCapStore;
+var otherCapStore;
+
 var xhrArgsEx;
 var deferredEx;
 

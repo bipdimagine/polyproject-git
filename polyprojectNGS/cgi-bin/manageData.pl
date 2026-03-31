@@ -53,6 +53,8 @@ if ( $option eq "schemas" ) {
 	PlateformSection();
 } elsif ( $option eq "plateformName" ) {
 	PlateformNameSection();
+} elsif ( $option eq "plateformId" ) {
+	PlateformIdSection();
 } elsif ( $option eq "Newplateform" ) {
 	newPlateformSection();
 } elsif ( $option eq "Addplateform" ) {
@@ -2695,6 +2697,25 @@ sub PlateformNameSection {
 		push(@data,\%s);
 	}
 	my @result_sorted=sort { $a->{name} cmp $b->{name} } @data;
+	$hdata{items}=\@result_sorted;
+	printJson(\%hdata);
+}
+
+sub PlateformIdSection {
+	my $plateformListId = queryPolyproject::getPlateformId($buffer->dbh);
+	my @data;
+	my %hdata;
+	$hdata{identifier}="value";
+	$hdata{label}="name";
+	foreach my $c (@$plateformListId){
+		my %s;
+		$s{plateformId} = $c->{plateformId};
+		$s{plateformId} += 0;
+		$s{value} = $s{plateformId};
+		$s{label} = $c->{plateformName};
+		push(@data,\%s);
+	}
+	my @result_sorted=sort { $a->{label} cmp $b->{label} } @data;
 	$hdata{items}=\@result_sorted;
 	printJson(\%hdata);
 }

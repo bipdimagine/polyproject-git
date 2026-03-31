@@ -945,14 +945,22 @@ sub get_Capture {
 
 sub get_CaptureWithProject {
 	my ($dbh,$analyse,$not) = @_;
+ 	my @analyse = split(/,/,$analyse);
+	my $s_analyse="";	
+	for (my $i = 0; $i< scalar(@analyse); $i++) {
+		$s_analyse.="'".$analyse[$i]."'".",";
+	}
+	chop($s_analyse);
 	my $sql2;
 	$sql2 = "" unless $analyse;
 	if ($analyse =~ "target") {
 		$sql2 = qq {and cs.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} unless $not;
 		$sql2 = qq {and cs.analyse in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $not;
 	} else {
-		$sql2 = qq {and cs.analyse ='$analyse'} unless $not;
-		$sql2 = qq {and cs.analyse !='$analyse'} if $not;
+		$sql2 = qq {and cs.analyse in ($s_analyse)} unless $not;
+		$sql2 = qq {and cs.analyse  not in ($s_analyse)} if $not;
+#		$sql2 = qq {and cs.analyse ='$analyse'} unless $not;
+#		$sql2 = qq {and cs.analyse !='$analyse'} if $not;
 	}
 	my $sql = qq{
 		SELECT DISTINCT
@@ -981,6 +989,7 @@ sub get_CaptureWithProject {
  		$sql2
         order by cs.name;
 	};
+#	warn Dumper $sql;
 	my @res;
 	my $sth = $dbh->prepare($sql);
 	$sth->execute();
