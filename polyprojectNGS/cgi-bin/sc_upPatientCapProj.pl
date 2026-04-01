@@ -84,7 +84,7 @@ foreach my $m (@$patientList) {
 	print "$cpt\tPatient $m->{patient_id} $m->{name}\tProject: $m->{project_id} $project\t==> Capture: $capInfo->{captureId} $capInfo->{capName} Done...\n" if $insert;
 	$cpt++;
 }
-print "Add otion -insert to update \n" unless $insert;
+print "Add option -insert to update \n" unless $insert;
 
 $dbh->commit();	
 
