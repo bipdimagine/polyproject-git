@@ -284,7 +284,7 @@ sub copypasteSection {
 	my $r_bcpat=lookforDuplicateBClane(@BCdup);
 	if ($r_bcpat) {
 		my @a_bcpat = split(/;/,$r_bcpat);
-		sendError("Error: For <b>BC i7 - BCi5 </b>, Patient: $a_bcpat[2] ==> Lane: $a_bcpat[1] Duplicated Bar Code: $a_bcpat[0] ...");
+#		sendError("Error: For <b>BC i7 - BCi5 </b>, Patient: $a_bcpat[2] ==> Lane: $a_bcpat[1] Duplicated Bar Code: $a_bcpat[0] ...");
 		
 	}
 #		if ($controlbc =~ m/(uniq)|(multiple)/) {
