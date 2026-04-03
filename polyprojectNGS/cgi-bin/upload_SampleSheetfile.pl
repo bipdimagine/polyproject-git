@@ -270,7 +270,8 @@ sub copypasteSection {
 			my $l_lane=getFromNumSpecialRange($row[4]);
 			my @sp_lane = split( /,/, $l_lane);
 			for (my $i = 0; $i< scalar(@sp_lane); $i++) {
-				push(@BCdup,$colBC1."-".$colBC2.";".$sp_lane[$i].";".$row[0]);
+#				push(@BCdup,$colBC1."-".$colBC2.";".$sp_lane[$i].";".$row[0]);
+				push(@BCdup,$colBC1."-".$colBC2."#".$sp_lane[$i].";".$row[0]);
 			}
 		}
 		$dupLanePat=$colPat.";". $row[4] if $seenLP{$colPat."-".$row[4]}++;			
@@ -281,11 +282,13 @@ sub copypasteSection {
 		sendError("Error: Patient $a_dupLanePat[0] Duplicated in same Lane $a_dupLanePat[1] ...");
 	}
 #	my $r_bcpat=lookforDuplicateBCpat(@BCdup);
-	my $r_bcpat=lookforDuplicateBClane(@BCdup);
+	my $r_bcpat;
+	if ($controlbc =~ m/(uniq)|(multiple)/) {
+		$r_bcpat=lookforDuplicateBClane(@BCdup);
+	}
 	if ($r_bcpat) {
 		my @a_bcpat = split(/;/,$r_bcpat);
-#		sendError("Error: For <b>BC i7 - BCi5 </b>, Patient: $a_bcpat[2] ==> Lane: $a_bcpat[1] Duplicated Bar Code: $a_bcpat[0] ...");
-		
+		sendError("Error: For <b>BC i7 - BCi5 </b>, Patient: $a_bcpat[2] ==> Lane: $a_bcpat[1] Duplicated Bar Code: $a_bcpat[0] ...");
 	}
 #		if ($controlbc =~ m/(uniq)|(multiple)/) {
 	if ($controlbc =~ m/(uniq)/) {
@@ -380,7 +383,8 @@ sub lookforDuplicateBClane {
 	my %seen;
 	foreach my $string (@bc) {
 		my @s_string = split(/;/,$string);
-   		next unless $seen{$s_string[1]}++;
+#   		next unless $seen{$s_string[1]}++;
+   		next unless $seen{$s_string[0]}++;
    		$invalid.=$string.",";
   	}
 	chop($invalid);
