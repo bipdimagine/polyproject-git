@@ -20,7 +20,8 @@ require([
 
 
 const data = {};
-for (let i = 1; i <= 9; i++) {
+//for (let i = 1; i <= 9; i++) { // No more : Graph_2 =>Analyse & Platform
+for (let i = 1; i <= 8; i++) {
   data[`stat_${i}Store`] = "Store" + i;
   data[`stat_${i}Grid`] = "Grid" + i;
   data[`stat_${i}Dial`] = "Dial" + i;
@@ -375,7 +376,8 @@ function initStat(serial) {
 		create_divSlider(ind);
 		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
 	}
-// Number of Samples/Year Filter:Analyse & Plateform
+// Number of Samples/Year Filter:Analyse & Plateform  ==> No more
+/*
 	if(serial==2) {
 		filter_year = [];
 		sl_year = [];
@@ -395,6 +397,7 @@ function initStat(serial) {
 		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
 		launch_valmonoselect_data(plateformNameStore,divMono="splateformSelect_"+ind, ind, prog_name, dbana,  colorfill, filter_year);
 	}
+*/
 // Number of Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;Filter:Analyse & Unit
 	if(serial==3) {
 		filter_year = [];
@@ -1478,7 +1481,7 @@ function launch_stat_data(libchart,colorfill,Store,prog_name,prog_param,dbana,fi
 	} else {
 		url_stat="/stat.pl?opt="+prog_name + prog_param ;
 	}
-//	console.log(url_stat);
+	console.log(url_stat);
 	showProgressDlg("Loading Graph... ",true,libchart,"LI");
 	var xhrArgsEx={
 		url: url_path + url_stat,
@@ -1650,7 +1653,7 @@ function launch_query_data(libquery,Store,prog_name,prog_param,dbana,filter_year
 		} else {
 			url_stat="/stat.pl?opt="+prog_name + prog_param ;
 		}
-//		console.log(url_stat);
+		console.log(url_stat);
 		var xhrArgsP={
 			url: url_path + url_stat,
 			handleAs: "json",
@@ -1740,7 +1743,7 @@ function launch_Cluster_data(libchart,colorfill,Store,prog_name,prog_param,dbana
 	} else {
 		url_stat=url_stat + prog_param ;
 	}
-//	console.log(url_stat);
+	console.log(url_stat);
 	showProgressDlg("Loading Graph... ",true,libchart,"LI");
 	var xhrArgsEx={
 		url: url_path + url_stat,
