@@ -932,6 +932,13 @@
 	margin:2;padding:2
 }
 
+.cl_patient {
+	background:#c83349;
+	border-radius: 5px 5px 5px 5px;
+	margin:2;padding:2
+}
+
+
 .cl_button_span {
 	display: inline-block;
 	background: transparent;
