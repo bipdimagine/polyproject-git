@@ -110,6 +110,9 @@ sub patAnaMacSection {
 	my $cpltid = $cgi->param('platformId');
 	my @listPltId;
 	@listPltId = sort (split(/,/,$cpltid));
+	my $cunit = $cgi->param('unit');
+	my @listUnit;
+	@listUnit = sort (split(/,/,$cunit));
 
 	my @listYearNbPat;
 	@listYearNbPat = sort (split(/,/,$cyear));
@@ -141,20 +144,24 @@ sub patAnaMacSection {
 	for (my $i = 0; $i< scalar(@listPltId); $i++) {
 		$ListPltId.="'".$listPltId[$i]."'".",";
 	}
-	chop($ListPltId);
+	chop($ListPltId);	
+	my $ListUnit;
+	for (my $i = 0; $i< scalar(@listUnit); $i++) {
+		$ListUnit.="'".$listUnit[$i]."'".",";
+	}
+	chop($ListUnit);
 	
 	my $row=1;
 	my @data;
 	my %hdata;
 	$ListCapId="" if $ListCapId eq "\'0\'";
 	$ListPltId="" if $ListPltId eq "\'0\'";
+	$ListUnit="" if $ListUnit eq "\'0\'";
 	$hdata{label}="year";
 	foreach my $y (@listYearNbPat){
 		my %s;
 		$ListMac="" unless defined $ListMac;
-#		my $nbYearPatMacList = queryStat::countPatAnalyseMachineYear($buffer->dbh,$y,$StrListAnalyse,$ListMac,$not);
-#		my $nbYearPatMacList = queryStat::countPatAnalyseYearMacCap($buffer->dbh,$y,$StrListAnalyse,$ListMac,$ListCapId,$not);
-		my $nbYearPatMacList = queryStat::countPatAnalyseYearMacCapPlt($buffer->dbh,$y,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$not);
+		my $nbYearPatMacList = queryStat::countPatAnalyseYearMacCapPltUnit($buffer->dbh,$y,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$ListUnit,$not);
 		$s{year} = $y += 0;
 		$s{nbPat} = $nbYearPatMacList += 0;
 		$s{Row} = $row++;
@@ -175,6 +182,9 @@ sub proAnaMacSection {
 	my $cpltid = $cgi->param('platformId');
 	my @listPltId;
 	@listPltId = sort (split(/,/,$cpltid));
+	my $cunit = $cgi->param('unit');
+	my @listUnit;
+	@listUnit = sort (split(/,/,$cunit));
 	
 	my @listYearNbPat;
 	@listYearNbPat = sort (split(/,/,$cyear));
@@ -208,13 +218,20 @@ sub proAnaMacSection {
 		$ListPltId.="'".$listPltId[$i]."'".",";
 	}
 	chop($ListPltId);
+	my $ListUnit;
+	for (my $i = 0; $i< scalar(@listUnit); $i++) {
+		$ListUnit.="'".$listUnit[$i]."'".",";
+	}
+	chop($ListUnit);
 	
 	my $row=1;
 	my @data;
 	my %hdata;
 	$ListCapId="" if $ListCapId eq "\'0\'";
 	$ListPltId="" if $ListPltId eq "\'0\'";
-	my $ListProj = queryStat::getProjectAnalyseMacCapPltYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$not);	
+	$ListUnit="" if $ListUnit eq "\'0\'";
+	my $ListProj = queryStat::getProjectAnalyseMacCapPltUnitYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$ListUnit,$not);	
+	#warn Dumper $ListProj;
 	$hdata{label}="project";
 	$hdata{identifier}="project";
 	foreach my $c (@$ListProj){
@@ -225,6 +242,8 @@ sub proAnaMacSection {
 		$s{capture} = $c->{capture};
 		$s{type} = $c->{type};
 		$s{platform} = $c->{platform};
+		$s{unit} = "";
+		$s{unit} = $c->{unit} if $c->{unit};
 		$s{year} = $c->{year};
 		push(@data,\%s);
 	}
@@ -233,6 +252,86 @@ sub proAnaMacSection {
 }
 
 sub patientAnaMacSection {
+	my $cyear = $cgi->param('year');
+	my $cmac = $cgi->param('machine');
+	my @listMac;
+	@listMac = sort (split(/,/,$cmac));
+	my $ccapid = $cgi->param('captureId');
+	my @listCapId;
+	@listCapId = sort (split(/,/,$ccapid));
+	my $cpltid = $cgi->param('platformId');
+	my @listPltId;
+	@listPltId = sort (split(/,/,$cpltid));
+	my $cunit = $cgi->param('unit');
+	my @listUnit;
+	@listUnit = sort (split(/,/,$cunit));
+	
+
+	my $analyse = $cgi->param('analyse');
+	my @analyse = split(/,/,$analyse);
+	my $not;
+	$not= $cgi->param('not');
+	$not=0 unless defined $not;
+	my $db_year= queryStat::getYearsFromPatient($buffer->dbh) unless defined $cyear;
+	my $listdb_year;
+	$listdb_year=$cyear if defined $cyear;
+
+	my $StrListAnalyse;
+	for (my $i = 0; $i< scalar(@analyse); $i++) {
+		$StrListAnalyse.="'".$analyse[$i]."'".",";
+	}
+	chop($StrListAnalyse);
+	my $ListMac;
+	for (my $i = 0; $i< scalar(@listMac); $i++) {
+		$ListMac.="'".$listMac[$i]."'".",";
+	}
+	chop($ListMac);
+	my $ListCapId;
+	for (my $i = 0; $i< scalar(@listCapId); $i++) {
+		$ListCapId.="'".$listCapId[$i]."'".",";
+	}
+	chop($ListCapId);
+	my $ListPltId;
+	for (my $i = 0; $i< scalar(@listPltId); $i++) {
+		$ListPltId.="'".$listPltId[$i]."'".",";
+	}
+	chop($ListPltId);
+	my $ListUnit;
+	for (my $i = 0; $i< scalar(@listUnit); $i++) {
+		$ListUnit.="'".$listUnit[$i]."'".",";
+	}
+	chop($ListUnit);
+	
+	my $row=1;
+	my @data;
+	my %hdata;
+	$ListCapId="" if $ListCapId eq "\'0\'";
+	$ListPltId="" if $ListPltId eq "\'0\'";
+	$ListUnit="" if $ListUnit eq "\'0\'";
+#	my $ListPatient = queryStat::getPatientAnalyseProjMacCapPltYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$not);
+	my $ListPatient = queryStat::getPatientAnalyseProjMacCapPltUnitYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$ListUnit,$not);
+	$hdata{label}="patient_id";
+	$hdata{identifier}="patient_id";
+	foreach my $c (@$ListPatient){
+		my %s;
+		$s{patient_id} = $c->{patient_id};
+		$s{patient} = $c->{patient};
+		$s{project} = $c->{project};
+		$s{analyse} = $c->{analyse};
+		$s{machine} = $c->{machine};
+		$s{capture} = $c->{capture};
+		$s{type} = $c->{type};
+		$s{platform} = $c->{platform};
+		$s{unit} = "";
+		$s{unit} = $c->{unit} if $c->{unit};
+		$s{year} = $c->{year};
+		push(@data,\%s);
+	}
+	$hdata{items}=\@data;
+	printJson(\%hdata);
+}
+
+sub patientAnaMacSectionOld {
 	my $cyear = $cgi->param('year');
 	my $cmac = $cgi->param('machine');
 	my @listMac;
@@ -299,7 +398,6 @@ sub patientAnaMacSection {
 	$hdata{items}=\@data;
 	printJson(\%hdata);
 }
-
 
 
 
