@@ -113,6 +113,9 @@ sub patAnaMacSection {
 	my $cunit = $cgi->param('unit');
 	my @listUnit;
 	@listUnit = sort (split(/,/,$cunit));
+	my $cprof = $cgi->param('prof');
+	my @listProf;
+	@listProf = sort (split(/,/,$cprof));
 
 	my @listYearNbPat;
 	@listYearNbPat = sort (split(/,/,$cyear));
@@ -150,6 +153,11 @@ sub patAnaMacSection {
 		$ListUnit.="'".$listUnit[$i]."'".",";
 	}
 	chop($ListUnit);
+	my $ListProf;
+	for (my $i = 0; $i< scalar(@listProf); $i++) {
+		$ListProf.="'".$listProf[$i]."'".",";
+	}
+	chop($ListProf);
 	
 	my $row=1;
 	my @data;
@@ -157,11 +165,12 @@ sub patAnaMacSection {
 	$ListCapId="" if $ListCapId eq "\'0\'";
 	$ListPltId="" if $ListPltId eq "\'0\'";
 	$ListUnit="" if $ListUnit eq "\'0\'";
+	$ListProf="" if $ListProf eq "\'0\'";
 	$hdata{label}="year";
 	foreach my $y (@listYearNbPat){
 		my %s;
 		$ListMac="" unless defined $ListMac;
-		my $nbYearPatMacList = queryStat::countPatAnalyseYearMacCapPltUnit($buffer->dbh,$y,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$ListUnit,$not);
+		my $nbYearPatMacList = queryStat::countPatAnalyseYear($buffer->dbh,$y,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$ListUnit,$ListProf,$not);
 		$s{year} = $y += 0;
 		$s{nbPat} = $nbYearPatMacList += 0;
 		$s{Row} = $row++;
@@ -185,6 +194,9 @@ sub proAnaMacSection {
 	my $cunit = $cgi->param('unit');
 	my @listUnit;
 	@listUnit = sort (split(/,/,$cunit));
+	my $cprof = $cgi->param('prof');
+	my @listProf;
+	@listProf = sort (split(/,/,$cprof));
 	
 	my @listYearNbPat;
 	@listYearNbPat = sort (split(/,/,$cyear));
@@ -223,6 +235,11 @@ sub proAnaMacSection {
 		$ListUnit.="'".$listUnit[$i]."'".",";
 	}
 	chop($ListUnit);
+	my $ListProf;
+	for (my $i = 0; $i< scalar(@listProf); $i++) {
+		$ListProf.="'".$listProf[$i]."'".",";
+	}
+	chop($ListProf);
 	
 	my $row=1;
 	my @data;
@@ -230,8 +247,8 @@ sub proAnaMacSection {
 	$ListCapId="" if $ListCapId eq "\'0\'";
 	$ListPltId="" if $ListPltId eq "\'0\'";
 	$ListUnit="" if $ListUnit eq "\'0\'";
-	my $ListProj = queryStat::getProjectAnalyseMacCapPltUnitYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$ListUnit,$not);	
-	#warn Dumper $ListProj;
+	$ListProf="" if $ListProf eq "\'0\'";
+	my $ListProj = queryStat::getProjectAnalyseYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$ListUnit,$ListProf,$not);	
 	$hdata{label}="project";
 	$hdata{identifier}="project";
 	foreach my $c (@$ListProj){
@@ -242,6 +259,8 @@ sub proAnaMacSection {
 		$s{capture} = $c->{capture};
 		$s{type} = $c->{type};
 		$s{platform} = $c->{platform};
+		$s{profile} = "";
+		$s{profile} = $c->{profileId}." ".$c->{profile} if $c->{profileId};
 		$s{unit} = "";
 		$s{unit} = $c->{unit} if $c->{unit};
 		$s{year} = $c->{year};
@@ -265,6 +284,9 @@ sub patientAnaMacSection {
 	my $cunit = $cgi->param('unit');
 	my @listUnit;
 	@listUnit = sort (split(/,/,$cunit));
+	my $cprof = $cgi->param('prof');
+	my @listProf;
+	@listProf = sort (split(/,/,$cprof));
 	
 
 	my $analyse = $cgi->param('analyse');
@@ -301,6 +323,11 @@ sub patientAnaMacSection {
 		$ListUnit.="'".$listUnit[$i]."'".",";
 	}
 	chop($ListUnit);
+	my $ListProf;
+	for (my $i = 0; $i< scalar(@listProf); $i++) {
+		$ListProf.="'".$listProf[$i]."'".",";
+	}
+	chop($ListProf);
 	
 	my $row=1;
 	my @data;
@@ -308,8 +335,8 @@ sub patientAnaMacSection {
 	$ListCapId="" if $ListCapId eq "\'0\'";
 	$ListPltId="" if $ListPltId eq "\'0\'";
 	$ListUnit="" if $ListUnit eq "\'0\'";
-#	my $ListPatient = queryStat::getPatientAnalyseProjMacCapPltYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$not);
-	my $ListPatient = queryStat::getPatientAnalyseProjMacCapPltUnitYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$ListUnit,$not);
+	$ListProf="" if $ListProf eq "\'0\'";
+	my $ListPatient = queryStat::getPatientAnalyseYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$ListUnit,$ListProf,$not);
 	$hdata{label}="patient_id";
 	$hdata{identifier}="patient_id";
 	foreach my $c (@$ListPatient){
@@ -322,6 +349,8 @@ sub patientAnaMacSection {
 		$s{capture} = $c->{capture};
 		$s{type} = $c->{type};
 		$s{platform} = $c->{platform};
+		$s{profile} = "";
+		$s{profile} = $c->{profileId}." ".$c->{profile} if $c->{profileId};
 		$s{unit} = "";
 		$s{unit} = $c->{unit} if $c->{unit};
 		$s{year} = $c->{year};
