@@ -1272,6 +1272,6 @@ tr.dojoxCheckedMultiSelectMenuItemChecked td.dijitMenuItemIconCell {
 	overflow-y:auto;
 }
 
-
-
+#stat-table {width:100%;} 
+#stat-table td{width:1em;}
 

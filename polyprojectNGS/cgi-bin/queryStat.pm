@@ -28,7 +28,7 @@ sub getYearsFromPatient {
 }
 
 sub countPatAnalyseYear {
-	my ($dbh,$cyear,$analyse,$mac,$cap,$plt,$unit,$prof,$not) = @_;
+	my ($dbh,$cyear,$analyse,$mac,$cap,$plt,$unit,$prof,$phe,$not) = @_;
 	my $query2;
 	if ($analyse =~ "target") {
 		my $s_analyse=$analyse;
@@ -54,6 +54,12 @@ sub countPatAnalyseYear {
 	$queryUnit = qq {AND E.unite_id in ($unit)} if $unit;
 	my $queryProf;	
 	$queryProf = qq {AND o.profile_id in ($prof)} if $prof;
+	my $queryPhe;
+	$queryPhe = qq {AND pp.phenotype_id in ($phe)} if $phe;
+	if ($phe =~ '999') {
+		#$queryPhe = qq {AND pp.phenotype_id is null}
+		undef $queryPhe;
+	}	
 	
 	my $query = qq{
 		SELECT 
@@ -76,6 +82,11 @@ sub countPatAnalyseYear {
 		ON r.run_id=rp.run_id
         LEFT JOIN PolyprojectNGS.plateform f
         ON rp.plateform_id=f.plateform_id
+
+ 		LEFT JOIN PolyPhenotypeDB.phenotype_project pp
+		ON a.project_id=pp.project_id
+		LEFT JOIN PolyPhenotypeDB.`phenotype` phe
+		ON pp.phenotype_id=phe.phenotype_id
         
   		LEFT JOIN PolyprojectNGS.user_projects up
         ON p.project_id = up.project_id
@@ -95,13 +106,14 @@ sub countPatAnalyseYear {
 		$queryPlt
  		$queryUnit
 		$queryProf
+		$queryPhe
 		AND p.creation_date regexp '$cyear';
 	};
 	return $dbh->selectrow_array($query);
 }
 
 sub getProjectAnalyseYear {
-	my ($dbh,$cyear,$analyse,$mac,$cap,$plt,$unit,$prof,$not) = @_;
+	my ($dbh,$cyear,$analyse,$mac,$cap,$plt,$unit,$prof,$phe,$not) = @_;
 	$cyear=~ s/,/|/g;
 	my $query2;
 	if ($analyse =~ "target") {
@@ -127,6 +139,11 @@ sub getProjectAnalyseYear {
 	$queryUnit = qq {AND E.unite_id in ($unit)} if $unit;
 	my $queryProf;	
 	$queryProf = qq {AND o.profile_id in ($prof)} if $prof;
+	my $queryPhe;
+	$queryPhe = qq {AND pp.phenotype_id in ($phe)} if $phe;
+	if ($phe =~ '999') {
+		undef $queryPhe;
+	}	
 	
 	my $query = qq{
 	SELECT DISTINCT
@@ -138,6 +155,7 @@ sub getProjectAnalyseYear {
 		GROUP_CONCAT(DISTINCT sm.name ORDER BY sm.name DESC SEPARATOR ',') as 'machine',
   		GROUP_CONCAT(DISTINCT sm.type ORDER BY sm.name DESC SEPARATOR ',') as 'type',
 		GROUP_CONCAT(DISTINCT f.name ORDER BY f.name DESC SEPARATOR ',') as 'platform',
+		GROUP_CONCAT(DISTINCT phe.name ORDER BY phe.name DESC SEPARATOR ',') as 'phenotype',
 		GROUP_CONCAT(DISTINCT T.code_unite ORDER BY T.code_unite DESC SEPARATOR ',') as 'unit',
 		year(p.creation_date) as 'year'
 
@@ -159,6 +177,11 @@ sub getProjectAnalyseYear {
         LEFT JOIN PolyprojectNGS.plateform f
         ON rp.plateform_id=f.plateform_id
 
+ 		LEFT JOIN PolyPhenotypeDB.phenotype_project pp
+		ON a.project_id=pp.project_id
+		LEFT JOIN PolyPhenotypeDB.`phenotype` phe
+		ON pp.phenotype_id=phe.phenotype_id
+        
   		LEFT JOIN PolyprojectNGS.user_projects up
         ON p.project_id = up.project_id
         LEFT JOIN bipd_users.`USER` U
@@ -179,6 +202,7 @@ sub getProjectAnalyseYear {
 		$queryPlt
 		$queryUnit
 		$queryProf
+ 		$queryPhe
  		GROUP BY p.name
  		ORDER BY p.name
 	};
@@ -192,7 +216,7 @@ sub getProjectAnalyseYear {
 }
 
 sub getPatientAnalyseYear {
-	my ($dbh,$cyear,$analyse,$mac,$cap,$plt,$unit,$prof,$not) = @_;
+	my ($dbh,$cyear,$analyse,$mac,$cap,$plt,$unit,$prof,$phe,$not) = @_;
 	$cyear=~ s/ //g;
 	return unless $cyear;
 	$cyear=~ s/,/|/g;
@@ -220,26 +244,27 @@ sub getPatientAnalyseYear {
 	$queryUnit = qq {AND E.unite_id in ($unit)} if $unit;
 	my $queryProf;	
 	$queryProf = qq {AND o.profile_id in ($prof)} if $prof;
+	my $queryPhe;
+	$queryPhe = qq {AND pp.phenotype_id in ($phe)} if $phe;
+	if ($phe =~ '999') {
+		undef $queryPhe;
+	}	
 	
 	my $query = qq{
 		SELECT DISTINCT
  		a.patient_id,
         a.name as 'patient',
---        a.project_id,
         p.name as 'project',
         cs.analyse as 'analyse',
- --       sm.name as 'machine',
- --       sm.type as 'type',
  		o.name as 'profile',
         o.profile_id as 'profileId',
  		GROUP_CONCAT(DISTINCT cs.name ORDER BY cs.name DESC SEPARATOR ',') as 'capture',
 		GROUP_CONCAT(DISTINCT sm.name ORDER BY sm.name DESC SEPARATOR ',') as 'machine',
   		GROUP_CONCAT(DISTINCT sm.type ORDER BY sm.name DESC SEPARATOR ',') as 'type',
 		GROUP_CONCAT(DISTINCT f.name ORDER BY f.name DESC SEPARATOR ',') as 'platform',
+		GROUP_CONCAT(DISTINCT phe.name ORDER BY phe.name DESC SEPARATOR ',') as 'phenotype',
 		GROUP_CONCAT(DISTINCT T.code_unite ORDER BY T.code_unite DESC SEPARATOR ',') as 'unit',
 		year(p.creation_date) as 'year'
--- 		cs.name as 'capture',
---      f.name as 'platform'
 		FROM PolyprojectNGS.patient a
 		LEFT JOIN PolyprojectNGS.projects p   #new
 		ON a.project_id = p.project_id	  #new	
@@ -258,6 +283,11 @@ sub getPatientAnalyseYear {
         LEFT JOIN PolyprojectNGS.plateform f
         ON rp.plateform_id=f.plateform_id
         
+ 		LEFT JOIN PolyPhenotypeDB.phenotype_project pp
+		ON a.project_id=pp.project_id
+		LEFT JOIN PolyPhenotypeDB.`phenotype` phe
+		ON pp.phenotype_id=phe.phenotype_id
+
   		LEFT JOIN PolyprojectNGS.user_projects up
         ON p.project_id = up.project_id
         LEFT JOIN bipd_users.`USER` U
@@ -278,98 +308,7 @@ sub getPatientAnalyseYear {
 		$queryPlt
  		$queryUnit
 		$queryProf
- 		GROUP BY a.patient_id
- 		ORDER BY a.name
-	};
-	my @res;
-	my $sth = $dbh->prepare($query);
-	$sth->execute();
-	while (my $id = $sth->fetchrow_hashref ) {
-		 push(@res,$id);
-	}
-	return \@res;	
-}
-
-sub getPatientAnalyseProjMacCapPltUnitYearOld {
-	my ($dbh,$cyear,$analyse,$mac,$cap,$plt,$unit,$not) = @_;
-	$cyear=~ s/ //g;
-	return unless $cyear;
-	$cyear=~ s/,/|/g;
-	my $query2;
-	if ($analyse =~ "target") {
-		my $s_analyse=$analyse;
-		$s_analyse =~ s/\'//g;
-		if ($s_analyse eq "target") {
-			$query2 = qq {cs.analyse not in ("exome","genome","rnaseq","singlecell","amplicon","other")} unless $not;
-			$query2 = qq {cs.analyse in ("exome","genome","rnaseq","singlecell","amplicon","other")} if $not;
-		} else {
-			$query2 = qq {cs.analyse in ("")};
-		}
-	} else {
-		$query2 = qq {cs.analyse in ($analyse)} unless $not;
-		$query2 = qq {cs.analyse not in ($analyse)} if $not;
-	}
-	my $queryMac;
-	$queryMac = qq {AND sm.name in ($mac)} if $mac;
-	my $queryCap;
-	$queryCap = qq {AND cs.capture_id in ($cap)} if $cap;
-	my $queryPlt;	
-	$queryPlt = qq {AND f.plateform_id in ($plt)} if $plt;
-	my $queryUnit;	
-	$queryUnit = qq {AND E.unite_id in ($unit)} if $unit;
-	
-	my $query = qq{
-		SELECT DISTINCT
- 		a.patient_id,
-        a.name as 'patient',
---        a.project_id,
-        p.name as 'project',
-        cs.analyse as 'analyse',
- --       sm.name as 'machine',
- --       sm.type as 'type',
- 		GROUP_CONCAT(DISTINCT cs.name ORDER BY cs.name DESC SEPARATOR ',') as 'capture',
-		GROUP_CONCAT(DISTINCT sm.name ORDER BY sm.name DESC SEPARATOR ',') as 'machine',
-  		GROUP_CONCAT(DISTINCT sm.type ORDER BY sm.name DESC SEPARATOR ',') as 'type',
-		GROUP_CONCAT(DISTINCT f.name ORDER BY f.name DESC SEPARATOR ',') as 'platform',
-		GROUP_CONCAT(DISTINCT T.code_unite ORDER BY T.code_unite DESC SEPARATOR ',') as 'unit',
-		year(p.creation_date) as 'year'
--- 		cs.name as 'capture',
---      f.name as 'platform'
-		FROM PolyprojectNGS.patient a
-		LEFT JOIN PolyprojectNGS.projects p   #new
-		ON a.project_id = p.project_id	  #new	
-		LEFT JOIN PolyprojectNGS.capture_systems cs
-		ON a.capture_id = cs.capture_id
-		LEFT JOIN PolyprojectNGS.run r
-		ON a.run_id = r.run_id
-		LEFT JOIN PolyprojectNGS.run_machine rm
-		ON r.run_id = rm.run_id
-		LEFT JOIN PolyprojectNGS.sequencing_machines sm
-		ON rm.machine_id = sm.machine_id
-		LEFT JOIN PolyprojectNGS.run_plateform rp
-		ON r.run_id=rp.run_id
-        LEFT JOIN PolyprojectNGS.plateform f
-        ON rp.plateform_id=f.plateform_id
-        
-  		LEFT JOIN PolyprojectNGS.user_projects up
-        ON p.project_id = up.project_id
-        LEFT JOIN bipd_users.`USER` U
-        ON up.user_id=U.user_id
-        LEFT JOIN bipd_users.EQUIPE E
-        ON U.equipe_id = E.equipe_id
-        LEFT JOIN bipd_users.UNITE T
-        ON E.unite_id = T.unite_id 
- 
-		WHERE
-		$query2
-		AND a.run_id>0
-		AND a.project_id>0
-		AND p.name regexp '^NGS[0-9]{4}_'
-		AND p.creation_date regexp ('$cyear')
-		$queryMac
- 		$queryCap
-		$queryPlt
- 		$queryUnit
+ 		$queryPhe
  		GROUP BY a.patient_id
  		ORDER BY a.name
 	};
@@ -584,9 +523,6 @@ sub getProjectAnalyseGroupYear {
 	}
 	return \@res;	
 }
-
-
-
 
 sub countPatAnalysePlateformYear {
 	my ($dbh,$cyear,$analyse,$plateform,$not) = @_;

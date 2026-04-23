@@ -116,6 +116,9 @@ sub patAnaMacSection {
 	my $cprof = $cgi->param('prof');
 	my @listProf;
 	@listProf = sort (split(/,/,$cprof));
+	my $cphe = $cgi->param('phe');
+	my @listPhe;
+	@listPhe = sort (split(/,/,$cphe));
 
 	my @listYearNbPat;
 	@listYearNbPat = sort (split(/,/,$cyear));
@@ -158,6 +161,11 @@ sub patAnaMacSection {
 		$ListProf.="'".$listProf[$i]."'".",";
 	}
 	chop($ListProf);
+	my $ListPhe;
+	for (my $i = 0; $i< scalar(@listPhe); $i++) {
+		$ListPhe.="'".$listPhe[$i]."'".",";
+	}
+	chop($ListPhe);
 	
 	my $row=1;
 	my @data;
@@ -166,11 +174,12 @@ sub patAnaMacSection {
 	$ListPltId="" if $ListPltId eq "\'0\'";
 	$ListUnit="" if $ListUnit eq "\'0\'";
 	$ListProf="" if $ListProf eq "\'0\'";
+	$ListPhe="" if $ListPhe eq "\'0\'";
 	$hdata{label}="year";
 	foreach my $y (@listYearNbPat){
 		my %s;
 		$ListMac="" unless defined $ListMac;
-		my $nbYearPatMacList = queryStat::countPatAnalyseYear($buffer->dbh,$y,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$ListUnit,$ListProf,$not);
+		my $nbYearPatMacList = queryStat::countPatAnalyseYear($buffer->dbh,$y,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$ListUnit,$ListProf,$ListPhe,$not);
 		$s{year} = $y += 0;
 		$s{nbPat} = $nbYearPatMacList += 0;
 		$s{Row} = $row++;
@@ -197,6 +206,9 @@ sub proAnaMacSection {
 	my $cprof = $cgi->param('prof');
 	my @listProf;
 	@listProf = sort (split(/,/,$cprof));
+	my $cphe = $cgi->param('phe');
+	my @listPhe;
+	@listPhe = sort (split(/,/,$cphe));
 	
 	my @listYearNbPat;
 	@listYearNbPat = sort (split(/,/,$cyear));
@@ -240,6 +252,11 @@ sub proAnaMacSection {
 		$ListProf.="'".$listProf[$i]."'".",";
 	}
 	chop($ListProf);
+	my $ListPhe;
+	for (my $i = 0; $i< scalar(@listPhe); $i++) {
+		$ListPhe.="'".$listPhe[$i]."'".",";
+	}
+	chop($ListPhe);
 	
 	my $row=1;
 	my @data;
@@ -248,7 +265,8 @@ sub proAnaMacSection {
 	$ListPltId="" if $ListPltId eq "\'0\'";
 	$ListUnit="" if $ListUnit eq "\'0\'";
 	$ListProf="" if $ListProf eq "\'0\'";
-	my $ListProj = queryStat::getProjectAnalyseYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$ListUnit,$ListProf,$not);	
+	$ListPhe="" if $ListPhe eq "\'0\'";
+	my $ListProj = queryStat::getProjectAnalyseYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$ListUnit,$ListProf,$ListPhe,$not);	
 	$hdata{label}="project";
 	$hdata{identifier}="project";
 	foreach my $c (@$ListProj){
@@ -261,6 +279,8 @@ sub proAnaMacSection {
 		$s{platform} = $c->{platform};
 		$s{profile} = "";
 		$s{profile} = $c->{profileId}." ".$c->{profile} if $c->{profileId};
+		$s{phenotype} =	"";
+		$s{phenotype} = $c->{phenotype} if $c->{phenotype};
 		$s{unit} = "";
 		$s{unit} = $c->{unit} if $c->{unit};
 		$s{year} = $c->{year};
@@ -287,8 +307,10 @@ sub patientAnaMacSection {
 	my $cprof = $cgi->param('prof');
 	my @listProf;
 	@listProf = sort (split(/,/,$cprof));
+	my $cphe = $cgi->param('phe');
+	my @listPhe;
+	@listPhe = sort (split(/,/,$cphe));
 	
-
 	my $analyse = $cgi->param('analyse');
 	my @analyse = split(/,/,$analyse);
 	my $not;
@@ -328,6 +350,11 @@ sub patientAnaMacSection {
 		$ListProf.="'".$listProf[$i]."'".",";
 	}
 	chop($ListProf);
+	my $ListPhe;
+	for (my $i = 0; $i< scalar(@listPhe); $i++) {
+		$ListPhe.="'".$listPhe[$i]."'".",";
+	}
+	chop($ListPhe);
 	
 	my $row=1;
 	my @data;
@@ -336,7 +363,8 @@ sub patientAnaMacSection {
 	$ListPltId="" if $ListPltId eq "\'0\'";
 	$ListUnit="" if $ListUnit eq "\'0\'";
 	$ListProf="" if $ListProf eq "\'0\'";
-	my $ListPatient = queryStat::getPatientAnalyseYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$ListUnit,$ListProf,$not);
+	$ListPhe="" if $ListPhe eq "\'0\'";
+	my $ListPatient = queryStat::getPatientAnalyseYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$ListUnit,$ListProf,$ListPhe,$not);
 	$hdata{label}="patient_id";
 	$hdata{identifier}="patient_id";
 	foreach my $c (@$ListPatient){
@@ -351,6 +379,8 @@ sub patientAnaMacSection {
 		$s{platform} = $c->{platform};
 		$s{profile} = "";
 		$s{profile} = $c->{profileId}." ".$c->{profile} if $c->{profileId};
+		$s{phenotype} =	"";
+		$s{phenotype} = $c->{phenotype} if $c->{phenotype};
 		$s{unit} = "";
 		$s{unit} = $c->{unit} if $c->{unit};
 		$s{year} = $c->{year};
@@ -359,76 +389,6 @@ sub patientAnaMacSection {
 	$hdata{items}=\@data;
 	printJson(\%hdata);
 }
-
-sub patientAnaMacSectionOld {
-	my $cyear = $cgi->param('year');
-	my $cmac = $cgi->param('machine');
-	my @listMac;
-	@listMac = sort (split(/,/,$cmac));
-	my $ccapid = $cgi->param('captureId');
-	my @listCapId;
-	@listCapId = sort (split(/,/,$ccapid));
-	my $cpltid = $cgi->param('platformId');
-	my @listPltId;
-	@listPltId = sort (split(/,/,$cpltid));
-	
-
-	my $analyse = $cgi->param('analyse');
-	my @analyse = split(/,/,$analyse);
-	my $not;
-	$not= $cgi->param('not');
-	$not=0 unless defined $not;
-	my $db_year= queryStat::getYearsFromPatient($buffer->dbh) unless defined $cyear;
-	my $listdb_year;
-	$listdb_year=$cyear if defined $cyear;
-
-	my $StrListAnalyse;
-	for (my $i = 0; $i< scalar(@analyse); $i++) {
-		$StrListAnalyse.="'".$analyse[$i]."'".",";
-	}
-	chop($StrListAnalyse);
-	my $ListMac;
-	for (my $i = 0; $i< scalar(@listMac); $i++) {
-		$ListMac.="'".$listMac[$i]."'".",";
-	}
-	chop($ListMac);
-	my $ListCapId;
-	for (my $i = 0; $i< scalar(@listCapId); $i++) {
-		$ListCapId.="'".$listCapId[$i]."'".",";
-	}
-	chop($ListCapId);
-	my $ListPltId;
-	for (my $i = 0; $i< scalar(@listPltId); $i++) {
-		$ListPltId.="'".$listPltId[$i]."'".",";
-	}
-	chop($ListPltId);
-	
-	my $row=1;
-	my @data;
-	my %hdata;
-	$ListCapId="" if $ListCapId eq "\'0\'";
-	$ListPltId="" if $ListPltId eq "\'0\'";
-	my $ListPatient = queryStat::getPatientAnalyseProjMacCapPltYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListMac,$ListCapId,$ListPltId,$not);
-	$hdata{label}="patient_id";
-	$hdata{identifier}="patient_id";
-	foreach my $c (@$ListPatient){
-		my %s;
-		$s{patient_id} = $c->{patient_id};
-		$s{patient} = $c->{patient};
-		$s{project} = $c->{project};
-		$s{analyse} = $c->{analyse};
-		$s{machine} = $c->{machine};
-		$s{capture} = $c->{capture};
-		$s{type} = $c->{type};
-		$s{platform} = $c->{platform};
-		$s{year} = $c->{year};
-		push(@data,\%s);
-	}
-	$hdata{items}=\@data;
-	printJson(\%hdata);
-}
-
-
 
 sub patAnaPltSection {
 	my $cyear = $cgi->param('year');
