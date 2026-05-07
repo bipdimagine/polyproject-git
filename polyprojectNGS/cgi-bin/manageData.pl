@@ -730,8 +730,8 @@ sub UpPatientSection {
    				queryPolyproject::removeGroup2patient($buffer->dbh,$fieldI[$i]);
    				queryPolyproject::addGroup2patient($buffer->dbh,$fieldI[$i],$fieldGN[$i]);
 			}			
-   			##queryPolyproject::upPatientGroup($buffer->dbh,$fieldI[$i],$fieldGN[$i]) if ($fieldGN[$i]);
-   			##queryPolyproject::removeGroup2patient($buffer->dbh,$fieldI[$i]) unless ($fieldGN[$i]);
+   			#queryPolyproject::upPatientGroup($buffer->dbh,$fieldI[$i],$fieldGN[$i]) if ($fieldGN[$i]);
+   			#queryPolyproject::removeGroup2patient($buffer->dbh,$fieldI[$i]) unless ($fieldGN[$i]);
  			unless ($fieldGN[$i]) {					
    				queryPolyproject::removeGroup2patient($buffer->dbh,$fieldI[$i]);
 				my $last_groupid = queryPolyproject::newGroup($buffer->dbh,$fieldGNname[$i]);
@@ -960,6 +960,16 @@ sub addPatientRunSection {
 	$gbarcode=~ s/\n/;/g;
 	my @bcg=split(/,/,$gbarcode);
 
+	my $lane = $cgi->param('lane');
+	$lane=~ s/ //g;
+	$lane=~ s/_/ /g;
+	$lane=~ s/\n/;/g;
+	my @llane=split(/,/,$lane);
+	my $reads = $cgi->param('reads');
+	$reads=~ s/ //g;
+	$reads=~ s/\n/;/g;
+	my @lreads=split(/,/,$reads);
+
 	my $p_person = $cgi->param('person');
 	$p_person=~ s/ //g;
 	$p_person=~ s/\n/;/g;
@@ -1118,7 +1128,7 @@ sub addPatientRunSection {
 				}
 				$profileid=0 unless defined $profileid;
 				$profileid=0 unless $profileid;
-				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid);
+				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i]);
 				my $patient_id=$last_patient_id->{'LAST_INSERT_ID()'};
 				my $personRunList= queryPerson::getPatientPersonInfo_byPersonName_Run($buffer->dbh,$person[$i]);
 				my @existPers=map{$_->{person_id}}@$personRunList;
@@ -1444,6 +1454,12 @@ sub updatePatientRunSection {
 	
 	my $listGroup = $cgi->param('group');
 		my @fieldGNname= split(/,/,$listGroup,-1);#-1 for not empty element
+
+	my $listLane = $cgi->param('lane');
+		#$listLane=~ s/_/ /g;	# Lane: This is done in queryPolyproject::upPatientRun	
+		my @fieldLane = split(/,/,$listLane);
+	my $listReads = $cgi->param('reads');
+		my @fieldReads = split(/,/,$listReads);			
 		
 # Extended	options
 	my $extended=0;
@@ -1594,6 +1610,7 @@ sub updatePatientRunSection {
 		
 		$param.="sex=".$fieldS[$i]." " if ($fieldS[$i]);
 		$param.="status=".$fieldT[$i]." " if ($fieldT[$i]);
+		
 		$param.="bar_code=".$fieldB[$i]." " if ($fieldB[$i]);
 		$param.="bar_code=".""." " if ($pbc && !$fieldB[$i]);
 
@@ -1602,6 +1619,9 @@ sub updatePatientRunSection {
 		
 		$param.="identity_vigilance=".$fieldBG[$i]." " if ($fieldBG[$i]);
 		$param.="identity_vigilance=".""." " if ($piv && !$fieldBG[$i]);
+		
+		$param.="lane=".$fieldLane[$i]." " if ($fieldLane[$i]);
+		$param.="nb_reads=".$fieldReads[$i]." " if ($fieldReads[$i]);
 		chop($param);
 		if ($fieldF[$i]) {
 			#warn Dumper $fieldF[$i];
@@ -2222,6 +2242,12 @@ sub genomicRunPatientSection {
 		$s{profile}="";
 		$profiles = queryPolyproject::getProfile_byId($buffer->dbh,$c->{profile_id}) if $c->{profile_id};
 		$s{profile}=$profiles->[0]->{name} if $c->{profile_id};
+		#lane 
+		$s{lane}="";
+		$s{lane}=$c->{lane} if $c->{lane};
+		#reads
+		$s{reads}="";
+		$s{reads}=$c->{nb_reads} if $c->{nb_reads}>0;
 		
 		#Phenotype Patient
 		my $patPhenotype = queryPolyproject::getPatientPhenotype($buffer->dbh,$s{PatId});

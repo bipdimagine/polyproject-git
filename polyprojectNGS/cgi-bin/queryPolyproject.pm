@@ -2814,10 +2814,15 @@ sub upPatientRun {
 	my $v5;
 	my $v6;
 	my $v7;
+	my $v8;
+	my $v9;
 	
 	my $nb;
 	for (my $i = 0; $i< scalar(@opt); $i++) {
 		my @val = split(/=/,$opt[$i]);
+		if ($val[0] eq "lane") {  # need space for lane instead of "_"
+			$val[1]=~ s/_/ /g;		
+		}		
 		$set.=$val[0]."=?,";
 		$v0=$val[1] if $i==0;
 		$v0="" if ($i==0 && !defined $val[1]);
@@ -2835,6 +2840,10 @@ sub upPatientRun {
 		$v6="" if ($i==6 && !defined $val[1]);
 		$v7=$val[1] if $i==7;
 		$v7="" if ($i==7 && !defined $val[1]);
+		$v8=$val[1] if $i==8;
+		$v8="" if ($i==8 && !defined $val[1]);
+		$v9=$val[1] if $i==9;
+		$v9="" if ($i==9 && !defined $val[1]);
 		$nb++;
 	};
 	chop($set);
@@ -2854,9 +2863,11 @@ sub upPatientRun {
 	$sth->execute($v0,$v1,$v2,$v3,$v4,$v5) if $nb==6;
 	$sth->execute($v0,$v1,$v2,$v3,$v4,$v5,$v6) if $nb==7;
 	$sth->execute($v0,$v1,$v2,$v3,$v4,$v5,$v6,$v7) if $nb==8;
+	$sth->execute($v0,$v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8) if $nb==9;
+	$sth->execute($v0,$v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8,$v9) if $nb==10;
 	$sth->finish;
 	return;
-} 
+}
 
 sub addPatientInfo {
         my ($dbh,$patname,$patname,$rid,$sex,$status,$desPat,$bc,$iv,$flowcell,$family,$father,$mother,$capid,$pid) = @_;
@@ -3581,10 +3592,10 @@ sub addPatientRun {
 } 
 
 sub newPatientRun {
-	my ($dbh,$patient,$origin,$rid,$captureid,$fam,$fc,$bc,$bc2,$iv,$father,$mother,$sex,$status,$type,$speciesid,$profileid) = @_;
+	my ($dbh,$patient,$origin,$rid,$captureid,$fam,$fc,$bc,$bc2,$iv,$father,$mother,$sex,$status,$type,$speciesid,$profileid,$lane,$reads) = @_;
 	my $query = qq{    
- 		insert into PolyprojectNGS.patient (name,origin,run_id,capture_id,family,flowcell,bar_code,bar_code2,identity_vigilance,father,mother,sex,status,type,species_id,profile_id) 
- 		values ("$patient","$origin","$rid","$captureid","$fam","$fc","$bc","$bc2","$iv","$father","$mother","$sex","$status","$type","$speciesid","$profileid");
+ 		insert into PolyprojectNGS.patient (name,origin,run_id,capture_id,family,flowcell,bar_code,bar_code2,identity_vigilance,father,mother,sex,status,type,species_id,profile_id,lane,nb_reads) 
+ 		values ("$patient","$origin","$rid","$captureid","$fam","$fc","$bc","$bc2","$iv","$father","$mother","$sex","$status","$type","$speciesid","$profileid","$lane","$reads");
 	};
 	$dbh->do($query);
 	my $sql = qq{    
@@ -3594,7 +3605,7 @@ sub newPatientRun {
 	$sth->execute();
 	my $s = $sth->fetchrow_hashref();
 	return $s;
-} 
+}
 
 sub isPatientMethod {
 	my ($dbh,$patientid,$methodid) = @_;

@@ -417,6 +417,16 @@ sub genomicRunSection {
 	$gbarcode=~ s/\n/;/g;
 	my @bcg=split(/,/,$gbarcode);
 
+	my $lane = $cgi->param('lane');
+	$lane=~ s/ //g;
+	$lane=~ s/_/ /g;
+	$lane=~ s/\n/;/g;
+	my @llane=split(/,/,$lane);
+	my $reads = $cgi->param('reads');
+	$reads=~ s/ //g;
+	$reads=~ s/\n/;/g;
+	my @lreads=split(/,/,$reads);
+
 	my $p_person = $cgi->param('person');
 	$p_person=~ s/ //g;
 	$p_person=~ s/\n/;/g;
@@ -442,7 +452,6 @@ sub genomicRunSection {
 	for (my $i = 0; $i< scalar(@s_personsearch); $i++) {
 		$hash_pers->{$s_personsearch[$i]} = $s_person[$i].",".$s_personid[$i];
 	}
-#	warn Dumper $hash_pers;
 ### Autocommit dbh ###########
 	my $dbh = $buffer->dbh;
 	$dbh->{AutoCommit} = 0;
@@ -496,7 +505,6 @@ sub genomicRunSection {
 				for my $y (@$personList) {
 					#next if $y->{person}=~ m/^[A-Z]{2}[0-9]{10}$/;
 					next if $seen{$y->{person_id}}++;
-#					die;
 					my %si;
 					$si{Row} = $row++;
 					$si{imax} = 0;
@@ -649,7 +657,8 @@ sub genomicRunSection {
 				}
 				$profileid=0 unless defined $profileid;
 				$profileid=0 unless $profileid;
-				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid);
+#				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid);
+				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i]);
 				my $patient_id=$last_patient_id->{'LAST_INSERT_ID()'};
 
 				# phase 1
@@ -778,6 +787,8 @@ sub genomicRunSection {
 	}
 }
 
+
+####OLDD
 sub new_PersonName {
 	my ($row,$person,$List) = @_;
 	my @simPers=split('__',join(',',map{$_->{person}}@$List));

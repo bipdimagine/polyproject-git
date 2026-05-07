@@ -3593,6 +3593,8 @@ function newRun() {
 	var bc2Patient=[];
 	var bcgPatient=[];
 	var namePerson=[];
+	var groupLane=[];
+	var groupRead=[];
 	for(var i=0; i<LinesPatient.length; i++) {
 		var fgrp;
 		var fpat;
@@ -3605,6 +3607,8 @@ function newRun() {
 		var fbc2;
 		var fbcg;
 		var fpers;
+		var flan;
+		var frea;
 		var fieldPatient=LinesPatient[i].split("\t");
 //		var fieldPatient=LinesPatient[i].split("\\s+");.toLowerCase()
 		if (fieldPatient == ""){
@@ -3663,10 +3667,16 @@ function newRun() {
 					case "person":
 					fpers=j;
 					break;
+					case "lane":
+					flan=j;
+					break;
+					case "reads":
+					frea=j;
+					break;
 					default:
 					textError.setContent("The Header Tabulated List is not Good!!!<BR>"+
-					"Field in Header: Patient Group Family Father Mother Sex Status BC BC2 IV Person<BR>"+
-					"Needs First field Patient then no order, no case sensitive,BC=Bar Code,BC2=Bar Code 2,IV=Identity Vigilance,Person=Reffering Person Name");
+					"Field in Header: Patient Group Family Father Mother Sex Status BC BC2 IV Lane Reads Person<BR>"+
+					"Needs First field Patient then no order, no case sensitive,BC=Bar Code,BC2=Bar Code 2,IV=Identity Vigilance,Lane=Plate Well,Reads=Number of Reads,Person=Reffering Person Name");
 					myError.show();
 					return;
 				}			
@@ -3748,6 +3758,10 @@ if (typeof(fbcg) == "undefined" ||typeof(fieldPatient[fbcg]) == "undefined"||fie
 		bcgPatient.push(fieldPatient[fbcg].toUpperCase());
 if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||fieldPatient[fpers]==0) {fieldPatient[fpers]=""}
 		namePerson.push(fieldPatient[fpers]);
+		if (typeof(fieldPatient[flan])=="undefined"||typeof(flan)=="undefined"||fieldPatient[flan]==0) {fieldPatient[flan]=""}
+		groupLane.push(fieldPatient[flan]);
+		if (typeof(fieldPatient[frea])=="undefined"||typeof(frea)=="undefined"||fieldPatient[frea]==0) {fieldPatient[frea]=""}
+		groupRead.push(fieldPatient[frea]);
 	}
 // ### Patient Name Length ####//
 	for(var i=0; i<namePatient.length;i++ ) {
@@ -3846,7 +3860,7 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 	}
 
 //	if (namePatient.length !== check_Rnbpat) {
-
+	groupLane=groupLane.toString().replace(/ /g,"_");
 	check_Rnbpat=namePatient.length;
 // Sample sheet file 
 	var s_runSamplesheet = document.getElementById("runSamplesheet").value;
@@ -3878,7 +3892,9 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 					"&type="+ rtypeFormvalue +
 					"&person="+ namePerson +
 					"&file="+ s_runSamplesheet +
-					"&profileId="+ desFormvalue.profileName
+					"&profileId="+ desFormvalue.profileName +
+					"&lane=" + groupLane +
+					"&reads=" + groupRead
 					;
 	if (btn) {
 		options=options	+ 
@@ -3891,6 +3907,8 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 	}
 // #############################
 // Method POST
+//	console.log(prog_url);
+//	console.log(options);
 	var res=senDataExtendedPost(prog_url,options);
 	res.addCallback(
 		function(response) {
@@ -4332,6 +4350,8 @@ function addPatient() {
 	var bc2Patient=[];
 	var bcgPatient=[];
 	var namePerson=[];
+	var groupLane=[];
+	var groupRead=[];
 
 	for(var i=0; i<LinesPatient.length; i++) {
 		var fgrp;
@@ -4345,6 +4365,8 @@ function addPatient() {
 		var fbc2;
 		var fbcg;
 		var fpers;
+		var flan;
+		var frea;
 		var fieldPatient=LinesPatient[i].split("\t");
 //		var fieldPatient=LinesPatient[i].split("\\s+");.toLowerCase()
 		if (fieldPatient == ""){
@@ -4404,10 +4426,16 @@ function addPatient() {
 					case "person":
 					fpers=j;
 					break;
+					case "lane":
+					flan=j;
+					break;
+					case "reads":
+					frea=j;
+					break;
 					default:
 					textError.setContent("The Header Tabulated List is not Good!!!<BR>"+
-					"Field in Header: Patient Group Family Father Mother Sex Status BC BC2 IV Person<BR>"+
-					"Needs First field Patient then no order, no case sensitive,BC=Bar Code,BC2=Bar Code 2,IV=Identity Vigilance,Person=Reffering Person Name");
+					"Field in Header: Patient Group Family Father Mother Sex Status BC BC2 IV Lane Reads Person<BR>"+
+					"Needs First field Patient then no order, no case sensitive,BC=Bar Code,BC2=Bar Code 2,IV=Identity Vigilance,Lane=Plate Well,Reads=Number of Reads,Person=Reffering Person Name");
 					myError.show();
 					return;
 				}			
@@ -4476,6 +4504,10 @@ if (typeof(fbcg) == "undefined" ||typeof(fieldPatient[fbcg]) == "undefined"||fie
 		bcgPatient.push(fieldPatient[fbcg].toUpperCase());
 if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||fieldPatient[fpers]==0) {fieldPatient[fpers]=""}
 		namePerson.push(fieldPatient[fpers]);
+		if (typeof(fieldPatient[flan])=="undefined"||typeof(flan)=="undefined"||fieldPatient[flan]==0) {fieldPatient[flan]=""}
+		groupLane.push(fieldPatient[flan]);
+		if (typeof(fieldPatient[frea])=="undefined"||typeof(frea)=="undefined"||fieldPatient[frea]==0) {fieldPatient[frea]=""}
+		groupRead.push(fieldPatient[frea]);
 	}
 // ### Patient Name Length ####//
 	for(var i=0; i<namePatient.length;i++ ) {
@@ -4562,6 +4594,7 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 			}
 		}
 	}
+	groupLane=groupLane.toString().replace(/ /g,"_");
 	check_Rnbpat=namePatient.length;
 	var prog_url=url_path + "/manageData.pl";
 	var options="option=addPatientRun" +
@@ -4582,7 +4615,9 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 					"&bc2=" + bc2Patient +					
 					"&iv=" + bcgPatient +					
 					"&person="+ namePerson +
-					"&profileId="+ desFormvalue.a_profileName
+					"&profileId="+ desFormvalue.a_profileName +
+					"&lane=" + groupLane +
+					"&reads=" + groupRead
 					;
 	if (btn) {
 		options=options	+ 
@@ -4593,9 +4628,8 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 		"&method_call="+ CallGroups +
 		"&method_other="+ OthersGroups;
 	}
-//console.log(prog_url);
-//console.log(options);
-//console.log(namePerson);
+//	console.log(prog_url);
+//	console.log(options);
 	var res=senDataExtendedPost(prog_url,options);
 	res.addCallback(
 		function(response) {
@@ -7091,6 +7125,8 @@ function showRun(rid,somatic,capRel,capAnalyse){
 		{ field: 'flowcell',name: 'FC',width: '3em', editable: true,
 		type: dojox.grid.cells.Select, options: [ 'A','B',' '],formatter:zero,
 		widgetProps:{required:false}},
+		{ field: "lane", name: "Lane", width: '15em'},
+		{ field: "reads", name: "nbReads", width: '5em'},
 		{ field: "phenotype", name: "Phenotype", width: '12em'},
 		{ field: "MethAln", name: "Alignment", width: '10em', editable: true,required:true,
 		type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect',
@@ -7365,14 +7401,16 @@ type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect',widgetP
 
 function set_ColVisibility(grid,visibility){
 	grid.beginUpdate();
-//	grid.layout.setColumnVisibility(32, visibility);
-	grid.layout.setColumnVisibility(33, visibility);
-	grid.layout.setColumnVisibility(34, visibility);
+//	grid.layout.setColumnVisibility(32, visibility);//toto
+//	grid.layout.setColumnVisibility(33, visibility);
+//	grid.layout.setColumnVisibility(34, visibility);
 	grid.layout.setColumnVisibility(35, visibility);
 	grid.layout.setColumnVisibility(36, visibility);
 	grid.layout.setColumnVisibility(37, visibility);
 	grid.layout.setColumnVisibility(38, visibility);
 	grid.layout.setColumnVisibility(39, visibility);
+	grid.layout.setColumnVisibility(40, visibility);
+	grid.layout.setColumnVisibility(41, visibility);
 	grid.endUpdate();
 }
 
@@ -7459,6 +7497,8 @@ function updateRunPatient() {
 	var bc2Patient=[];
 	var bcgPatient=[];
 	var namePerson=[];
+	var groupLane=[];
+	var groupRead=[];
 	var fpat;
 	var fgrp;
 	var ffam;
@@ -7470,6 +7510,8 @@ function updateRunPatient() {
 	var fbc2;
 	var fbcg;
 	var fpers;
+	var flan;
+	var frea;
 
 	var param="";
 	for(var i=0; i<LinesPatientUP.length; i++) {
@@ -7514,11 +7556,16 @@ function updateRunPatient() {
 					case "person":
 					fpers=j;
 					break;
-
+					case "lane":
+					flan=j;
+					break;
+					case "reads":
+					frea=j;
+					break;
 					default:
-						textError.setContent("The Header Tabulated List is not Good!!!<BR>"+
-					"Field in Header: Patient Group Family Father Mother Sex Status BC BC2 IV Person<BR>"+
-					"Needs First field Patient then no order, no case sensitive,BC=Bar Code,BC2=Bar Code 2,IV=Identity Vigilance,Person=Reffering Person Name");
+					textError.setContent("The Header Tabulated List is not Good!!!<BR>"+
+					"Field in Header: Patient Group Family Father Mother Sex Status BC BC2 IV Lane Reads Person<BR>"+
+					"Needs First field Patient then no order, no case sensitive,BC=Bar Code,BC2=Bar Code 2,IV=Identity Vigilance,Lane=Plate Well,Reads=Number of Reads,Person=Reffering Person Name");
 						myError.show();
 						return;
 				}
@@ -7601,6 +7648,20 @@ function updateRunPatient() {
 				namePerson.push("");
 			}
 		}
+		if (typeof(flan) != "undefined") {
+			if (fieldPatient[flan]) {
+				groupLane.push(fieldPatient[flan]);
+			} else {
+				groupLane.push("");
+			}
+		}
+		if (typeof(frea) != "undefined") {
+			if (fieldPatient[frea]) {
+				groupRead.push(fieldPatient[frea]);
+			} else {
+				groupRead.push("");
+			}
+		}
 	}
 	param +="&RunSel="+ selrun;
 	param +="&species="+ s_species;
@@ -7637,14 +7698,19 @@ function updateRunPatient() {
 	if (fpers>=0) {
 		param +="&person="+ namePerson;
 	}
+	if (flan>=0) {
+		groupLane=groupLane.toString().replace(/ /g,"_");
+		param +="&lane="+ groupLane;
+	}
+	if (frea>=0) {
+		param +="&reads="+ groupRead;
+	}
 
 	if (!fieldPatient[fpat]) {
 		textError.setContent("Error: <b>No Patients entered...</b>");
 		myError.show();
 		return;
 	}
-
-
 	var url_insert = url_path + "/manageData.pl?option=updatePatientRun" + param;
 	var prog_url=url_path + "/manageData.pl";
 	var options="option=updatePatientRun" + param;

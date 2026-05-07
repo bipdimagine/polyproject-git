@@ -630,7 +630,7 @@ data-dojo-props="href:'monitoring.html', executeScripts: true">
 						</div>
 			</div>
 			<div dojoType="dijit.layout.ContentPane" region="left"
-			style="width: 29%; margin: 0; padding: 0;white-space:nowrap;" align="center">
+			style="width: 28%; margin: 0; padding: 0;white-space:nowrap;" align="center">
 				<div dojoType="dijit.form.Form" id="desForm" jsId="desForm">
 					<div dojoType="dijit.Tooltip" connectId="NRF" position="above">
 						<label class="tooltip">
@@ -799,7 +799,7 @@ style="height:16;width:90;margin:0;padding:0;float: top; border-radius: 8px;back
 				</TABLE>
 			</div>
 			<div dojoType="dijit.layout.ContentPane" region="center"
-			style="width: 37%; margin: 0; padding: 0;white-space:nowrap;" align="center">
+			style="width: 35%; margin: 0; padding: 0;white-space:nowrap;" align="center">
 				<div dojoType="dijit.form.Form" id="relCapForm" jsId="relCapForm">
 					<!--table of tables -->
 					<TABLE>
@@ -866,7 +866,7 @@ style="height:16;width:90;margin:0;padding:0;float: top; border-radius: 8px;back
 				</div>
 			</div>
 			<div dojoType="dijit.layout.ContentPane" region="right" data-dojo-props="splitter:true"
-				style="width: 34%; margin: 0; padding: 0;white-space:nowrap;" align="center">
+				style="width: 37%; margin: 0; padding: 0;white-space:nowrap;" align="center">
 				<!-- Upload SampleSheet File  style="display: none;"-->
 				<div dojoType="dijit.Tooltip" connectId="USS" position="below">
 						<label class="tooltip">
@@ -916,9 +916,11 @@ style="height:16;width:90;margin:0;padding:0;float: top; border-radius: 8px;back
 						<label class="tooltip">
 						<i>The Tabulated Header must contain:<ul>
 						<li>first field : Patient</li>
-						<li>Max: 11 fields, first field: Patient,  then other field: no order</li>
-						<li>Patient Group Family Father Mother Sex Status BC BC2 IV Person</li>
+						<li>Max: 13 fields, first field: Patient,  then other field: no order</li>
+						<li>Patient Group Family Father Mother Sex Status BC BC2 IV Lane Reads Person</li>
 						<li>IV: Identity Vigilance</li>
+						<li>Lane: Lane - Plate Well</li>
+						<li>Reads: Number of Reads</li>
 						<li>Person: Reffering Person Name</li>
 						</ul>
 						<b>Example of desired columns</b> Patient Sex IV:
@@ -932,14 +934,14 @@ style="height:16;width:90;margin:0;padding:0;float: top; border-radius: 8px;back
 						<label for="Rpatient">
 						<b>Column Tabulated List with Header:</b>
 						<i style="font-size:70%">(Copy/Paste from your Excel File)</i><br>
-<a style="font-size:90%">Patient&nbsp;&nbsp;Group&nbsp;&nbsp;Family&nbsp;&nbsp;Father&nbsp;&nbsp;Mother&nbsp;&nbsp;Sex&nbsp;&nbsp;Status&nbsp;&nbsp;BC&nbsp;&nbsp;BC2&nbsp;&nbsp;IV&nbsp;&nbsp;Person</a>
+<a style="font-size:90%">Patient&nbsp;&nbsp;Group&nbsp;&nbsp;Family&nbsp;&nbsp;Father&nbsp;&nbsp;Mother&nbsp;&nbsp;Sex&nbsp;&nbsp;Status&nbsp;&nbsp;BC&nbsp;&nbsp;BC2&nbsp;&nbsp;IV&nbsp;&nbsp;Lane&nbsp;&nbsp;Reads&nbsp;&nbsp;Person</a>
 						<img id="CL" src="icons/information.png"></label>
 						</tr>
 						<!--Enable tab key inside textarea onKeyDown="keyTab"-->
 						<tr>
 						<td><textarea id="Rpatient" name="Rpatient" onKeyDown="keyTab"
-							dojoType="dijit.form.SimpleTextarea" rows="30" cols="50"
-							style="width: 28em;" value=""></textarea></td>
+							dojoType="dijit.form.SimpleTextarea" rows="32" cols="50"
+							style="width: 30em;" value=""></textarea></td>
 						</tr>
 					</table>
 				</div>
@@ -2718,7 +2720,7 @@ title="<span style='width:50%;font-size:125%;' class='cl_block_left'>Exon Captur
 							Upload Files
 							</td>
 							</tr>
-							<!-- Capture toto-->
+							<!-- Capture -->
 							<tr>
 							<td>Capture</td>
 							<td><label for="capFile">File Name</label></td>
@@ -3531,10 +3533,12 @@ style="height:16;width:90;margin:0;padding:0;float: top; border-radius: 8px;back
 				<div dojoType="dijit.Tooltip" connectId="CL" position="below">
 						<label class="tooltip">
 						<i>The Tabulated Header must contain:<ul>
-						<li> first field : Patient</li>
-						<li> Max: 11 fields, first field: Patient,  then other field: no order</li>
-						<li>Patient Group Family Father Mother Sex Status BC BC2 IV Person</li>
+						<li>first field : Patient</li>
+						<li>Max: 13 fields, first field: Patient,  then other field: no order</li>
+						<li>Patient Group Family Father Mother Sex Status BC BC2 IV Lane Reads Person</li>
 						<li>IV: Identity Vigilance</li>
+						<li>Lane: Lane - Plate Well</li>
+						<li>Reads: Number of Reads</li>
 						<li>Person: Reffering Person Name</li>
 						</ul>
 						<b>Example of desired columns</b> Patient Sex IV:
@@ -3548,7 +3552,7 @@ style="height:16;width:90;margin:0;padding:0;float: top; border-radius: 8px;back
 				<label for="a_Rpatient">
 				<b>Column Tabulated List with Header:</b>
 				<i style="font-size:70%">(Copy/Paste from your Excel File)</i><br>
-<a style="font-size:90%">Patient&nbsp;&nbsp;Group&nbsp;&nbsp;Family&nbsp;&nbsp;Father&nbsp;&nbsp;Mother&nbsp;&nbsp;Sex&nbsp;&nbsp;Status&nbsp;&nbsp;BC&nbsp;&nbsp;BC2&nbsp;&nbsp;IV&nbsp;&nbsp;Person</a>
+<a style="font-size:90%">Patient&nbsp;&nbsp;Group&nbsp;&nbsp;Family&nbsp;&nbsp;Father&nbsp;&nbsp;Mother&nbsp;&nbsp;Sex&nbsp;&nbsp;Status&nbsp;&nbsp;BC&nbsp;&nbsp;BC2&nbsp;&nbsp;IV&nbsp;&nbsp;Lane&nbsp;&nbsp;Reads&nbsp;&nbsp;Person</a>
 
 				<img id="CL" src="icons/information.png"></label>
 				</tr>
@@ -3585,9 +3589,11 @@ title="<span style='float:left;width:40%;font-size:125%;text-align:left'>Update 
 						Only Update Patients<br>
 						<i>The Tabulated Header must contain:<ul>
 						<li>first field : Patient</li>
-						<li>Max: 11 fields, first field: Patient,  then other field: no order</li>
-						<li>Patient Group Family Father Mother Sex Status BC BC2 IV Person</li>
+						<li>Max: 13 fields, first field: Patient,  then other field: no order</li>
+						<li>Patient Group Family Father Mother Sex Status BC BC2 IV Lane Reads Person</li>
 						<li>IV: Identity Vigilance</li>
+						<li>Lane: Lane - Plate Well</li>
+						<li>Reads: Number of Reads</li>
 						<li>Person: Reffering Person Name</li>
 						</ul>
 						<b>Example of desired columns</b> Patient Sex IV:
@@ -3598,7 +3604,7 @@ title="<span style='float:left;width:40%;font-size:125%;text-align:left'>Update 
 					</div>
 				<table width="100%" height="5%" style="border: 0; margin: 0; padding: 0;white-space:nowrap;">
 				</tr>
-										<td width="27%" align="center" height="100%"
+				<td width="27%" align="center" height="100%"
 				style="border: 5px solid grey; margin: 0; padding: 0;background:#EC6E24"><B>Species</B>&nbsp;
 						<input id="b_speciesName">
 				</td>
@@ -3610,7 +3616,7 @@ title="<span style='float:left;width:40%;font-size:125%;text-align:left'>Update 
 					<label for="RpatientUP">
 					<b>Column Tabulated List with Header:</b>
 					<i style="font-size:70%">(Copy/Paste from your Excel File)</i><br>
-<a style="font-size:90%">Patient&nbsp;&nbsp;Group&nbsp;&nbsp;Family&nbsp;&nbsp;Father&nbsp;&nbsp;Mother&nbsp;&nbsp;Sex&nbsp;&nbsp;Status&nbsp;&nbsp;BC&nbsp;&nbsp;BC2&nbsp;&nbsp;IV&nbsp;&nbsp;Person</a>
+<a style="font-size:90%">Patient&nbsp;&nbsp;Group&nbsp;&nbsp;Family&nbsp;&nbsp;Father&nbsp;&nbsp;Mother&nbsp;&nbsp;Sex&nbsp;&nbsp;Status&nbsp;&nbsp;BC&nbsp;&nbsp;BC2&nbsp;&nbsp;IV&nbsp;&nbsp;Lane&nbsp;&nbsp;Reads&nbsp;&nbsp;Person</a>
 
 					<img id="CLUP" src="icons/information.png"></label>
 					</tr>

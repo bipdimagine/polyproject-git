@@ -88,15 +88,15 @@
 	margin: 0 auto;
 }
 
-.projRun {
-	width: 100%;
-	max-width: 91em;
-	height: 100%;
-	max-height: 68em;
-	margin: 0;
-	padding:0;
+.dijitDialog.projRun {
+	width: 85vw !important;
+	height: 85vh !important;
+	max-width: none !important;
+	max-height: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
 	white-space:nowrap;
-	overflow: hidden;
+	overflow: hidden !important;
 }
 
 .runPerson {
@@ -145,17 +145,7 @@
 	margin: 0;
 	padding:0;
 }
-/*
-.showRun {
-	width: 100%;
-	max-width: 91em;
-	height: 100%;
-	max-height: 68em;
-	margin: 0;
-	padding:0;
-	white-space:nowrap;
-}
-*/
+
 .dijitDialog.showRun {
 	width: 90vw !important;
 	height: 90vh !important;
@@ -276,18 +266,6 @@
 	margin: 0 auto;
 }
 
-/*
-.projEdit {
-	width: 100%;
-	max-width: 91em;
-	height: 100%;
-	max-height: 68em;
-	margin: 0;
-        padding:0;
-	border:none;
-	white-space:nowrap;
-}
-*/
 .dijitDialog.projEdit {
 	width: 90vw !important;
 	height: 90vh !important;
@@ -408,7 +386,6 @@
 	padding:0;
 	white-space:nowrap;
 }
-
 
 #toolbar_newproject {
 	background: transparent;
@@ -648,12 +625,10 @@
 }
 
 .tundra .dojoxGridRow .dojoxGridCell {
-/*	padding:0;*/
 	padding-top: 0;
 	padding-bottom: 0;
 	margin:0;
 }
-
 
 .tundra .dojoxGridRow {
 	background-color: #DDDDC9;
@@ -689,7 +664,6 @@
 	border: 0;
 }
 
-/* */
 .tundra .dojoxGridHeader .dojoxGridCell {
 	border-color: #EA5F0E;
 	background: #EC6E24;
@@ -822,14 +796,7 @@
 	background: linear-gradient(#510303, brown);
 	color:white;
 }
-/*
-.tundra .dijitTooltipContainer {	
-	border: 1px solid #696B43;
-	padding: 0.45em;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-}
-*/
+
 .tundra .dijitTooltipContainer {	
 	border: 1px solid #696B43;
 	padding: 0.45em;
@@ -911,7 +878,6 @@
 	margin-right:30px;
 	margin-top:-2px;
 	width:15%;
-//	border: 1px solid blue;
 }
 
 .cl_filter {
@@ -938,7 +904,6 @@
 	margin:2;padding:2
 }
 
-
 .cl_button_span {
 	display: inline-block;
 	background: transparent;
@@ -946,9 +911,7 @@
 	vertical-align: top;
 	text-align:right;
 	white-space:nowrap;
-//	width:1%;
 	padding:0;
-//	border: 1px solid blue;
 }
 
 .cl_button_span_right {
@@ -963,7 +926,6 @@
 	margin-right:-2px;
 	border:none;
 	white-space:nowrap;
-//	border: 1px solid blue;
 }
 
 .cl_button_span_nowidth {
@@ -1072,7 +1034,6 @@ span.cl_block_left {
         background: linear-gradient(right,#1E303D,#15A584,rgba(0,255,0,0));
 }
 
-
 #TableErrorGenome {
         background: white;
 	color:red;
@@ -1082,7 +1043,6 @@ span.cl_block_left {
 	font-size:70%;
 	line-height:70%;
 	width:100%;
-//	height:3px;
 	margin:0;padding:0;white-space:nowrap;
  	animation: blink-animation 1s steps(5, start) infinite;
 	-webkit-animation: blink-animation 1s steps(5, start) infinite;
@@ -1274,4 +1234,24 @@ tr.dojoxCheckedMultiSelectMenuItemChecked td.dijitMenuItemIconCell {
 
 #stat-table {width:100%;} 
 #stat-table td{width:1em;}
+#stat-btntable {width:100%;} 
+#stat-btntable td{width:1em;}
+
+.checkBtn {
+	margin: 5px;
+	/*border: 0 !important;*/
+	border: 1px solid grey !important;
+	box-shadow: none !important; /* Souvent nécessaire pour enlever l'effet de relief */
+	background-image: none !important;/*	border:0;*/
+}
+
+#output-toolbar {
+	background:transparent;
+}
+
+
+
+
+
+
 
