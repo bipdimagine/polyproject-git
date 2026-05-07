@@ -5771,6 +5771,8 @@ function showProject(id,name,somatic){
 		{ field: 'flowcell',name: 'FC',width: '3em', editable: true,
 		type: 'dojox.grid.cells.Select', options: [ 'A','B',' '],formatter:zero,
 		widgetProps:{required:false}},
+		{ field: "lane", name: "Lane", width: '15em'},
+		{ field: "reads", name: "nbReads", width: '5em'},
 		{ field: "phenotype", name: "Phenotype", width: '15'},
 		{ field: "RunId",name: "Run",width: '4', formatter:colorRun},
 		{ field: "nameRun",name: "Run Name", width: '20', formatter:colorRun},
@@ -5918,7 +5920,7 @@ function showProject(id,name,somatic){
 		if (itemR) {
 			if (itemR.Status==2 && itemR.phenotype.toString()!= "") {
  				var ndsex = dojo.query('td[idx="11"]'  /* <= put column index here-> for Status */, row.node)[0];
-				var ndphe = dojo.query('td[idx="21"]'  /* <= put column index here-> for phenotype */, row.node)[0];
+				var ndphe = dojo.query('td[idx="23"]'  /* <= put column index here-> for phenotype */, row.node)[0];
 				ndsex.style.backgroundColor = "#CCCC99";
 				ndphe.style.backgroundColor = "#CCCC99";
 			}
@@ -7432,14 +7434,16 @@ function chgPerson2(a){
 
 function set_ColVisibility2(grid,visibility){
 	grid.beginUpdate();
-	grid.layout.setColumnVisibility(31, visibility);// pas de User Plt
-	grid.layout.setColumnVisibility(32, visibility);
+//	grid.layout.setColumnVisibility(31, visibility);// pas de User Plt
+//	grid.layout.setColumnVisibility(32, visibility);
 	grid.layout.setColumnVisibility(33, visibility);
 	grid.layout.setColumnVisibility(34, visibility);
 	grid.layout.setColumnVisibility(35, visibility);
 	grid.layout.setColumnVisibility(36, visibility);
 	grid.layout.setColumnVisibility(37, visibility);
 	grid.layout.setColumnVisibility(38, visibility);
+	grid.layout.setColumnVisibility(39, visibility);
+	grid.layout.setColumnVisibility(40, visibility);
 	grid.endUpdate();
 }
 

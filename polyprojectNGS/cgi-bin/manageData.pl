@@ -4953,6 +4953,13 @@ sub PatientProjectSection {
 		$s{phenotype}="";
 		my $patPhenotype = queryPolyproject::getPatientPhenotype($buffer->dbh,$c->{patient_id});
 		$s{phenotype}=join(",",map{$_->{name}}@$patPhenotype) if defined $patPhenotype;		
+		#lane 
+		$s{lane}="";
+		$s{lane}=$c->{lane} if $c->{lane};
+		#reads
+		$s{reads}="";
+		$s{reads}=$c->{nb_reads} if $c->{nb_reads}>0;
+
 		my @datec = split(/ /,$c->{cDate});
 		my ($YY, $MM, $DD) = split("-", $datec[0]);
 		my $mydate = sprintf("%02d/%02d/%4d",$DD, $MM, $YY);
