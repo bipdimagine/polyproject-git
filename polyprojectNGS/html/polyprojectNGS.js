@@ -7327,7 +7327,7 @@ type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect',widgetP
 				//var nd15 = dojo.query('td[idx="15"]'  /* <= put column index here-> for Status */, row.node)[0];
 				//var nd23 = dojo.query('td[idx="23"]'  /* <= put column index here-> for phenotype */, row.node)[0];
 				var ndsex = dojo.query('td[idx="14"]'  /* <= put column index here-> for Status */, row.node)[0];
-				var ndphe = dojo.query('td[idx="24"]'  /* <= put column index here-> for phenotype */, row.node)[0];
+				var ndphe = dojo.query('td[idx="26"]'  /* <= put column index here-> for phenotype */, row.node)[0];
 				ndsex.style.backgroundColor = "#CCCC99";
 				ndphe.style.backgroundColor = "#CCCC99";
 			}
