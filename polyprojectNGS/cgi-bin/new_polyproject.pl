@@ -411,12 +411,10 @@ sub genomicRunSection {
 	$barcode2=~ s/ //g;
 	$barcode2=~ s/\n/;/g;
 	my @bc2=split(/,/,$barcode2);
-
 	my $gbarcode = $cgi->param('iv');
 	$gbarcode=~ s/ //g;
 	$gbarcode=~ s/\n/;/g;
 	my @bcg=split(/,/,$gbarcode);
-
 	my $lane = $cgi->param('lane');
 	$lane=~ s/ //g;
 	$lane=~ s/_/ /g;
@@ -657,6 +655,8 @@ sub genomicRunSection {
 				}
 				$profileid=0 unless defined $profileid;
 				$profileid=0 unless $profileid;
+				$lreads[$i]=0 unless defined $lreads[$i];
+				$lreads[$i]=0 unless $lreads[$i];
 #				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid);
 				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i]);
 				my $patient_id=$last_patient_id->{'LAST_INSERT_ID()'};
