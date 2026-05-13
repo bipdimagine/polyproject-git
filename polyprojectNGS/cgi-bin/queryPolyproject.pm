@@ -2820,8 +2820,8 @@ sub upPatientRun {
 	my $nb;
 	for (my $i = 0; $i< scalar(@opt); $i++) {
 		my @val = split(/=/,$opt[$i]);
-		if ($val[0] eq "lane") {  # need space for lane instead of "_"
-			$val[1]=~ s/_/ /g;		
+		if ($val[0] eq "lane") {  # need special space for lane instead of "Z"
+			$val[1]=~ s/Z/; /g;		
 		}		
 		$set.=$val[0]."=?,";
 		$v0=$val[1] if $i==0;

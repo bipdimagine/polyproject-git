@@ -961,10 +961,10 @@ sub addPatientRunSection {
 	my @bcg=split(/,/,$gbarcode);
 
 	my $lane = $cgi->param('lane');
-	$lane=~ s/ //g;
-	$lane=~ s/_/ /g;
+	$lane=~ s/Z/; /g;
 	$lane=~ s/\n/;/g;
 	my @llane=split(/,/,$lane);
+
 	my $reads = $cgi->param('reads');
 	$reads=~ s/ //g;
 	$reads=~ s/\n/;/g;
@@ -1130,6 +1130,7 @@ sub addPatientRunSection {
 				$profileid=0 unless $profileid;
 				$lreads[$i]=0 unless defined $lreads[$i];
 				$lreads[$i]=0 unless $lreads[$i];				
+				$llane[$i]=~ s/_/,/g if $llane[$i];				
 				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i]);
 				my $patient_id=$last_patient_id->{'LAST_INSERT_ID()'};
 				my $personRunList= queryPerson::getPatientPersonInfo_byPersonName_Run($buffer->dbh,$person[$i]);
@@ -1458,7 +1459,7 @@ sub updatePatientRunSection {
 		my @fieldGNname= split(/,/,$listGroup,-1);#-1 for not empty element
 
 	my $listLane = $cgi->param('lane');
-		#$listLane=~ s/_/ /g;	# Lane: This is done in queryPolyproject::upPatientRun	
+		#$listLane=~ s/Z/; /g;	# Lane: This is done in queryPolyproject::upPatientRun	
 		my @fieldLane = split(/,/,$listLane);
 	my $listReads = $cgi->param('reads');
 		my @fieldReads = split(/,/,$listReads);			
@@ -1622,7 +1623,8 @@ sub updatePatientRunSection {
 		$param.="identity_vigilance=".$fieldBG[$i]." " if ($fieldBG[$i]);
 		$param.="identity_vigilance=".""." " if ($piv && !$fieldBG[$i]);
 		
-		$param.="lane=".$fieldLane[$i]." " if ($fieldLane[$i]);
+		$fieldLane[$i]=~ s/_/,/g if ($fieldLane[$i]);		
+		$param.="lane=".$fieldLane[$i]." " if ($fieldLane[$i]);		
 
 		$fieldReads[$i]=0 unless defined $fieldReads[$i];
 		$fieldReads[$i]=0 unless $fieldReads[$i];		

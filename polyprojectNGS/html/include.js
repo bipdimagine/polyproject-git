@@ -669,6 +669,8 @@ var hideTooltipField = function(e) {
 var showRowTooltip = function(e) {
 	var msg;
 	var tmp;
+	var node;
+	var isOverflowing="true";
 	if (e.rowIndex >= 0) { // Row
 		var item = e.grid.getItem(e.rowIndex);
 		if (e.cell.field == "desRun" || e.cell.field == "capDes" || e.cell.field == "description") {
@@ -737,8 +739,14 @@ var showRowTooltip = function(e) {
 				msg=concat_value;
 			}			
 		}
+		if (e.cell.field == "lane") {
+			msg = e.grid.store.getValue(item, e.cell.field);
+   			node = e.cellNode;
+  				// Vérifier si le texte déborde de la cellule
+    			var isOverflowing = node.scrollWidth > node.clientWidth;
+		}
 	};
-	if (msg) {
+	if (msg && isOverflowing) {
 		dijit.showTooltip(msg, e.cellNode);
 	}
 };
@@ -1461,6 +1469,7 @@ function exportAllExon(grid){
     			this._deferred.cancel();
 		}
 		this._deferred=dojo.io.iframe.send({
+//			url: url_path + "/CSVexport.php",
 			url: url_path + "/XLSexport.pl",
  			form: form,
  			method: "POST",

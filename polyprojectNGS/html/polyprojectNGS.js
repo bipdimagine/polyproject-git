@@ -3759,6 +3759,9 @@ if (typeof(fbcg) == "undefined" ||typeof(fieldPatient[fbcg]) == "undefined"||fie
 if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||fieldPatient[fpers]==0) {fieldPatient[fpers]=""}
 		namePerson.push(fieldPatient[fpers]);
 		if (typeof(fieldPatient[flan])=="undefined"||typeof(flan)=="undefined"||fieldPatient[flan]==0) {fieldPatient[flan]=""}
+		fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"");
+		fieldPatient[flan]=fieldPatient[flan].replace(/ /g,"Z");
+		fieldPatient[flan]=fieldPatient[flan].replace(/,/g,"_");
 		groupLane.push(fieldPatient[flan]);
 		if (typeof(fieldPatient[frea])=="undefined"||typeof(frea)=="undefined"||fieldPatient[frea]==0) {fieldPatient[frea]=""}
 		groupRead.push(fieldPatient[frea]);
@@ -3858,9 +3861,6 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 			}
 		}
 	}
-
-//	if (namePatient.length !== check_Rnbpat) {
-	groupLane=groupLane.toString().replace(/ /g,"_");
 	check_Rnbpat=namePatient.length;
 // Sample sheet file 
 	var s_runSamplesheet = document.getElementById("runSamplesheet").value;
@@ -4505,6 +4505,9 @@ if (typeof(fbcg) == "undefined" ||typeof(fieldPatient[fbcg]) == "undefined"||fie
 if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||fieldPatient[fpers]==0) {fieldPatient[fpers]=""}
 		namePerson.push(fieldPatient[fpers]);
 		if (typeof(fieldPatient[flan])=="undefined"||typeof(flan)=="undefined"||fieldPatient[flan]==0) {fieldPatient[flan]=""}
+		fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"");
+		fieldPatient[flan]=fieldPatient[flan].replace(/ /g,"Z");
+		fieldPatient[flan]=fieldPatient[flan].replace(/,/g,"_");
 		groupLane.push(fieldPatient[flan]);
 		if (typeof(fieldPatient[frea])=="undefined"||typeof(frea)=="undefined"||fieldPatient[frea]==0) {fieldPatient[frea]=""}
 		groupRead.push(fieldPatient[frea]);
@@ -4594,7 +4597,6 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 			}
 		}
 	}
-	groupLane=groupLane.toString().replace(/ /g,"_");
 	check_Rnbpat=namePatient.length;
 	var prog_url=url_path + "/manageData.pl";
 	var options="option=addPatientRun" +
@@ -4829,9 +4831,6 @@ function applyProposalName(nb_seachPers,prog_url,options,namePatient,sexPatient)
 	"&s_person="+ personGroups +
 	"&s_person_id="+ personIdGroups;
 	options=options	+ ext_options;
-//console.log(prog_url);
-//console.log(options);
-//console.log(namePatient);
 	var res=senDataExtendedPost(prog_url,options,namePatient,sexPatient);
 	res.addCallback(
 		function(response) {
@@ -7127,7 +7126,7 @@ function showRun(rid,somatic,capRel,capAnalyse){
 		{ field: 'flowcell',name: 'FC',width: '3em', editable: true,
 		type: dojox.grid.cells.Select, options: [ 'A','B',' '],formatter:zero,
 		widgetProps:{required:false}},
-		{ field: "lane", name: "Lane", width: '15em'},
+		{ field: "lane", name: "Lane", width: '15em',styles:"text-align:left;white-space:nowrap;"},
 		{ field: "reads", name: "nbReads", width: '5em'},
 		{ field: "phenotype", name: "Phenotype", width: '12em'},
 		{ field: "MethAln", name: "Alignment", width: '10em', editable: true,required:true,
@@ -7377,7 +7376,9 @@ type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect',widgetP
 				dojo.connect(patGrid, "onMouseOut", hideTooltip);
 				dojo.connect(patGrid, "onMouseOver", showTooltipField);
 				dojo.connect(patGrid, "onMouseOut", hideTooltipField);
-        			//patGrid.structure[8].widgetProps.grid = patGrid;
+   				dojo.connect(patGrid, "onCellMouseOver", showRowTooltip);
+				dojo.connect(patGrid, "onCellMouseOut", hideRowTooltip); 
+				//patGrid.structure[8].widgetProps.grid = patGrid;
        				//patGrid.structure[9].widgetProps.grid = patGrid;
         			//patGrid.structure[9].widgetProps.grid = patGrid;
        				//patGrid.structure[10].widgetProps.grid = patGrid;
@@ -7654,6 +7655,9 @@ function updateRunPatient() {
 		}
 		if (typeof(flan) != "undefined") {
 			if (fieldPatient[flan]) {
+				fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"");
+				fieldPatient[flan]=fieldPatient[flan].replace(/ /g,"Z");
+				fieldPatient[flan]=fieldPatient[flan].replace(/,/g,"_");
 				groupLane.push(fieldPatient[flan]);
 			} else {
 				groupLane.push("");
@@ -7703,7 +7707,6 @@ function updateRunPatient() {
 		param +="&person="+ namePerson;
 	}
 	if (flan>=0) {
-		groupLane=groupLane.toString().replace(/ /g,"_");
 		param +="&lane="+ groupLane;
 	}
 	if (frea>=0) {
@@ -7718,7 +7721,8 @@ function updateRunPatient() {
 	var url_insert = url_path + "/manageData.pl?option=updatePatientRun" + param;
 	var prog_url=url_path + "/manageData.pl";
 	var options="option=updatePatientRun" + param;
-
+	//console.log(prog_url);
+	//console.log(options);
 	var res=senDataExtendedPost(prog_url,options);
 	res.addCallback(
 		function(response) {
