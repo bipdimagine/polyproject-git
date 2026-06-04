@@ -173,83 +173,61 @@ function sendDataPatientFile(url,upfoped){
 	handleAs: "text",
         form: upfoped,  
 	load: function(response, ioArgs){
-            	var foo = dojo.fromJson(response);
-		var tmpStore = new dojo.store.Memory({data: foo.message});
-		var resPat="";
-		tmpStore.query({patname:/\w+/}).forEach(function(item, index){
-			if (typeof(item.family)=="undefined"||item.family== null||/\s/.test(item.family)) {item.family=item.patname}
-			if(index=="0") {
-				if ((typeof(item.sex)=="undefined" || typeof(item.bc)=="undefined" || typeof(item.bc2)=="undefined")){
-					item.family="Family";
-					item.father="Father";
-					item.mother="Mother";
-					item.sex="Sex";
-					item.status="Status";
-					item.bc="BC";
-					item.bc2="BC2";
-					item.iv="IV";
-					item.person="Person";
-				}
-			}
-			if (typeof(item.sex)=="undefined"||item.sex==null||/\s/.test(item.sex)) {item.sex=1}
-			if (typeof(item.status)=="undefined"||item.status==null||/\s/.test(item.status)) {item.status=2}
-			if (typeof(item.bc)=="undefined"||item.bc==null||/\s/.test(item.bc)) {item.bc=""}
-			if (typeof(item.bc2)=="undefined"||item.bc2==null||/\s/.test(item.bc2)) {item.bc2=""}
-			if (typeof(item.iv)=="undefined"||item.iv==null||/\s/.test(item.iv)) {item.iv=""}
-			if (typeof(item.person)=="undefined"||item.person==null||/\s/.test(item.person)) {item.person=""}
-			resPat += item.patname+"\t"+item.family+"\t"+item.father+"\t"+item.mother+"\t"+item.sex+"\t"+item.status+"\t"+item.bc+"\t"+item.bc2+"\t"+item.iv+"\t"+item.person+"\n";
-		});		
-		//var lpat = dijit.byId("Rpatient");
+    // Étape 1 : Nettoyer la réponse textuelle de l'iframe si nécessaire
+    // L'iframe encapsule parfois la réponse dans des balises <pre> ou <html>
+		var rawText = response;
+		if(typeof response === "string") {
+			rawText = response.replace(/<\/?[^>]+(>|$)/g, ""); // Supprime le HTML résiduel
+		}
+    // Étape 2 : Parser STRICTEMENT le JSON
+		var foo = dojo.fromJson(rawText);
+		var headers = foo.message.headers; // ["Patient", "Family", "Sex", "Status"]
+		var items = foo.message.items;
+		var tmpStore = new dojo.store.Memory({
+    			data: items,
+    			idProperty: foo.message.identifier
+		});
+
+		// Même dictionnaire qu'en Perl pour savoir quelle clé JSON correspond à quel en-tête
+		var headerMapping = {
+		    'Patient': 'patname',
+		    'Family' : 'family',
+		    'Sex'    : 'sex',
+		    'Status' : 'status',
+        	    'Group'  : 'group',
+        	    'BC'     : 'bc',
+        	    'BC2'    : 'bc2',
+        	    'IV'     : 'iv',
+        	    'Person' : 'person',
+		    'Lane'   : 'lane',
+		    'Reads'  : 'reads'
+		};
+		// On commence par écrire la ligne d'en-tête réelle ("Patient\tFamily\tSex...")
+		var resPat = headers.join("\t") + "\n";
+
+		tmpStore.query().forEach(function(item, index){
+    			var lineValues = [];    
+    			// On boucle sur les en-têtes réels
+    			dojo.forEach(headers, function(realHeader){
+        		// On trouve la clé JSON correspondante (ex: 'Patient' -> 'patname')
+				var jsonKey = headerMapping[realHeader] || realHeader.toLowerCase();    
+        			// 1. On récupère la valeur brute ou une chaîne vide si elle est undefined/null
+       				var value = (item[jsonKey] !== undefined && item[jsonKey] !== null) ? item[jsonKey] : "";
+				// 2. Traitement des cas particuliers si la valeur est vide ("")
+        			if (value === "") {
+            				if (jsonKey === "sex") {
+                				value = "1";
+            				} else if (jsonKey === "status") {
+                				value = "2";
+            				}
+        			}
+        			lineValues.push(value);
+    			}); 
+    			resPat += lineValues.join("\t") + "\n";
+		});
+		// 5. Assignation de la valeur au widget SimpleTextarea de Dijit
 		Rpatient.value=resPat;
 		a_Rpatient.value=resPat;		
- 		if (foo.status == "OK") {
-			return foo.message;
-            	} else {
-			textError.setContent(foo.message);
-			myError.show();
-            	}          
-	},
-	error:function(response, ioArgs){
-		console.log("Not Good in sendDataPatientFile");
-	} 
-    }); 
-}
-
-function sendDataPatientFileOld(url,upfoped){
-	dojo.io.iframe.send({
-        url: url,
-        method: "post",
-//	sync: true,
-	handleAs: "text",
-        form: upfoped,  
-	load: function(response, ioArgs){
-            	var foo = dojo.fromJson(response);
-		var tmpStore = new dojo.store.Memory({data: foo.message});
-		var resPat="";
-		tmpStore.query({patname:/\w+/}).forEach(function(item, index){
-			if (typeof(item.family)=="undefined"||item.family== null||/\s/.test(item.family)) {item.family=item.patname}
-			if(index=="0") {
-				if ((typeof(item.sex)=="undefined" || typeof(item.bc)=="undefined")){
-				item.family="Family";
-				item.father="Father";
-				item.mother="Mother";
-				item.sex="Sex";
-				item.status="Status";
-				item.bc="BC";
-				item.iv="IV";
-				}
-			}
-			if (typeof(item.sex)=="undefined"||item.sex==null||/\s/.test(item.sex)) {item.sex=1}
-			if (typeof(item.status)=="undefined"||item.status==null||/\s/.test(item.status)) {item.status=2}
-			if (typeof(item.bc)=="undefined"||item.bc==null||/\s/.test(item.bc)) {item.bc=""}
-			if (typeof(item.iv)=="undefined"||item.iv==null||/\s/.test(item.iv)) {item.iv=""}
-
-			resPat += item.patname+"\t"+item.family+"\t"+item.father+"\t"+item.mother+"\t"+item.sex+"\t"+item.status+"\t"+item.bc+"\t"+item.iv+"\n";
-		});
-		//var lpat = dijit.byId("Rpatient");
-		Rpatient.value=resPat;
-		a_Rpatient.value=resPat;
-		
  		if (foo.status == "OK") {
 			return foo.message;
             	} else {

@@ -83,27 +83,51 @@ sub builddata {
 	my %hdata;
 	$hdata{identifier}="patname";
 	$hdata{label}="patname";
-	foreach my $Line (@$data) {
-		my %s;
-		#Patient  Family  Father  Mother  Sex  Status  BC  BC2  IV  Person 
-#		my @tab = split( /$dlf/, $Line );
-#		my @tab = split( /[ \n\t\r]/, $Line );
-#		my @tab = split( /\s+/, $Line );
-		my @tab = split( /\s/, $Line );
-		$tab[2]="" unless $tab[2];
-		$tab[3]="" unless $tab[3];
-		$s{patname} = $tab[0];
-		$s{family} = $tab[1];
-		$s{father} = $tab[2];
-		$s{mother} = $tab[3];
-		$s{sex} = $tab[4] if defined $tab[4];
-		$s{status} = $tab[5] if defined $tab[5];
-		$s{bc} = $tab[6] if defined $tab[6];
-		$s{bc2} = $tab[7] if defined $tab[7];
-		$s{iv} = $tab[8] if defined $tab[8];
-		$s{person} = $tab[9] if defined $tab[9];
-		push(@mydata,\%s);
-	}
+    # Dictionnaire de correspondance (Mapping) entre le fichier et vos clés JSON
+    my %header_mapping = (
+        'Patient' => 'patname',
+        'Family'  => 'family',
+        'Father'  => 'father',
+       	'Mother'  => 'mother',
+        'Sex'     => 'sex',
+        'Status'  => 'status',
+        'Group'   => 'group',
+        'BC'      => 'bc',
+        'BC2'     => 'bc2',
+        'IV'      => 'iv',
+        'Person'  => 'person',
+        'Lane'    => 'lane',
+        'Reads'   => 'reads',
+    );
+    
+    # 1. On extrait et nettoie l'en-tête d'origine
+    my $header_line = shift @$data; 
+    return printJson(\%hdata) unless $header_line;
+    
+    my @headers = split(/\t/, $header_line);
+    s/^\s+|\s+$//g for @headers;
+
+    #On garde les noms réels pour headers---
+    $hdata{headers} = \@headers; # Contient maintenant: ["Patient", "Family", "Sex", ...]    
+    # On crée un tableau parallèle pour nos clés JSON internes
+    my @json_keys;
+    foreach my $column_name (@headers) {
+        my $json_key = $header_mapping{$column_name} || lc($column_name);
+        push(@json_keys, $json_key);
+    }
+    # 2. On parcourt les lignes de données
+    foreach my $Line (@$data) {
+        next if $Line =~ /^\s*$/;       
+        my @tab = split(/\t/, $Line);
+        s/^\s+|\s+$//g for @tab;        
+        my %s;
+        # On utilise @json_keys pour remplir le hash de données du patient
+        for (my $i = 0; $i < @json_keys; $i++) {
+            my $json_key = $json_keys[$i];
+            $s{$json_key} = $tab[$i] // ""; 
+        }        
+        push(@mydata, \%s);
+    }
 	$hdata{items}=\@mydata;
 	return printJson(\%hdata);
 }
@@ -164,6 +188,17 @@ sub printJson {
 	exit(0);
 }
 
+sub printJson {
+	my ($text) = @_;
+	my $resp;
+	$resp->{status}  = "OK";
+	$resp->{message} = $text;
+	print $cgi->header();
+	print qq{<textarea>};
+	print to_json($resp);
+	print qq{</textarea>};
+	exit(0);
+}
 
 exit(0);
 
