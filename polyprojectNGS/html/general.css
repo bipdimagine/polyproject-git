@@ -644,6 +644,7 @@
 	border-color: #DDDDC9;
 }
 
+
 /*background: -moz-linear-gradient(#510303, brown);*/
 .tundra .dijitToolbar {
 	background: linear-gradient(#510303, brown);
@@ -1245,12 +1246,9 @@ tr.dojoxCheckedMultiSelectMenuItemChecked td.dijitMenuItemIconCell {
 	background-image: none !important;/*	border:0;*/
 }
 
-#output-toolbar {
-	background:transparent;
+.tundra .output-toolbar.dijitToolbar {
+	background: #c6bcb6;
 }
-
-
-
 
 
 
