@@ -127,7 +127,6 @@ sub patAnaMacSection {
 	my $not;
 	$not= $cgi->param('not');
 	$not=0 unless defined $not;
-#	$not += 0;
 	my $db_year= queryStat::getYearsFromPatient($buffer->dbh) unless defined $cyear;
 	@listYearNbPat=sort(split(/,/, join(",",map{$_->{cYear}}@$db_year))) unless defined $cyear;
 
@@ -210,6 +209,11 @@ sub proAnaMacSection {
 	my @listPhe;
 	@listPhe = sort (split(/,/,$cphe));
 	
+	my $cout = $cgi->param('outfield');
+	my @listOut;
+	@listOut = sort (split(/,/,$cout));
+	my %indexOut = map { $_ => 1 } @listOut;
+
 	my @listYearNbPat;
 	@listYearNbPat = sort (split(/,/,$cyear));
 	my $analyse = $cgi->param('analyse');
@@ -273,16 +277,31 @@ sub proAnaMacSection {
 		my %s;
 		$s{project} = $c->{project};
 		$s{analyse} = $c->{analyse};
-		$s{machine} = $c->{machine};
-		$s{capture} = $c->{capture};
-		$s{type} = $c->{type};
-		$s{platform} = $c->{platform};
-		$s{profile} = "";
-		$s{profile} = $c->{profileId}." ".$c->{profile} if $c->{profileId};
-		$s{phenotype} =	"";
-		$s{phenotype} = $c->{phenotype} if $c->{phenotype};
-		$s{unit} = "";
-		$s{unit} = $c->{unit} if $c->{unit};
+		#$s{machine} = $c->{machine};
+		if ($cout) {
+			$s{machine} = $c->{machine} if ($indexOut{"Machine"});
+			$s{capture} = $c->{capture} if ($indexOut{"Capture"});
+			$s{type} = $c->{type} if ($indexOut{"Type"});
+			$s{platform} = $c->{platform} if ($indexOut{"Platform"});
+			$s{profile} = "" if ($indexOut{"Profile"});
+			$s{profile} = $c->{profileId}." ".$c->{profile} if ($c->{profileId} && $indexOut{"Profile"});
+			$s{phenotype} =	"" if ($indexOut{"Phenotype"});
+			$s{phenotype} = $c->{phenotype} if ($c->{phenotype} && $indexOut{"Phenotype"});
+			$s{unit} = "" if ($indexOut{"Unit"});
+			$s{unit} = $c->{unit} if ($c->{unit} && $indexOut{"Unit"});
+
+		} else {
+			$s{machine} = $c->{machine};
+			$s{capture} = $c->{capture};
+			$s{type} = $c->{type};
+			$s{platform} = $c->{platform};
+			$s{profile} = "";
+			$s{profile} = $c->{profileId}." ".$c->{profile} if ($c->{profileId});
+			$s{phenotype} =	"";
+			$s{phenotype} = $c->{phenotype} if ($c->{phenotype});
+			$s{unit} = "";
+			$s{unit} = $c->{unit} if ($c->{unit});
+		}
 		$s{year} = $c->{year};
 		push(@data,\%s);
 	}
@@ -310,6 +329,11 @@ sub patientAnaMacSection {
 	my $cphe = $cgi->param('phe');
 	my @listPhe;
 	@listPhe = sort (split(/,/,$cphe));
+	
+	my $cout = $cgi->param('outfield');
+	my @listOut;
+	@listOut = sort (split(/,/,$cout));
+	my %indexOut = map { $_ => 1 } @listOut;
 	
 	my $analyse = $cgi->param('analyse');
 	my @analyse = split(/,/,$analyse);
@@ -373,16 +397,29 @@ sub patientAnaMacSection {
 		$s{patient} = $c->{patient};
 		$s{project} = $c->{project};
 		$s{analyse} = $c->{analyse};
-		$s{machine} = $c->{machine};
-		$s{capture} = $c->{capture};
-		$s{type} = $c->{type};
-		$s{platform} = $c->{platform};
-		$s{profile} = "";
-		$s{profile} = $c->{profileId}." ".$c->{profile} if $c->{profileId};
-		$s{phenotype} =	"";
-		$s{phenotype} = $c->{phenotype} if $c->{phenotype};
-		$s{unit} = "";
-		$s{unit} = $c->{unit} if $c->{unit};
+		if ($cout) {
+			$s{machine} = $c->{machine} if ($indexOut{"Machine"});
+			$s{capture} = $c->{capture} if ($indexOut{"Capture"});
+			$s{type} = $c->{type} if ($indexOut{"Type"});
+			$s{platform} = $c->{platform} if ($indexOut{"Platform"});
+			$s{profile} = "" if ($indexOut{"Profile"});
+			$s{profile} = $c->{profileId}." ".$c->{profile} if ($c->{profileId} && $indexOut{"Profile"});
+			$s{phenotype} =	"" if ($indexOut{"Phenotype"});
+			$s{phenotype} = $c->{phenotype} if ($c->{phenotype} && $indexOut{"Phenotype"});
+			$s{unit} = "" if ($indexOut{"Unit"});
+			$s{unit} = $c->{unit} if ($c->{unit} && $indexOut{"Unit"});
+		} else {
+			$s{machine} = $c->{machine};
+			$s{capture} = $c->{capture};
+			$s{type} = $c->{type};
+			$s{platform} = $c->{platform};
+			$s{profile} = "";
+			$s{profile} = $c->{profileId}." ".$c->{profile} if ($c->{profileId});
+			$s{phenotype} =	"";
+			$s{phenotype} = $c->{phenotype} if ($c->{phenotype});
+			$s{unit} = "";
+			$s{unit} = $c->{unit} if ($c->{unit});
+		}
 		$s{year} = $c->{year};
 		push(@data,\%s);
 	}
@@ -677,8 +714,6 @@ sub patAnaProfSection {
 		$ListProf.="'".$listProf[$i]."'".",";
 	}
 	chop($ListProf);
-#	warn Dumper $ListProf;
-#	die;
 	my $row=1;
 	my @data;
 	my %hdata;
@@ -686,7 +721,6 @@ sub patAnaProfSection {
 	foreach my $y (@listYearNbPat){
 		my %s;
 		$ListProf="" unless defined $ListProf;
-#		my $nbYearPatAnalysPheList = queryStat::countPatAnalysePhenotypeYear($buffer->dbh,$y,$StrListAnalyse,$ListProf,$not);
 		my $nbYearPatAnalysProfList = queryStat::countPatAnalyseProfileYear($buffer->dbh,$y,$StrListAnalyse,$ListProf,$not);
 		$s{year} = $y += 0;
 		$s{nbPat} = $nbYearPatAnalysProfList += 0;
@@ -734,17 +768,13 @@ sub proAnaProfSection {
 		my %s;
 		$s{project} = $c->{project};
 		$s{analyse} = $c->{analyse};
-#		$s{profile} = $c->{profile};
 		$s{profile} = $c->{profileId}." ".$c->{profile};
-#		$s{profileId} = $c->{profileId};
 		$s{year} = $c->{year};
 		push(@data,\%s);
 	}
 	$hdata{items}=\@data;
 	printJson(\%hdata);
 }
-
-
 
 sub EachYearpatDetailSection {
 	my $cyear = $cgi->param('year');
@@ -834,7 +864,7 @@ sub EachYearproDetailSection {
 	my $listdb_year;
 	$listdb_year=join(",",map{$_->{cYear}}@$db_year) unless defined $cyear;
 	$listdb_year=$cyear if defined $cyear;	
-#	@listYearNbPat=sort(split(/,/, join(",",map{$_->{cYear}}@$db_year))) unless defined $cyear;
+
 	my $StrListAnalyse;
 	for (my $i = 0; $i< scalar(@analyse); $i++) {
 		$StrListAnalyse.="'".$analyse[$i]."'".",";
@@ -1146,7 +1176,7 @@ sub EachYearUnitproDetailSection {
 	my $row=1;
 	my @data;
 	my %hdata;
-#countPatAnalyseByTeamYear
+
 	my $ListProj = queryStat::getProjectAnalyseByTeamUnitYear($buffer->dbh,$listdb_year,$StrListAnalyse,$ListUnit,$not);
 	$hdata{label}="project";
 	$hdata{identifier}="project";

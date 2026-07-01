@@ -991,6 +991,11 @@ dojo.addOnLoad(function() {
        		title:"processDialog",
         	style:"margin:2;padding:2;border:none",
 	});
+//ProcessDialog Statistic Patient
+	processDialogSt = new dijit.Dialog({
+       		title:"processDialog",
+        	style:"margin:2;padding:2;border:none",
+	});
 });
 
 
@@ -1579,6 +1584,9 @@ function showProgressDlg(processMessage, isShow,isWhere,isType) {
  			break;
 		case "MO":
 			pDialog=eval(pDialog+"Mo");
+ 			break;		
+		case "ST":
+			pDialog=eval(pDialog+"St");
  			break;		
 	}
 	if (isShow == true) {

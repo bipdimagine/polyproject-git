@@ -285,7 +285,12 @@ var sl_year = [];
 var sl_value = [];
 var arr_userid=[];
 var arr_groupid=[];
+var newLayoutProj;
+var newLayoutProj_1;
+var newLayoutPat;
+var newLayoutPat_1;
 var prog_param;
+var init_LayoutProjPat;
 
 function initStat(serial) {
 	dijit.byId('Graph_1').set('title', "<span style='width:90%'><B>Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_filter'>Filter:Analyse</span><span class='cl_option'>Option: Machine &nbsp;&nbsp; Capture &nbsp;&nbsp; Platform &nbsp;&nbsp; Profile &nbsp;&nbsp; Phenotype &nbsp;&nbsp; Unit</span></B></span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_project'>Project List</span></B></span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='cl_patient'>Patient List</span></B><span id='btlog_9' style='width:10%' class='cl_log_span2'></span>");
@@ -308,86 +313,155 @@ function initStat(serial) {
 		valPhe_s5=0;
 		colorfill=["#80B0FF"];
 		var ind="1";
+		var newLayoutProj;
+		var newLayoutProj_1;
+		var newLayoutPat;
+		var newLayoutPat_1;
+		var init_LayoutProjPat=1;
+
 		var prog_name="patAnaMac";
 		var prog_name_p="proAnaMac";
 		var prog_name_a="patientAnaMac";
+		var outfields = ["Machine", "Capture", "Type", "Platform", "Profile","Phenotype","Unit"];
+		var checkedList_project = ["Row","Project","Analyse"];
+		var checkedList_init = ["Row","Project","Analyse"];
+		var s_outfields = outfields.join(",");
 		var dbana=0;
+		var widgets = [];
+		clearOutputFields(ind,dbana);
+		var newLayoutProj;
+		var newLayoutProj_1;
+		var newLayoutPat;
+		var newLayoutPat_1;
+		init_outputFields(ind,dbana,i_bnt=1,init_LayoutProjPat);
+		var dbana=0;
+		var ind="1";
 		create_divSlider(ind);
+		var dbana=0;
+		var ind="1";
 		var a_callback=0;
 		launch_valmonoselect_year(yearstatStore, divMono="yearpat_"+ind, ind, prog_name_a, dbana,local_year,function (a_callback) {
 			dbana=0;
+			ind="1";
 			if (a_callback) {
-				launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
+				ind="1";
 				dbana=0;
+				launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param,s_outfields, dbana, colorfill, filter_year,init_LayoutProjPat);
+				dbana=0;
+				ind="1";
 			}		
 		});
+		ind="1";
 		dbana=0;
-		launch_dirmultiselect_data(machineStore, divMulti="qmachineSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year);
+		launch_dirmultiselect_data(machineStore, divMulti="qmachineSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year,init_LayoutProjPat);
 
+		ind="1";
 		var ind2=ind+"_1";
 		dbana=0;
-		var s_callback=0;
-		initcapProjectStore("exome",ind2,function (s_callback) {
+		var s_callback1=0;
+		initcapProjectStore("exome",ind2,dbana,function (s_callback1) {
 			dbana=0;
-			if (s_callback) {
-				launch_dirmultiselect_data(capProjectStore, divMulti="qcaptureSelect_"+ind2, ind2, prog_name, dbana, colorfill, filter_year);
+			ind="1";
+			ind2=ind+"_1";
+			if (s_callback1) {
 				dbana=0;
+				ind="1";
+				ind2=ind+"_1";
+				launch_dirmultiselect_data(capProjectStore, divMulti="qcaptureSelect_"+ind2, ind2, prog_name, dbana, colorfill, filter_year,init_LayoutProjPat);
+				dbana=0;
+				ind="1";
+				ind2=ind+"_1";
 			}		
 		});
-
+		ind="1";
 		var ind3=ind+"_1_1";
 		dbana=0;
-		launch_dirmultiselect_data(plateformIdStore, divMulti="qplatformSelect_"+ind3, ind3, prog_name, dbana, colorfill, filter_year);
+		launch_dirmultiselect_data(plateformIdStore, divMulti="qplatformSelect_"+ind3, ind3, prog_name, dbana, colorfill, filter_year,init_LayoutProjPat);
 
+		ind="1";
 		var ind4=ind+"_1_1_1";
 		dbana=0;
-		launch_dirmultiselect_data(directorStore, divMulti="qunitSelect_"+ind4, ind4, prog_name, dbana, colorfill, filter_year);
+		launch_dirmultiselect_data(directorStore, divMulti="qunitSelect_"+ind4, ind4, prog_name, dbana, colorfill, filter_year,init_LayoutProjPat);
 
+		ind="1";
 		var ind5=ind+"_1_1_1_1";
 		dbana=0;
-		launch_dirmultiselect_data(profileLabelStore, divMulti="qprofileSelect_"+ind5, ind5, prog_name, dbana, colorfill, filter_year);
+		launch_dirmultiselect_data(profileLabelStore, divMulti="qprofileSelect_"+ind5, ind5, prog_name, dbana, colorfill, filter_year,init_LayoutProjPat);
 
+		ind="1";
 		var ind6=ind+"_1_1_1_1_1";
 		dbana=0;
-		launch_dirmultiselect_data(phenotypeStore, divMulti="qphenotypeSelect_"+ind6, ind6, prog_name, dbana, colorfill, filter_year);
-
+		launch_dirmultiselect_data(phenotypeStore, divMulti="qphenotypeSelect_"+ind6, ind6, prog_name, dbana, colorfill, filter_year,init_LayoutProjPat);
 	//####################### Not In - dbana=1 ##############################################
 		colorfill=["#809DCC"];
 		ind="12";
 		dbana=1;
+		var outfields = ["Machine", "Capture", "Type", "Platform", "Profile","Phenotype","Unit"];
+		var widgets_1 = [];
+		var checkedList_project = ["Row","Project","Analyse"];
+		var checkedList_init = ["Row","Project","Analyse"];
+		var s12_outfields = outfields.join(",");
+		clearOutputFields(ind,dbana);
+		init_outputFields(ind,dbana,i_bnt=1,init_LayoutProjPat);
+
+		ind="12";
+		dbana=1;
 		create_divSlider(ind);
+		ind="12";
+		dbana=1;
 		var a_callback12=0;
 		launch_valmonoselect_year(yearstatStore, divMono="yearpat_"+ind, ind, prog_name_a, dbana,local_year,function (a_callback12) {
 			dbana=1;
+			ind="12";
 			if (a_callback12) {
-				launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
+				ind="12";
+				dbana=1;
+				launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param,s12_outfields, dbana, colorfill, filter_year,init_LayoutProjPat);
+				ind="12";
 				dbana=1;
 			}		
 		});
+		ind="12";
 		dbana=1;
-		launch_dirmultiselect_data(machineStore, divMulti="qmachineSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year);
+		launch_dirmultiselect_data(machineStore, divMulti="qmachineSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year,init_LayoutProjPat);
+
+		ind="12";
 		var ind12=ind+"_1";
 		dbana=1;
 		var s_callback12=0;
-		initcapProjectStore("exome",ind12,function (s_callback12) {
+		initcapProjectStore("exome",ind12,dbana,function (s_callback12) {
 			dbana=1;		
+			ind12=ind+"_1";
 			if (s_callback12) {
-				launch_dirmultiselect_data(capProjectStore, divMulti="qcaptureSelect_"+ind12, ind12, prog_name, dbana, colorfill, filter_year);
 				dbana=1;
+				ind="12";
+				ind12=ind+"_1";
+				launch_dirmultiselect_data(capProjectStore, divMulti="qcaptureSelect_"+ind12, ind12, prog_name, dbana, colorfill, filter_year,init_LayoutProjPat);
+				dbana=1;
+				ind="12";
+				ind12=ind+"_1";
 			}
 		});
+		ind="12";
 		var ind3=ind+"_1_1";
 		dbana=1;
-		launch_dirmultiselect_data(plateformIdStore, divMulti="qplatformSelect_"+ind3, ind3, prog_name, dbana, colorfill, filter_year);
+		launch_dirmultiselect_data(plateformIdStore, divMulti="qplatformSelect_"+ind3, ind3, prog_name, dbana, colorfill, filter_year,init_LayoutProjPat);
+
+		ind="12";
 		var ind4=ind+"_1_1_1";
 		dbana=1;
-		launch_dirmultiselect_data(directorStore, divMulti="qunitSelect_"+ind4, ind4, prog_name, dbana, colorfill, filter_year);
+		launch_dirmultiselect_data(directorStore, divMulti="qunitSelect_"+ind4, ind4, prog_name, dbana, colorfill, filter_year,init_LayoutProjPat);
+
+		ind="12";
 		var ind5=ind+"_1_1_1_1";
 		dbana=1;
-		launch_dirmultiselect_data(profileLabelStore, divMulti="qprofileSelect_"+ind5, ind5, prog_name, dbana, colorfill, filter_year);
+		launch_dirmultiselect_data(profileLabelStore, divMulti="qprofileSelect_"+ind5, ind5, prog_name, dbana, colorfill, filter_year,init_LayoutProjPat);
+
+		ind="12";
 		var ind6=ind+"_1_1_1_1_1";
 		dbana=1;
-		launch_dirmultiselect_data(phenotypeStore, divMulti="qphenotypeSelect_"+ind6, ind6, prog_name, dbana, colorfill, filter_year);
+		launch_dirmultiselect_data(phenotypeStore, divMulti="qphenotypeSelect_"+ind6, ind6, prog_name, dbana, colorfill, filter_year,init_LayoutProjPat);
+		init_LayoutProjPat=0;
 	}
 // Number of Samples/Year and Plateform Filter:Analyse
 	if(serial==4) {
@@ -398,59 +472,25 @@ function initStat(serial) {
 		var ind="4";
 		var prog_name="EYpatDetail";
 		var prog_name_p="EYproDetail";
+		var newLayoutProj;
+		var newLayoutProj_1;
+		var newLayoutPat;
+		var newLayoutPat_1;
+
 		var dbana=0;
 		create_divSlider(ind);
-		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
+		filter_year = [];
+		sl_year = [];
+		sl_value = [];
+		var s_outfields = "";
+		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param,s_outfields, dbana, colorfill, filter_year);
 		colorfill=["#809DCC"];
 		ind="42";
 		dbana=1;
 		create_divSlider(ind);
-		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
+		var s_outfields = "";
+		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param,s_outfields, dbana, colorfill, filter_year);
 	}
-// Number of Samples/Year Filter:Analyse & Plateform  ==> No more
-/*
-	if(serial==2) {
-		filter_year = [];
-		sl_year = [];
-		sl_value = [];
-		colorfill=["#9ACEC8"];
-		var ind="2";
-		var prog_name="patAnaPlt";
-		var prog_name_p="proAnaPlt";
-		var dbana=0;
-		create_divSlider(ind);
-		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
-		launch_valmonoselect_data(plateformNameStore, divMono="splateformSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year);
-		colorfill=["#6B8E8A"];
-		ind="22";
-		dbana=1;
-		create_divSlider(ind);
-		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
-		launch_valmonoselect_data(plateformNameStore,divMono="splateformSelect_"+ind, ind, prog_name, dbana,  colorfill, filter_year);
-	}
-*/
-// Number of Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;Filter:Analyse & Unit  ==> No more
-/*	if(serial==3) {
-		filter_year = [];
-		sl_year = [];
-		sl_value = [];
-		colorfill=["#85B599"];
-		var ind="3";
-		var prog_name="patAnaUnit";
-		var prog_name_p="proAnaUnit";
-		var dbana=0;
-		create_divSlider(ind);
-		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
-		launch_dirmultiselect_data(directorStore, divMulti="qdirectorSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year);
-		colorfill=["#437C5B"];
-		ind="32";
-		dbana=1;
-		create_divSlider(ind);
-		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
-		launch_dirmultiselect_data(directorStore, divMulti="qdirectorSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year);
-
-	}
-*/
 // Number of Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;Filter:Analyse & User
 	if(serial==5) {
 		filter_year = [];
@@ -464,19 +504,17 @@ function initStat(serial) {
 		launch_gridmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, colorfill, filter_year);
 		var dbana=0;
 		create_divSlider(ind);
-		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
+		var s_outfields = "";
+		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param,s_outfields, dbana, colorfill, filter_year);
 		colorfill=["#707A43"];
 		var ind="52";
 		var dbana=1;
 		create_divSlider(ind);
-		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
-		
+		var s_outfields = "";
+		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param,s_outfields, dbana, colorfill, filter_year);
 	}
 // Number of Samples/Year and Team Filter:Analyse & Unit
 	if(serial==6) {
-		filter_year = [];
-		sl_year = [];
-		sl_value = [];
 		arr_userid=[];
 		colorfill=["#85B599"];
 		valUnitEYU=84;//IMAGINE NECKER
@@ -485,39 +523,20 @@ function initStat(serial) {
 		var prog_name_p="EYUproDetail";
 		var dbana=0;
 		create_divSlider(ind);
-		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
+		filter_year = [];
+		sl_year = [];
+		sl_value = [];
+		var s_outfields = "";
+		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param,s_outfields, dbana, colorfill, filter_year);
 		launch_valmonoselectUnit_data(unitNameStore, divMono="sunitSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year);
 		colorfill=["#809DCC"];
 		ind="62";
 		dbana=1;
 		create_divSlider(ind);
-		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
+		var s_outfields = "";
+		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param,s_outfields, dbana, colorfill, filter_year);
 		launch_valmonoselectUnit_data(unitNameStore, divMono="sunitSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year);
 	}
-// Number of Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;Filter:Analyse & Phenotype  ==> No more
-/*	if(serial==7) {
-		filter_year = [];
-		sl_year = [];
-		sl_value = [];
-		arr_userid=[];
-		valPhe="";
-
-		colorfill=["#FDCD6D"];
-		var ind="7";
-		var prog_name="patAnaPhe";
-		var prog_name_p="proAnaPhe";
-		var dbana=0;
-		create_divSlider(ind);
-		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
-		launch_dirmultiselect_data(phenotypeStore, divMulti="qphenotypeSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year);
-		colorfill=["#FBA90A"];
-		ind="72";
-		dbana=1;
-		create_divSlider(ind);
-		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
-		launch_dirmultiselect_data(phenotypeStore, divMulti="qphenotypeSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year);
-	}
-*/
 // Number of Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;Filter:Analyse & Group User
 	if(serial==8) {
 		filter_year = [];
@@ -531,60 +550,267 @@ function initStat(serial) {
 		launch_gridmultiselect_gridGroup_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, colorfill, filter_year);
 		var dbana=0;
 		create_divSlider(ind);
-		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
+		var s_outfields = "";
+		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param,s_outfields, dbana, colorfill, filter_year);
 		//colorfill=["#707A43"];
 		colorfill=["#DA70D6"];
 		var ind="82";
 		var dbana=1;
 		create_divSlider(ind);
-		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
+		var s_outfields = "";
+		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param,s_outfields, dbana, colorfill, filter_year);
 	}
-// Number of Samples/Year&nbsp;&nbsp;&nbsp;&nbsp;Filter:Analyse & Profile ==> No more
-/*	if(serial==9) {
-		filter_year = [];
-		sl_year = [];
-		sl_value = [];
-		arr_userid=[];
-		var prog_name="patAnaProf";
-		var prog_name_p="proAnaProf";
-		colorfill=["#ffeead"];
-		valProf="";
-		var ind="9";
-		var dbana=0;
-		create_divSlider(ind);
-		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
-		launch_dirmultiselect_data(profileLabelStore, divMulti="qprofileSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year);
-		colorfill=["#EEE8AA"];
-		ind="92";
-		dbana=1;
-		create_divSlider(ind);
-		launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param, dbana, colorfill, filter_year);
-		launch_dirmultiselect_data(profileLabelStore, divMulti="qprofileSelect_"+ind, ind, prog_name, dbana, colorfill, filter_year);
-	}
-*/
 }
 
-function initcapProjectStore(analyse,ind,callback) {
+function getOutputFields(ind,dbana,prog_name,prog_param) {
+	require([
+ 		"dojo/_base/array","dojo/dom","dojo/dom-construct","dojo/on","dijit/form/ToggleButton","dijit/registry","dojo/domReady!"
+	], function(array, dom, domConstruct, on, ToggleButton, registry) 
+		{
+			if (dbana) {
+				var checkedList_add = getCheckedFields_1();
+			} else {
+				var checkedList_add = getCheckedFields();
+			}
+			var checkedList_project = ["Row","Project","Analyse"];
+			var checkedList_patient = ["Row","Patient","Project","Analyse"];
+			var yearList = ["Year"];
+			if (prog_name =="proAnaMac") {
+				checkedList_project.push(...checkedList_add);
+				checkedList_project.push(...yearList);
+				prog_param=prog_param+"&outfield="+ checkedList_project.join(",");
+			} 
+			else {
+				checkedList_patient.push(...checkedList_add);
+				checkedList_patient.push(...yearList);
+				prog_param=prog_param+"&outfield="+ checkedList_patient.join(",");
+			}			
+		}
+	)
+}
+
+function getCheckedFields() {
+    return widgets
+        .filter(function(w) {
+            return w.get("checked");
+        })
+        .map(function(w) {
+            return w.label;
+        });
+}
+
+function getCheckedFields_1() {	
+    return widgets_1
+        .filter(function(w) {
+            return w.get("checked");
+        })
+        .map(function(w) {
+            return w.label;
+        });
+}
+
+//		clearOutputFields(ind,dbana);
+
+function clearOutputFields(ind,dbana,i_btn) {
+	require([
+ 		"dojo/_base/array","dojo/dom","dojo/dom-construct","dojo/on","dijit/form/ToggleButton","dijit/registry","dojo/domReady!"
+	], function(array, dom, domConstruct, on, ToggleButton, registry) 
+		{
+  			var container = dom.byId("output_fields_"+ind);
+       			 // Détruire tous les widgets enfants
+        		registry.findWidgets(container).forEach(function(widget){
+				widget.destroyRecursive();
+			});
+
+        // Vider le HTML restant
+			domConstruct.empty(container);
+			var newLayoutProj;
+			var newLayoutProj_1;
+			var newLayoutPat;
+			var newLayoutPat_1;
+			var widgets = [];
+			var widgets_1 = [];
+		}
+	)
+}
+
+
+
+function init_outputFields(ind,dbana,i_btn,init_Layout) {
+	require([
+ 		"dojo/_base/array","dojo/dom","dojo/dom-construct","dojo/on","dijit/form/ToggleButton","dijit/registry","dojo/domReady!"
+	], function(array, dom, domConstruct, on, ToggleButton, registry) 
+		{
+ 			var sp_ind=ind.toString().split("_");
+   			var outfields = ["Machine", "Capture", "Type", "Platform", "Profile","Phenotype","Unit"];
+    			var container = dom.byId("output_fields_"+ind);
+  			 // ? Stocker les widgets (plus propre)
+			if (i_btn) {
+				if (dbana) {
+					widgets_1 = [];
+ 					array.forEach(outfields, function(field) {
+ 						var btn = new ToggleButton({
+							id: field+"_1",
+							label: field,
+							checked: true,
+							iconClass: "dijitCheckBoxIcon",
+							class: "checkBtn"
+						});
+						btn.placeAt(container);
+						btn.startup();
+						widgets_1.push(btn);
+					});
+				} else {
+					widgets = [];
+ 					array.forEach(outfields, function(field) {
+						var btn = new ToggleButton({
+							id: field+"_0",
+							label: field,
+							checked: true,
+							iconClass: "dijitCheckBoxIcon",
+							class: "checkBtn"
+						});
+ 						btn.placeAt(container);
+						btn.startup();
+						widgets.push(btn);
+					});
+				}
+
+			}
+			if (dbana) {
+				var checkedList_add = getCheckedFields_1();
+			} else {
+				var checkedList_add = getCheckedFields();
+			}
+			var checkedList_project = ["Row","Project","Analyse"];
+			var checkedList_patient = ["Row","Patient","Project","Analyse"];
+			var yearList = ["Year"];
+			checkedList_project.push(...checkedList_add);
+			checkedList_project.push(...yearList);
+
+			checkedList_patient.push(...checkedList_add);
+			checkedList_patient.push(...yearList);
+
+			on(registry.byId("btnValidate_"+ind), "click", function() {
+				init_Layout=0;
+				init_LayoutProjPat=0;
+				checkedList_project = ["Row","Project","Analyse"];
+				checkedList_patient = ["Row","Patient","Project","Analyse"];
+
+				var yearList = ["Year"];
+				if (dbana) {
+					var checkedList_add = widgets_1
+					.filter(function(w) {
+						return w.get("checked");
+					})
+					.map(function(w) {
+						//return w.id;
+						return w.label;
+					});
+				} else {
+					var checkedList_add = widgets
+					.filter(function(w) {
+						return w.get("checked");
+					})
+					.map(function(w) {
+						//return w.id;
+						return w.label;
+					});
+				}
+				checkedList_project.push(...checkedList_add);
+				checkedList_project.push(...yearList);
+				checkedList_patient.push(...checkedList_add);
+				checkedList_patient.push(...yearList);
+				if(dbana) {
+					newLayoutProj_1 = layoutProjMacGrid.filter(function(col){
+        					return checkedList_project.join(",").indexOf(col.name) !== -1;
+					})
+					newLayoutPat_1 = layoutPatientProjMacGrid.filter(function(col){
+        					return checkedList_patient.indexOf(col.name) !== -1;
+					});
+				} else {
+					newLayoutProj = layoutProjMacGrid.filter(function(col){
+        					return checkedList_project.join(",").indexOf(col.name) !== -1;
+					})
+					newLayoutPat = layoutPatientProjMacGrid.filter(function(col){
+        					return checkedList_patient.indexOf(col.name) !== -1;
+					});
+				}
+				var prog_param="";
+				var prog_name_p="proAnaMac";
+				var prog_name_a="patientAnaMac";
+				valMac="";
+				valCap_s1=0;
+				valPlt_s2=0;
+				valUnit_s3=0;
+				valProf_s4=0;
+				valPhe_s5=0;
+				if(dbana) {
+					valMac=dijit.byId("idDirMultiSelect_12").get("value");
+					valCap_s1=dijit.byId("idDirMultiSelect_12_1").get("value");
+					valPlt_s2=dijit.byId("idDirMultiSelect_12_1_1").get("value");
+					valUnit_s3=dijit.byId("idDirMultiSelect_12_1_1_1").get("value");
+					valProf_s4=dijit.byId("idDirMultiSelect_12_1_1_1_1").get("value");
+					valPhe_s5=dijit.byId("idDirMultiSelect_12_1_1_1_1_1").get("value");
+				} else {
+					valMac=dijit.byId("idDirMultiSelect_1").get("value");
+					valCap_s1=dijit.byId("idDirMultiSelect_1_1").get("value");
+					valPlt_s2=dijit.byId("idDirMultiSelect_1_1_1").get("value");
+					valUnit_s3=dijit.byId("idDirMultiSelect_1_1_1_1").get("value");
+					valProf_s4=dijit.byId("idDirMultiSelect_1_1_1_1_1").get("value");
+					valPhe_s5=dijit.byId("idDirMultiSelect_1_1_1_1_1_1").get("value");
+				}
+				valAnalyse=valAnalyse.toString();
+				prog_param=prog_param+"&analyse="+valAnalyse;
+				if(dbana) {
+					prog_param=prog_param +"&not="+"1";
+				}
+				valMac=valMac.toString();
+				valCap_s1=valCap_s1.toString();
+				valPlt_s2=valPlt_s2.toString();
+				valUnit_s3=valUnit_s3.toString();
+				valProf_s4=valProf_s4.toString();
+				valPhe_s5=valPhe_s5.toString();
+				prog_param=prog_param+"&machine=" +valMac+"&captureId=" +valCap_s1+"&platformId="+valPlt_s2+"&unit="+valUnit_s3+"&prof="+valProf_s4+"&phe="+valPhe_s5+"&outfield="+ checkedList_project.join(",");
+				launch_query_data(libquery="query_" + sp_ind[0], data["query_"+sp_ind[0]+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid,init_Layout);
+//tito
+				launch_query_data(libquery="aquery_" + sp_ind[0], data["query_"+sp_ind[0]+"Store"], prog_name_a, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid,init_Layout,init_standby="1");
+			});
+			if (dbana) {
+				on(registry.byId("btnReset_"+ind), "click", function() {
+					widgets_1.forEach(w => w.set("checked", true)); // ou false
+				});
+
+			} else {
+				on(registry.byId("btnReset_"+ind), "click", function() {
+					widgets.forEach(w => w.set("checked", true)); // ou false
+				});
+			}
+		}
+	)
+}
+
+function initcapProjectStore(analyse,ind,dbana,callback) {
 	var sp_ind=ind.toString().split("_");
 	var url_cmd="";
-	if (sp_ind[0]==12) {url_cmd="/manageData.pl?option=capProject"+"&analyse="+ analyse+"&not=1";}
+	if (dbana) {url_cmd="/manageData.pl?option=capProject"+"&analyse="+ analyse+"&not=1";}
 	else {url_cmd="/manageData.pl?option=capProject"+"&analyse="+ analyse;}
-	var s_callback=0;
+	var i_callback=0;
 	var v=1;
   	dojo.xhrGet({
 		url: url_path + url_cmd,
 		handleAs: "json",
 		load: function (res) {
 			capProjectStore = new dojo.store.Memory({data: res});
- 			s_callback=1;
-			callback(s_callback);
+ 			i_callback=1;
+			callback(i_callback);
 		}
 	});
 }
 
 function launch_valmonoselect_year(Store,divMono,ind,prog_name,dbana,s_year,callback){
 	var valYear;
-	var s_callback=0;
+	var y_callback=0;
 	var s_yearpatSelect=dijit.byId("s_yearpat_"+ind);
 	if(!s_yearpatSelect ){
 		s_yearpatSelect = new dijit.form.FilteringSelect({
@@ -596,7 +822,9 @@ function launch_valmonoselect_year(Store,divMono,ind,prog_name,dbana,s_year,call
 			id:"s_yearpat_"+ind,
 			onChange: function(item) {
 				valYear=item.toString();
-				if(prog_name=="patientAnaMac") {
+				if(prog_name_a=="patientAnaMac") {
+				//if(prog_name=="patAnaMac" || prog_name_p=="patproMac" || prog_name_a=="patientAnaMac") {
+				//if(prog_name=="patientAnaMac") {
 					valAnalyse=dijit.byId("idanaMultiSelect_"+ind).value;
 					prog_param="&analyse="+valAnalyse;
 					if(dbana) {
@@ -623,22 +851,21 @@ function launch_valmonoselect_year(Store,divMono,ind,prog_name,dbana,s_year,call
 					valProf_s4=valProf_s4.toString();
 					valPhe_s5=valPhe_s5.toString();
 					prog_param=prog_param+"&machine=" +valMac+"&captureId=" +valCap_s1+"&platformId="+valPlt_s2+"&unit="+valUnit_s3+"&prof="+valProf_s4+"&phe="+valPhe_s5;
+					getOutputFields(ind,dbana,prog_name_a,prog_param);
 					launch_query_data(libquery="aquery_" + ind, data["stat_"+ind+"Store"], prog_name_a, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 				}
 			}
 		},divMono);
 		s_yearpatSelect.startup();
-		s_callback=1;
-		callback(s_callback);
+		y_callback=1;
+		callback(y_callback);
 
 	} else {
 		s_yearpatSelect.reset();
-		s_callback=1;
-		callback(s_callback);
+		y_callback=1;
+		callback(y_callback);
 	}
 }
-
-
 
 var pvalana0;
 var pvalana1;
@@ -1011,7 +1238,7 @@ function launch_valmonoselect_data(Store,divMono,ind,prog_name,dbana,colorfill,f
 }
 
 // phenotype director (unit) machine capture unit profile store
-function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill,filter_year){
+function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill,filter_year,init_Layout){
 	require([
     		"dojo/_base/declare","dojo/_base/lang","dojo/_base/array","dojo/on","dojo/dom",
 		"dojo/dom-class","dijit/registry",
@@ -1023,13 +1250,12 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
 			var sp_ind=ind.toString().split("_");
 			if (sp_ind[1] && !sp_ind[2]) {
 				valAnalyse=dijit.byId("idanaMultiSelect_"+sp_ind[0]).value;
-   				var filteredData = "";
+  				var filteredData = "";
 				if (sp_ind[0]=="12") {
 					filteredData = Store.query(function(item){
 						return !valAnalyse.includes(item.capAnalyse);
 					});					
 				} else {					
-					//filteredData = Store.query({capAnalyse: valAnalyse.toString() });					
 					filteredData = Store.query(function(item){
   						return valAnalyse.includes(item.capAnalyse);
 					});
@@ -1046,7 +1272,7 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
         				labelProperty: "label"
 				});
 			} else {
-   				// Store used
+  				// Store used
 				dataStore = new DataStore({
 					objectStore:Store,
 					labelProperty:"label"
@@ -1054,7 +1280,7 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
 			}
 			var qMultiSelect=registry.byId("idDirMultiSelect_"+ind);
 			if(!qMultiSelect ){
-				qMultiSelect = new MyCheckedMultiSelect({
+ 				qMultiSelect = new MyCheckedMultiSelect({
 					dropDown: true,
 					id:"idDirMultiSelect_"+ind,
 					store: dataStore,
@@ -1065,6 +1291,7 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
 					sortByLabel: false,
 					label: "Select",
 					onChange: function(item) {
+						init_Layout=0;
 						if (divMulti.includes(["qdirectorSelect"])) {
 							valUnit=item.toString();
 							if (valUnit) {
@@ -1111,6 +1338,8 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
 									prog_param=prog_param+"&machine=" +valMac+"&captureId=" +valCap_s1+"&platformId="+valPlt_s2+"&unit="+valUnit_s3+"&prof="+valProf_s4+"&phe="+valPhe_s5;
 								}
 								launch_stat_data(libchart="stat_"+sp_ind[0], colorfill, data["stat_"+sp_ind[0]+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+								getOutputFields(ind,dbana,prog_name_p,prog_param);
+								getOutputFields(ind,dbana,prog_name_a,prog_param);
 								launch_query_data(libquery="query_" + sp_ind[0], data["stat_"+sp_ind[0]+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 								launch_query_data(libquery="aquery_" + sp_ind[0], data["stat_"+sp_ind[0]+"Store"], prog_name_a, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 							}
@@ -1126,6 +1355,7 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
 									prog_param=prog_param +"&not="+"1";
 								}
 								if(prog_name=="patAnaMac" || prog_name_p=="proAnaMac") {  //### patAnaMac
+									
 									// get Capture/Platform/Unit/Profile/phenotype value when changing Machine
 									if(dbana) {
 										valMac=dijit.byId("idDirMultiSelect_12").get("value");
@@ -1151,13 +1381,14 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
 									prog_param=prog_param+"&machine=" +valMac+"&captureId=" +valCap_s1+"&platformId="+valPlt_s2+"&unit="+valUnit_s3+"&prof="+valProf_s4+"&phe="+valPhe_s5;
 								}
 								launch_stat_data(libchart="stat_"+ sp_ind[0], colorfill, data["stat_"+ sp_ind[0]+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+								getOutputFields(ind,dbana,prog_name_p,prog_param);
+								getOutputFields(ind,dbana,prog_name_a,prog_param);
 								launch_query_data(libquery="query_" +  sp_ind[0], data["stat_"+ sp_ind[0]+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
-								launch_query_data(libquery="aquery_" +  sp_ind[0], data["stat_"+ sp_ind[0]+"Store"], prog_name_a, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);//toto
+								launch_query_data(libquery="aquery_" +  sp_ind[0], data["stat_"+ sp_ind[0]+"Store"], prog_name_a, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 							}
 						}
 						if (divMulti.includes(["qprofileSelect"])) {
 							var sp_ind=ind.toString().split("_");
-							//valProf=item.toString();// a supprimer toto
 							valAnalyse=dijit.byId("idanaMultiSelect_"+sp_ind[0]).value;
 							valProf_s4=item.toString();
 							prog_param="&analyse="+valAnalyse;
@@ -1188,6 +1419,8 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
 									prog_param=prog_param+"&machine=" +valMac+"&captureId="+valCap_s1+"&platformId="+valPlt_s2+"&unit="+valUnit_s3+"&prof="+valProf_s4+"&phe="+valPhe_s5;
 								}
 								launch_stat_data(libchart="stat_"+sp_ind[0], colorfill, data["stat_"+sp_ind[0]+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+								getOutputFields(ind,dbana,prog_name_p,prog_param);
+								getOutputFields(ind,dbana,prog_name_a,prog_param);
 								launch_query_data(libquery="query_" + sp_ind[0], data["stat_"+sp_ind[0]+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 								launch_query_data(libquery="aquery_" + sp_ind[0], data["stat_"+sp_ind[0]+"Store"], prog_name_a, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 							}
@@ -1224,6 +1457,8 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
 									prog_param=prog_param+"&machine=" +valMac+"&captureId=" +valCap_s1+"&platformId="+valPlt_s2+"&unit="+valUnit_s3+"&prof="+valProf_s4+"&phe="+valPhe_s5;
 								}
 								launch_stat_data(libchart="stat_"+sp_ind[0], colorfill, data["stat_"+sp_ind[0]+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+								getOutputFields(ind,dbana,prog_name_p,prog_param);
+								getOutputFields(ind,dbana,prog_name_a,prog_param);
 								launch_query_data(libquery="query_" + sp_ind[0], data["stat_"+sp_ind[0]+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 								launch_query_data(libquery="aquery_" + sp_ind[0], data["stat_"+sp_ind[0]+"Store"], prog_name_a, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 							}
@@ -1261,6 +1496,8 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
 									prog_param=prog_param+"&machine=" +valMac+"&captureId="+valCap_s1+"&platformId="+valPlt_s2+"&unit="+valUnit_s3+"&prof="+valProf_s4+"&phe="+valPhe_s5;
 								}
 								launch_stat_data(libchart="stat_"+sp_ind[0], colorfill, data["stat_"+sp_ind[0]+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+								getOutputFields(ind,dbana,prog_name_p,prog_param);
+								getOutputFields(ind,dbana,prog_name_a,prog_param);
 								launch_query_data(libquery="query_" + sp_ind[0], data["stat_"+sp_ind[0]+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 								launch_query_data(libquery="aquery_" + sp_ind[0], data["stat_"+sp_ind[0]+"Store"], prog_name_a, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 							}
@@ -1299,6 +1536,8 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
 									prog_param=prog_param+"&machine=" +valMac+"&captureId=" +valCap_s1+"&platformId="+valPlt_s2+"&unit="+valUnit_s3+"&prof="+valProf_s4+"&phe="+valPhe_s5;
 								}
 								launch_stat_data(libchart="stat_"+sp_ind[0], colorfill, data["stat_"+sp_ind[0]+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);//toto
+								getOutputFields(ind,dbana,prog_name_p,prog_param);
+								getOutputFields(ind,dbana,prog_name_a,prog_param);
 								launch_query_data(libquery="query_" + sp_ind[0], data["stat_"+ind+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 								launch_query_data(libquery="aquery_" + sp_ind[0], data["stat_"+sp_ind[0]+"Store"], prog_name_a, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);//toto
 
@@ -1307,6 +1546,7 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
 					}
 				},divMulti);
    				qMultiSelect.startup();
+				init_Layout=1;
 				if (sp_ind[0] && sp_ind[1] && sp_ind[2]) {
 					if (sp_ind[3]) {
 						if (sp_ind[4]) {
@@ -1332,43 +1572,6 @@ function launch_dirmultiselect_data(Store,divMulti,ind,prog_name,dbana,colorfill
 					}
 
 				}
-/*
-				if (sp_ind[0] && sp_ind[1] && sp_ind[2]) {
-					if (sp_ind[3]) {
-						if (sp_ind[4]) {
-							if (divMulti.includes(["qprofileSelect"])) {
-								initButtonClear_dirmultiselect_data("bt_clear_","Profile",sp_ind[0].toString()+"_"+sp_ind[1].toString()+"_"+sp_ind[2].toString()+"_"+sp_ind[3].toString()+"_"+sp_ind[4].toString(),qMultiSelect,dbana,prog_name);
-							}							
-						} else {
-							if (divMulti.includes(["qunitSelect"])) {
-								initButtonClear_dirmultiselect_data("bt_clear_","Unit",sp_ind[0].toString()+"_"+sp_ind[1].toString()+"_"+sp_ind[2].toString()+"_"+sp_ind[3].toString(),qMultiSelect,dbana,prog_name);
-							}
-						}
-					}
-					if (sp_ind[2]&& !sp_ind[3]) {
-						if (divMulti.includes(["qplatformSelect"])) {
-							initButtonClear_dirmultiselect_data("bt_clear_","Platform",sp_ind[0].toString()+"_"+sp_ind[1].toString()+"_"+sp_ind[2].toString(),qMultiSelect,dbana,prog_name);
-						}
-					}
-
-				}
-*/
-/*
-				if (sp_ind[0] && sp_ind[1] && sp_ind[2]) {
-					if (sp_ind[3]) {
-						if (divMulti.includes(["qunitSelect"])) {
-							initButtonClear_dirmultiselect_data("bt_clear_","Unit",sp_ind[0].toString()+"_"+sp_ind[1].toString()+"_"+sp_ind[2].toString()+"_"+sp_ind[3].toString(),qMultiSelect,dbana,prog_name);
-						}
-					}
-					if (sp_ind[2]&& !sp_ind[3]) {
-						if (divMulti.includes(["qplatformSelect"])) {
-							initButtonClear_dirmultiselect_data("bt_clear_","Platform",sp_ind[0].toString()+"_"+sp_ind[1].toString()+"_"+sp_ind[2].toString(),qMultiSelect,dbana,prog_name);
-						}
-					}
-
-				}
-
-*/
 				if (sp_ind[0] && sp_ind[1] && !sp_ind[2]) {
 					if (divMulti.includes(["qcaptureSelect"])) {
 						initButtonClear_dirmultiselect_data("bt_clear_","Capture",sp_ind[0].toString()+"_"+sp_ind[1].toString(),qMultiSelect,dbana,prog_name);
@@ -1459,6 +1662,9 @@ function initButtonClear_dirmultiselect_data(libclear,titleclear,ind,MultiSelect
 						prog_param=prog_param+"&machine=" +valMac+"&captureId=" +valCap_s1+"&platformId="+valPlt_s2+"&unit="+valUnit_s3+"&prof="+valProf_s4+"&phe="+valPhe_s5;
 					}
 				}
+				getOutputFields(ind,dbana,prog_name_p,prog_param);
+				getOutputFields(ind,dbana,prog_name_a,prog_param);
+				
 				launch_stat_data(libchart="stat_"+sp_ind[0], colorfill, data["stat_"+sp_ind[0]+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 				launch_query_data(libquery="query_" + sp_ind[0], data["query_"+sp_ind[0]+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 				
@@ -1471,7 +1677,9 @@ function initButtonClear_dirmultiselect_data(libclear,titleclear,ind,MultiSelect
 }
 
 // for valAnalyseStore
-function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,dbana,colorfill,filter_year){
+//launch_valmultiselect_data(valanalyseStore, divMulti="qanalyseSelect_"+ind, ind, prog_name, prog_param,s_outfields, dbana, colorfill, filter_year);
+//function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,dbana,colorfill,filter_year){
+function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,outfields,dbana,colorfill,filter_year,init_Layout){
 	require([
     		"dojo/_base/declare","dojo/_base/lang","dojo/_base/array","dojo/on","dojo/dom",
 		"dojo/dom-class","dijit/registry",
@@ -1496,6 +1704,7 @@ function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,dban
 					sortByLabel: false,
 					label: "<a style='background:#66CC00'>exome</a>",
 					onChange: function(item) {
+						init_Layout=0;
 						valAnalyse=item.toString();
 						if (valAnalyse) {
 							prog_param="&analyse="+valAnalyse;
@@ -1525,7 +1734,7 @@ function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,dban
 							}
 							if(prog_name=="patAnaMac") {
 								var p_callback=0;
-								initcapProjectStore(valAnalyse,ind,function (p_callback) {
+								initcapProjectStore(valAnalyse,ind,dbana,function (p_callback) {
 									if (p_callback) {
 										initFilterCapture(capProjectStore,valAnalyse,dbana,ind);
 									}
@@ -1543,7 +1752,8 @@ function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,dban
 								}
 								launch_query_data(libquery="query_" + ind, data["query_"+ind+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 							} else {
-								if(prog_name=="patAnaMac" || prog_name_p=="patproMac" || prog_name_a=="patientAnaMac") {
+								//if(prog_name=="patAnaMac" || prog_name_p=="patproMac" || prog_name_a=="patientAnaMac") {
+								if(prog_name=="patAnaMac") {
 									if (dbana) {
 										valMac=dijit.byId("idDirMultiSelect_12").get("value");
 										valPlt_s2=dijit.byId("idDirMultiSelect_12_1_1").get("value");
@@ -1565,8 +1775,10 @@ function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,dban
 									prog_param=prog_param+"&machine=" +valMac+"&captureId=0"+"&platformId="+valPlt_s2+"&unit="+valUnit_s3+"&prof="+valProf_s4+"&phe="+valPhe_s5;
 								}
 								launch_stat_data(libchart="stat_"+ind, colorfill, data["stat_"+ind+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
+								getOutputFields(ind,dbana,prog_name_p,prog_param);
+								getOutputFields(ind,dbana,prog_name_a,prog_param);
 								launch_query_data(libquery="query_" + ind, data["query_"+ind+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
-								launch_query_data(libquery="aquery_" + ind, data["stat_"+ind+"Store"], prog_name_a, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);//toto
+								launch_query_data(libquery="aquery_" + ind, data["stat_"+ind+"Store"], prog_name_a, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 							}
 						}
 					}
@@ -1575,6 +1787,7 @@ function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,dban
 			} else {
 				qanalyseMultiSelect.reset();
 			}
+			init_Layout=1;
 			valAnalyse="exome";
 			valPlt="IMAGINE";
 			valUnit="";
@@ -1619,7 +1832,7 @@ function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,dban
 				
 			}
 			if(prog_name=="patAnaMac") {
-				prog_param=prog_param+"&machine=" +valMac+"&captureId=" +valCap_s1+"&platformId="+valPlt_s2+"&unit="+valUnit_s3+"&prof="+valProf_s4+"&phe="+valPhe_s5;
+				prog_param=prog_param+"&machine=" +valMac+"&captureId=" +valCap_s1+"&platformId="+valPlt_s2+"&unit="+valUnit_s3+"&prof="+valProf_s4+"&phe="+valPhe_s5+"&outfield="+outfields;
 				prog_name_p="proAnaMac";				
 				prog_name_a="patientAnaMac";				
 			}
@@ -1642,8 +1855,8 @@ function launch_valmultiselect_data(Store,divMulti,ind,prog_name,prog_param,dban
 				launch_query_data(libquery="query_" + ind, data["stat_"+ind+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
 			} else {
 				launch_stat_data(libchart="stat_"+ind, colorfill, data["stat_"+ind+"Store"], prog_name, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
-				launch_query_data(libquery="query_" + ind, data["stat_"+ind+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);
-				launch_query_data(libquery="aquery_" + ind, data["stat_"+ind+"Store"], prog_name_a, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid);//toto
+				launch_query_data(libquery="query_" + ind, data["stat_"+ind+"Store"], prog_name_p, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid,init_Layout);
+				launch_query_data(libquery="aquery_" + ind, data["stat_"+ind+"Store"], prog_name_a, prog_param, dbana, filter_year, sl_year, sl_value, arr_userid,init_Layout);
 			}
 		}
 	)
@@ -1714,7 +1927,7 @@ function launch_stat_data(libchart,colorfill,Store,prog_name,prog_param,dbana,fi
 	} else {
 		url_stat="/stat.pl?opt="+prog_name + prog_param ;
 	}
-//	console.log(url_stat);
+	//console.log(url_stat);
 	showProgressDlg("Loading Graph... ",true,libchart,"LI");
 	
 	var xhrArgsEx={
@@ -1868,7 +2081,8 @@ function launch_stat_data(libchart,colorfill,Store,prog_name,prog_param,dbana,fi
 	var defferedEx = dojo.xhrGet(xhrArgsEx);
 }
 
-function launch_query_data(libquery,Store,prog_name,prog_param,dbana,filter_year,sl_year, sl_value,arr_userid){
+//toto voir quel launch_query_data mettre var newLayoutProj; j'en suis la
+function launch_query_data(libquery,Store,prog_name,prog_param,dbana,filter_year,sl_year, sl_value,arr_userid,init_Layout,init_standby){
 	var ind=libquery.split("_");
 	var button_grid_P="button_" + ind[1] + "_P";
 	var button_grid_A="button_" + ind[1] + "_A";
@@ -1887,7 +2101,7 @@ function launch_query_data(libquery,Store,prog_name,prog_param,dbana,filter_year
 		} else {
 			url_stat="/stat.pl?opt="+prog_name + prog_param ;
 		}
-//		console.log(url_stat);
+		//console.log(url_stat);
 		var xhrArgsP={
 			url: url_path + url_stat,
 			handleAs: "json",
@@ -1905,6 +2119,7 @@ function launch_query_data(libquery,Store,prog_name,prog_param,dbana,filter_year
 					if(prog_name=="proAnaUser"||prog_name=="proAnaGroup") {lib_valAnalyse = pvalana0;}
 				}
 				if (["proAnaProf","proAnaPhe","proAnaUser","proAnaGroup","proAnaPlt","proAnaUnit","proAnaMac","EYproDetail","EYUproDetail"].includes(prog_name)) {
+				//if (["proAnaProf","proAnaPhe","proAnaUser","proAnaGroup","proAnaPlt","proAnaUnit","proAnaMac2","EYproDetail","EYUproDetail"].includes(prog_name)) {
 					var gotList = function(items, request){
 						var NBPROJ = 0;
 						dojo.forEach(items, function(i){
@@ -1916,7 +2131,14 @@ function launch_query_data(libquery,Store,prog_name,prog_param,dbana,filter_year
 					Store.fetch({
   						onComplete: gotList,
  					});
-					launch_ButtonGrid_P(button_grid_P,Store,prog_name,lib_valAnalyse,ind[1]);
+					var nlayProj;
+					if (dbana) {
+						nlayProj=newLayoutProj_1;
+
+					} else {
+						nlayProj=newLayoutProj;
+					}
+					launch_ButtonGrid_P(button_grid_P,Store,prog_name_p,dbana,lib_valAnalyse,ind[1],init_Layout,nlayProj);
 				}
 			}
 		}
@@ -1935,10 +2157,14 @@ function launch_query_data(libquery,Store,prog_name,prog_param,dbana,filter_year
 			}
 		}
 		url_stat="/stat.pl?opt="+prog_name + prog_param +"&year="+valYear;
-//		console.log(url_stat);
+		//console.log(url_stat);
+		showProgressDlg("Loading List Stat... ",true,libchart,"ST");
 		var xhrArgsA={
 			url: url_path + url_stat,
 			handleAs: "json",
+			handle: function(response,args) {
+				showProgressDlg("Loading List Stat... ",false,libchart,"ST");
+			},
              		timeout: 0, // infinite no time out
 			load: function (res) {
 				Store = new dojox.data.AndOrWriteStore({data: res});
@@ -1965,8 +2191,14 @@ function launch_query_data(libquery,Store,prog_name,prog_param,dbana,filter_year
 					Store.fetch({
   						onComplete: gotList,
  					});
+					var nlayPat;
+					if (dbana) {
+						nlayPat=newLayoutPat_1;
+					} else {
+						nlayPat=newLayoutPat;
+					}
 				}
-				launch_ButtonGrid_A(button_grid_A,Store,prog_name,lib_valAnalyse,ind[1]);
+				launch_ButtonGrid_A(button_grid_A,Store,prog_name_a,dbana,lib_valAnalyse,ind[1],init_Layout,nlayPat);
 			}
 		}
 		var defferedA = dojo.xhrGet(xhrArgsA);
@@ -1986,7 +2218,7 @@ function launch_Cluster_data(libchart,colorfill,Store,prog_name,prog_param,dbana
 	} else {
 		url_stat=url_stat + prog_param ;
 	}
-//	console.log(url_stat);
+	//console.log(url_stat);
 	showProgressDlg("Loading Graph... ",true,libchart,"LI");
 	var xhrArgsEx={
 		url: url_path + url_stat,
@@ -2309,16 +2541,34 @@ function launch_ButtonGrid(button_grid,Store,prog_name,lib_valAnalyse,total,ctot
 	}
 }
 
-function launch_ButtonGrid_P(button_grid,Store,prog_name,lib_valAnalyse,ind){
+function launch_ButtonGrid_P(button_grid,Store,prog_name,dbana,lib_valAnalyse,ind,init_layout,newLayProj){
+	if (dbana) {
+		newLayoutProj_1=newLayProj;
+	} else {
+		newLayoutProj=newLayProj;
+	}
+	if (init_layout) {
+		var newLayoutProj;
+		var newLayoutProj_1;	
+	}
 	dijit.byId("bip"+button_grid) && dijit.byId("bip"+button_grid).destroyRecursive();
 	dojo.place(
 		new dijit.form.Button({
 			id:"bip"+button_grid,
 			showLabel: false,
 			iconClass:"viewProject",
-			onClick:viewGrid
+			disabled:false,
+			onClick:function(){
+				viewGrid(dbana,newLayoutProj,newLayoutProj_1);
+			}
 	}).domNode, button_grid, "first");
-	function viewGrid() {
+	function viewGrid(dbana,newLayoutProj,newLayoutProj_1) {
+		if (init_layout) {
+			var newLayoutProj;
+			var newLayoutProj_1;	
+			newLayoutProj="";
+			newLayoutProj_1="";
+		}
 		var id_cp=dijit.byId("cp"+button_grid);
  		if (id_cp) {
 			id_cp.destroyRecursive();
@@ -2338,7 +2588,22 @@ function launch_ButtonGrid_P(button_grid,Store,prog_name,lib_valAnalyse,ind){
 		var val_layoutGrid;
 		if(prog_name=="proAnaProf") {val_layoutGrid="layoutProjProfGrid"}
 		if(prog_name=="proAnaPhe") {val_layoutGrid="layoutProjPheGrid"}
-		if(prog_name=="proAnaMac") {val_layoutGrid="layoutProjMacGrid"}
+		if(prog_name=="proAnaMac") {			
+			if (dbana) {
+				if (newLayoutProj_1) {
+					val_layoutGrid="newLayoutProj_1";
+				} else {
+					val_layoutGrid="layoutProjMacGrid";
+				}
+			} else {
+				if (newLayoutProj) {
+					val_layoutGrid="newLayoutProj";
+				} else {
+					val_layoutGrid="layoutProjMacGrid";
+				}
+			}
+		}
+
 		if(prog_name=="proAnaPlt") {val_layoutGrid="layoutProjPltGrid"}
 		if(prog_name=="EYproDetail") {val_layoutGrid="layoutProjPltGrid"}
 		if(prog_name=="EYUproDetail") {val_layoutGrid="layoutProjTeamUnitGrid"}
@@ -2462,16 +2727,34 @@ function launch_ButtonGrid_P(button_grid,Store,prog_name,lib_valAnalyse,ind){
 	}
 }
 
-function launch_ButtonGrid_A(button_grid,Store,prog_name,lib_valAnalyse,ind){
+function launch_ButtonGrid_A(button_grid,Store,prog_name,dbana,lib_valAnalyse,ind,init_layout,newLayPat){
 	dijit.byId("bip"+button_grid) && dijit.byId("bip"+button_grid).destroyRecursive();
+	if (dbana) {
+		newLayoutPat_1=newLayPat;
+	} else {
+		newLayoutPat=newLayPat;
+	}
+	if (init_layout) {
+		var newLayoutPat;
+		var newLayoutPat_1;	
+	}
 	dojo.place(
 		new dijit.form.Button({
 			id:"bip"+button_grid,
 			showLabel: false,
 			iconClass:"viewProject",
-			onClick:viewGrid
+			onClick:function(){
+				viewGrid(newLayoutPat,newLayoutPat_1);
+			}
 	}).domNode, button_grid, "first");
-	function viewGrid() {
+	function viewGrid(newLayoutPat,newLayoutPat_1) {
+		if (init_layout) {
+			var newLayoutPat;
+			var newLayoutPat_1;	
+			newLayoutPat="";
+			newLayoutPat_1="";
+		}
+
 		var id_cp=dijit.byId("cp"+button_grid);
  		if (id_cp) {
 			id_cp.destroyRecursive();
@@ -2489,7 +2772,21 @@ function launch_ButtonGrid_A(button_grid,Store,prog_name,lib_valAnalyse,ind){
 		};
 
 		var val_layoutGrid;
-		if(prog_name=="patientAnaMac") {val_layoutGrid="layoutPatientProjMacGrid"}
+		if(prog_name=="patientAnaMac") {
+			if (dbana) {
+				if (newLayoutPat_1) {
+					val_layoutGrid="newLayoutPat_1";
+				} else {
+					val_layoutGrid="layoutPatientProjMacGrid";
+				}
+			} else {
+				if (newLayoutPat) {
+					val_layoutGrid="newLayoutPat";
+				} else {
+					val_layoutGrid="layoutPatientProjMacGrid";
+				}
+			}
+		}
 		menusObjectS.cellMenu.addChild(new dijit.MenuItem({label: "Preview - Save", iconClass:"dijitEditorIcon dijitEditorIconCopy",style:"background-color: #495569", disabled:true}));
 		menusObjectS.cellMenu.addChild(new dijit.MenuSeparator());
 		menusObjectS.cellMenu.addChild(new dijit.MenuItem({label: "Preview All", iconClass:"htmlIcon", onclick:"previewAll('Grid"+button_grid+"');"}));
@@ -2512,7 +2809,6 @@ function launch_ButtonGrid_A(button_grid,Store,prog_name,lib_valAnalyse,ind){
 		var valYear=dijit.byId("s_yearpat_"+ind).get("value");
 		var spPrint="&nbsp;<span id="+"Print" + button_grid +"><img src='icons/table_save.png'></span>";
 		var serie_legend="Number of Patients '" + lib_valAnalyse + "' per year";
-		//if (button_grid.includes(["_A"])) { serie_legend="Patient1 List '" + lib_valAnalyse + "' per year";}
 		if (button_grid.includes(["_A"])) { serie_legend="Patient List '" + lib_valAnalyse + "' for year " + valYear;}
 
 		if (["patientAnaMac"].includes(prog_name)) {
