@@ -72,16 +72,12 @@
 					<button data-dojo-type="dijit/form/Button" id="btnReset_1" iconClass="dijitIconUndo"
 					style="float:center; border-radius: 16px;background:linear-gradient(brown,#510303);border:0;color:white;margin:0;padding:0;width:1.5em;">
  					</button>
-					<button data-dojo-type="dijit/form/Button" id="btnValidate_1" iconClass="validIcon"
+					<button data-dojo-type="dijit/form/Button" id="btnValidate_1" iconClass="validIcon" title="Valid Button"
 					style="float:center;border-radius:10px;border:0;color:white;margin:0;padding:0;width:1.5em;background: transparent;">
  					</button>
 					</td>
 					</tr>
 					</table>
-				</div>
-				<div dojoType="dijit.Tooltip" connectId="btnReset_1" position="below">
-					<label class="tooltip"><b>Reset : All Checked</b><br>
-					</label>
 				</div>
 			</div>
 			<div dojoType="dijit.layout.ContentPane" region="right" style="width:50%;">
@@ -149,18 +145,20 @@
 					<button data-dojo-type="dijit/form/Button" id="btnReset_12" iconClass="dijitIconUndo"
 					style="float:center; border-radius: 16px;background:linear-gradient(brown,#510303);border:0;color:white;margin:0;padding:0;width:1.5em;">
  					</button>
-					<button data-dojo-type="dijit/form/Button" id="btnValidate_12" iconClass="validIcon"
+					<button data-dojo-type="dijit/form/Button" id="btnValidate_12" iconClass="validIcon" title="Valid Button"
 					style="float:center;border-radius:10px;border:0;color:white;margin:0;padding:0;width:1.5em;background: transparent;">
  					</button>
 					</td>
 					</tr>
 					</table>
-				</div>
-				<div dojoType="dijit.Tooltip" connectId="btnReset_12" position="below">
-					<label class="tooltip"><b>Reset : All Checked</b><br>
-					</label>
-				</div>
+  				</div>
 			</div>
+  			<div dojoType="dijit.Tooltip" data-dojo-props="connectId:['btnReset_1','btnReset_12']" position="below">
+				<label class="tooltip"><b>Reset : All Checked</b><br>Then click on Valid Button
+				</label>
+			</div>
+
+
 		</div>
 	</div>
 <!--  Platform & Analyse Graph_4 -->
