@@ -961,8 +961,9 @@ sub addPatientRunSection {
 	my @bcg=split(/,/,$gbarcode);
 
 	my $lane = $cgi->param('lane');
-	$lane=~ s/Z/; /g;
-	$lane=~ s/\n/;/g;
+#	$lane=~ s/Z/; /g;
+	$lane=~ s/\//;/g;# ajout
+#	$lane=~ s/\n/;/g;
 	my @llane=split(/,/,$lane);
 
 	my $reads = $cgi->param('reads');

@@ -3759,8 +3759,9 @@ if (typeof(fbcg) == "undefined" ||typeof(fieldPatient[fbcg]) == "undefined"||fie
 if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||fieldPatient[fpers]==0) {fieldPatient[fpers]=""}
 		namePerson.push(fieldPatient[fpers]);
 		if (typeof(fieldPatient[flan])=="undefined"||typeof(flan)=="undefined"||fieldPatient[flan]==0) {fieldPatient[flan]=""}
-		fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"");
-		fieldPatient[flan]=fieldPatient[flan].replace(/ /g,"Z");
+		//fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"");
+		fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"/");
+		//fieldPatient[flan]=fieldPatient[flan].replace(/ /g,"Z");
 		fieldPatient[flan]=fieldPatient[flan].replace(/,/g,"_");
 		groupLane.push(fieldPatient[flan]);
 		if (typeof(fieldPatient[frea])=="undefined"||typeof(frea)=="undefined"||fieldPatient[frea]==0) {fieldPatient[frea]=""}
@@ -4505,8 +4506,9 @@ if (typeof(fbcg) == "undefined" ||typeof(fieldPatient[fbcg]) == "undefined"||fie
 if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||fieldPatient[fpers]==0) {fieldPatient[fpers]=""}
 		namePerson.push(fieldPatient[fpers]);
 		if (typeof(fieldPatient[flan])=="undefined"||typeof(flan)=="undefined"||fieldPatient[flan]==0) {fieldPatient[flan]=""}
-		fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"");
-		fieldPatient[flan]=fieldPatient[flan].replace(/ /g,"Z");
+		//fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"");
+		fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"/");
+		//fieldPatient[flan]=fieldPatient[flan].replace(/ /g,"Z");
 		fieldPatient[flan]=fieldPatient[flan].replace(/,/g,"_");
 		groupLane.push(fieldPatient[flan]);
 		if (typeof(fieldPatient[frea])=="undefined"||typeof(frea)=="undefined"||fieldPatient[frea]==0) {fieldPatient[frea]=""}
@@ -7655,8 +7657,9 @@ function updateRunPatient() {
 		}
 		if (typeof(flan) != "undefined") {
 			if (fieldPatient[flan]) {
-				fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"");
-				fieldPatient[flan]=fieldPatient[flan].replace(/ /g,"Z");
+				//fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"");
+				fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"/");
+				//fieldPatient[flan]=fieldPatient[flan].replace(/ /g,"Z");
 				fieldPatient[flan]=fieldPatient[flan].replace(/,/g,"_");
 				groupLane.push(fieldPatient[flan]);
 			} else {
