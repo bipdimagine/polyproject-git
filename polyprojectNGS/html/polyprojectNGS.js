@@ -3595,6 +3595,7 @@ function newRun() {
 	var namePerson=[];
 	var groupLane=[];
 	var groupRead=[];
+	var groupPool=[];
 	for(var i=0; i<LinesPatient.length; i++) {
 		var fgrp;
 		var fpat;
@@ -3609,6 +3610,7 @@ function newRun() {
 		var fpers;
 		var flan;
 		var frea;
+		var fpoo;
 		var fieldPatient=LinesPatient[i].split("\t");
 //		var fieldPatient=LinesPatient[i].split("\\s+");.toLowerCase()
 		if (fieldPatient == ""){
@@ -3673,10 +3675,13 @@ function newRun() {
 					case "reads":
 					frea=j;
 					break;
+					case "pool":
+					fpoo=j;
+					break;
 					default:
 					textError.setContent("The Header Tabulated List is not Good!!!<BR>"+
-					"Field in Header: Patient Group Family Father Mother Sex Status BC BC2 IV Lane Reads Person<BR>"+
-					"Needs First field Patient then no order, no case sensitive,BC=Bar Code,BC2=Bar Code 2,IV=Identity Vigilance,Lane=Plate Well,Reads=Number of Reads,Person=Reffering Person Name");
+					"Field in Header: Patient Group Family Father Mother Sex Status BC BC2 IV Lane Reads Pool Person<BR>"+
+					"Needs First field Patient then no order, no case sensitive,BC=Bar Code,BC2=Bar Code 2,IV=Identity Vigilance,Lane=Plate Well,Reads=Number of Reads,Pool ,Person=Reffering Person Name");
 					myError.show();
 					return;
 				}			
@@ -3766,6 +3771,8 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 		groupLane.push(fieldPatient[flan]);
 		if (typeof(fieldPatient[frea])=="undefined"||typeof(frea)=="undefined"||fieldPatient[frea]==0) {fieldPatient[frea]=""}
 		groupRead.push(fieldPatient[frea]);
+		if (typeof(fieldPatient[fpoo])=="undefined"||typeof(fpoo)=="undefined"||fieldPatient[fpoo]==0) {fieldPatient[fpoo]=""}
+		groupPool.push(fieldPatient[fpoo]);
 	}
 // ### Patient Name Length ####//
 	for(var i=0; i<namePatient.length;i++ ) {
@@ -3895,7 +3902,8 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 					"&file="+ s_runSamplesheet +
 					"&profileId="+ desFormvalue.profileName +
 					"&lane=" + groupLane +
-					"&reads=" + groupRead
+					"&reads=" + groupRead +
+					"&pool=" + groupPool
 					;
 	if (btn) {
 		options=options	+ 
@@ -5774,6 +5782,7 @@ function showProject(id,name,somatic){
 		widgetProps:{required:false}},
 		{ field: "lane", name: "Lane", width: '15em'},
 		{ field: "reads", name: "nbReads", width: '5em'},
+		{ field: "pool", name: "Pool", width: '15em'},
 		{ field: "phenotype", name: "Phenotype", width: '15'},
 		{ field: "RunId",name: "Run",width: '4', formatter:colorRun},
 		{ field: "nameRun",name: "Run Name", width: '20', formatter:colorRun},
@@ -5920,8 +5929,8 @@ function showProject(id,name,somatic){
 		var itemR=patientprojectGrid.getItem(row.index);
 		if (itemR) {
 			if (itemR.Status==2 && itemR.phenotype.toString()!= "") {
- 				var ndsex = dojo.query('td[idx="11"]'  /* <= put column index here-> for Status */, row.node)[0];
-				var ndphe = dojo.query('td[idx="23"]'  /* <= put column index here-> for phenotype */, row.node)[0];
+ 				var ndsex = dojo.query('td[idx="12"]'  /* <= put column index here-> for Status */, row.node)[0];
+				var ndphe = dojo.query('td[idx="24"]'  /* <= put column index here-> for phenotype */, row.node)[0];
 				ndsex.style.backgroundColor = "#CCCC99";
 				ndphe.style.backgroundColor = "#CCCC99";
 			}
@@ -7130,6 +7139,7 @@ function showRun(rid,somatic,capRel,capAnalyse){
 		widgetProps:{required:false}},
 		{ field: "lane", name: "Lane", width: '15em',styles:"text-align:left;white-space:nowrap;"},
 		{ field: "reads", name: "nbReads", width: '5em'},
+		{ field: "pool", name: "Pool", width: '15em'},
 		{ field: "phenotype", name: "Phenotype", width: '12em'},
 		{ field: "MethAln", name: "Alignment", width: '10em', editable: true,required:true,
 		type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect',
@@ -7329,8 +7339,10 @@ type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect',widgetP
 				//nd23.style.backgroundColor = "#CCCC99";
 				//var nd15 = dojo.query('td[idx="15"]'  /* <= put column index here-> for Status */, row.node)[0];
 				//var nd23 = dojo.query('td[idx="23"]'  /* <= put column index here-> for phenotype */, row.node)[0];
-				var ndsex = dojo.query('td[idx="14"]'  /* <= put column index here-> for Status */, row.node)[0];
-				var ndphe = dojo.query('td[idx="26"]'  /* <= put column index here-> for phenotype */, row.node)[0];
+				//var ndsex = dojo.query('td[idx="14"]'  /* <= put column index here-> for Status */, row.node)[0];
+				//var ndphe = dojo.query('td[idx="26"]'  /* <= put column index here-> for phenotype */, row.node)[0];
+				var ndsex = dojo.query('td[idx="15"]'  /* <= put column index here-> for Status */, row.node)[0];
+				var ndphe = dojo.query('td[idx="27"]'  /* <= put column index here-> for phenotype */, row.node)[0];
 				ndsex.style.backgroundColor = "#CCCC99";
 				ndphe.style.backgroundColor = "#CCCC99";
 			}
@@ -7409,13 +7421,14 @@ function set_ColVisibility(grid,visibility){
 //	grid.layout.setColumnVisibility(32, visibility);//toto
 //	grid.layout.setColumnVisibility(33, visibility);
 //	grid.layout.setColumnVisibility(34, visibility);
-	grid.layout.setColumnVisibility(35, visibility);
+//	grid.layout.setColumnVisibility(35, visibility);
 	grid.layout.setColumnVisibility(36, visibility);
 	grid.layout.setColumnVisibility(37, visibility);
 	grid.layout.setColumnVisibility(38, visibility);
 	grid.layout.setColumnVisibility(39, visibility);
 	grid.layout.setColumnVisibility(40, visibility);
 	grid.layout.setColumnVisibility(41, visibility);
+	grid.layout.setColumnVisibility(42, visibility);
 	grid.endUpdate();
 }
 
@@ -7439,7 +7452,7 @@ function set_ColVisibility2(grid,visibility){
 	grid.beginUpdate();
 //	grid.layout.setColumnVisibility(31, visibility);// pas de User Plt
 //	grid.layout.setColumnVisibility(32, visibility);
-	grid.layout.setColumnVisibility(33, visibility);
+//	grid.layout.setColumnVisibility(33, visibility);
 	grid.layout.setColumnVisibility(34, visibility);
 	grid.layout.setColumnVisibility(35, visibility);
 	grid.layout.setColumnVisibility(36, visibility);
@@ -7447,6 +7460,7 @@ function set_ColVisibility2(grid,visibility){
 	grid.layout.setColumnVisibility(38, visibility);
 	grid.layout.setColumnVisibility(39, visibility);
 	grid.layout.setColumnVisibility(40, visibility);
+	grid.layout.setColumnVisibility(41, visibility);
 	grid.endUpdate();
 }
 

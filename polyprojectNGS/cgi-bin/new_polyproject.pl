@@ -426,6 +426,11 @@ sub genomicRunSection {
 	$reads=~ s/\n/;/g;
 	my @lreads=split(/,/,$reads);
 
+	my $pool = $cgi->param('pool');
+	$pool=~ s/ //g;
+	$pool=~ s/\n/;/g;
+	my @lpool=split(/,/,$pool);
+
 	my $p_person = $cgi->param('person');
 	$p_person=~ s/ //g;
 	$p_person=~ s/\n/;/g;
@@ -658,9 +663,12 @@ sub genomicRunSection {
 				$profileid=0 unless $profileid;
 				$lreads[$i]=0 unless defined $lreads[$i];
 				$lreads[$i]=0 unless $lreads[$i];
-				$llane[$i]=~ s/_/,/g if $llane[$i];				
-#				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid);
-				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i]);
+				$llane[$i]=~ s/_/,/g if $llane[$i];
+				$lpool[$i]="" unless defined $lpool[$i];
+				$lpool[$i]="" unless $lpool[$i];
+							
+#				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i]);
+				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i],$lpool[$i]);
 				my $patient_id=$last_patient_id->{'LAST_INSERT_ID()'};
 
 				# phase 1

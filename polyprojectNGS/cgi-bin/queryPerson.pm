@@ -24,7 +24,7 @@ sub getPatientPersonInfoProjectDest {
 		a.bar_code,a.bar_code2,a.identity_vigilance,a.identity_vigilance_vcf,
 		a.sex,a.status,a.description,a.creation_date as cDate,
 		a.project_id,a.profile_id,a.species_id,a.origin_patient_id,
-		a.lane,a.nb_reads
+		a.lane,a.nb_reads,a.pool
 		
 		FROM PolyprojectNGS.patient a
 		LEFT JOIN PolyprojectNGS.patient_person pe
@@ -56,7 +56,7 @@ sub getPatientPersonProjectInfo {
 		a.bar_code,a.bar_code2,a.identity_vigilance,a.identity_vigilance_vcf,
 		a.flowcell,a.control,a.type,a.profile_id,a.species_id,
 		a.creation_date as cDate,
-		a.g_project,a.lane,a.nb_reads,
+		a.g_project,a.lane,a.nb_reads,a.pool,
 		e.person_id,e.name as 'person',e.family_id,e.sex as 'esex',e.status as 'estatus',e.father_id,e.mother_id,e.major_project_id,e.creation_date as eDate,		
 		r.description as desRun, r.document,r.name as nameRun,
 		r.file_name as FileName,r.file_type as FileType,		

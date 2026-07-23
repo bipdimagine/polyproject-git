@@ -3592,10 +3592,10 @@ sub addPatientRun {
 } 
 
 sub newPatientRun {
-	my ($dbh,$patient,$origin,$rid,$captureid,$fam,$fc,$bc,$bc2,$iv,$father,$mother,$sex,$status,$type,$speciesid,$profileid,$lane,$reads) = @_;
+	my ($dbh,$patient,$origin,$rid,$captureid,$fam,$fc,$bc,$bc2,$iv,$father,$mother,$sex,$status,$type,$speciesid,$profileid,$lane,$reads,$pool) = @_;
 	my $query = qq{    
- 		insert into PolyprojectNGS.patient (name,origin,run_id,capture_id,family,flowcell,bar_code,bar_code2,identity_vigilance,father,mother,sex,status,type,species_id,profile_id,lane,nb_reads) 
- 		values ("$patient","$origin","$rid","$captureid","$fam","$fc","$bc","$bc2","$iv","$father","$mother","$sex","$status","$type","$speciesid","$profileid","$lane","$reads");
+ 		insert into PolyprojectNGS.patient (name,origin,run_id,capture_id,family,flowcell,bar_code,bar_code2,identity_vigilance,father,mother,sex,status,type,species_id,profile_id,lane,nb_reads,pool) 
+ 		values ("$patient","$origin","$rid","$captureid","$fam","$fc","$bc","$bc2","$iv","$father","$mother","$sex","$status","$type","$speciesid","$profileid","$lane","$reads","$pool");
 	};
 	$dbh->do($query);
 	my $sql = qq{    

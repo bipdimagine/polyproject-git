@@ -2256,6 +2256,9 @@ sub genomicRunPatientSection {
 		#reads
 		$s{reads}="";
 		$s{reads}=$c->{nb_reads} if $c->{nb_reads}>0;
+		#pool
+		$s{pool}="";
+		$s{pool}=$c->{pool} if $c->{pool};
 		
 		#Phenotype Patient
 		my $patPhenotype = queryPolyproject::getPatientPhenotype($buffer->dbh,$s{PatId});
@@ -4967,6 +4970,9 @@ sub PatientProjectSection {
 		#reads
 		$s{reads}="";
 		$s{reads}=$c->{nb_reads} if $c->{nb_reads}>0;
+		#pool
+		$s{pool}="";
+		$s{pool}=$c->{pool} if $c->{pool};
 
 		my @datec = split(/ /,$c->{cDate});
 		my ($YY, $MM, $DD) = split("-", $datec[0]);
