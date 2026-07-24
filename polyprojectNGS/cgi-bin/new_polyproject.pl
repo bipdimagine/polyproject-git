@@ -415,11 +415,16 @@ sub genomicRunSection {
 	$gbarcode=~ s/ //g;
 	$gbarcode=~ s/\n/;/g;
 	my @bcg=split(/,/,$gbarcode);
+
 	my $lane = $cgi->param('lane');
-	#$lane=~ s/Z/; /g;
 	$lane=~ s/\//;/g;# ajout
 	#$lane=~ s/\n/;/g;
 	my @llane=split(/,/,$lane);
+	#Melodie:r04301_20260523_115418:1_E01,1_Z01:bc2058;r84301_20260701_104154:2_F01,2_Z01,2_C01,2_G01:bc2058
+	#Melodie: ;==> /
+	#Sylvain:AY_A	bc2133	r84301_20260720_082930:1_A01,1_B01,1_C01,1_D01:bc2133
+	#Sylvain:AY_A	bc2133	r84301_20260720_082930:1_A01=1_B01=1_C01=1_D01:bc2133
+	#Sylvain: , ==> =
 
 	my $reads = $cgi->param('reads');
 	$reads=~ s/ //g;
@@ -430,7 +435,6 @@ sub genomicRunSection {
 	$pool=~ s/ //g;
 	$pool=~ s/\n/;/g;
 	my @lpool=split(/,/,$pool);
-
 	my $p_person = $cgi->param('person');
 	$p_person=~ s/ //g;
 	$p_person=~ s/\n/;/g;
@@ -663,7 +667,13 @@ sub genomicRunSection {
 				$profileid=0 unless $profileid;
 				$lreads[$i]=0 unless defined $lreads[$i];
 				$lreads[$i]=0 unless $lreads[$i];
-				$llane[$i]=~ s/_/,/g if $llane[$i];
+				
+				#Melodie:r04301_20260523_115418:1_E01,1_Z01:bc2058;r84301_20260701_104154:2_F01,2_Z01,2_C01,2_G01:bc2058
+				#Melodie: ;==> /
+				#Sylvain:AY_A	bc2133	r84301_20260720_082930:1_A01,1_B01,1_C01,1_D01:bc2133
+				#Sylvain:AY_A	bc2133	r84301_20260720_082930:1_A01=1_B01=1_C01=1_D01:bc2133
+#				$llane[$i]=~ s/_/,/g if $llane[$i];
+				$llane[$i]=~ s/=/,/g if $llane[$i];
 				$lpool[$i]="" unless defined $lpool[$i];
 				$lpool[$i]="" unless $lpool[$i];
 							

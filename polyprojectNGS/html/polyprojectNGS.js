@@ -3765,9 +3765,12 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 		namePerson.push(fieldPatient[fpers]);
 		if (typeof(fieldPatient[flan])=="undefined"||typeof(flan)=="undefined"||fieldPatient[flan]==0) {fieldPatient[flan]=""}
 		//fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"");
+		//r04301_20260523_115418:1_E01,1_Z01:bc2058;r84301_20260701_104154:2_F01,2_Z01,2_C01,2_G01:bc2058
+		//AY_A	bc2133	r84301_20260720_082930:1_A01,1_B01,1_C01,1_D01:bc2133
 		fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"/");
 		//fieldPatient[flan]=fieldPatient[flan].replace(/ /g,"Z");
-		fieldPatient[flan]=fieldPatient[flan].replace(/,/g,"_");
+		//fieldPatient[flan]=fieldPatient[flan].replace(/,/g,"_");
+		fieldPatient[flan]=fieldPatient[flan].replace(/,/g,"=");
 		groupLane.push(fieldPatient[flan]);
 		if (typeof(fieldPatient[frea])=="undefined"||typeof(frea)=="undefined"||fieldPatient[frea]==0) {fieldPatient[frea]=""}
 		groupRead.push(fieldPatient[frea]);
@@ -4515,9 +4518,12 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 		namePerson.push(fieldPatient[fpers]);
 		if (typeof(fieldPatient[flan])=="undefined"||typeof(flan)=="undefined"||fieldPatient[flan]==0) {fieldPatient[flan]=""}
 		//fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"");
+		//r04301_20260523_115418:1_E01,1_Z01:bc2058;r84301_20260701_104154:2_F01,2_Z01,2_C01,2_G01:bc2058
+		//AY_A	bc2133	r84301_20260720_082930:1_A01,1_B01,1_C01,1_D01:bc2133
 		fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"/");
 		//fieldPatient[flan]=fieldPatient[flan].replace(/ /g,"Z");
-		fieldPatient[flan]=fieldPatient[flan].replace(/,/g,"_");
+		//fieldPatient[flan]=fieldPatient[flan].replace(/,/g,"_");
+		fieldPatient[flan]=fieldPatient[flan].replace(/,/g,"=");
 		groupLane.push(fieldPatient[flan]);
 		if (typeof(fieldPatient[frea])=="undefined"||typeof(frea)=="undefined"||fieldPatient[frea]==0) {fieldPatient[frea]=""}
 		groupRead.push(fieldPatient[frea]);
@@ -7672,9 +7678,12 @@ function updateRunPatient() {
 		if (typeof(flan) != "undefined") {
 			if (fieldPatient[flan]) {
 				//fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"");
+				//r04301_20260523_115418:1_E01,1_Z01:bc2058;r84301_20260701_104154:2_F01,2_Z01,2_C01,2_G01:bc2058
+				//AY_A	bc2133	r84301_20260720_082930:1_A01,1_B01,1_C01,1_D01:bc2133
 				fieldPatient[flan]=fieldPatient[flan].replace(/;/g,"/");
 				//fieldPatient[flan]=fieldPatient[flan].replace(/ /g,"Z");
-				fieldPatient[flan]=fieldPatient[flan].replace(/,/g,"_");
+				//fieldPatient[flan]=fieldPatient[flan].replace(/,/g,"_");
+				fieldPatient[flan]=fieldPatient[flan].replace(/,/g,"=");
 				groupLane.push(fieldPatient[flan]);
 			} else {
 				groupLane.push("");

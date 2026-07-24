@@ -960,10 +960,14 @@ sub addPatientRunSection {
 	$gbarcode=~ s/\n/;/g;
 	my @bcg=split(/,/,$gbarcode);
 
+	#Melodie:r04301_20260523_115418:1_E01,1_Z01:bc2058;r84301_20260701_104154:2_F01,2_Z01,2_C01,2_G01:bc2058
+	#Melodie: ;==> /
+	#Sylvain:AY_A	bc2133	r84301_20260720_082930:1_A01,1_B01,1_C01,1_D01:bc2133
+	#Sylvain:AY_A	bc2133	r84301_20260720_082930:1_A01=1_B01=1_C01=1_D01:bc2133
+	#Sylvain: , ==> =
 	my $lane = $cgi->param('lane');
-#	$lane=~ s/Z/; /g;
 	$lane=~ s/\//;/g;# ajout
-#	$lane=~ s/\n/;/g;
+	#$lane=~ s/\n/;/g;
 	my @llane=split(/,/,$lane);
 
 	my $reads = $cgi->param('reads');
@@ -1130,8 +1134,14 @@ sub addPatientRunSection {
 				$profileid=0 unless defined $profileid;
 				$profileid=0 unless $profileid;
 				$lreads[$i]=0 unless defined $lreads[$i];
-				$lreads[$i]=0 unless $lreads[$i];				
-				$llane[$i]=~ s/_/,/g if $llane[$i];				
+				$lreads[$i]=0 unless $lreads[$i];
+							
+				#Melodie:r04301_20260523_115418:1_E01,1_Z01:bc2058;r84301_20260701_104154:2_F01,2_Z01,2_C01,2_G01:bc2058
+				#Melodie: ;==> /
+				#Sylvain:AY_A	bc2133	r84301_20260720_082930:1_A01,1_B01,1_C01,1_D01:bc2133
+				#Sylvain:AY_A	bc2133	r84301_20260720_082930:1_A01=1_B01=1_C01=1_D01:bc2133
+#				$llane[$i]=~ s/_/,/g if $llane[$i];
+				$llane[$i]=~ s/=/,/g if $llane[$i];
 				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i]);
 				my $patient_id=$last_patient_id->{'LAST_INSERT_ID()'};
 				my $personRunList= queryPerson::getPatientPersonInfo_byPersonName_Run($buffer->dbh,$person[$i]);
@@ -1460,7 +1470,12 @@ sub updatePatientRunSection {
 		my @fieldGNname= split(/,/,$listGroup,-1);#-1 for not empty element
 
 	my $listLane = $cgi->param('lane');
-		#$listLane=~ s/Z/; /g;	# Lane: This is done in queryPolyproject::upPatientRun	
+	#Melodie:r04301_20260523_115418:1_E01,1_Z01:bc2058;r84301_20260701_104154:2_F01,2_Z01,2_C01,2_G01:bc2058
+	#Melodie: ;==> /
+	#Sylvain:AY_A	bc2133	r84301_20260720_082930:1_A01,1_B01,1_C01,1_D01:bc2133
+	#Sylvain:AY_A	bc2133	r84301_20260720_082930:1_A01=1_B01=1_C01=1_D01:bc2133
+	#Sylvain: , ==> =
+		$listLane=~ s/\//;/g;# Lane: This is done in queryPolyproject::upPatientRun	
 		my @fieldLane = split(/,/,$listLane);
 	my $listReads = $cgi->param('reads');
 		my @fieldReads = split(/,/,$listReads);			
@@ -1624,7 +1639,12 @@ sub updatePatientRunSection {
 		$param.="identity_vigilance=".$fieldBG[$i]." " if ($fieldBG[$i]);
 		$param.="identity_vigilance=".""." " if ($piv && !$fieldBG[$i]);
 		
-		$fieldLane[$i]=~ s/_/,/g if ($fieldLane[$i]);		
+		#Melodie:r04301_20260523_115418:1_E01,1_Z01:bc2058;r84301_20260701_104154:2_F01,2_Z01,2_C01,2_G01:bc2058
+		#Melodie: ;==> /
+		#Sylvain:AY_A	bc2133	r84301_20260720_082930:1_A01,1_B01,1_C01,1_D01:bc2133
+		#Sylvain:AY_A	bc2133	r84301_20260720_082930:1_A01=1_B01=1_C01=1_D01:bc2133
+		#$fieldLane[$i]=~ s/_/,/g if ($fieldLane[$i]);		
+		$fieldLane[$i]=~ s/=/,/g if ($fieldLane[$i]);		
 		$param.="lane=".$fieldLane[$i]." " if ($fieldLane[$i]);		
 
 		$fieldReads[$i]=0 unless defined $fieldReads[$i];
