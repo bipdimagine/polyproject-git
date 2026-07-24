@@ -1227,7 +1227,6 @@ sub addPatientRunSection {
 			queryPerson::upPerson_inMotherId($buffer->dbh,$res_pat->{person_id},$patientList->[0]->{person_id});
 		}		
 	}	
-
 	my $listPatRun=queryPolyproject::getRunIdfromPatient($buffer->dbh,$runid);
 	queryPolyproject::upNbPat2run($buffer->dbh,$runid,scalar(@$listPatRun));
 #  add Meth call & aln to patient

@@ -3826,7 +3826,6 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 //	}
 
 //Error Father Family
-
 	for(var i=0; i<namePatient.length;i++ ) {  
 		for(var j=0; j<nameFather.length;j++ )
 		{

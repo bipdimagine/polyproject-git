@@ -21,9 +21,6 @@ use File::Basename;
 use File::Find::Rule;
 use List::Util qw/ max min /;
 
-#use util_file qw(readXmlVariations);
-#use insert;
-
 use CGI;
 use connect;
 use JSON::XS;
