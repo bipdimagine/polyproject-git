@@ -4363,6 +4363,7 @@ function addPatient() {
 	var namePerson=[];
 	var groupLane=[];
 	var groupRead=[];
+	var groupPool=[];
 
 	for(var i=0; i<LinesPatient.length; i++) {
 		var fgrp;
@@ -4378,6 +4379,7 @@ function addPatient() {
 		var fpers;
 		var flan;
 		var frea;
+		var fpoo;
 		var fieldPatient=LinesPatient[i].split("\t");
 //		var fieldPatient=LinesPatient[i].split("\\s+");.toLowerCase()
 		if (fieldPatient == ""){
@@ -4442,6 +4444,9 @@ function addPatient() {
 					break;
 					case "reads":
 					frea=j;
+					break;
+					case "pool":
+					fpoo=j;
 					break;
 					default:
 					textError.setContent("The Header Tabulated List is not Good!!!<BR>"+
@@ -4526,6 +4531,8 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 		groupLane.push(fieldPatient[flan]);
 		if (typeof(fieldPatient[frea])=="undefined"||typeof(frea)=="undefined"||fieldPatient[frea]==0) {fieldPatient[frea]=""}
 		groupRead.push(fieldPatient[frea]);
+		if (typeof(fieldPatient[fpoo])=="undefined"||typeof(fpoo)=="undefined"||fieldPatient[fpoo]==0) {fieldPatient[fpoo]=""}
+		groupPool.push(fieldPatient[fpoo]);
 	}
 // ### Patient Name Length ####//
 	for(var i=0; i<namePatient.length;i++ ) {
@@ -4634,7 +4641,8 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 					"&person="+ namePerson +
 					"&profileId="+ desFormvalue.a_profileName +
 					"&lane=" + groupLane +
-					"&reads=" + groupRead
+					"&reads=" + groupRead +
+					"&pool=" + groupPool
 					;
 	if (btn) {
 		options=options	+ 
@@ -7525,6 +7533,7 @@ function updateRunPatient() {
 	var namePerson=[];
 	var groupLane=[];
 	var groupRead=[];
+	var groupPool=[];
 	var fpat;
 	var fgrp;
 	var ffam;
@@ -7538,6 +7547,7 @@ function updateRunPatient() {
 	var fpers;
 	var flan;
 	var frea;
+	var fpoo;
 
 	var param="";
 	for(var i=0; i<LinesPatientUP.length; i++) {
@@ -7695,6 +7705,13 @@ function updateRunPatient() {
 				groupRead.push("");
 			}
 		}
+		if (typeof(fpoo) != "undefined") {
+			if (fieldPatient[fpoo]) {
+				groupPool.push(fieldPatient[fpoo]);
+			} else {
+				groupPool.push("");
+			}
+		}
 	}
 	param +="&RunSel="+ selrun;
 	param +="&species="+ s_species;
@@ -7736,6 +7753,9 @@ function updateRunPatient() {
 	}
 	if (frea>=0) {
 		param +="&reads="+ groupRead;
+	}
+	if (fpoo>=0) {
+		param +="&pool="+ groupPool;
 	}
 
 	if (!fieldPatient[fpat]) {

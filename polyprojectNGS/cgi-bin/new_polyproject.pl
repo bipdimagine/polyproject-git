@@ -21,6 +21,9 @@ use File::Basename;
 use File::Find::Rule;
 use List::Util qw/ max min /;
 
+#use util_file qw(readXmlVariations);
+#use insert;
+
 use CGI;
 use connect;
 use JSON::XS;
@@ -430,8 +433,8 @@ sub genomicRunSection {
 
 	my $pool = $cgi->param('pool');
 	$pool=~ s/ //g;
-	$pool=~ s/\n/;/g;
 	my @lpool=split(/,/,$pool);
+	
 	my $p_person = $cgi->param('person');
 	$p_person=~ s/ //g;
 	$p_person=~ s/\n/;/g;
@@ -671,6 +674,7 @@ sub genomicRunSection {
 				#Sylvain:AY_A	bc2133	r84301_20260720_082930:1_A01=1_B01=1_C01=1_D01:bc2133
 #				$llane[$i]=~ s/_/,/g if $llane[$i];
 				$llane[$i]=~ s/=/,/g if $llane[$i];
+				
 				$lpool[$i]="" unless defined $lpool[$i];
 				$lpool[$i]="" unless $lpool[$i];
 							

@@ -975,6 +975,10 @@ sub addPatientRunSection {
 	$reads=~ s/\n/;/g;
 	my @lreads=split(/,/,$reads);
 
+	my $pool = $cgi->param('pool');
+	$pool=~ s/ //g;
+	my @lpool=split(/,/,$pool);
+
 	my $p_person = $cgi->param('person');
 	$p_person=~ s/ //g;
 	$p_person=~ s/\n/;/g;
@@ -1142,7 +1146,12 @@ sub addPatientRunSection {
 				#Sylvain:AY_A	bc2133	r84301_20260720_082930:1_A01=1_B01=1_C01=1_D01:bc2133
 #				$llane[$i]=~ s/_/,/g if $llane[$i];
 				$llane[$i]=~ s/=/,/g if $llane[$i];
-				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i]);
+			
+				$lpool[$i]="" unless defined $lpool[$i];
+				$lpool[$i]="" unless $lpool[$i];
+
+				#my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i]);
+				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i],$lpool[$i]);
 				my $patient_id=$last_patient_id->{'LAST_INSERT_ID()'};
 				my $personRunList= queryPerson::getPatientPersonInfo_byPersonName_Run($buffer->dbh,$person[$i]);
 				my @existPers=map{$_->{person_id}}@$personRunList;
@@ -1478,6 +1487,8 @@ sub updatePatientRunSection {
 		my @fieldLane = split(/,/,$listLane);
 	my $listReads = $cgi->param('reads');
 		my @fieldReads = split(/,/,$listReads);			
+	my $listPool = $cgi->param('pool');
+		my @fieldPool = split(/,/,$listPool);	
 		
 # Extended	options
 	my $extended=0;
@@ -1649,6 +1660,11 @@ sub updatePatientRunSection {
 		$fieldReads[$i]=0 unless defined $fieldReads[$i];
 		$fieldReads[$i]=0 unless $fieldReads[$i];		
 		$param.="nb_reads=".$fieldReads[$i]." " if ($fieldReads[$i]);
+
+		$fieldPool[$i]=0 unless defined $fieldPool[$i];
+		$fieldPool[$i]=0 unless $fieldPool[$i];		
+		$param.="pool=".$fieldPool[$i]." " if ($fieldPool[$i]);
+
 		chop($param);
 		if ($fieldF[$i]) {
 			#warn Dumper $fieldF[$i];

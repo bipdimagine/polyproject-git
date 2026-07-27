@@ -2816,6 +2816,7 @@ sub upPatientRun {
 	my $v7;
 	my $v8;
 	my $v9;
+	my $v10;
 	
 	my $nb;
 	for (my $i = 0; $i< scalar(@opt); $i++) {
@@ -2844,6 +2845,8 @@ sub upPatientRun {
 		$v8="" if ($i==8 && !defined $val[1]);
 		$v9=$val[1] if $i==9;
 		$v9="" if ($i==9 && !defined $val[1]);
+		$v10=$val[1] if $i==10;
+		$v10="" if ($i==10 && !defined $val[1]);
 		$nb++;
 	};
 	chop($set);
@@ -2865,6 +2868,7 @@ sub upPatientRun {
 	$sth->execute($v0,$v1,$v2,$v3,$v4,$v5,$v6,$v7) if $nb==8;
 	$sth->execute($v0,$v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8) if $nb==9;
 	$sth->execute($v0,$v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8,$v9) if $nb==10;
+	$sth->execute($v0,$v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8,$v9,$v10) if $nb==11;
 	$sth->finish;
 	return;
 }
