@@ -299,6 +299,10 @@ if ( $option eq "schemas" ) {
 	newPipelineSection();
 } elsif ( $option eq "upPipeline" ) {
 	upPipelineSection();
+} elsif ( $option eq "chemistry" ) {
+	chemistrySection();
+} elsif ( $option eq "newChemistry" ) {
+	newChemistrySection();
 } elsif ($option eq "years") {
 	yearsSection();
 }
@@ -3740,6 +3744,42 @@ sub capProjectSection {
 	my @result_sorted=sort { "\L$a->{capAnalyse}" cmp "\L$b->{capAnalyse}" || $b->{capName} <=> $a->{capName}} @data;
 	$hdata{items}=\@result_sorted;
 	printJson(\%hdata);
+}
+
+###### Chemistry ##############################################################
+sub chemistrySection {
+	my $chemListId = queryPolyproject::getChemistryId($buffer->dbh);
+
+	my @data;
+	my %hdata;
+	$hdata{identifier}="chemName";
+	$hdata{label}="chemName";
+	foreach my $c (@$chemListId){
+		my %s;
+		$s{chemistry_id} = $c->{chemistry_id};
+		$s{chemistry_id} += 0;
+		$s{chemName} = $c->{name};
+		push(@data,\%s);
+	}
+	$hdata{items}=\@data;
+	printJson(\%hdata);
+}
+
+sub newChemistrySection {
+### Autocommit dbh ###########
+	my $dbh = $buffer->dbh;
+	$dbh->{AutoCommit} = 0;
+##############################
+		my $chem = $cgi->param('chem');
+        my $r_chem = queryPolyproject::getChemFromName($buffer->dbh,$chem);
+ 		if (exists $r_chem ->{chemistry_id}) {
+			sendError("Chemistry Name: " . $chem ."...". " already in Chemistry database");
+		} else 	{
+### End Autocommit dbh ###########
+			queryPolyproject::newChemistry($buffer->dbh,$chem);
+			$dbh->commit();
+			sendOK("OK : Chemistry created: ". $chem);	
+		}
 }
 
 ###### Umi ####################################################################

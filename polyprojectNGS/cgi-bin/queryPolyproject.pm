@@ -1407,6 +1407,50 @@ sub newUMIData {
  		return ($dbh->do($sql));
 }
 ############ End UMI ###################
+############ Chemistry #######################
+sub getChemistryId{
+        my ($dbh,$chemid)=@_;
+		my $query2 = qq {where c.chemistry_id='$chemid'};
+		$query2 = "" unless $chemid;
+        my $sql = qq{
+			SELECT DISTINCT 
+			* 
+			FROM PolyprojectNGS.chemistry c
+			$query2			
+			;
+		};
+        my @res;
+        my $sth = $dbh->prepare($sql);
+        $sth->execute();
+        while (my $id = $sth->fetchrow_hashref ) {
+                push(@res,$id);
+        }
+        return \@res;
+}
+
+sub getChemFromName {
+	my ($dbh,$name) = @_;
+	my $query = qq{
+		SELECT DISTINCT 
+		* 
+		FROM PolyprojectNGS.chemistry c	
+		where binary c.name='$name';
+		
+	};		
+	my $sth = $dbh->prepare($query);
+	$sth->execute();
+	my $s = $sth->fetchrow_hashref();
+	return $s;
+}
+
+sub newChemistry {
+        my ($dbh,$chem) = @_;
+ 		my $sql = qq{    
+ 			insert into PolyprojectNGS.chemistry (name) values ('$chem');
+  		};
+ 		return ($dbh->do($sql));
+}
+############ End Chem ###################
 ###### Perspective ####################################################################
 sub getPerspectiveId{
         my ($dbh,$persid)=@_;

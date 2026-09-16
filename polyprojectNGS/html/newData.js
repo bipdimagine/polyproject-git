@@ -2813,7 +2813,7 @@ function refreshCaptureBundleTransList(save) {
 /*########################################################################
 ##################### Init : New DATA
 ##########################################################################*/
-var LineAll="cpMacT||cpProfT||cpPrepT||cpTechT||cpPersT||cpPipeT||cpUmiT||cpPltT|| cpMSeqT||cpMAlnT||cpMCallT||cpRelT||cpCapT";
+var LineAll="cpMacT||cpProfT||cpPrepT||cpTechT||cpPersT||cpPipeT||cpUmiT||cpPltT|| cpMSeqT||cpMAlnT||cpMCallT||cpRelT||cpCapT||cpChemT";
 const initBlock = `
 cpMacT="";
 cpProfT="";
@@ -2828,6 +2828,8 @@ cpMAlnT="";
 cpMCallT="";
 cpRelT="";
 cpCapT="";
+cpChemT="";
+
 `;
 
 function removeItemFromLine(line, itemToRemove) {
@@ -3558,7 +3560,6 @@ function refreshUMIList() {
 		}
         });
 };
-
 
 /*########################################################################
 ##################### Pipeline Profile : New DATA
@@ -4311,7 +4312,6 @@ function viewNewProfile_Prof(){
 	divProfileDB.show();
 }
 
-
 function activate_btsumit(val) {
 	dijit.byId("bt_submitProf").set("disabled",true);
 	var t_val=val.split(" ");
@@ -4469,6 +4469,87 @@ function refreshProfiledataList() {
 	sp_btDropDownProfile_Project.appendChild(buttonDDM2.domNode);
 	buttonDDM2.startup();
 	buttonDDM2.placeAt(sp_btDropDownProfile_Project);
+};
+
+/*########################################################################
+##################### Chemistry : New DATA
+##########################################################################*/
+var cpChemT;
+var cpChemC;
+var chemistryDGrid;
+function viewNewChemistry(){
+	checkPassword(okfunction);
+	if(! logged) {
+		return
+	}
+	var LineAll_mod = removeItemFromLine(LineAll, "cpChemT");
+	if(eval(cpChemT)) {
+		clearSub(cpChemT,cpChemC);
+	} else if (eval(LineAll_mod)) {
+		var l_line=LineAll_mod.split("||");
+		for(var i=0; i<l_line.length; i++) {
+			if (eval(l_line[i])) {
+				clearSub(eval(l_line[i]),eval(l_line[i].slice(0, -1)+"C"));
+			}
+		}
+	} else {
+		BC =  new dijit.layout.BorderContainer({
+		}, "appSub");
+	}
+	const cleanedBlock = removeVariableInitializations(initBlock, "cpChemT");
+	eval(cleanedBlock);
+	cpChemT=buildLayoutTop("Chem","Chemistry",cpChemT);
+	cpChemC=buildLayoutCenter("Chem",cpChemT,chemistryDGrid,chemistryStore,layoutChem,"single");
+}
+
+function viewNewChemistry_Chem(){
+	checkPassword(okfunction);
+	if(! logged) {
+		return
+	}
+	divChemDB.show();
+}
+
+function newChemistry() {
+	checkPassword(okfunction);
+	if(! logged) {
+		return
+	}
+	var chemFormvalue = dijit.byId("chemForm").getValues();
+	var regexp = /^[a-zA-Z0-9-_]+$/;
+	var check_chem = chemFormvalue.chem;
+	if ((check_chem.search(regexp) == -1)){		
+		textError.setContent("No space permitted ");
+		myError.show();
+		return;
+	}
+
+	if (chemFormvalue.chem.length ==0){		
+			textError.setContent("Enter a Chemistry name");
+			myError.show();
+			return;
+	}
+	var url_insert = url_path + "/manageData.pl?option=newChemistry"+"&chem="+chemFormvalue.chem;
+	var res=sendData_v2(url_insert);
+	res.addCallback(
+		function(response) {
+			if(response.status=="OK"){
+				dijit.byId('divChemDB').reset();
+				dijit.byId('divChemDB').hide();
+				refreshChemList();
+			}
+		}
+	);
+}
+
+function refreshChemList() {
+	chemistryStore = new dojo.data.ItemFileWriteStore({
+		url: url_path + "/manageData.pl?option=chemistry"
+	});
+	chemistryDGrid=dijit.byId("grid_Chem");
+	chemistryDGrid.setStore(chemistryStore);
+	chemistryDGrid.store.close();
+	chemistryDGrid._refresh();
 };
 
 /*########################################################################

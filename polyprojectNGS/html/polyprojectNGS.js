@@ -449,8 +449,7 @@ var layoutPERS = [{field: 'persName',name: 'Perspective Name',width: 10}];
 var layoutTECH = [{field: 'techName',name: 'Technology Name',width: 10}];
 var layoutPREP = [{field: 'prepName',name: 'Preparation Name',width: 10}];
 var layoutPROF = [{field: 'profId',name: 'ID',width: 2},{field: 'profName',name: 'Profile Name',width: 20}];
-
-
+var layoutChem = [{field: 'chemName',name: 'Chemistry Name',width: 20}];
 var layoutPIPE = [{field: 'Name',name: 'PipeLine Name',width: 10},
 			{field: 'content',name: 'Content',width: '50'}];
 var layoutMethSeq = [{field: 'def',name: 'def',width: '1.5',styles:"text-align:center;",formatter:inactiveRadioButtonView},
@@ -504,6 +503,7 @@ var perspectiveStore;
 var technologyStore;
 var preparationStore;
 var profiledataStore;
+var chemistryStore;
 
 var pipelineStore;
 var projStore;
@@ -1544,6 +1544,10 @@ function init(){
 	//################# Init Profile data
 	profiledataStore = new dojo.data.ItemFileWriteStore({
 		url: url_path + "/manageData.pl?option=profile"
+	});
+	//################# Init Chemistry data
+	chemistryStore = new dojo.data.ItemFileWriteStore({
+		url: url_path + "/manageData.pl?option=chemistry"
 	});
 	//################# Init Meth Seq
 	methSeqStore = new dojox.data.AndOrWriteStore({
