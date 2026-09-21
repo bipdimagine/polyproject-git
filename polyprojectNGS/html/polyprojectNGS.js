@@ -7175,6 +7175,7 @@ function showRun(rid,somatic,capRel,capAnalyse){
 		{ field: "lane", name: "Lane", width: '15em',styles:"text-align:left;white-space:nowrap;"},
 		{ field: "reads", name: "nbReads", width: '5em'},
 		{ field: "pool", name: "Pool", width: '15em'},
+		{ field: "chemistry", name: "Chemistry", width: '15em'},
 		{ field: "phenotype", name: "Phenotype", width: '12em'},
 		{ field: "MethAln", name: "Alignment", width: '10em', editable: true,required:true,
 		type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect',
