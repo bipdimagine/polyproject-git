@@ -705,8 +705,8 @@ sub genomicRunSection {
 				$lpool[$i]="" unless defined $lpool[$i];
 				$lpool[$i]="" unless $lpool[$i];
 							
-				$chemid[$i]="" unless defined $chemid[$i];
-				$chemid[$i]="" unless $chemid[$i];
+				$chemid[$i]=0 unless defined $chemid[$i];
+				$chemid[$i]=0 unless $chemid[$i];
 #				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i],$lpool[$i]);
 				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i],$lpool[$i],$chemid[$i]);
 				my $patient_id=$last_patient_id->{'LAST_INSERT_ID()'};
