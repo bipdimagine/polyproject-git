@@ -3600,6 +3600,7 @@ function newRun() {
 	var groupLane=[];
 	var groupRead=[];
 	var groupPool=[];
+	var groupChem=[];
 	for(var i=0; i<LinesPatient.length; i++) {
 		var fgrp;
 		var fpat;
@@ -3615,6 +3616,7 @@ function newRun() {
 		var flan;
 		var frea;
 		var fpoo;
+		var fchem;
 		var fieldPatient=LinesPatient[i].split("\t");
 //		var fieldPatient=LinesPatient[i].split("\\s+");.toLowerCase()
 		if (fieldPatient == ""){
@@ -3682,10 +3684,13 @@ function newRun() {
 					case "pool":
 					fpoo=j;
 					break;
+					case "chemistry":
+					fchem=j;
+					break;
 					default:
 					textError.setContent("The Header Tabulated List is not Good!!!<BR>"+
-					"Field in Header: Patient Group Family Father Mother Sex Status BC BC2 IV Lane Reads Pool Person<BR>"+
-					"Needs First field Patient then no order, no case sensitive,BC=Bar Code,BC2=Bar Code 2,IV=Identity Vigilance,Lane=Plate Well,Reads=Number of Reads,Pool ,Person=Reffering Person Name");
+					"Field in Header: Patient Group Family Father Mother Sex Status BC BC2 IV Lane Reads Pool Chemistry Person<BR>"+
+					"Needs First field Patient then no order, no case sensitive,BC=Bar Code,BC2=Bar Code 2,IV=Identity Vigilance,Lane=Plate Well,Reads=Number of Reads,Pool ,Chemistry ,Person=Reffering Person Name");
 					myError.show();
 					return;
 				}			
@@ -3780,6 +3785,8 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 		groupRead.push(fieldPatient[frea]);
 		if (typeof(fieldPatient[fpoo])=="undefined"||typeof(fpoo)=="undefined"||fieldPatient[fpoo]==0) {fieldPatient[fpoo]=""}
 		groupPool.push(fieldPatient[fpoo]);
+		if (typeof(fieldPatient[fchem])=="undefined"||typeof(fchem)=="undefined"||fieldPatient[fchem]==0) {fieldPatient[fchem]=""}
+		groupChem.push(fieldPatient[fchem]);
 	}
 // ### Patient Name Length ####//
 	for(var i=0; i<namePatient.length;i++ ) {
@@ -3909,7 +3916,8 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 					"&profileId="+ desFormvalue.profileName +
 					"&lane=" + groupLane +
 					"&reads=" + groupRead +
-					"&pool=" + groupPool
+					"&pool=" + groupPool +
+					"&chemistry=" + groupChem
 					;
 	if (btn) {
 		options=options	+ 
@@ -3945,6 +3953,8 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 									gridRundoc.selection.addToSelection(index);
 									myMessage.hide();
 									reloadPatient(namePatient,sexPatient);
+									var checkdefDDCapture=1;
+									initMenuDropDownCapture(from="R",checkdefDDCapture);
 									editRun();
 								}
 							});
@@ -4368,7 +4378,7 @@ function addPatient() {
 	var groupLane=[];
 	var groupRead=[];
 	var groupPool=[];
-
+	var groupChem=[];
 	for(var i=0; i<LinesPatient.length; i++) {
 		var fgrp;
 		var fpat;
@@ -4384,6 +4394,7 @@ function addPatient() {
 		var flan;
 		var frea;
 		var fpoo;
+		var fchem;
 		var fieldPatient=LinesPatient[i].split("\t");
 //		var fieldPatient=LinesPatient[i].split("\\s+");.toLowerCase()
 		if (fieldPatient == ""){
@@ -4452,10 +4463,13 @@ function addPatient() {
 					case "pool":
 					fpoo=j;
 					break;
+					case "chemistry":
+					fchem=j;
+					break;
 					default:
 					textError.setContent("The Header Tabulated List is not Good!!!<BR>"+
-					"Field in Header: Patient Group Family Father Mother Sex Status BC BC2 IV Lane Reads Person<BR>"+
-					"Needs First field Patient then no order, no case sensitive,BC=Bar Code,BC2=Bar Code 2,IV=Identity Vigilance,Lane=Plate Well,Reads=Number of Reads,Person=Reffering Person Name");
+					"Field in Header: Patient Group Family Father Mother Sex Status BC BC2 IV Lane Reads Pool Chemistry Person<BR>"+
+					"Needs First field Patient then no order, no case sensitive,BC=Bar Code,BC2=Bar Code 2,IV=Identity Vigilance,Lane=Plate Well,Reads=Number of Reads,Pool ,Chemistry ,Person=Reffering Person Name");
 					myError.show();
 					return;
 				}			
@@ -4537,6 +4551,8 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 		groupRead.push(fieldPatient[frea]);
 		if (typeof(fieldPatient[fpoo])=="undefined"||typeof(fpoo)=="undefined"||fieldPatient[fpoo]==0) {fieldPatient[fpoo]=""}
 		groupPool.push(fieldPatient[fpoo]);
+		if (typeof(fieldPatient[fchem])=="undefined"||typeof(fchem)=="undefined"||fieldPatient[fchem]==0) {fieldPatient[fchem]=""}
+		groupChem.push(fieldPatient[fchem]);
 	}
 // ### Patient Name Length ####//
 	for(var i=0; i<namePatient.length;i++ ) {
@@ -4646,7 +4662,8 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 					"&profileId="+ desFormvalue.a_profileName +
 					"&lane=" + groupLane +
 					"&reads=" + groupRead +
-					"&pool=" + groupPool
+					"&pool=" + groupPool +
+					"&chemistry=" + groupChem
 					;
 	if (btn) {
 		options=options	+ 
@@ -5800,6 +5817,7 @@ function showProject(id,name,somatic){
 		{ field: "lane", name: "Lane", width: '15em'},
 		{ field: "reads", name: "nbReads", width: '5em'},
 		{ field: "pool", name: "Pool", width: '15em'},
+		{ field: "chemistry", name: "Chemistry", width: '15em'},
 		{ field: "phenotype", name: "Phenotype", width: '15'},
 		{ field: "RunId",name: "Run",width: '4', formatter:colorRun},
 		{ field: "nameRun",name: "Run Name", width: '20', formatter:colorRun},
@@ -7435,17 +7453,18 @@ type:'dojox.grid.cells._Widget',widgetClass:'dijit.form.FilteringSelect',widgetP
 
 function set_ColVisibility(grid,visibility){
 	grid.beginUpdate();
-//	grid.layout.setColumnVisibility(32, visibility);//toto
+//	grid.layout.setColumnVisibility(32, visibility);
 //	grid.layout.setColumnVisibility(33, visibility);
 //	grid.layout.setColumnVisibility(34, visibility);
 //	grid.layout.setColumnVisibility(35, visibility);
-	grid.layout.setColumnVisibility(36, visibility);
+//	grid.layout.setColumnVisibility(36, visibility);//toto
 	grid.layout.setColumnVisibility(37, visibility);
 	grid.layout.setColumnVisibility(38, visibility);
 	grid.layout.setColumnVisibility(39, visibility);
 	grid.layout.setColumnVisibility(40, visibility);
 	grid.layout.setColumnVisibility(41, visibility);
 	grid.layout.setColumnVisibility(42, visibility);
+	grid.layout.setColumnVisibility(43, visibility);
 	grid.endUpdate();
 }
 
@@ -7470,7 +7489,7 @@ function set_ColVisibility2(grid,visibility){
 //	grid.layout.setColumnVisibility(31, visibility);// pas de User Plt
 //	grid.layout.setColumnVisibility(32, visibility);
 //	grid.layout.setColumnVisibility(33, visibility);
-	grid.layout.setColumnVisibility(34, visibility);
+//	grid.layout.setColumnVisibility(34, visibility);
 	grid.layout.setColumnVisibility(35, visibility);
 	grid.layout.setColumnVisibility(36, visibility);
 	grid.layout.setColumnVisibility(37, visibility);
@@ -7478,6 +7497,7 @@ function set_ColVisibility2(grid,visibility){
 	grid.layout.setColumnVisibility(39, visibility);
 	grid.layout.setColumnVisibility(40, visibility);
 	grid.layout.setColumnVisibility(41, visibility);
+	grid.layout.setColumnVisibility(42, visibility);
 	grid.endUpdate();
 }
 
@@ -7538,6 +7558,7 @@ function updateRunPatient() {
 	var groupLane=[];
 	var groupRead=[];
 	var groupPool=[];
+	var groupChem=[];
 	var fpat;
 	var fgrp;
 	var ffam;
@@ -7552,6 +7573,7 @@ function updateRunPatient() {
 	var flan;
 	var frea;
 	var fpoo;
+	var fchem;
 
 	var param="";
 	for(var i=0; i<LinesPatientUP.length; i++) {
@@ -7602,12 +7624,15 @@ function updateRunPatient() {
 					case "reads":
 					frea=j;
 					break;
+					case "chemistry":
+					fchem=j;
+					break;
 					default:
 					textError.setContent("The Header Tabulated List is not Good!!!<BR>"+
-					"Field in Header: Patient Group Family Father Mother Sex Status BC BC2 IV Lane Reads Person<BR>"+
-					"Needs First field Patient then no order, no case sensitive,BC=Bar Code,BC2=Bar Code 2,IV=Identity Vigilance,Lane=Plate Well,Reads=Number of Reads,Person=Reffering Person Name");
-						myError.show();
-						return;
+					"Field in Header: Patient Group Family Father Mother Sex Status BC BC2 IV Lane Reads Pool Chemistry Person<BR>"+
+					"Needs First field Patient then no order, no case sensitive,BC=Bar Code,BC2=Bar Code 2,IV=Identity Vigilance,Lane=Plate Well,Reads=Number of Reads,Pool ,Chemistry ,Person=Reffering Person Name");
+					myError.show();
+					return;
 				}
 			}			
 			continue;
@@ -7716,6 +7741,13 @@ function updateRunPatient() {
 				groupPool.push("");
 			}
 		}
+		if (typeof(fchem) != "undefined") {
+			if (fieldPatient[fchem]) {
+				groupChem.push(fieldPatient[fchem]);
+			} else {
+				groupChem.push("");
+			}
+		}
 	}
 	param +="&RunSel="+ selrun;
 	param +="&species="+ s_species;
@@ -7760,6 +7792,9 @@ function updateRunPatient() {
 	}
 	if (fpoo>=0) {
 		param +="&pool="+ groupPool;
+	}
+	if (fchem>=0) {
+		param +="&chemistry="+ groupChem;
 	}
 
 	if (!fieldPatient[fpat]) {

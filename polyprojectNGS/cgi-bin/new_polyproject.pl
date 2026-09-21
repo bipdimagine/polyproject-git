@@ -343,6 +343,26 @@ sub isUniqPatient {
 	return $novalidP
 }
 
+
+sub findChemistryId {
+	my ($dbh,@chem_name) = @_;
+	my $invalid="";
+	my @ChemistryId;
+	for my $c (@chem_name) {
+		if ($c) {
+			my $d = queryPolyproject::getChemFromName($buffer->dbh,$c);
+			$invalid.=$c."," unless $d->{name};
+			push(@ChemistryId,$d->{chemistry_id});	
+		} else {
+			push(@ChemistryId,"");	
+		}
+	}
+	chop $invalid;
+	sendError( "Error: Unknown Chemistry: " . $invalid) if ($invalid);	
+	return @ChemistryId;
+}
+
+
 sub genomicRunSection {
 	my $selplt = $cgi->param('SelPlt');
 	my $description = $cgi->param('description');
@@ -435,6 +455,10 @@ sub genomicRunSection {
 	$pool=~ s/ //g;
 	my @lpool=split(/,/,$pool);
 	
+	my $chem = $cgi->param('chemistry');
+	$chem=~ s/ //g;
+	my @lchem=split(/,/,$chem);
+
 	my $p_person = $cgi->param('person');
 	$p_person=~ s/ //g;
 	$p_person=~ s/\n/;/g;
@@ -487,6 +511,9 @@ sub genomicRunSection {
 		$messageduplicateB=join(",",@duplicateB);
 	}
 	$messageduplicateB="<br><b>Warning:</b> Duplicated Genotype Code : $messageduplicateB" if scalar @duplicateB;
+#  Chemistry Control
+	# list of chemistry_id;
+	my @chemid=findChemistryId($buffer->dbh,@lchem);
 
 	if (! $extended) {
 		my @identical;
@@ -678,8 +705,10 @@ sub genomicRunSection {
 				$lpool[$i]="" unless defined $lpool[$i];
 				$lpool[$i]="" unless $lpool[$i];
 							
-#				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i]);
-				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i],$lpool[$i]);
+				$chemid[$i]="" unless defined $chemid[$i];
+				$chemid[$i]="" unless $chemid[$i];
+#				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i],$lpool[$i]);
+				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i],$lpool[$i],$chemid[$i]);
 				my $patient_id=$last_patient_id->{'LAST_INSERT_ID()'};
 
 				# phase 1

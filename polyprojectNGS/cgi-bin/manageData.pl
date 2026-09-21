@@ -891,8 +891,24 @@ sub UpPatientSection {
 	}
 }
 
-=mod
-=cut
+sub findChemistryId {
+	my ($dbh,@chem_name) = @_;
+	my $invalid="";
+	my @ChemistryId;
+	for my $c (@chem_name) {
+		if ($c) {
+			my $d = queryPolyproject::getChemFromName($buffer->dbh,$c);
+			$invalid.=$c."," unless $d->{name};
+			push(@ChemistryId,$d->{chemistry_id});	
+		} else {
+			push(@ChemistryId,"");	
+		}
+	}
+	chop $invalid;
+	sendError( "Error: Unknown Chemistry: " . $invalid) if ($invalid);	
+	return @ChemistryId;
+}
+
 sub addPatientRunSection {
 ### Autocommit dbh ###########
 	my $dbh = $buffer->dbh;
@@ -983,6 +999,10 @@ sub addPatientRunSection {
 	$pool=~ s/ //g;
 	my @lpool=split(/,/,$pool);
 
+	my $chem = $cgi->param('chemistry');
+	$chem=~ s/ //g;
+	my @lchem=split(/,/,$chem);
+
 	my $p_person = $cgi->param('person');
 	$p_person=~ s/ //g;
 	$p_person=~ s/\n/;/g;
@@ -1020,6 +1040,9 @@ sub addPatientRunSection {
 		$messageduplicateB=join(",",@duplicateB);
 	}
 	$messageduplicateB="<br><b>Warning:</b> Duplicated Genotype Code : $messageduplicateB" if scalar @duplicateB;
+#  Chemistry Control
+	# list of chemistry_id;
+	my @chemid=findChemistryId($buffer->dbh,@lchem);
 
 
 # method pipeline
@@ -1154,8 +1177,11 @@ sub addPatientRunSection {
 				$lpool[$i]="" unless defined $lpool[$i];
 				$lpool[$i]="" unless $lpool[$i];
 
-				#my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i]);
-				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i],$lpool[$i]);
+				$chemid[$i]="" unless defined $chemid[$i];
+				$chemid[$i]="" unless $chemid[$i];
+
+				#my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i],$lpool[$i]);
+				my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i],$lpool[$i],$chemid[$i]);
 				my $patient_id=$last_patient_id->{'LAST_INSERT_ID()'};
 				my $personRunList= queryPerson::getPatientPersonInfo_byPersonName_Run($buffer->dbh,$person[$i]);
 				my @existPers=map{$_->{person_id}}@$personRunList;
@@ -1493,6 +1519,12 @@ sub updatePatientRunSection {
 		my @fieldReads = split(/,/,$listReads);			
 	my $listPool = $cgi->param('pool');
 		my @fieldPool = split(/,/,$listPool);	
+	my $listChem = $cgi->param('chemistry');
+		my @fieldChem = split(/,/,$listChem);	
+
+#  Chemistry Control
+	# list of chemistry_id;
+	my @fieldChemid=findChemistryId($buffer->dbh,@fieldChem);
 		
 # Extended	options
 	my $extended=0;
@@ -1663,11 +1695,17 @@ sub updatePatientRunSection {
 
 		$fieldReads[$i]=0 unless defined $fieldReads[$i];
 		$fieldReads[$i]=0 unless $fieldReads[$i];		
-		$param.="nb_reads=".$fieldReads[$i]." " if ($fieldReads[$i]);
-
-		$fieldPool[$i]=0 unless defined $fieldPool[$i];
-		$fieldPool[$i]=0 unless $fieldPool[$i];		
-		$param.="pool=".$fieldPool[$i]." " if ($fieldPool[$i]);
+		#$param.="nb_reads=".$fieldReads[$i]." " if ($fieldReads[$i]);
+		$param.="nb_reads=".$fieldReads[$i]." ";
+		
+		$fieldPool[$i]="" unless defined $fieldPool[$i];
+		$fieldPool[$i]="" unless $fieldPool[$i];		
+#		$param.="pool=".$fieldPool[$i]." " if ($fieldPool[$i]);
+		$param.="pool=".$fieldPool[$i]." ";
+		$fieldChemid[$i]=0 unless defined $fieldChemid[$i];
+		$fieldChemid[$i]=0 unless $fieldChemid[$i];		
+		#$param.="chemistry_id=".$fieldChemid[$i]." " if ($fieldChemid[$i]);
+		$param.="chemistry_id=".$fieldChemid[$i]." ";
 
 		chop($param);
 		if ($fieldF[$i]) {
@@ -2298,7 +2336,11 @@ sub genomicRunPatientSection {
 		#pool
 		$s{pool}="";
 		$s{pool}=$c->{pool} if $c->{pool};
-		
+		#chemistry
+		$s{chemistry}="";
+		my $chemid;
+		$chemid = queryPolyproject::getChemistryId($buffer->dbh,$c->{chemistry_id}) if $c->{chemistry_id};
+		$s{chemistry}=$chemid->[0]->{name} if $chemid->[0]->{name};
 		#Phenotype Patient
 		my $patPhenotype = queryPolyproject::getPatientPhenotype($buffer->dbh,$s{PatId});
 		$s{phenotype}="";		
@@ -3749,7 +3791,6 @@ sub capProjectSection {
 ###### Chemistry ##############################################################
 sub chemistrySection {
 	my $chemListId = queryPolyproject::getChemistryId($buffer->dbh);
-
 	my @data;
 	my %hdata;
 	$hdata{identifier}="chemName";
@@ -5048,6 +5089,9 @@ sub PatientProjectSection {
 		#pool
 		$s{pool}="";
 		$s{pool}=$c->{pool} if $c->{pool};
+		#chemistry
+		$s{chemistry}="";
+		$s{chemistry}=$c->{chemistry} if $c->{chemistry};
 
 		my @datec = split(/ /,$c->{cDate});
 		my ($YY, $MM, $DD) = split("-", $datec[0]);

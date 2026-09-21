@@ -2861,6 +2861,7 @@ sub upPatientRun {
 	my $v8;
 	my $v9;
 	my $v10;
+	my $v11;
 	
 	my $nb;
 	for (my $i = 0; $i< scalar(@opt); $i++) {
@@ -2891,6 +2892,8 @@ sub upPatientRun {
 		$v9="" if ($i==9 && !defined $val[1]);
 		$v10=$val[1] if $i==10;
 		$v10="" if ($i==10 && !defined $val[1]);
+		$v11=$val[1] if $i==11;
+		$v11="" if ($i==11 && !defined $val[1]);
 		$nb++;
 	};
 	chop($set);
@@ -2913,6 +2916,7 @@ sub upPatientRun {
 	$sth->execute($v0,$v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8) if $nb==9;
 	$sth->execute($v0,$v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8,$v9) if $nb==10;
 	$sth->execute($v0,$v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8,$v9,$v10) if $nb==11;
+	$sth->execute($v0,$v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8,$v9,$v10,$v11) if $nb==12;
 	$sth->finish;
 	return;
 }
@@ -3640,10 +3644,10 @@ sub addPatientRun {
 } 
 
 sub newPatientRun {
-	my ($dbh,$patient,$origin,$rid,$captureid,$fam,$fc,$bc,$bc2,$iv,$father,$mother,$sex,$status,$type,$speciesid,$profileid,$lane,$reads,$pool) = @_;
+	my ($dbh,$patient,$origin,$rid,$captureid,$fam,$fc,$bc,$bc2,$iv,$father,$mother,$sex,$status,$type,$speciesid,$profileid,$lane,$reads,$pool,$chemid) = @_;
 	my $query = qq{    
- 		insert into PolyprojectNGS.patient (name,origin,run_id,capture_id,family,flowcell,bar_code,bar_code2,identity_vigilance,father,mother,sex,status,type,species_id,profile_id,lane,nb_reads,pool) 
- 		values ("$patient","$origin","$rid","$captureid","$fam","$fc","$bc","$bc2","$iv","$father","$mother","$sex","$status","$type","$speciesid","$profileid","$lane","$reads","$pool");
+ 		insert into PolyprojectNGS.patient (name,origin,run_id,capture_id,family,flowcell,bar_code,bar_code2,identity_vigilance,father,mother,sex,status,type,species_id,profile_id,lane,nb_reads,pool,chemistry_id) 
+ 		values ("$patient","$origin","$rid","$captureid","$fam","$fc","$bc","$bc2","$iv","$father","$mother","$sex","$status","$type","$speciesid","$profileid","$lane","$reads","$pool","$chemid");
 	};
 	$dbh->do($query);
 	my $sql = qq{    
