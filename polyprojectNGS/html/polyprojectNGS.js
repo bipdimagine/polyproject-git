@@ -121,6 +121,9 @@ var layoutSmallProject = [
 var layoutOneProject;
 var layoutProject = [
 	{ field: "Row", name: "Row",get: getRow, width: '3'},
+	{ field: "public",name: "<img align='top' src='icons/icons8-visible-16.png'>",
+	styles:"white-space:nowrap;margin:0;padding:0;text-align:center;",
+	width: '2',filterable: false, formatter:square},
 	{ field: "luser",name: "<img align='top' src='icons/user-icon.png'>",
 	styles:"white-space:nowrap;margin:0;padding:0;text-align:center;",
 	width: '2',filterable: false, formatter:ledbullet},
@@ -1211,7 +1214,7 @@ function init(){
 		rowSelector: "2.5em",
 //		rowsPerPage: 1000,  // IMPORTANT
 		canSort:function(colIndex, field){
-			return colIndex != 1 && field != 'statut';
+			return ![1, 2, 3].includes(colIndex) && field !== 'statut';
 		},
 		plugins: {
 			filter: {
@@ -1250,6 +1253,10 @@ function init(){
 
 	var d_sliderp="slider_proj";
 	sliderChange(d_sliderp);
+
+// 	Project Publish Public
+	dijit.byId("btn_publish").set('checked', true);
+	ppublic=1;
 	//############### search Project Selection  ###########
 	projStore = new dojo.data.ItemFileReadStore({ 
 		url: url_path + "/manageData.pl?option=Project",
@@ -3194,6 +3201,14 @@ function chgControl(a){
 	}
 }
 
+function chgPublic(a){
+	if(this.checked) {
+		ppublic=1;
+	} else {
+		ppublic=0;
+	}
+}
+
 function chgCapFile(a){
 	if(this.checked) {
 		dojo.style(dijit.byId('loadFC').domNode,{'display':'block'});
@@ -3930,8 +3945,8 @@ if (typeof(fpers) == "undefined" ||typeof(fieldPatient[fpers]) == "undefined"||f
 	}
 // #############################
 // Method POST
-//	console.log(prog_url);
-//	console.log(options);
+	console.log(prog_url);
+	console.log(options);
 	var res=senDataExtendedPost(prog_url,options);
 	res.addCallback(
 		function(response) {
@@ -4970,6 +4985,50 @@ function addSample2Run() {
 	div_addSampleSheet.show();
 }
 
+/*########################################################################
+##################### Publish Project
+##########################################################################*/
+function chgPublic2project(){
+	var itemProj = grid.selection.getSelected();
+	var ProjIdGroups = new Array();
+	var ProjNameGroups = new Array();
+	if (itemProj.length) {
+		dojo.forEach(itemProj, function(selectedItem) {
+			if (selectedItem !== null) {
+				dojo.forEach(grid.store.getAttributes(selectedItem), function(attribute) {
+					var Projvalue = grid.store.getValues(selectedItem, attribute);
+					if (attribute == "id" ) {
+						ProjIdGroups.push(Projvalue.toString());
+					}
+					else if (attribute == "name" ) {
+						ProjNameGroups.push(Projvalue.toString());
+					}
+				});
+			} 			
+		});
+		changePublic2Project(ProjIdGroups,ProjNameGroups);
+	} else {
+		textError.setContent("Please select one or more Projects !");
+		myError.show();
+		return;
+	}	
+}
+
+function changePublic2Project(ProjId,ProjName){
+	var bp=dijit.byId("btn_publish");
+	if(bp.checked==false) {ppublic=0} else {ppublic=1};
+	var url_insert = url_path + "/manageData.pl?option=changePublic2Project"+"&ProjSel="+ProjId+"&ProjName="+ProjName+"&public="+ppublic;
+	var res=sendData_v2(url_insert);
+	res.addCallback(
+		function(response) {
+			if(response.status=="OK"){
+				dijit.byId("btn_publish").set('checked', true);
+				ppublic=1;
+				refreshPolyList(stand=1);
+			}
+		}
+	);		
+}
 
 /*########################################################################
 ##################### Add Remove User Group

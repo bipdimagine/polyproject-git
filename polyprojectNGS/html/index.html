@@ -220,15 +220,23 @@ data-dojo-props= 'minimum:1,value:1,maximum:8,discreteValues:8,showButtons:false
 				<div dojoType="dijit.layout.ContentPane" region="top"
 				style="height: 3%;margin: 0; padding: 0;white-space:nowrap;border:none;">
 					<div dojoType="dijit.form.Form" id="searchProjForm"
-					jsId="searchProjForm" style="height: 3%;">
+					jsId="searchProjForm" style="border:0;margin:0;padding:0;white-space:nowrap;height: 4%;">
 						<div dojoType="dijit.Tooltip" connectId="Tprint" position="below">
 							<label class="tooltip">
 							<b>Preview/Save All :</b> right click on the Grid<br>
 							<b>Preview/Save Selected :</b>Select rows then right click on one Grid row selected
 							</label>
 						</div>
+						<div dojoType="dijit.Tooltip" data-dojo-props="connectId:['SW-Pub']" position="below">
+							<label class="tooltip">
+							<i><b>Publication of the Polyweb Project</b><ul>
+							<li>First, select Projects</li>
+							<li>Button Publish (checked by default), eventualy uncheck for Not Publish</li>
+							<li>Click Button Submit</li></ul></i>
+							</label>
+						</div>
 						<div dojoType="dijit.Toolbar">
-							<table style="border:1;margin:0;padding:0;width:100%;">
+							<table style="border:0;margin:0;padding:0;white-space:nowrap;width:100%;">
 							<tr>
 							<td valign="top" align="left" style="width: 2em;">
 							<div dojoType="dijit.form.Button" id="bt_cleargridproj"
@@ -278,7 +286,21 @@ data-dojo-props= 'minimum:1,value:1,maximum:8,discreteValues:8,showButtons:false
 								<img id="SW-P"src="icons/information.png">
 							</td>
 
+							<!-- <TD VALIGN="BOTTOM" align="center">-->
 							<TD VALIGN="TOP" align="center">
+							<img id="SW-Pub"src="icons/information.png">							
+							<div data-dojo-type="dijit.form.ToggleButton" id="btn_publish"
+ 							data-dojo-props="iconClass:'dijitCheckBoxIcon',checked:true, showLabel:true" onChange="chgPublic"
+							style="height:16;width:auto;margin:0;margin-bottom:+6px;padding:0;float: top; border-radius: 8px;background:#9ABF5E; border: 1px solid #696B43; color: white">
+							<i style="font-size:70%;margin:0;padding:0;border:0">Publish</i>
+							</div>
+
+							<div dojoType="dijit.form.Button" id="bt_publicsubmit" iconClass="validIcon"
+							onClick="chgPublic2project();" showLabel="true" 
+							style="float:center;border-radius:10px;background:linear-gradient(brown,#510303);border:0;color:white;margin:0;margin-bottom:+6px;padding:0;width:1.5em;">
+							</div>
+							<span>&ensp;&ensp;</span>
+
 							<div dojoType="dijit.form.Button" iconClass="UserGroupIcon"
 							id="buttonGroupDB" style="color:white;margin-top:-10px"
 							onClick='AddRemUserGroup();UserExpiryDate();' showLabel="true">Group</div>

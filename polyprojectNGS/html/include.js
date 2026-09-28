@@ -635,13 +635,19 @@ var showTooltipField = function(e) {
 			"<B>Run where Patient assigned</B> to a project" + "<br>" +
 			"</i>", e.cellNode,['above']);		
 		} 
-
 		if(msgfield=="luser") {
 			dijit.showTooltip(classmsg + 
 			"<img src='icons/bullet_green.png'>" +
 			" User assigned" + "<br>" +
 			"<img src='icons/ledred.png'>" + 
 			" No User assigned"+"</i>", e.cellNode,['above']);		
+		} 
+		if(msgfield=="public") {
+			dijit.showTooltip(classmsg + 
+			"<img src='icons/icons8-square-green-16.png'>" +
+			" Project published in Polywed" + "<br>" +
+			"<img src='icons/icons8-square-red-16.png'>" + 
+			" Project <b>Not</b> published in Polywed"+"</i>", e.cellNode,['above']);		
 		} 
 		if(msgfield=="statut") {
 			dijit.showTooltip(classmsg + 
@@ -1280,6 +1286,15 @@ function ledbullet(value) {
 	} 
 	else { 
 		return "<img align='top' src='icons/bullet_green.png'>";
+	}
+}
+
+function square(value) {
+	if(value == "1") {
+		return "<img align='top' src='icons/icons8-square-green-16.png'>";
+	} 
+	else { 
+		return "<img align='top' src='icons/icons8-square-red-16.png'>";
 	}
 }
 

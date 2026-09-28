@@ -57,6 +57,8 @@ foreach my $c (@$projList){
 	$s{somatic} = $c->{somatic};	
 	$s{projValidation}="";	
 	$s{projValidation}=$c->{validation_db} if $c->{validation_db};
+	#public
+	$s{public} = $c->{public};	
 	my @datec = split(/ /,$c->{cDate});
 	my ($YY, $MM, $DD) = split("-", $datec[0]);
 	my $mydate = sprintf("%02d/%02d/%4d",$DD, $MM, $YY);

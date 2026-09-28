@@ -1177,7 +1177,7 @@ sub addPatientRunSection {
 				$lpool[$i]="" unless defined $lpool[$i];
 				$lpool[$i]="" unless $lpool[$i];
 
-				$chemid[$i]=0 unless defined $chemid[$i];#bug
+				$chemid[$i]=0 unless defined $chemid[$i];
 				$chemid[$i]=0 unless $chemid[$i];
 
 				#my $last_patient_id=queryPolyproject::newPatientRun($buffer->dbh,$p,$p,$runid,$captureId,$f,$fc,$bc[$i],$bc2[$i],$bcg[$i],$lfathers[$i],$lmothers[$i],$lsexs[$i],$lstatuss[$i],$typepat,$speciesid,$profileid,$llane[$i],$lreads[$i],$lpool[$i]);
@@ -4893,6 +4893,37 @@ sub remProject2GroupSection {
 	$dbh->commit();
 		sendOK("ok: Group User $allGrp remuved from Projects $allProj");
 	}		
+}
+
+sub changePublic2ProjectSection {
+### Autocommit dbh ###########
+	my $dbh = $buffer->dbh;
+	$dbh->{AutoCommit} = 0;
+##############################
+	my $projid = $cgi->param('ProjSel');
+	my $public = $cgi->param('public');
+	my @fieldP = split(/,/,$projid);
+	warn Dumper @fieldP;
+	warn Dumper $public;
+	my $allProj="";
+	foreach my $p (@fieldP) {
+		warn "######";
+		warn Dumper $p;
+		my $projectname = queryPolyproject::getProjectName($buffer->dbh,$p);
+		warn Dumper $projectname;
+		if ($projectname) {
+			$allProj.=$projectname.",";
+			queryPolyproject::upProject_public($buffer->dbh,$public,$p)
+		#	queryPolyproject::addGroup2project($buffer->dbh, $groupid,$projectid);	
+		}		
+	}	
+	chop($allProj);
+	$dbh->commit();
+	if ($public) {
+		sendOK("ok: Projects: $allProj are now published in Polyweb");
+	} else {
+		sendOK("ok: Projects: $allProj are now NOT published in Polyweb");		
+	}
 }
 
 # a suppimer 
