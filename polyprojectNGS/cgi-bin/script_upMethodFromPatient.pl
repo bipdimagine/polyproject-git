@@ -1,7 +1,7 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 ########################################################################
-###### pedigree_file.pl #################################################
-#./script_upMethodFromPatient.pl
+###### script_upMethodFromPatient.pl ###################################
+#./script_upMethodFromPatient.pl #!/usr/bin/perl
 ########################################################################
 use CGI qw/:standard :html3/;
 use strict;
@@ -35,6 +35,7 @@ use queryPolyproject;
 use Data::Dumper;
 use Carp;
 use JSON;
+use export_data;
 use Getopt::Long;
 #use warnings;
 
