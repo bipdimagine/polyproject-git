@@ -14,7 +14,7 @@ use lib "$Bin/packages";
 use Time::Local;
 use queryPolyproject;
 use queryPerson;
-use connect;
+#use connect;
 use GBuffer;
 use Data::Dumper;
 use File::Glob qw(:globally :nocase);
