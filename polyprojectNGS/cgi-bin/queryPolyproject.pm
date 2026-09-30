@@ -5011,6 +5011,37 @@ sub getProjectNameFromId {
 	return $s;
 }
 
+sub getProjectPublicFromId {
+	my ($dbh,$projid)=@_;
+	my @projid=$projid;
+	my $query = qq{
+    	select distinct
+    	p.project_id,p.public
+		from
+			PolyprojectNGS.projects p
+		where
+			p.project_id='$projid';
+	};
+	my $sth = $dbh->prepare($query);
+	$sth->execute();
+	my $s = $sth->fetchrow_hashref();
+	return $s;
+}
+
+sub upProject_public {
+	my ($dbh,$public,$project_id) = @_;
+	my $sql = qq{
+		update PolyprojectNGS.projects
+		set projects.public=?
+		where project_id='$project_id'
+		;
+	};
+	my $sth= $dbh->prepare($sql);				
+	$sth->execute($public);
+	$sth->finish;
+	return;
+}
+
 sub getValidationProject { 
 	my ($dbh)=@_;
 	my $query = qq{	  	
@@ -5060,6 +5091,7 @@ sub getProjectAll {
 	p.dejaVu,p.somatic,
 	p.creation_date as cDate,
 	p.validation_db,
+	p.public,
 	po.name as dbname,
     r.name as relname,
 	GROUP_CONCAT(DISTINCT pp.version_id ORDER BY pp.version_id  SEPARATOR ' ') as 'ppversionid',
