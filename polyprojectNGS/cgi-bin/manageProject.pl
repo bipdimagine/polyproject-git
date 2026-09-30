@@ -59,6 +59,7 @@ foreach my $c (@$projList){
 	$s{projValidation}=$c->{validation_db} if $c->{validation_db};
 	#public
 	$s{public} = 0;
+	warn Dumper $c->{public};
 	$s{public} = $c->{public} if $c->{public};	
 	my @datec = split(/ /,$c->{cDate});
 	my ($YY, $MM, $DD) = split("-", $datec[0]);
