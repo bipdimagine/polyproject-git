@@ -14,7 +14,7 @@ use lib "$Bin/packages";
 use Time::Local;
 use queryPolyproject;
 use queryPerson;
-#use connect;
+use connect;
 use GBuffer;
 use Data::Dumper;
 use File::Glob qw(:globally :nocase);
@@ -58,7 +58,8 @@ foreach my $c (@$projList){
 	$s{projValidation}="";	
 	$s{projValidation}=$c->{validation_db} if $c->{validation_db};
 	#public
-	$s{public} = $c->{public};	
+	$s{public} = 0;
+	$s{public} = $c->{public} if $c->{public};	
 	my @datec = split(/ /,$c->{cDate});
 	my ($YY, $MM, $DD) = split("-", $datec[0]);
 	my $mydate = sprintf("%02d/%02d/%4d",$DD, $MM, $YY);
