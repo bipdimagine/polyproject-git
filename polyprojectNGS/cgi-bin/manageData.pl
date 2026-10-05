@@ -4905,18 +4905,12 @@ sub changePublic2ProjectSection {
 	my $projid = $cgi->param('ProjSel');
 	my $public = $cgi->param('public');
 	my @fieldP = split(/,/,$projid);
-	warn Dumper @fieldP;
-	warn Dumper $public;
 	my $allProj="";
 	foreach my $p (@fieldP) {
-		warn "######";
-		warn Dumper $p;
 		my $projectname = queryPolyproject::getProjectName($buffer->dbh,$p);
-		warn Dumper $projectname;
 		if ($projectname) {
 			$allProj.=$projectname.",";
 			queryPolyproject::upProject_public($buffer->dbh,$public,$p)
-		#	queryPolyproject::addGroup2project($buffer->dbh, $groupid,$projectid);	
 		}		
 	}	
 	chop($allProj);
