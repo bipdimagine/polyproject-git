@@ -211,6 +211,8 @@ if ( $option eq "schemas" ) {
 	remUserGroupProjectSection();
 } elsif ( $option eq "remProject2Group" ) {
 	remProject2GroupSection();
+} elsif ( $option eq "changePublic2Project" ) {
+	changePublic2ProjectSection();
 } elsif ( $option eq "runtype" ) {
 	RunTypeSection();
 } elsif ( $option eq "NewTypeSeq" ) {
